@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test driverID="test_help" name="TEMPLATE">
+    <description>test help function with usm switch-off</description>
+    <files>
+        <file path="src/${testName}.cpp" />
+    </files>
+    <rules>
+    </rules>
+</test>

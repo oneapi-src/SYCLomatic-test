@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test driverID="test_guide" name="TEMPLATE">
+    <description>TEMPLATE test guide for the user guide</description>
+    <files>
+        <file path="src/${testName}" />
+    </files>
+    <rules />
+</test>

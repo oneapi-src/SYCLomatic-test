@@ -1,0 +1,17 @@
+    {
+        "option_cpu" : "",
+        "option_usmnone_cpu" : "--usm-level=none",
+        "option_gpu" : "",
+        "option_usmnone_gpu" : "--usm-level=none",
+        "opt_ctad_cpu" : "--enable-ctad",
+        "opt_ctad_gpu" : "--enable-ctad",
+        "opt_async_handler_cpu" : "--always-use-async-handler",
+        "opt_async_handler_gpu" : "--always-use-async-handler",
+        "opt_format_range_migrated_cpu" : "--format-range=migrated",
+        "opt_format_range_all_cpu" : "--format-range=all",
+        "opt_format_range_none_cpu" : "--format-range=none",
+        "opt_no_cl_namespace_cpu": "--no-cl-namespace-inline",
+        "opt_custom_helper_files_file_cpu": "--use-custom-helper=file",
+        "opt_custom_helper_files_all_cpu": "--use-custom-helper=all",
+        "opt_custom_helper_files_api_cpu": "--use-custom-helper=api"
+    }

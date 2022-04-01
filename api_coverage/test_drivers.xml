@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testDrivers>
+    <testDriver driverID="test_api_coverage" file="test_api_coverage.py" title="test_api_coverage">
+        <description>Test driver for testing api coverage</description>
+    </testDriver>
+</testDrivers>

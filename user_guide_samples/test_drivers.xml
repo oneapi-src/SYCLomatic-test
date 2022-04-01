@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testDrivers>
+    <testDriver driverID="test_guide" file="test_guide.py" title="test_guide">
+        <description>Test driver for testing user guide test suite.</description>
+    </testDriver>
+</testDrivers>

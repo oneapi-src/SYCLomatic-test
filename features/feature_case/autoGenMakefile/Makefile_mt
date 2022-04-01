@@ -1,0 +1,41 @@
+CC := nvcc
+
+LD := $(CC)
+
+LIB := 
+
+FLAGS := 
+
+SRCS_0 = ./inner/foo.c
+OBJS_0 = ./inner/foo.o
+COMPILER_FLAGS_0 = ${FLAGS}
+
+SRCS_1 = ./inner/bar.c
+OBJS_1 = ./inner/bar.o
+COMPILER_FLAGS_1 = ${FLAGS}
+
+SRCS_2 = ./main.cu
+OBJS_2 = ./main.o
+COMPILER_FLAGS_2 = -I./inner ${FLAGS}
+
+
+TARGET := targets/runfile1 targets/runfile2
+
+.PHONY:all clean
+OBJS := $(OBJS_0) $(OBJS_1) $(OBJS_2) 
+
+all: $(TARGET)
+$(TARGET): $(OBJS)
+	$(LD) -o $@ $^ $(LIB) 
+
+$(OBJS_0):$(SRCS_0)
+	cc -c $(SRCS_0) -o $(OBJS_0) $(COMPILER_FLAGS_0)
+
+$(OBJS_1):$(SRCS_1)
+	cc -c $(SRCS_1) -o $(OBJS_1) $(COMPILER_FLAGS_1)
+
+$(OBJS_2):$(SRCS_2)
+	$(CC) -c $(SRCS_2) -o $(OBJS_2) $(COMPILER_FLAGS_2)
+
+clean:
+	rm -f $(OBJS) $(TARGET)

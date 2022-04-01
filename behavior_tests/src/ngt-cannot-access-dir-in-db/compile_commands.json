@@ -1,0 +1,8 @@
+[
+    {
+          "command": "nvcc",
+          "directory": "directory_placeholder/aaa/bbb",
+          "file": "directory_placeholder/simple_foo.cu"
+    }
+]
+

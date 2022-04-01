@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test driverID="test_help" name="kernel_function_win">
+    <description>test</description>
+    <files>
+        <file path="src/kernel_function_win.cpp" />
+        <file path="src/kernel_module_win.cpp" />
+    </files>
+    <rules>
+        <platformRule OSFamily="Linux" runOnThisPlatform="false"/>
+    </rules>
+</test>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<test driverID="test_feature">
+  <files>
+    <file path="feature_case/cuparse/cusparse-helper.cu" />
+  </files>
+  <rules></rules>
+</test>

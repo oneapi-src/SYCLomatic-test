@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testDrivers>
+    <testDriver driverID="test_help" file="test_help.py" title="test_help">
+        <description>Test driver for testing dpct help function</description>
+    </testDriver>
+</testDrivers>

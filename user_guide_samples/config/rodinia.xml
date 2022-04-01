@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test driverID="test_guide">
+    <description>The config for rodinia case</description>
+    <files>
+        <file path="src/rodinia" />
+    </files>
+    <rules>
+      <platformRule OSFamily="Windows" runOnThisPlatform="false" />
+    </rules>
+
+</test>

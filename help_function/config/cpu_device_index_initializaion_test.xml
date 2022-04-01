@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test driverID="test_help" name="cpu_device_index_initializaion_test">
+    <description>test</description>
+    <files>
+        <file path="src/${testName}.cpp" />
+    </files>
+    <rules>
+    <optlevelRule excludeOptlevelNameString="acc" />
+    <optlevelRule excludeOptlevelNameString="gpu" />
+    </rules>
+
+</test>

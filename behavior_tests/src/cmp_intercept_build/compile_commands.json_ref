@@ -1,0 +1,7 @@
+[
+    {
+        "command": "nvcc -c  -D__CUDACC__=1 hello.cu", 
+        "directory": "cmp_intercept_build", 
+        "file": "hello.cu"
+    }
+]

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite>
+    <description>Test user guide suite</description>
+    <tests>
+        <test testName="foo" configFile="config/TEMPLATE_user_guide.xml" />
+        <test testName="vector_add" configFile="config/TEMPLATE_user_guide.xml" />
+        <test testName="rodinia" configFile="config/rodinia.xml" />
+    </tests>
+</suite>

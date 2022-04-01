@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test driverID="test_help" name="test_default_queue_2">
+    <description>test</description>
+    <files>
+        <file path="src/test_default_queue_2.cpp" />
+        <file path="src/test_default_queue_1.cpp" />
+    </files>
+    <rules />
+</test>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test_suite>
+    <description>This config list all the suites need to be tested</description>
+    <suites>
+        <suite name="user_guide_samples" dir="user_guide_samples" opts="option_cpu, option_gpu, option_usmnone_cpu, option_usmnone_gpu"/>
+        <suite name="regressions" dir="regressions" opts="option_cpu, option_gpu, option_usmnone_cpu, option_usmnone_gpu" />
+        <suite name="samples" dir="samples" opts="option_cpu, option_gpu, option_usmnone_cpu, option_usmnone_gpu"/>
+        <suite name="help_function"  dir="help_function" opts="option_cpu, option_gpu, option_usmnone_cpu, option_usmnone_gpu"/>
+        <suite name="features"  dir="features" opts="option_cpu, option_gpu, option_usmnone_cpu, option_usmnone_gpu"/>
+        <suite name="api_coverage"  dir="api_coverage" opts="option_cpu, option_gpu, option_usmnone_cpu, option_usmnone_gpu"/>
+        <suite name="behavior_tests"  dir="behavior_tests" opts="option_cpu, option_gpu, option_usmnone_cpu, option_usmnone_gpu"/>
+    </suites>
+</test_suite>

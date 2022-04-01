@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test driverID="test_samples" name="math_func">
+    <description>test</description>
+    <files>
+        <file path="src/${testName}" />
+    </files>
+    <rules>
+        <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
+    </rules>
+</test>

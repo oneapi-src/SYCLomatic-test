@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite>
+    <description>Test api coverage</description>
+    <tests>
+        <test testName="cublasBatch" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+        <test testName="cublasIsamax_etc" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+        <test testName="cublasLegacyLv123" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+        <test testName="cublasTsyrkx" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+        <test testName="cublasTtrmmLegacy" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+        <test testName="cublas-create-Sgemm-destroy" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+        <test testName="cublasLegacyCZ" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+        <test testName="cublasRegularCZ" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+        <test testName="cublasTtrmm" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+        <test testName="cusolverDnEi" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+        <test testName="cusolverDnLn" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+        <test testName="cusolverDnLn_cuda10-1" configFile="config/TEMPLATE_cublas_api_coverage.xml" />
+    </tests>
+</suite>

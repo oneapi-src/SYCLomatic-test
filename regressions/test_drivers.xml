@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testDrivers>
+    <testDriver driverID="test_regression" file="test_regression.py" title="test_regression">
+        <description>Test driver for regression test of DPCT</description>
+    </testDriver>
+</testDrivers>

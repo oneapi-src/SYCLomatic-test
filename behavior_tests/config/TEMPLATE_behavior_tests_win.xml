@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test driverID="test_behavior" name="TEMPLATE">
+    <description>test</description>
+    <files>
+        <file path="src/${testName}" />
+    </files>
+    <rules>
+      <platformRule OSFamily="Linux" runOnThisPlatform="false" />
+    </rules>
+</test>

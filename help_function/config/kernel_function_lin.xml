@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test driverID="test_help" name="kernel_function_lin">
+    <description>test</description>
+    <files>
+        <file path="src/kernel_function_lin.cpp" />
+        <file path="src/kernel_module_lin.cpp" />
+    </files>
+    <rules>
+        <platformRule OSFamily="Windows" runOnThisPlatform="false"/>
+    </rules>
+</test>
