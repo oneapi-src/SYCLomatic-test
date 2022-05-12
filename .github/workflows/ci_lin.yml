@@ -3,7 +3,7 @@ name: Linux Github Action CI
 on:
   pull_request:
     branches:
-      - main
+      - SYCLomatic
 
 env:
   BUILD_CONCURRENCY: 2
@@ -53,9 +53,9 @@ jobs:
         env:
           FACELESS_TOKEN: ${{ secrets.GH_CI_NSTESTER_TOKEN }}
         run: |
-          git clone https://$FACELESS_TOKEN@github.com/oneapi-src/SYCLomatic.git c2s.src
+          git clone https://$FACELESS_TOKEN@github.com/oneapi-src/SYCLomatic.git c2s.src -b SYCLomatic
           cd c2s.src
-          DATE_YESTERDAY=$(git rev-list -1 --before=`date --utc -d yesterday +"%Y-%m-%d"` main)
+          DATE_YESTERDAY=$(git rev-list -1 --before=`date --utc -d yesterday +"%Y-%m-%d"` SYCLomatic)
           git reset ${DATE_YESTERDAY} --hard
 
       - name: Get_Latest_Nightly
