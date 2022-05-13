@@ -20,7 +20,7 @@ This repo contains tests for SYCLomatic project.
 # Prerequisites
 
    - SYCLomatic or Intel(R) DPC++ Compatibility Tool:
-       - Build SYCLomatic from source [instructions](https://github.com/intel/SYCLomatic).
+       - Build SYCLomatic from source [instructions](https://github.com/oneapi-src/SYCLomatic).
        - Or, download Intel(R) DPC++ Compatibility Tool [Binary](https://www.intel.com/content/www/us/en/developer/articles/tool/oneapi-standalone-components.html#compatibility).
        - Or, install Intel(R) DPC++ Compatibility Tool from [oneAPI package](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit-download.html).
    - DPC++ compiler and oneAPI libraries:
@@ -33,16 +33,16 @@ This repo contains tests for SYCLomatic project.
    - Runtime/Driver for GPU Device
        -  Target runtime(s) to execute tests on GPU devices. See [installation instructions](https://github.com/intel/llvm/blob/sycl/sycl/doc/GetStartedGuide.md#install-low-level-runtime).
    - Python3.7
-   - Certain CUDA header files may need to be accessible to the tool
+   - Certain CUDA\* header files may need to be accessible to the tool
 
 # Contributing
-See [CONTRIBUTING.md](https://github.com/intel/SYCLomatic-test/blob/main/CONTRIBUTING.md) for details.
+See [CONTRIBUTING.md](https://github.com/oneapi-src/SYCLomatic-test/blob/SYCLomatic/CONTRIBUTING.md) for details.
 
 # Run tests
 
 All tests can be run by run_test.py python file.
 ```
-    git clone https://github.com/intel/SYCLomatic-test.git
+    git clone https://github.com/oneapi-src/SYCLomatic-test.git
     cd SYCLomatic-test
     python3 run_test.py
 ```
@@ -131,5 +131,6 @@ Identify what needs to be updated:
 
 See [LICENSE](LICENSE) for details.
 
-## [Legal information](legal_information.md)
-
+## Trademarks information
+Intel, the Intel logo, and other Intel marks are trademarks of Intel Corporation or its subsidiaries.<br>
+\*Other names and brands may be claimed as the property of others. SYCL is a trademark of the Khronos Group Inc.
