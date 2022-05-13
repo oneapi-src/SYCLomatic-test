@@ -42,10 +42,9 @@ jobs:
         shell: cmd
 
       - name: Get_Latest_Nightly
-        env:
-          ARCHIVE_PATH: ${{ secrets.GH_CI_WIN_ARCHIVE_FOLDER }}
         shell: bash
         run: |
+          ARCHIVE_PATH=$(cat $GITHUB_WORKSPACE/../../../GH_CI_WIN_ARCHIVE_FOLDER.txt)
           cp -r $ARCHIVE_PATH/latest/build/win_prod ./
           mv win_prod c2s.obj
 
