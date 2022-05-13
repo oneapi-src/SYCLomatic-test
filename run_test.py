@@ -46,11 +46,6 @@ class platform_rule:
         self.cuda_version = cuda_verion
         self.cuda_range = cuda_range
 
-class option_rule:
-    def __init__(self, case_name, exclude_option, only_option):
-        self.name = case_name
-        self.exclude_option = exclude_option
-        self.only_option = only_option
 
 class case_config:
     def __init__(self, case_name, test_dep_files, option_rule_list, platform_rule_list):
