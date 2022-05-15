@@ -13,7 +13,7 @@ The code in this repo is licensed under the terms in [LICENSE](LICENSE). By cont
   - Use [clang-format](https://clang.llvm.org/docs/ClangFormat.html) and [clang-tidy](https://clang.llvm.org/extra/clang-tidy/) tools to help you ensure formatting and stylistic compliance.
 
 ### Testing
-See [README.md](https://github.com/intel/SYCLomatic-test/blob/main/README.md) for instructions.
+See [README.md](https://github.com/oneapi-src/SYCLomatic-test/blob/SYCLomatic/README.md) for instructions.
 
 ### Review and acceptance testing
 - Create a pull request for your changes following [Creating a pull request instructions](https://help.github.com/articles/creating-a-pull-request/) to create your change.
@@ -82,5 +82,6 @@ If you set your `user.name` and `user.email` git configs, you can sign your
 commit automatically with `git commit -s`.
 
 
-## [Legal information](legal_information.md)
-
+## Trademarks information
+Intel, the Intel logo, and other Intel marks are trademarks of Intel Corporation or its subsidiaries.<br>
+\*Other names and brands may be claimed as the property of others. SYCL is a trademark of the Khronos Group Inc.
