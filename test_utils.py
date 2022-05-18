@@ -172,6 +172,10 @@ def is_registered_module(test_case_workspace):
 # Print the failed test result and details in the screen.
 def print_result(case, status, details_log):
     print("============= " + case + ": " + status + " ==================\n")
+    call_subprocess("sycl-ls")
+    print("========== Device Runtime Info: ===============")
+    print(test_config.command_output)
+    print("=============================================\n")
     print("----------------------------\n" + details_log + "\n----------------------\n")
 
 def is_sub_string(substr, fullstr):
