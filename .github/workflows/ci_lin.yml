@@ -68,8 +68,6 @@ jobs:
       - name: Prepare Env
         timeout-minutes: 60
         uses: ./c2s.src/devops/actions/prepare_env_lin
-        with:
-          dpct_obj_dir: "c2s.obj"
         
       - name: Run testing option_cpu
         timeout-minutes: 180
