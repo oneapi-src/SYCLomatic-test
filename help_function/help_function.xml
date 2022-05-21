@@ -115,5 +115,14 @@
     <test testName="lib_common_utils_mkl_get_version" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="rng_generator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="blas_extension_api_buffer" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
+    <test testName="dnnl_utils_activation" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="dnnl_utils_fill" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="dnnl_utils_lrn" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="dnnl_utils_memory" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="dnnl_utils_pooling" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="dnnl_utils_reorder" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="dnnl_utils_scale" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="dnnl_utils_softmax" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="dnnl_utils_sum" configFile="config/TEMPLATE_help_function.xml" />
   </tests>
 </suite>
