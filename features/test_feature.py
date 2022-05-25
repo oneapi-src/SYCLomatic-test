@@ -45,6 +45,8 @@ def migrate_test():
         extra_args.append(' -fsized-deallocation ')
     if test_config.current_test in nd_range_bar_exper:
         src.append(' --use-experimental-features=nd_range_barrier ')
+    if test_config.current_test == "user_defined_rules":
+        src.append(' --rule-file=./user_defined_rules/rules.yaml')
 
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
