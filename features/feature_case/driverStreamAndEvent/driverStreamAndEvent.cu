@@ -20,6 +20,7 @@ void callback(CUstream hStream, CUresult status, void* userData) {
 int main(){
   CUfunction f;
   CUstream s;
+  cudaStreamCreate(&s);
   CUevent e;
   CUdeviceptr  cuPtr;  
   void* data;
