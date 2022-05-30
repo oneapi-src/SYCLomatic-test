@@ -46,7 +46,6 @@ int main() {
       result_host[1] == 2 &&
       result_host[2] == 7 &&
       result_host[3] == 6) {
-    printf("test passed\n");
     return 0;
   }
   printf("test failed\n");

@@ -70,7 +70,6 @@ int main() {
   };
   if (verify_array(expected, data_host, 56)) {
     checker1 = true;
-    printf("checker1 passed\n");
   } else {
     printf("checker1 failed\n");
     for (int i = 0; i < 7; i++) {
@@ -86,7 +85,6 @@ int main() {
   if (result_host[0] == 8 &&
       result_host[1] == 2) {
     checker2 = true;
-    printf("checker2 passed\n");
   } else {
     printf("checker2 failed\n");
     printf("%d, %d\n", result_host[0], result_host[1]);
