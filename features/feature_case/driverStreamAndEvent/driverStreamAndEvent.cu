@@ -9,6 +9,7 @@
 
 #include<vector>
 #include<cuda.h>
+
 void process(CUstream st, char *data, CUresult status) {}
 
 template<typename T>
@@ -55,6 +56,8 @@ int main(){
   cuStreamAttachMemAsync(s, cuPtr, std::vector<int>(1,1).front(), flag);
 
   cuStreamDestroy(s);
+  cuEventDestroy(start);
+  cuEventDestroy(end);
   return 0;
 }
 
