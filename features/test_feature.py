@@ -48,6 +48,8 @@ def migrate_test():
         src.append(' --use-experimental-features=nd_range_barrier ')
     if test_config.current_test in logical_group_exper:
         src.append(' --use-experimental-features=logical-group ')
+    if test_config.current_test == "user_defined_rules":
+        src.append(' --rule-file=./user_defined_rules/rules.yaml')
 
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
