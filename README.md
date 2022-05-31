@@ -47,6 +47,15 @@ All tests can be run by run_test.py python file.
     python3 run_test.py
 ```
 
+To run the specific test suite. E.g: run the features test suite with the default option on the CPU device.
+```
+python3 run_test.py --suite features --option option_cpu
+```
+To run the specific test case. E.g: run the thrust-vector in the features test suite with --usm-level=none option on the CPU device.
+```
+python3 run_test.py --suite features --case thrust-vector --option option_usmnone_cpu
+```
+
 # Test configuration file and test driver
 There are 3 levels configuration files:
    - Test suite list configuration file.
