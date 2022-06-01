@@ -6,10 +6,27 @@
 //
 //
 // ===----------------------------------------------------------------------===//
+
+#include<vector>
+#include<cuda.h>
+
+void process(CUstream st, char *data, CUresult status) {}
+
+template<typename T>
+void callback(CUstream hStream, CUresult status, void* userData) {
+  T *data = static_cast<T *>(userData);
+  process(hStream, data, status);
+}
+
 int main(){
   CUfunction f;
   CUstream s;
+  cudaStreamCreate(&s);
   CUevent e;
+  CUdeviceptr  cuPtr;  
+  void* data;
+  unsigned int flag;
+  cuStreamAddCallback(s, callback<char>, data, flag);
 
   cuFuncSetCacheConfig(f, CU_FUNC_CACHE_PREFER_NONE);
 
@@ -36,5 +53,11 @@ int main(){
   int rr;
   cuFuncGetAttribute(&rr, CU_FUNC_ATTRIBUTE_MAX_THREADS_PER_BLOCK, f);
 
+  cuStreamAttachMemAsync(s, cuPtr, std::vector<int>(1,1).front(), flag);
+
+  cuStreamDestroy(s);
+  cuEventDestroy(start);
+  cuEventDestroy(end);
   return 0;
 }
+
