@@ -1,7 +1,7 @@
 [
     {
-          "command": "nvcc -c -m64 -o test.o -D__CUDACC__=1 --out-root=/home/zhiwei/testfolder/aaa hello.cu",
-          "file": "/home/zhiwei/testfolder/hello.cu"
+          "command": "nvcc -c -m64 -o test.o -D__CUDACC__=1 --out-root=/home/testfolder/aaa hello.cu",
+          "file": "/home/testfolder/hello.cu"
     }
-] 
+]
 

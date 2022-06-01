@@ -61,7 +61,7 @@ void checkCopyIf() {
 ** Below thrust::copy_if will fail, because host memory is assumed
 ** when raw pointers are used and no policy is specified.  Migrated code
 ** does it the other way around, so the migrated version of code below
-** passes.  See: https://jira.devtools.intel.com/browse/CTST-1845
+** passes.
   int *vecDIn;
   int *vecDOut;
   cudaMalloc(&vecDIn, sizeof(int)*N);

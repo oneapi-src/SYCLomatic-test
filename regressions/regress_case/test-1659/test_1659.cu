@@ -1,8 +1,6 @@
 /*
 * This test case is used to detect the issue that ", item_ct1" is inserted into
 * the invalid place of migrated code.
-* The patch of https://git-amr-2.devtools.intel.com/gerrit/#/c/268556/ will
-* fix this issue.
  */
 
 #include <stdio.h>
