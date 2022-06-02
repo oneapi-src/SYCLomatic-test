@@ -298,6 +298,7 @@
     <test testName="LibCommonUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_LibCommonUtils.xml" />
     <test testName="group-local-memory" configFile="config/TEMPLATE_thrust-qmc.xml" splitGroup="double"/>
     <test testName="cublas-extension" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
+    <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
   </tests>
 </suite>
