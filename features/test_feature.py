@@ -20,7 +20,8 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
              'thrust-qmc', 'thrust-transform-if', 'thrust-policy', 'thrust-list', 'module-kernel',
              'kernel-launch', 'thrust-gather', 'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre',
              'thrust-rawptr-noneusm', 'driverStreamAndEvent', 'grid_sync', 'deviceProp', 'cub_block_p2',
-             'cub_device', 'activemask', 'complex', 'user_defined_rules', 'math-exec', 'math-habs']
+             'cub_device', 'activemask', 'complex', 'user_defined_rules', 'math-exec', 'math-habs',
+             'math-saturatef']
 
 def setup_test():
     return True
