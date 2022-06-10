@@ -59,3 +59,15 @@
   In: apple
   Out: pineapple
   Includes: ["../myhelper.h"]
+- Rule: foo3
+  Kind: API
+  Priority: Takeover
+  In: foo3
+  Out: goo($1)
+  Includes: []
+- Rule: min
+  Kind: API
+  Priority: Takeover
+  In: my_min
+  Out: std::min($1, $2)
+  Includes: []

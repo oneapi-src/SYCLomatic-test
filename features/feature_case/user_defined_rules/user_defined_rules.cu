@@ -23,11 +23,9 @@ __forceinline__ __global__ void foo(){
   VECTOR a;
 }
 
-void foo3(std::function<int(int)> f){}
-int my_min(int a, int b)
-{
-    return a < b ? a : b;
-}
+extern void foo3(std::function<int(int)> f);
+extern int my_min(int a, int b);
+void goo(std::function<int(int)> f) { f(0); };
 
 int main(){
   int **ptr;
@@ -62,9 +60,13 @@ void foo2(){
   int c = 10;
   int d = 1;
   //CHECK: goo([&](int x) -> int {
+  //CHECK-NEXT:   int m = std::min(x, 10);
+  //CHECK-NEXT:   int n = std::min(x, 100), p = std::min(std::min(x, 10), 100);
   //CHECK-NEXT:   return std::min(c, d);
   //CHECK-NEXT: });
   foo3([&](int x)->int {
+      int m = my_min(x, 10);
+      int n = my_min(x, 100), p = my_min(my_min(x, 10), 100);
       return my_min(c, d);
   });
   //CHECK: CALL2(0);
