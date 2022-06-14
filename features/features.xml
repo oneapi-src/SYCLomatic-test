@@ -286,6 +286,8 @@
     <test testName="BlasUtils_api_test29" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
     <test testName="BlasUtils_api_test30" configFile="config/TEMPLATE_custom_helper_files_BlasUtils_11.xml" />
     <test testName="BlasUtils_api_test31" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
+    <test testName="BlasUtils_api_test32" configFile="config/TEMPLATE_custom_helper_files_BlasUtils_usmnone.xml" />
+    <test testName="BlasUtils_api_test33" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
     <test testName="RngUtils_api_test1" configFile="config/TEMPLATE_custom_helper_files_RngUtils.xml" />
     <test testName="RngUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_RngUtils.xml" />
     <test testName="curand-device2" configFile="config/curand-device2.xml" splitGroup="double"/>
