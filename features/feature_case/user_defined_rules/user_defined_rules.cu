@@ -87,3 +87,10 @@ void foo2(){
   int k = a.fieldA;
   Fruit f = Fruit::apple;
 }
+
+template<typename T>struct OldType{};
+template<typename T>struct NewType{};
+
+__device__ void foo3(){
+  OldType<int> *cu_st;
+}

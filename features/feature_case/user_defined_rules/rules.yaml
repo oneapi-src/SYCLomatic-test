@@ -70,4 +70,9 @@
   Priority: Takeover
   In: my_min
   Out: std::min($1, $2)
+- Rule: type_rule
+  Kind: Type
+  Priority: Takeover
+  In: OldType
+  Out: NewType
   Includes: []
