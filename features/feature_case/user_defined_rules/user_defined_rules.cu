@@ -23,8 +23,8 @@ __forceinline__ __global__ void foo(){
   VECTOR a;
 }
 
-extern void foo3(std::function<int(int)> f);
-extern int my_min(int a, int b);
+void foo3(std::function<int(int)> f){};
+int my_min(int a, int b){};
 void goo(std::function<int(int)> f) { f(0); };
 
 int main(){
@@ -91,6 +91,6 @@ void foo2(){
 template<typename T>struct OldType{};
 template<typename T>struct NewType{};
 
-__device__ void foo3(){
+__device__ void foo5(){
   OldType<int> *cu_st;
 }
