@@ -54,10 +54,11 @@ def change_dir(dir):
         os.chdir(dir)
     return True
 
-def print_debug_log(desc, value):
+def print_debug_log(desc, *args):
     if (test_config.VERBOSE_LEVEL != 0):
         print(desc + " : " )
-        print(value)
+        for arg in args:
+            print(arg)
         print('\n')
 
 def compile_files(srcs, cmpopts = []):

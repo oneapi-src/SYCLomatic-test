@@ -47,17 +47,20 @@ class platform_rule:
         self.cuda_range = cuda_range
 
 class option_rule:
-    def __init__(self, case_name, exclude_option, only_option):
+    def __init__(self, case_name, exclude_option, only_option, not_double_type_feature):
         self.name = case_name
         self.exclude_option = exclude_option
         self.only_option = only_option
+        self.not_double_type_feature = not_double_type_feature
 
 class case_config:
-    def __init__(self, case_name, test_dep_files, option_rule_list, platform_rule_list):
+    def __init__(self, case_name, test_dep_files, option_rule_list, platform_rule_list,
+                split_group):
         self.name = case_name
         self.test_dep_files = test_dep_files
         self.option_rule_list = option_rule_list
         self.platform_rule_list = platform_rule_list
+        self.split_group = split_group
 
 def parse_suite_cfg(suite_name, root_path):
     xml_file = os.path.join(os.path.abspath(root_path), suite_name + ".xml")
@@ -66,14 +69,15 @@ def parse_suite_cfg(suite_name, root_path):
     test_config_map = {}
 
     for test_case in root.iter("test"):
-        case_name = test_case.attrib["testName"]
-        case_config_path = test_case.attrib["configFile"]
-        print_debug_log("case info: case name: "  + case_name, case_config_path)
-        case_cfg_obj = prepare_test_case(case_name, case_config_path, root_path)
+        case_name = str(test_case.get("testName"))
+        case_config_path = str(test_case.get("configFile"))
+        split_group = test_case.get("splitGroup")
+        print_debug_log("case info: case name: ", case_name, case_config_path)
+        case_cfg_obj = prepare_test_case(case_name, case_config_path, root_path, split_group)
         print_debug_log(case_name, case_cfg_obj.test_dep_files)
         test_config_map[case_name] = case_cfg_obj
     for file in root.iter("file"):
-        suite_deps_files.append(file.attrib["path"])
+        suite_deps_files.append(file.get("path"))
     suite_cfg = suite_config(suite_name, test_config_map, suite_deps_files)
     return suite_cfg
 
@@ -84,13 +88,13 @@ def parse_xml_cfg_file(xml_path):
     root = tree.getroot()
     return root
 
-def prepare_test_case(case_name, test_config_path, root_path):
+def prepare_test_case(case_name, test_config_path, root_path, split_group):
     test_config_path = os.path.abspath(os.path.join(root_path, test_config_path))
     root = parse_xml_cfg_file(test_config_path)
-    test_dirver = root.attrib["driverID"]
+    test_dirver = str(root.get("driverID"))
     case = ""
     if "name" in root.attrib:
-        case = root.attrib["name"]    # update the case name from the suite.xml
+        case = root.get("name")    # update the case name from the suite.xml
     else:
         case = case_name
     print_debug_log("test driver name: ",  test_dirver)
@@ -99,36 +103,39 @@ def prepare_test_case(case_name, test_config_path, root_path):
     option_rules = []
     platform_rule_list = []
     for file in root.iter("file"):
-        file_path = file.attrib["path"]
+        file_path = str(file.get("path"))
         file_path = replace_test_name(case_name, file_path)
         if (not isabs(file_path)):
             file_path = os.path.join(os.path.abspath(root_path), file_path)
         if (os.path.exists(file_path)):
             test_files.append(file_path)
     for rule in root.iter("optlevelRule"):
-        rule_exclude_opt = ""
-        rule_only_opt = ""
+        exclude_option = ""
+        only_option = ""
+        not_double_type_feature = ""
         if "excludeOptlevelNameString" in rule.attrib:
-            rule_exclude_opt = rule.attrib["excludeOptlevelNameString"]
+            exclude_option = str(rule.get("excludeOptlevelNameString"))
         if "onlyOptlevelNameString" in rule.attrib:
-            rule_only_opt = rule.attrib["onlyOptlevelNameString"]
-        option_rules.append(option_rule(case_name, rule_exclude_opt, rule_only_opt))
+            only_option = str(rule.get("onlyOptlevelNameString"))
+        if "GPUFeature" in rule.attrib:
+            not_double_type_feature = str(rule.get("GPUFeature"))
+        option_rules.append(option_rule(case_name, exclude_option, only_option, not_double_type_feature))
 
     for rule in root.iter("platformRule"):
-        rule_osfamily = rule.attrib["OSFamily"]
-        rule_test_on_this_plaform = rule.attrib["runOnThisPlatform"]
+        rule_osfamily = str(rule.get("OSFamily"))
+        rule_test_on_this_plaform = str(rule.get("runOnThisPlatform"))
         rule_cuda_ver = ""
         rule_cuda_range = ""
         if "kit" in rule.attrib:
-            rule_cuda_ver = rule.attrib["kit"]
-            rule_cuda_range = rule.attrib["kitRange"]
+            rule_cuda_ver = str(rule.get("kit"))
+            rule_cuda_range = str(rule.get("kitRange"))
         pr = platform_rule(case_name, rule_osfamily, rule_test_on_this_plaform, rule_cuda_ver, rule_cuda_range)
         platform_rule_list.append(pr)
 
     print_debug_log("test files ", test_files)
     print_debug_log("option rules are: ", option_rules)
     print_debug_log("platform rules: ", platform_rule_list)
-    return case_config(case, test_files, option_rules, platform_rule_list)
+    return case_config(case, test_files, option_rules, platform_rule_list, split_group)
 
 def import_test_module(workspace):
     do_test_script = os.path.join(workspace, "do_test.py")
@@ -265,10 +272,13 @@ def is_platform_supported(platform_rule_list):
 
 def is_option_supported(option_rule_list):
     for option_rule in option_rule_list:
-        if option_rule.exclude_option in test_config.test_option:
+        if option_rule.exclude_option in test_config.test_option and not option_rule.not_double_type_feature:
             return False
         elif option_rule.only_option not in test_config.test_option:
             return False
+        elif option_rule.exclude_option in test_config.test_option and option_rule.not_double_type_feature == "NOT double":
+            if test_config.backend_device not in test_config.support_double_gpu:
+                return False
     return True
 
 def test_single_case(current_test, single_case_config, workspace, module, suite_root_path):
@@ -303,6 +313,19 @@ def prepare_test_workspace(root_path, suite_name, opt, case = ""):
         os.makedirs(suite_workspace)
     return suite_workspace
 
+# Split the GPU backend to double and none double kernel type.
+def get_gpu_split_test_suite(suite_cfg):
+    # Not specific the backend device, execute all the test cases.
+    if not test_config.backend_device:
+        return suite_cfg.test_config_map
+    new_test_config_map = {}
+    for current_test, case_config in suite_cfg.test_config_map.items():
+        # Run the test case on the GPU device that support the double kernel type.
+        if test_config.backend_device in test_config.support_double_gpu and case_config.split_group == "double":
+            new_test_config_map[current_test] = case_config
+        elif test_config.backend_device not in test_config.support_double_gpu and not case_config.split_group:
+            new_test_config_map[current_test] = case_config
+    return new_test_config_map
 def test_suite(suite_root_path, suite_name, opt):
     test_ws_root = os.path.join(os.path.dirname(suite_root_path), "test_workspace")
     # module means the test driver for a test suite.
@@ -311,6 +334,7 @@ def test_suite(suite_root_path, suite_name, opt):
     test_workspace = prepare_test_workspace(test_ws_root, suite_name, opt)
     suite_result = True
     failed_cases = []
+    test_config.suite_cfg.test_config_map = get_gpu_split_test_suite(test_config.suite_cfg)
     for current_test, single_case_config in test_config.suite_cfg.test_config_map.items():
         ret = test_single_case(current_test, single_case_config, test_workspace, module, suite_root_path)
         if not ret:
@@ -330,7 +354,8 @@ def test_single_case_in_suite(suite_root_path, suite_name, case, option):
     test_workspace = prepare_test_workspace(test_ws_root, suite_name, option, case)
 
     config_running_device(option)
-
+    if case not in test_config.suite_cfg.test_config_map.keys():
+        exit("The test cas " + case + " is not in the " + case + " test suite! Please double check.")
     single_case_config = test_config.suite_cfg.test_config_map[case]
     return test_single_case(case, single_case_config, test_workspace, module, suite_root_path)
 
@@ -362,7 +387,7 @@ def import_test_driver(suite_folder):
     if os.path.exists(test_driver_path):
         root = parse_xml_cfg_file(test_driver_path)
         for test_driver in root.iter("testDriver"):
-            test_config.test_driver = test_driver.attrib["driverID"]
+            test_config.test_driver = str(test_driver.get("driverID"))
     return importlib.import_module(test_config.test_driver)
 
 def clean_global_setting():
@@ -382,9 +407,9 @@ def get_suite_list():
     suite_list = {}
     for suite in root.iter("suite"):
         suite_cfg = []
-        suite_name = suite.attrib["name"]
-        suite_cfg.append(suite.attrib["dir"])
-        suite_cfg.append(suite.attrib["opts"])
+        suite_name = suite.get("name")
+        suite_cfg.append(suite.get("dir"))
+        suite_cfg.append(suite.get("opts"))
         suite_list[suite_name] = suite_cfg
     return suite_list
 
@@ -445,16 +470,20 @@ def parse_input_args():
                     help = "The test of suite to run. e.g.: -c simple_add. Please ref the <suite>.xml")
     parser.add_argument("--option", "-o", action = "store", default = "",
                     help = "The option applies to test. e.g.: -o option_cpu. Please ref the option_mapping.json")
-
+    parser.add_argument("--device", '-d', action = "store", default = "",
+                    help = "Current support Gen9 and Gen12 backend device. e.g.: -d Gen9")
     args = parser.parse_args()
     if args.option and not args.suite:
-        sys.stderr.write("Must specify the suite target to run.")
+        sys.stderr.write("Must specify the suite target to run.\n")
         exit(1)
     if args.suite and not args.option:
-        sys.stderr.write("Must specify the option for suite target to run.")
+        sys.stderr.write("Must specify the option for suite target to run.\n")
         exit(1)
     if args.case and not args.suite:
-        sys.stderr.write("Must specify the suite target to run.")
+        sys.stderr.write("Must specify the suite target to run.\n")
+        exit(1)
+    if args.device and args.device not in test_config.gpu_device:
+        sys.stderr.write("Only support Gen9 and Gen12 GPU device.\n")
         exit(1)
     return args
 
@@ -465,6 +494,7 @@ def main():
     suite_list = get_suite_list()
     test_config.root_path = os.getcwd()
     test_config.option_map = get_option_mapping()
+    test_config.backend_device = args.device
 
     ret = True
     # Run all the tests in the test_suite_list.xml

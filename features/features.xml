@@ -11,7 +11,7 @@
     <test testName="thrust-binary-search" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-count" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-copy" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <test testName="thrust-qmc" configFile="config/thrust-qmc.xml" />
+    <test testName="thrust-qmc" configFile="config/thrust-qmc.xml" splitGroup="double"/>
     <test testName="thrust-transform-if" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-policy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-list" configFile="config/TEMPLATE_thrust_exec.xml" />
