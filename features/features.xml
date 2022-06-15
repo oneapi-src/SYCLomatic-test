@@ -263,7 +263,10 @@
     <test testName="Util_api_test9" configFile="config/TEMPLATE_custom_helper_files_Util.xml" />
     <test testName="Util_api_test10" configFile="config/TEMPLATE_custom_helper_files_Util.xml" />
     <test testName="Util_api_test11" configFile="config/TEMPLATE_custom_helper_files_Util.xml" />
-    <test testName="Util_api_test12" configFile="config/TEMPLATE_custom_helper_files_Util_grid_sync.xml" />
+    <test testName="Util_api_test12" configFile="config/TEMPLATE_custom_helper_files_Util_excluding_80.xml" />
+    <test testName="Util_api_test23" configFile="config/TEMPLATE_custom_helper_files_Util_excluding_80.xml" />
+    <test testName="Util_api_test24" configFile="config/TEMPLATE_custom_helper_files_Util_excluding_80.xml" />
+    <test testName="Util_api_test25" configFile="config/TEMPLATE_custom_helper_files_Util_excluding_80.xml" />
     <test testName="DplExtrasDpcppExtensions_api_test1" configFile="config/TEMPLATE_custom_helper_files_DplExtrasDpcppExtensions.xml" />
     <test testName="DplExtrasDpcppExtensions_api_test2" configFile="config/TEMPLATE_custom_helper_files_DplExtrasDpcppExtensions.xml" />
     <test testName="DplExtrasDpcppExtensions_api_test3" configFile="config/TEMPLATE_custom_helper_files_DplExtrasDpcppExtensions.xml" />
@@ -292,6 +295,8 @@
     <test testName="BlasUtils_api_test29" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
     <test testName="BlasUtils_api_test30" configFile="config/TEMPLATE_custom_helper_files_BlasUtils_11.xml" />
     <test testName="BlasUtils_api_test31" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
+    <test testName="BlasUtils_api_test32" configFile="config/TEMPLATE_custom_helper_files_BlasUtils_usmnone.xml" />
+    <test testName="BlasUtils_api_test33" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
     <test testName="RngUtils_api_test1" configFile="config/TEMPLATE_custom_helper_files_RngUtils.xml" />
     <test testName="RngUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_RngUtils.xml" />
     <test testName="curand-device2" configFile="config/curand-device2.xml" splitGroup="double"/>
@@ -304,5 +309,7 @@
     <test testName="LibCommonUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_LibCommonUtils.xml" />
     <test testName="group-local-memory" configFile="config/TEMPLATE_thrust-qmc.xml" splitGroup="double"/>
     <test testName="cublas-extension" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
+    <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
+    <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
   </tests>
 </suite>

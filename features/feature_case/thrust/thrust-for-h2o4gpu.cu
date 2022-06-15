@@ -110,6 +110,27 @@ void foo() {
  }
 
  {
+   using TupleTy = thrust::tuple<int, const char *>;
+   using EleType_0 = typename thrust::tuple_element<0, TupleTy>::type;
+   using EleType_1 = thrust::tuple_element<1, thrust::tuple<int, const char *>>::type;
+   typedef typename thrust::tuple_element<0, thrust::tuple<int, typename thrust::tuple_element<1, thrust::tuple<int, const char *>>::type>>::type EleType_2;
+   static_assert(std::is_same<int, EleType_0>::value, "EleType_0 should be alias of int");
+   static_assert(std::is_same<const char *, EleType_1>::value, "EleType_1 should be alias of const char *");
+   static_assert(std::is_same<int, EleType_2>::value, "EleType_2 should be alias of int");
+
+   typename thrust::tuple_element<0, TupleTy>::type v0;
+   extern thrust::tuple_element<0, TupleTy>::type bar1();
+   extern void foo1(typename thrust::tuple_element<0, TupleTy>::type v1);
+
+   struct
+   {
+     thrust::tuple_element<0, thrust::tuple<int, const char *>>::type m = 10;
+     thrust::tuple_element<1, thrust::tuple<int, const char *>>::type s = "struct st";
+   } st;
+   std::cout << st.m << ", " << st.s << std::endl;
+ }
+
+ {
   thrust::device_vector<int> int_in(3);
   thrust::device_vector<float> float_in(3);
   auto ret = thrust::make_zip_iterator(thrust::make_tuple(int_in.begin(), float_in.begin()));

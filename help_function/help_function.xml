@@ -26,7 +26,8 @@
     <test testName="test_complex" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="math_function" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="cpu_device_index_initializaion_test" configFile="config/cpu_device_index_initializaion_test.xml" />
-    <test testName="image_wrapper_usm" configFile="config/image_wrapper_usm.xml" />
+    <test testName="image_wrapper_usm" configFile="config/TEMPLATE_syclct_help_function_image_wrapper_usm.xml" />
+    <test testName="image_wrapper_2_usm" configFile="config/TEMPLATE_syclct_help_function_image_wrapper_usm.xml" />
     <test testName="memory_async_dpct_free" configFile="config/TEMPLATE_help_function_usm.xml" />
     <test testName="memory_is_device_ptr" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dpct_dpct_align_and_dpct_inline" configFile="config/TEMPLATE_help_function_usm.xml" />
@@ -112,8 +113,12 @@
     <test testName="util_shift_sub_group_right" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="util_permute_sub_group_by_xor" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="util_find_first_set" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="util_cabs" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double"/>
+    <test testName="util_conj" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double"/>
+    <test testName="util_cdiv" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double"/>
+    <test testName="util_cmul" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double"/>
     <test testName="lib_common_utils_mkl_get_version" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="rng_generator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
+    <!-- <test testName="rng_generator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/> -->
     <test testName="blas_extension_api_buffer" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="dnnl_utils_activation" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="dnnl_utils_fill" configFile="config/TEMPLATE_help_function.xml" />
@@ -124,5 +129,7 @@
     <test testName="dnnl_utils_scale" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="dnnl_utils_softmax" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="dnnl_utils_sum" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
+    <test testName="util_logical_group" configFile="config/TEMPLATE_help_function.xml" />
   </tests>
 </suite>

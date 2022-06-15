@@ -1032,6 +1032,291 @@ void test_cublasGemmStridedBatchedEx() {
   }
 }
 
+#ifndef DPCT_USM_LEVEL_NONE
+void test_cublasTgemmBatched() {
+  std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
+                          2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
+  Data<half> a0(v.data(), 32);
+  Data<float> a1(v.data(), 32);
+  Data<float2> a2(v.data(), 32);
+  Data<double> a3(v.data(), 32);
+  Data<double2> a4(v.data(), 32);
+
+  Ptr_Data a0_ptrs(2);  a0_ptrs.h_data[0] = a0.d_data; a0_ptrs.h_data[1] = a0.d_data + 16;
+  Ptr_Data a1_ptrs(2);  a1_ptrs.h_data[0] = a1.d_data; a1_ptrs.h_data[1] = a1.d_data + 16;
+  Ptr_Data a2_ptrs(2);  a2_ptrs.h_data[0] = a2.d_data; a2_ptrs.h_data[1] = a2.d_data + 16;
+  Ptr_Data a3_ptrs(2); a3_ptrs.h_data[0] = a3.d_data; a3_ptrs.h_data[1] = a3.d_data + 16;
+  Ptr_Data a4_ptrs(2); a4_ptrs.h_data[0] = a4.d_data; a4_ptrs.h_data[1] = a4.d_data + 16;
+
+  Data<half> b0(v.data(), 32);
+  Data<float> b1(v.data(), 32);
+  Data<float2> b2(v.data(), 32);
+  Data<double> b3(v.data(), 32);
+  Data<double2> b4(v.data(), 32);
+
+  Ptr_Data b0_ptrs(2);  b0_ptrs.h_data[0] = b0.d_data; b0_ptrs.h_data[1] = b0.d_data + 16;
+  Ptr_Data b1_ptrs(2);  b1_ptrs.h_data[0] = b1.d_data; b1_ptrs.h_data[1] = b1.d_data + 16;
+  Ptr_Data b2_ptrs(2);  b2_ptrs.h_data[0] = b2.d_data; b2_ptrs.h_data[1] = b2.d_data + 16;
+  Ptr_Data b3_ptrs(2); b3_ptrs.h_data[0] = b3.d_data; b3_ptrs.h_data[1] = b3.d_data + 16;
+  Ptr_Data b4_ptrs(2); b4_ptrs.h_data[0] = b4.d_data; b4_ptrs.h_data[1] = b4.d_data + 16;
+
+  Data<half> c0(32);
+  Data<float> c1(32);
+  Data<float2> c2(32);
+  Data<double> c3(32);
+  Data<double2> c4(32);
+
+  Ptr_Data c0_ptrs(2);  c0_ptrs.h_data[0] = c0.d_data; c0_ptrs.h_data[1] = c0.d_data + 16;
+  Ptr_Data c1_ptrs(2);  c1_ptrs.h_data[0] = c1.d_data; c1_ptrs.h_data[1] = c1.d_data + 16;
+  Ptr_Data c2_ptrs(2);  c2_ptrs.h_data[0] = c2.d_data; c2_ptrs.h_data[1] = c2.d_data + 16;
+  Ptr_Data c3_ptrs(2); c3_ptrs.h_data[0] = c3.d_data; c3_ptrs.h_data[1] = c3.d_data + 16;
+  Ptr_Data c4_ptrs(2); c4_ptrs.h_data[0] = c4.d_data; c4_ptrs.h_data[1] = c4.d_data + 16;
+
+  float alpha = 2;
+  float beta = 0;
+  Data<half> alpha0(&alpha, 1);
+  Data<float> alpha1(&alpha, 1);
+  Data<float2> alpha2(&alpha, 1);
+  Data<double> alpha3(&alpha, 1);
+  Data<double2> alpha4(&alpha, 1);
+
+  Data<half> beta0(&beta, 1);
+  Data<float> beta1(&beta, 1);
+  Data<float2> beta2(&beta, 1);
+  Data<double> beta3(&beta, 1);
+  Data<double2> beta4(&beta, 1);
+
+  cublasHandle_t handle;
+  cublasCreate(&handle);
+  cublasSetPointerMode(handle,CUBLAS_POINTER_MODE_DEVICE);
+
+  a0.H2D();
+  a1.H2D();
+  a2.H2D();
+  a3.H2D();
+  a4.H2D();
+
+  b0.H2D();
+  b1.H2D();
+  b2.H2D();
+  b3.H2D();
+  b4.H2D();
+
+  a0_ptrs.H2D();
+  a1_ptrs.H2D();
+  a2_ptrs.H2D();
+  a3_ptrs.H2D();
+  a4_ptrs.H2D();
+
+  b0_ptrs.H2D();
+  b1_ptrs.H2D();
+  b2_ptrs.H2D();
+  b3_ptrs.H2D();
+  b4_ptrs.H2D();
+
+  c0_ptrs.H2D();
+  c1_ptrs.H2D();
+  c2_ptrs.H2D();
+  c3_ptrs.H2D();
+  c4_ptrs.H2D();
+
+  alpha0.H2D();
+  alpha1.H2D();
+  alpha2.H2D();
+  alpha3.H2D();
+  alpha4.H2D();
+
+  beta0.H2D();
+  beta1.H2D();
+  beta2.H2D();
+  beta3.H2D();
+  beta4.H2D();
+
+  cublasHgemmBatched(handle, CUBLAS_OP_N, CUBLAS_OP_N, 4, 4, 4, alpha0.d_data, (const half**)a0_ptrs.d_data, 4, (const half**)b0_ptrs.d_data, 4, beta0.d_data, (half**)c0_ptrs.d_data, 4, 2);
+  cublasSgemmBatched(handle, CUBLAS_OP_N, CUBLAS_OP_N, 4, 4, 4, alpha1.d_data, (const float**)a1_ptrs.d_data, 4, (const float**)b1_ptrs.d_data, 4, beta1.d_data, (float**)c1_ptrs.d_data, 4, 2);
+  cublasCgemmBatched(handle, CUBLAS_OP_N, CUBLAS_OP_N, 4, 4, 4, alpha2.d_data, (const float2**)a2_ptrs.d_data, 4, (const float2**)b2_ptrs.d_data, 4, beta2.d_data, (float2**)c2_ptrs.d_data, 4, 2);
+  cublasDgemmBatched(handle, CUBLAS_OP_N, CUBLAS_OP_N, 4, 4, 4, alpha3.d_data, (const double**)a3_ptrs.d_data, 4, (const double**)b3_ptrs.d_data, 4, beta3.d_data, (double**)c3_ptrs.d_data, 4, 2);
+  cublasZgemmBatched(handle, CUBLAS_OP_N, CUBLAS_OP_N, 4, 4, 4, alpha4.d_data, (const double2**)a4_ptrs.d_data, 4, (const double2**)b4_ptrs.d_data, 4, beta4.d_data, (double2**)c4_ptrs.d_data, 4, 2);
+
+  c0.D2H();
+  c1.D2H();
+  c2.D2H();
+  c3.D2H();
+  c4.D2H();
+
+  cudaStreamSynchronize(0);
+
+  cublasDestroy(handle);
+
+  float expect[32] = { 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0,
+                       68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0 };
+  if (compare_result(expect, c0.h_data, 32) &&
+      compare_result(expect, c1.h_data, 32) &&
+      compare_result(expect, c2.h_data, 32) &&
+      compare_result(expect, c3.h_data, 32) &&
+      compare_result(expect, c4.h_data, 32))
+    printf("TgemmBatched pass\n");
+  else {
+    printf("TgemmBatched fail\n");
+    test_passed = false;
+  }
+}
+#endif
+
+#ifndef DPCT_USM_LEVEL_NONE
+void test_cublasTtrsmBatched() {
+  std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
+                          2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
+  Data<float> a1(v.data(), 32);
+  Data<float2> a2(v.data(), 32);
+  Data<double> a3(v.data(), 32);
+  Data<double2> a4(v.data(), 32);
+
+  Ptr_Data a1_ptrs(2);  a1_ptrs.h_data[0] = a1.d_data; a1_ptrs.h_data[1] = a1.d_data + 16;
+  Ptr_Data a2_ptrs(2);  a2_ptrs.h_data[0] = a2.d_data; a2_ptrs.h_data[1] = a2.d_data + 16;
+  Ptr_Data a3_ptrs(2); a3_ptrs.h_data[0] = a3.d_data; a3_ptrs.h_data[1] = a3.d_data + 16;
+  Ptr_Data a4_ptrs(2); a4_ptrs.h_data[0] = a4.d_data; a4_ptrs.h_data[1] = a4.d_data + 16;
+
+  Data<float> b1(v.data(), 32);
+  Data<float2> b2(v.data(), 32);
+  Data<double> b3(v.data(), 32);
+  Data<double2> b4(v.data(), 32);
+
+  Ptr_Data b1_ptrs(2);  b1_ptrs.h_data[0] = b1.d_data; b1_ptrs.h_data[1] = b1.d_data + 16;
+  Ptr_Data b2_ptrs(2);  b2_ptrs.h_data[0] = b2.d_data; b2_ptrs.h_data[1] = b2.d_data + 16;
+  Ptr_Data b3_ptrs(2); b3_ptrs.h_data[0] = b3.d_data; b3_ptrs.h_data[1] = b3.d_data + 16;
+  Ptr_Data b4_ptrs(2); b4_ptrs.h_data[0] = b4.d_data; b4_ptrs.h_data[1] = b4.d_data + 16;
+
+  float alpha = 2;
+  Data<float> alpha1(&alpha, 1);
+  Data<float2> alpha2(&alpha, 1);
+  Data<double> alpha3(&alpha, 1);
+  Data<double2> alpha4(&alpha, 1);
+
+  cublasHandle_t handle;
+  cublasCreate(&handle);
+  cublasSetPointerMode(handle,CUBLAS_POINTER_MODE_DEVICE);
+
+  a1.H2D();
+  a2.H2D();
+  a3.H2D();
+  a4.H2D();
+
+  b1.H2D();
+  b2.H2D();
+  b3.H2D();
+  b4.H2D();
+
+  a1_ptrs.H2D();
+  a2_ptrs.H2D();
+  a3_ptrs.H2D();
+  a4_ptrs.H2D();
+
+  b1_ptrs.H2D();
+  b2_ptrs.H2D();
+  b3_ptrs.H2D();
+  b4_ptrs.H2D();
+
+  alpha1.H2D();
+  alpha2.H2D();
+  alpha3.H2D();
+  alpha4.H2D();
+
+  cublasStrsmBatched(handle, CUBLAS_SIDE_LEFT, CUBLAS_FILL_MODE_UPPER, CUBLAS_OP_N, CUBLAS_DIAG_NON_UNIT, 4, 4, alpha1.d_data, (const float**)a1_ptrs.d_data, 4, (float**)b1_ptrs.d_data, 4, 2);
+  cublasCtrsmBatched(handle, CUBLAS_SIDE_LEFT, CUBLAS_FILL_MODE_UPPER, CUBLAS_OP_N, CUBLAS_DIAG_NON_UNIT, 4, 4, alpha2.d_data, (const float2**)a2_ptrs.d_data, 4, (float2**)b2_ptrs.d_data, 4, 2);
+  cublasDtrsmBatched(handle, CUBLAS_SIDE_LEFT, CUBLAS_FILL_MODE_UPPER, CUBLAS_OP_N, CUBLAS_DIAG_NON_UNIT, 4, 4, alpha3.d_data, (const double**)a3_ptrs.d_data, 4, (double**)b3_ptrs.d_data, 4, 2);
+  cublasZtrsmBatched(handle, CUBLAS_SIDE_LEFT, CUBLAS_FILL_MODE_UPPER, CUBLAS_OP_N, CUBLAS_DIAG_NON_UNIT, 4, 4, alpha4.d_data, (const double2**)a4_ptrs.d_data, 4, (double2**)b4_ptrs.d_data, 4, 2);
+
+  b1.D2H();
+  b2.D2H();
+  b3.D2H();
+  b4.D2H();
+
+  cudaStreamSynchronize(0);
+
+  cublasDestroy(handle);
+
+  float expect[32] = { 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0,
+                       0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0 };
+  if (compare_result(expect, b1.h_data, 32) &&
+      compare_result(expect, b2.h_data, 32) &&
+      compare_result(expect, b3.h_data, 32) &&
+      compare_result(expect, b4.h_data, 32))
+    printf("TtrsmBatched pass\n");
+  else {
+    printf("TtrsmBatched fail\n");
+    test_passed = false;
+  }
+}
+#endif
+
+void test_cublasTtrmm() {
+  std::vector<float> v = {2, 3, 5, 7};
+  Data<float> a0(v.data(), 4);
+  Data<double> a1(v.data(), 4);
+  Data<float2> a2(v.data(), 4);
+  Data<double2> a3(v.data(), 4);
+
+  Data<float> b0(v.data(), 4);
+  Data<double> b1(v.data(), 4);
+
+  Data<float> c0(4);
+  Data<double> c1(4);
+  Data<float2> c2(v.data(), 4);
+  Data<double2> c3(v.data(), 4);
+
+  cublasHandle_t handle;
+  cublasCreate(&handle);
+  cublasSetPointerMode(handle,CUBLAS_POINTER_MODE_DEVICE);
+
+  a0.H2D();
+  a1.H2D();
+  a2.H2D();
+  a3.H2D();
+
+  b0.H2D();
+  b1.H2D();
+
+  c2.H2D();
+  c3.H2D();
+
+  float alpha = 2;
+  Data<float> alpha0(&alpha, 1);
+  Data<double> alpha1(&alpha, 1);
+  Data<float2> alpha2(&alpha, 1);
+  Data<double2> alpha3(&alpha, 1);
+
+  alpha0.H2D();
+  alpha1.H2D();
+  alpha2.H2D();
+  alpha3.H2D();
+
+  cublasStrmm(handle, CUBLAS_SIDE_LEFT, CUBLAS_FILL_MODE_UPPER, CUBLAS_OP_N, CUBLAS_DIAG_NON_UNIT, 2, 2, alpha0.d_data, a0.d_data, 2, b0.d_data, 2, c0.d_data, 2);
+  cublasDtrmm(handle, CUBLAS_SIDE_LEFT, CUBLAS_FILL_MODE_UPPER, CUBLAS_OP_N, CUBLAS_DIAG_NON_UNIT, 2, 2, alpha1.d_data, a1.d_data, 2, b1.d_data, 2, c1.d_data, 2);
+  cublasCtrmm(handle, CUBLAS_SIDE_LEFT, CUBLAS_FILL_MODE_UPPER, CUBLAS_OP_N, CUBLAS_DIAG_NON_UNIT, 2, 2, alpha2.d_data, a2.d_data, 2, c2.d_data, 2, c2.d_data, 2);
+  cublasZtrmm(handle, CUBLAS_SIDE_LEFT, CUBLAS_FILL_MODE_UPPER, CUBLAS_OP_N, CUBLAS_DIAG_NON_UNIT, 2, 2, alpha3.d_data, a3.d_data, 2, c3.d_data, 2, c3.d_data, 2);
+
+  c0.D2H();
+  c1.D2H();
+  c2.D2H();
+  c3.D2H();
+
+  cudaStreamSynchronize(0);
+
+  cublasDestroy(handle);
+
+  float expect[4] = { 38.0, 42.0, 90.0, 98.0 };
+  if (compare_result(expect, c0.h_data, 4) &&
+      compare_result(expect, c1.h_data, 4) &&
+      compare_result(expect, c2.h_data, 4) &&
+      compare_result(expect, c3.h_data, 4))
+    printf("Ttrmm pass\n");
+  else {
+    printf("Ttrmm fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_cublasNrm2Ex();
   test_cublasDotEx();
@@ -1047,6 +1332,11 @@ int main() {
   test_cublasGemmBatchedEx();
 #endif
   test_cublasGemmStridedBatchedEx();
+#ifndef DPCT_USM_LEVEL_NONE
+  test_cublasTgemmBatched();
+  test_cublasTtrsmBatched();
+#endif
+  test_cublasTtrmm();
 
   if (test_passed)
     return 0;

@@ -16,7 +16,7 @@
   Priority: Takeover
   In: cudaMalloc
   Out: $type_name_of  (  $ 2   ) *aaa = foo4($addr_of ($1), ($deref_type($1))$deref($1), $queue, $context, $device)
-  Includes: ["myhelper.h"]
+  Includes: ["../myhelper.h"]
 - Rule: rule_cmath
   Kind: Header
   Priority: Takeover
@@ -28,4 +28,46 @@
   Priority: Takeover
   In: CALL
   Out: CALL2
+  Includes: []
+- Rule: custream_rule
+  Kind: Type
+  Priority: Takeover
+  In: CUstream_st
+  Out: mytype
+  Includes: ["../myhelper.h"]
+- Rule: rule_classA
+  Kind: Class
+  Priority: Takeover
+  In: ClassA
+  Out: ClassB
+  Includes: []
+  Fields:
+    - In: fieldA
+      OutGetter: get_a
+      OutSetter: set_a
+    - In: fieldC
+      Out: fieldD
+  Methods:
+    - In: methodA
+      Out: a.methodB($2)
+    - In: methodC
+      Out: methodD
+- Rule: rule_Fruit
+  Kind: Enum
+  Priority: Takeover
+  EnumName: Fruit
+  In: apple
+  Out: pineapple
+  Includes: ["../myhelper.h"]
+- Rule: foo3
+  Kind: API
+  Priority: Takeover
+  In: foo3
+  Out: goo($1)
+  Includes: []
+- Rule: min
+  Kind: API
+  Priority: Takeover
+  In: my_min
+  Out: std::min($1, $2)
   Includes: []

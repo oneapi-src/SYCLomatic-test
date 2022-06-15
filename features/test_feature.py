@@ -20,8 +20,8 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
              'thrust-qmc', 'thrust-transform-if', 'thrust-policy', 'thrust-list', 'module-kernel',
              'kernel-launch', 'thrust-gather', 'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre',
              'thrust-rawptr-noneusm', 'driverStreamAndEvent', 'grid_sync', 'deviceProp', 'cub_block_p2',
-             'cub_device', 'activemask', 'cudnn-activation', 'cudnn-fill', 'cudnn-lrn', 'cudnn-memory',
-             'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax', 'cudnn-sum']
+             'cub_device', 'activemask', 'complex', 'user_defined_rules', 'cudnn-activation', 'cudnn-fill',
+             'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax', 'cudnn-sum']
 
 def setup_test():
     return True
@@ -41,11 +41,16 @@ def migrate_test():
     size_deallocation = ['DplExtrasAlgorithm_api_test7', 'DplExtrasAlgorithm_api_test8',
                         'DplExtrasVector_api_test1', 'DplExtrasVector_api_test2']
     nd_range_bar_exper = ['grid_sync', 'Util_api_test12']
+    logical_group_exper = ['cooperative_groups', 'Util_api_test23', 'Util_api_test24', 'Util_api_test25']
 
     if test_config.current_test in size_deallocation:
         extra_args.append(' -fsized-deallocation ')
     if test_config.current_test in nd_range_bar_exper:
         src.append(' --use-experimental-features=nd_range_barrier ')
+    if test_config.current_test == "user_defined_rules":
+        src.append(' --rule-file=./user_defined_rules/rules.yaml')
+    if test_config.current_test in logical_group_exper:
+        src.append(' --use-experimental-features=logical-group ')
 
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 

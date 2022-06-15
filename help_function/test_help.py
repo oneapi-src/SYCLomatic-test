@@ -26,7 +26,8 @@ def build_test():
         os.chdir(test_config.current_test)
     test_config.out_root = os.getcwd()
 
-    lpthread_link_cases = ["devicemgr_multi_thread_aware", "memory_async_dpct_free", "blas_extension_api_usm"]
+    lpthread_link_cases = ["devicemgr_multi_thread_aware", "memory_async_dpct_free", "blas_extension_api_usm",
+                           "blas_extension_api_buffer"]
     oneDPL_related = ["thrust_test_device_ptr_2", "thrust_test-pennet_simple_pstl", "test_default_queue_2"]
     blas_cases = ["blas_utils_getrf", "blas_utils_getrf-usm", "blas_utils_getrf-complex",
                 "blas_utils_getrf-complex-usm", "blas_utils_getrs", "blas_utils_getrs-usm",
