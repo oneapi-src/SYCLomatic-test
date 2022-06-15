@@ -223,8 +223,10 @@ void test2() {
     q_ct1.memcpy(diffdata, host_diffdata.data(), ele_num * sizeof(HT)).wait();
     q_ct1.memcpy(diffout, host_diffout.data(), ele_num2 * sizeof(HT)).wait();
 
+    dnnl::memory pooling_workspace;
+
     float alpha = 1.5f, beta = 1.f;
-    handle.pooling_forward(desc, alpha, dataTensor, data, beta, outTensor, out);
+    handle.pooling_forward(desc, alpha, dataTensor, data, beta, outTensor, out, &pooling_workspace);
     q_ct1.memcpy(host_out.data(), out, ele_num2 * sizeof(HT)).wait();
     alpha = 1.5f, beta = 1.f;
     /*
@@ -240,7 +242,7 @@ void test2() {
     */
     auto s = (handle.pooling_backward(desc, alpha, outTensor, out,
                                       diffoutTensor, diffout, dataTensor, data,
-                                      beta, diffdataTensor, diffdata),
+                                      beta, diffdataTensor, diffdata, &pooling_workspace),
               0);
 
     //check(s);
