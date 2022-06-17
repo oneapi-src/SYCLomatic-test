@@ -45,6 +45,8 @@
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-exec" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-habs" configFile="config/TEMPLATE_math_habs.xml" />
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
     <test testName="cusparse" configFile="config/TEMPLATE_cusparse.xml" />
     <test testName="cusparse-type10.1" configFile="config/TEMPLATE_cuParse.xml" />
