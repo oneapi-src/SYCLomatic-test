@@ -11,7 +11,7 @@
     <test testName="thrust-binary-search" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-count" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-copy" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <test testName="thrust-qmc" configFile="config/thrust-qmc.xml" />
+    <test testName="thrust-qmc" configFile="config/thrust-qmc.xml" splitGroup="double"/>
     <test testName="thrust-transform-if" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-policy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-list" configFile="config/TEMPLATE_thrust_exec.xml" />
@@ -45,6 +45,8 @@
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-exec" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-habs" configFile="config/TEMPLATE_math_habs.xml" />
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
     <test testName="cusparse" configFile="config/TEMPLATE_cusparse.xml" />
     <test testName="cusparse-type10.1" configFile="config/TEMPLATE_cuParse.xml" />

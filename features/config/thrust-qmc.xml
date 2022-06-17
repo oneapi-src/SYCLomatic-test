@@ -8,6 +8,7 @@
     </files>
     <rules>
         <optlevelRule excludeOptlevelNameString="usmnone" />
+        <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
         <platformRule OSFamily="Linux" kit="CUDA9.2" kitRange="OLDER" runOnThisPlatform="false"/>
         <platformRule OSFamily="Windows" kit="CUDA9.2" kitRange="OLDER" runOnThisPlatform="false"/>
     </rules>
