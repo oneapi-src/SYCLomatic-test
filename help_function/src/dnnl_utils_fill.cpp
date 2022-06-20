@@ -43,10 +43,6 @@ void test() {
     stream1 = dev_ct1.create_queue();
     handle.set_queue(stream1);
 
-    /*
-    DPCT1026:0: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
     HT * data;

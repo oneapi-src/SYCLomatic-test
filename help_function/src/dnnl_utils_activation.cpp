@@ -59,18 +59,8 @@ void test1() {
     stream1 = dev_ct1.create_queue();
     handle.set_queue(stream1);
 
-    /*
-    DPCT1026:0: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:1: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
-
-    //using HT = dt_trait<T>::type;
 
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
     outTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
@@ -91,26 +81,17 @@ void test1() {
     q_ct1.memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
 
     dpct::dnnl::activation_desc desc;
-    /*
-    DPCT1026:2: The call to cudnnCreateActivationDescriptor was removed because
-    the function call is redundant in DPC++.
-    */
-    /*
-    DPCT1007:3: Migration of Nan numbers propagation option is not supported.
-    */
+
     desc.set(dnnl::algorithm::eltwise_logistic_use_dst_for_bwd, 0.f);
 
     float alpha = 2.f, beta = 1.5f;
-    /*
-    DPCT1003:5: Migrated API does not return error code. (*, 0) is inserted. You
-    may need to rewrite this code.
-    */
+
     auto s = (handle.activation_forward(desc, alpha, dataTensor, data, beta,
                                         outTensor, out),
               0);
-    //check(s);
+
     q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         1, 2.96212, 4.76159, 6.40515, 7.96403,
         9.48661, 10.9951, 12.4982, 13.9993, 15.4998,
@@ -124,10 +105,7 @@ void test1() {
         69.5, 71, 72.5, 74, 75.5    
       };
     check(expect, host_out, expect.size(), 1e-3);
-    /*
-    DPCT1026:4: The call to cudnnDestroy was removed because the function call
-    is redundant in DPC++.
-    */
+
     sycl::free(data, q_ct1);
     sycl::free(out, q_ct1);
 }
@@ -147,26 +125,8 @@ void test2() {
     stream1 = dev_ct1.create_queue();
     handle.set_queue(stream1);
 
-    /*
-    DPCT1026:6: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:7: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:8: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:9: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
-
-    //using HT = dt_trait<T>::type;
 
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
     outTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
@@ -195,34 +155,23 @@ void test2() {
     q_ct1.memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
 
     dpct::dnnl::activation_desc desc;
-    /*
-    DPCT1026:10: The call to cudnnCreateActivationDescriptor was removed because
-    the function call is redundant in DPC++.
-    */
-    /*
-    DPCT1007:11: Migration of Nan numbers propagation option is not supported.
-    */
+
     desc.set(dnnl::algorithm::eltwise_logistic_use_dst_for_bwd, 0.f);
 
     float alpha = 1.5f, beta = 0.f;
     handle.activation_forward(desc, alpha, dataTensor, data, beta, outTensor,
                               out);
-    //cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
+
     alpha = 2.f, beta = 0.f;
 
-    /*
-    DPCT1003:13: Migrated API does not return error code. (*, 0) is inserted.
-    You may need to rewrite this code.
-    */
+
     auto s = (handle.activation_backward(desc, alpha, outTensor, out,
                                          diffoutTensor, diffout, dataTensor,
                                          data, beta, diffdataTensor, diffdata),
               0);
 
-    //check(s);
     q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
     std::vector<float> expect = {
         0.375, 0.334723, 0.289074, 0.238399, 0.183142,
         0.123828, 0.0610447, -0.00457374, -0.072368, -0.141673,
@@ -235,11 +184,7 @@ void test2() {
         -1.39354, -1.40338, -1.41234, -1.42049, -1.42789,
         -1.43462, -1.44073, -1.44629, -1.45132, -1.4559             
     };
-    //check(expect, host_diffdata, expect.size(), 1e-3);
-    /*
-    DPCT1026:12: The call to cudnnDestroy was removed because the function call
-    is redundant in DPC++.
-    */
+
     sycl::free(data, q_ct1);
     sycl::free(out, q_ct1);
     sycl::free(diffdata, q_ct1);

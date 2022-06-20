@@ -59,18 +59,8 @@ void test1() {
     stream1 = dev_ct1.create_queue();
     handle.set_queue(stream1);
 
-    /*
-    DPCT1026:0: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:1: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
-
-    //using HT = dt_trait<T>::type;
 
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
     outTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
@@ -91,17 +81,14 @@ void test1() {
     q_ct1.memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
 
     float alpha = 2.f, beta = 1.5f;
-    /*
-    DPCT1003:3: Migrated API does not return error code. (*, 0) is inserted. You
-    may need to rewrite this code.
-    */
+
     auto s = (handle.softmax_forward(dpct::dnnl::softmax_algorithm::normal,
                                      dpct::dnnl::softmax_mode::channel, alpha,
                                      dataTensor, data, beta, outTensor, out),
               0);
-    //check(s);
+
     q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         0, 1.5, 3, 4.5, 6,
         7.5, 9, 10.5, 12, 13.5,
@@ -114,11 +101,8 @@ void test1() {
         62, 63.5, 65, 66.5, 68,
         69.5, 71, 72.5, 74, 75.5
       };
-      check(expect, host_out, expect.size(), 1e-3);
-    /*
-    DPCT1026:2: The call to cudnnDestroy was removed because the function call
-    is redundant in DPC++.
-    */
+    check(expect, host_out, expect.size(), 1e-3);
+
     sycl::free(data, q_ct1);
     sycl::free(out, q_ct1);
 }
@@ -138,26 +122,8 @@ void test2() {
     stream1 = dev_ct1.create_queue();
     handle.set_queue(stream1);
 
-    /*
-    DPCT1026:4: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:5: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:6: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:7: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
-
-    //using HT = dt_trait<T>::type;
 
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
     outTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
@@ -191,17 +157,13 @@ void test2() {
                            data, beta, outTensor, out);
     q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 0.f;
-    /*
-    DPCT1003:9: Migrated API does not return error code. (*, 0) is inserted. You
-    may need to rewrite this code.
-    */
+
     auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::normal,
                                       dpct::dnnl::softmax_mode::channel, alpha,
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
               0);
 
-    //check(s);
     q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
@@ -216,11 +178,8 @@ void test2() {
         -1.38621, -1.38621, -1.38621, -1.38621, -1.38621,
         -1.38621, -1.38621, -1.38621, -1.38621, -1.38621
       };
-      check(expect, host_diffdata, expect.size(), 1e-3);
-    /*
-    DPCT1026:8: The call to cudnnDestroy was removed because the function call
-    is redundant in DPC++.
-    */
+    check(expect, host_diffdata, expect.size(), 1e-3);
+
     sycl::free(data, q_ct1);
     sycl::free(out, q_ct1);
     sycl::free(diffdata, q_ct1);
@@ -242,26 +201,8 @@ void test3() {
     stream1 = dev_ct1.create_queue();
     handle.set_queue(stream1);
 
-    /*
-    DPCT1026:10: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:11: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:12: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:13: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 2, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
-
-    //using HT = dt_trait<T>::type;
 
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
     outTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
@@ -295,17 +236,13 @@ void test3() {
                            dataTensor, data, beta, outTensor, out);
     q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 0.f;
-    /*
-    DPCT1003:15: Migrated API does not return error code. (*, 0) is inserted.
-    You may need to rewrite this code.
-    */
+
     auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::normal,
                                       dpct::dnnl::softmax_mode::instance, alpha,
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
               0);
 
-    //check(s);
     q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
@@ -331,10 +268,7 @@ void test3() {
         -0.0963332, -0.106465, -0.117662, -0.130036, -0.143712
       };
     check(expect, host_diffdata, expect.size(), 1e-3);
-    /*
-    DPCT1026:14: The call to cudnnDestroy was removed because the function call
-    is redundant in DPC++.
-    */
+
     sycl::free(data, q_ct1);
     sycl::free(out, q_ct1);
     sycl::free(diffdata, q_ct1);
@@ -356,26 +290,8 @@ void test4() {
     stream1 = dev_ct1.create_queue();
     handle.set_queue(stream1);
 
-    /*
-    DPCT1026:16: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:17: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:18: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:19: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
-
-    //using HT = dt_trait<T>::type;
 
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
     outTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
@@ -409,20 +325,15 @@ void test4() {
                            data, beta, outTensor, out);
     q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 3.f;
-    /*
-    DPCT1003:21: Migrated API does not return error code. (*, 0) is inserted.
-    You may need to rewrite this code.
-    */
+
     auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::log,
                                       dpct::dnnl::softmax_mode::channel, alpha,
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
               0);
 
-    //check(s);
     q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
     std::vector<float> expect = {
         1.91643, 4.91643, 7.91643, 10.9164, 13.9164,
         16.9164, 19.9164, 22.9164, 25.9164, 28.9164,
@@ -435,11 +346,8 @@ void test4() {
         118.446, 121.446, 124.446, 127.446, 130.446,
         133.446, 136.446, 139.446, 142.446, 145.446
       };
-      check(expect, host_diffdata, expect.size(), 1e-3);
-    /*
-    DPCT1026:20: The call to cudnnDestroy was removed because the function call
-    is redundant in DPC++.
-    */
+    check(expect, host_diffdata, expect.size(), 1e-3);
+
     sycl::free(data, q_ct1);
     sycl::free(out, q_ct1);
     sycl::free(diffdata, q_ct1);
@@ -461,26 +369,8 @@ void test5() {
     stream1 = dev_ct1.create_queue();
     handle.set_queue(stream1);
 
-    /*
-    DPCT1026:22: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:23: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:24: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:25: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
-
-    //using HT = dt_trait<T>::type;
 
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
     outTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
@@ -514,19 +404,15 @@ void test5() {
                            data, beta, outTensor, out);
     q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 1.5f;
-    /*
-    DPCT1003:27: Migrated API does not return error code. (*, 0) is inserted.
-    You may need to rewrite this code.
-    */
+
     auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::normal,
                                       dpct::dnnl::softmax_mode::channel, alpha,
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
               0);
 
-    //check(s);
     q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         -0.113787, 1.38621, 2.88621, 4.38621, 5.88621,
         7.38621, 8.88621, 10.3862, 11.8862, 13.3862,
@@ -540,10 +426,7 @@ void test5() {
         66.1138, 67.6138, 69.1138, 70.6138, 72.1138
       };
     check(expect, host_diffdata, expect.size(), 1e-3);
-    /*
-    DPCT1026:26: The call to cudnnDestroy was removed because the function call
-    is redundant in DPC++.
-    */
+
     sycl::free(data, q_ct1);
     sycl::free(out, q_ct1);
     sycl::free(diffdata, q_ct1);

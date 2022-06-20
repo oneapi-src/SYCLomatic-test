@@ -52,10 +52,6 @@ void test() {
     stream1 = dpct::get_current_device().create_queue();
     handle.set_queue(stream1);
 
-    /*
-    DPCT1026:0: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
 
     int on, oc, oh, ow, on_stride, oc_stride, oh_stride, ow_stride;
     size_t size;

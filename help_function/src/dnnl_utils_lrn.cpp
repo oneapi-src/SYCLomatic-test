@@ -58,18 +58,8 @@ void test1() {
     stream1 = dev_ct1.create_queue();
     handle.set_queue(stream1);
 
-    /*
-    DPCT1026:0: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:1: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
-
-    //using HT = dt_trait<T>::type;
 
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
     outTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
@@ -95,23 +85,17 @@ void test1() {
     float lrn_k = 1.f;
 
     dpct::dnnl::lrn_desc desc;
-    /*
-    DPCT1026:2: The call to cudnnCreateLRNDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
+
     desc.set(local_size, lrn_alpha, lrn_beta, lrn_k);
 
     float alpha = 2.f, beta = 1.5f;
-    /*
-    DPCT1003:4: Migrated API does not return error code. (*, 0) is inserted. You
-    may need to rewrite this code.
-    */
+
     auto s = (handle.lrn_forward(desc, alpha, dataTensor, data, beta, outTensor,
                                  out),
               0);
-    //check(s);
+
     q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         0, 1.50032, 3.00057, 4.50076, 6.0009,
         7.501, 9.00107, 10.5011, 12.0012, 13.5012,
@@ -125,10 +109,7 @@ void test1() {
         67.5021, 69.002, 70.5019, 72.0018, 73.5017
     };
     check(expect, host_out, expect.size(), 1e-3);
-    /*
-    DPCT1026:3: The call to cudnnDestroy was removed because the function call
-    is redundant in DPC++.
-    */
+
     sycl::free(data, q_ct1);
     sycl::free(out, q_ct1);
 }
@@ -148,26 +129,8 @@ void test2() {
     stream1 = dev_ct1.create_queue();
     handle.set_queue(stream1);
 
-    /*
-    DPCT1026:5: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:6: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:7: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:8: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
-
-    //using HT = dt_trait<T>::type;
 
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
     outTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
@@ -201,37 +164,24 @@ void test2() {
     float lrn_k = 1.f;
 
     dpct::dnnl::lrn_desc desc;
-    /*
-    DPCT1026:9: The call to cudnnCreateLRNDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
+
     desc.set(local_size, lrn_alpha, lrn_beta, lrn_k);
 
     float alpha = 1.5f, beta = 0.f;
     handle.lrn_forward(desc, alpha, dataTensor, data, beta, outTensor, out);
-    //cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
+
     alpha = 2000.f, beta = 0.f;
     dev_ct1.queues_wait_and_throw();
-    /*
-    DPCT1097:11: The function "lrn_backward" may require the workspace which is
-    used to save intermediate results from the "lrn_forward". By default, a
-    workspace from engine_ext is selected according to pointer of source data,
-    but this may be error for workspace data race. You may need to rewrite this
-    code.
-    */
-    /*
-    DPCT1003:12: Migrated API does not return error code. (*, 0) is inserted.
-    You may need to rewrite this code.
-    */
+
     auto s = (handle.lrn_backward(desc, alpha, outTensor, out, diffoutTensor,
                                   diffout, dataTensor, data, beta,
                                   diffdataTensor, diffdata),
               0);
     dev_ct1.queues_wait_and_throw();
-    //check(s);
+
     q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
     dev_ct1.queues_wait_and_throw();
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         0.360308, 0.28158, 0.21668, 0.163798, 0.121108,
         0.0869165, 0.059718, 0.0382204, 0.021336, 0.00816559,
@@ -245,10 +195,7 @@ void test2() {
         -0.123748, -0.114191, -0.105531, -0.0976739, -0.0905342
       };
     check(expect, host_diffdata, expect.size(), 1e-3);
-    /*
-    DPCT1026:10: The call to cudnnDestroy was removed because the function call
-    is redundant in DPC++.
-    */
+
     sycl::free(data, q_ct1);
     sycl::free(out, q_ct1);
     sycl::free(diffdata, q_ct1);

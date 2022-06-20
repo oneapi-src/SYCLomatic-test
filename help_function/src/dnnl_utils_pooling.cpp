@@ -59,27 +59,11 @@ void test1() {
     handle.set_queue(stream1);
 
     dpct::dnnl::pooling_desc desc;
-    /*
-    DPCT1026:0: The call to cudnnCreatePoolingDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1007:1: Migration of Nan numbers propagation option is not supported.
-    */
+
     desc.set(dnnl::algorithm::pooling_max, 4, 4, 3, 3, 2, 2);
 
-    /*
-    DPCT1026:2: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:3: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
-
-    //using HT = dt_trait<T>::type;
 
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
     int on, oc, oh, ow;
@@ -94,11 +78,9 @@ void test1() {
 
     for(int i = 0; i < ele_num; i++) {
         host_data[i] = i;
-        //host_out[i] = i;
     }
 
     for(int i = 0; i < ele_num2; i++) {
-        //host_data[i] = i;
         host_out[i] = i;
     }
 
@@ -109,16 +91,13 @@ void test1() {
     q_ct1.memcpy(out, host_out.data(), ele_num2 * sizeof(HT)).wait();
 
     float alpha = 1.f, beta = 0.f;
-    /*
-    DPCT1003:5: Migrated API does not return error code. (*, 0) is inserted. You
-    may need to rewrite this code.
-    */
+
     auto s = (handle.pooling_forward(desc, alpha, dataTensor, data, beta,
                                      outTensor, out),
               0);
-    //check(s);
+
     q_ct1.memcpy(host_out.data(), out, ele_num2 * sizeof(HT)).wait();
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         0, 2, 4, 4,
         10, 12, 14, 14,
@@ -130,10 +109,7 @@ void test1() {
         45, 47, 49, 49
       };
       check(expect, host_out, expect.size(), 1e-3);
-    /*
-    DPCT1026:4: The call to cudnnDestroy was removed because the function call
-    is redundant in DPC++.
-    */
+
     sycl::free(data, q_ct1);
     sycl::free(out, q_ct1);
 }
@@ -154,39 +130,15 @@ void test2() {
     handle.set_queue(stream1);
 
     dpct::dnnl::pooling_desc desc;
-    /*
-    DPCT1026:6: The call to cudnnCreatePoolingDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1007:7: Migration of Nan numbers propagation option is not supported.
-    */
+
     desc.set(dnnl::algorithm::pooling_max, 4, 4, 3, 3, 2, 2);
 
-    /*
-    DPCT1026:8: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:9: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:10: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
-    /*
-    DPCT1026:11: The call to cudnnCreateTensorDescriptor was removed because the
-    function call is redundant in DPC++.
-    */
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
-    //cudnnSetTensor4dDescriptor(outTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
+
     diffdataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
-    //cudnnSetTensor4dDescriptor(diffoutTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
 
     int on, oc, oh, ow;
     desc.get_forward_output_dim(dataTensor, &on, &oc, &oh, &ow);
@@ -202,14 +154,10 @@ void test2() {
     std::vector<HT> host_diffout(ele_num2);
     for(int i = 0; i < ele_num; i++) {
         host_data[i] = i * 0.1f;
-        //host_out[i] = i;
         host_diffdata[i] = i;
-        //host_diffout[i] = 1.f;
     }
     for(int i = 0; i < ele_num2; i++) {
-        //host_data[i] = i * 0.1f;
         host_out[i] = i;
-        //host_diffdata[i] = i;
         host_diffout[i] = 1.f;
     }
 
@@ -229,26 +177,14 @@ void test2() {
     handle.pooling_forward(desc, alpha, dataTensor, data, beta, outTensor, out, &pooling_workspace);
     q_ct1.memcpy(host_out.data(), out, ele_num2 * sizeof(HT)).wait();
     alpha = 1.5f, beta = 1.f;
-    /*
-    DPCT1097:13: The function "pooling_backward" may require the workspace which
-    is used to save intermediate results from the "pooling_forward". By default,
-    a workspace from engine_ext is selected according to pointer of source data,
-    but this may be error for workspace data race. You may need to rewrite this
-    code.
-    */
-    /*
-    DPCT1003:14: Migrated API does not return error code. (*, 0) is inserted.
-    You may need to rewrite this code.
-    */
+
     auto s = (handle.pooling_backward(desc, alpha, outTensor, out,
                                       diffoutTensor, diffout, dataTensor, data,
                                       beta, diffdataTensor, diffdata, &pooling_workspace),
               0);
 
-    //check(s);
     q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
-    //std::cout << "host_diffdata" << std::endl;
     std::vector<float> expect = {
         1.5, 1, 3.5, 3, 7,
         5, 6, 7, 8, 9,
@@ -261,11 +197,8 @@ void test2() {
         40, 41, 42, 43, 44,
         48, 46, 50, 48, 55
       };
-      check(expect, host_diffdata, expect.size(), 1e-3);
-    /*
-    DPCT1026:12: The call to cudnnDestroy was removed because the function call
-    is redundant in DPC++.
-    */
+    check(expect, host_diffdata, expect.size(), 1e-3);
+
     sycl::free(data, q_ct1);
     sycl::free(out, q_ct1);
     sycl::free(diffdata, q_ct1);
