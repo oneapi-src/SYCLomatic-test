@@ -57,8 +57,6 @@ void test1() {
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
-
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(outTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
 
@@ -79,9 +77,9 @@ void test1() {
 
     float alpha = 2.f, beta = 1.5f;
     auto s = cudnnSoftmaxForward(handle, CUDNN_SOFTMAX_ACCURATE, CUDNN_SOFTMAX_MODE_CHANNEL, &alpha, dataTensor, data, &beta, outTensor, out);
-    //check(s);
+
     cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         0, 1.5, 3, 4.5, 6,
         7.5, 9, 10.5, 12, 13.5,
@@ -119,8 +117,6 @@ void test2() {
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
-
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(outTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(diffdataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
@@ -153,7 +149,6 @@ void test2() {
     alpha = 2.f, beta = 0.f;
     auto s = cudnnSoftmaxBackward(handle, CUDNN_SOFTMAX_ACCURATE, CUDNN_SOFTMAX_MODE_CHANNEL, &alpha, outTensor, out, diffoutTensor, diffout, &beta, diffdataTensor, diffdata);
 
-    //check(s);
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {
@@ -195,8 +190,6 @@ void test3() {
     int n = 2, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
-
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(outTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(diffdataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
@@ -229,7 +222,6 @@ void test3() {
     alpha = 2.f, beta = 0.f;
     auto s = cudnnSoftmaxBackward(handle, CUDNN_SOFTMAX_ACCURATE, CUDNN_SOFTMAX_MODE_INSTANCE, &alpha, outTensor, out, diffoutTensor, diffout, &beta, diffdataTensor, diffdata);
 
-    //check(s);
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {
@@ -281,8 +273,6 @@ void test4() {
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
-
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(outTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(diffdataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
@@ -315,10 +305,8 @@ void test4() {
     alpha = 2.f, beta = 3.f;
     auto s = cudnnSoftmaxBackward(handle, CUDNN_SOFTMAX_LOG, CUDNN_SOFTMAX_MODE_CHANNEL, &alpha, outTensor, out, diffoutTensor, diffout, &beta, diffdataTensor, diffdata);
 
-    //check(s);
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
     std::vector<float> expect = {
         1.91643, 4.91643, 7.91643, 10.9164, 13.9164,
         16.9164, 19.9164, 22.9164, 25.9164, 28.9164,
@@ -358,8 +346,6 @@ void test5() {
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
-
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(outTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(diffdataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
@@ -392,9 +378,8 @@ void test5() {
     alpha = 2.f, beta = 1.5f;
     auto s = cudnnSoftmaxBackward(handle, CUDNN_SOFTMAX_FAST, CUDNN_SOFTMAX_MODE_CHANNEL, &alpha, outTensor, out, diffoutTensor, diffout, &beta, diffdataTensor, diffdata);
 
-    //check(s);
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         -0.113787, 1.38621, 2.88621, 4.38621, 5.88621,
         7.38621, 8.88621, 10.3862, 11.8862, 13.3862,

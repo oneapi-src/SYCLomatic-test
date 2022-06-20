@@ -57,8 +57,6 @@ void test1() {
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
-
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(outTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
 
@@ -88,9 +86,9 @@ void test1() {
 
     float alpha = 2.f, beta = 1.5f;
     auto s = cudnnLRNCrossChannelForward(handle, desc, CUDNN_LRN_CROSS_CHANNEL_DIM1, &alpha, dataTensor, data, &beta, outTensor, out);
-    //check(s);
+
     cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         0, 1.50032, 3.00057, 4.50076, 6.0009,
         7.501, 9.00107, 10.5011, 12.0012, 13.5012,
@@ -127,8 +125,6 @@ void test2() {
     cudnnCreateTensorDescriptor(&diffoutTensor);
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
-
-    //using HT = dt_trait<T>::type;
 
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(outTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
@@ -167,15 +163,15 @@ void test2() {
 
     float alpha = 1.5f, beta = 0.f;
     cudnnLRNCrossChannelForward(handle, desc, CUDNN_LRN_CROSS_CHANNEL_DIM1, &alpha, dataTensor, data, &beta, outTensor, out);
-    //cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
+
     alpha = 2000.f, beta = 0.f;
     cudaDeviceSynchronize();
     auto s = cudnnLRNCrossChannelBackward(handle, desc, CUDNN_LRN_CROSS_CHANNEL_DIM1, &alpha, outTensor, out, diffoutTensor, diffout, dataTensor, data, &beta, diffdataTensor, diffdata);
     cudaDeviceSynchronize();
-    //check(s);
+
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
     cudaDeviceSynchronize();
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         0.360308, 0.28158, 0.21668, 0.163798, 0.121108,
         0.0869165, 0.059718, 0.0382204, 0.021336, 0.00816559,

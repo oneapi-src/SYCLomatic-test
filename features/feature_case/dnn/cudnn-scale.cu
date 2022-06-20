@@ -57,8 +57,6 @@ void test() {
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
-
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
 
     HT *data;
@@ -67,8 +65,6 @@ void test() {
     for(int i = 0; i < ele_num; i++) {
         host_data[i] = i;
     }
-    //host_data.push_back(1.5f);
-    //host_out.push_back(1.5f);
 
     cudaMalloc(&data, ele_num * sizeof(HT));
 
@@ -76,9 +72,9 @@ void test() {
 
     float alpha = 3.f;
     auto s = cudnnScaleTensor(handle, dataTensor, data, &alpha);
-    //check(s);
+
     cudaMemcpy(host_data.data(), data, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         0, 3, 6, 9, 12,
         15, 18, 21, 24, 27,

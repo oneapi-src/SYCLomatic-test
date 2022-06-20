@@ -61,8 +61,6 @@ void test1() {
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
-
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     int on, oc, oh, ow;
     cudnnGetPooling2dForwardOutputDim(desc, dataTensor, &on, &oc, &oh, &ow);
@@ -76,11 +74,9 @@ void test1() {
 
     for(int i = 0; i < ele_num; i++) {
         host_data[i] = i;
-        //host_out[i] = i;
     }
 
     for(int i = 0; i < ele_num2; i++) {
-        //host_data[i] = i;
         host_out[i] = i;
     }
 
@@ -92,9 +88,9 @@ void test1() {
 
     float alpha = 1.f, beta = 0.f;
     auto s = cudnnPoolingForward(handle, desc, &alpha, dataTensor, data, &beta, outTensor, out);
-    //check(s);
+
     cudaMemcpy(host_out.data(), out, ele_num2 * sizeof(HT), cudaMemcpyDeviceToHost);
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         0, 2, 4, 4,
         10, 12, 14, 14,
@@ -134,11 +130,9 @@ void test2() {
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
-    //cudnnSetTensor4dDescriptor(outTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
+
     cudnnSetTensor4dDescriptor(diffdataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
-    //cudnnSetTensor4dDescriptor(diffoutTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
 
     int on, oc, oh, ow;
     cudnnGetPooling2dForwardOutputDim(desc, dataTensor, &on, &oc, &oh, &ow);
@@ -154,14 +148,10 @@ void test2() {
     std::vector<HT> host_diffout(ele_num2);
     for(int i = 0; i < ele_num; i++) {
         host_data[i] = i * 0.1f;
-        //host_out[i] = i;
         host_diffdata[i] = i;
-        //host_diffout[i] = 1.f;
     }
     for(int i = 0; i < ele_num2; i++) {
-        //host_data[i] = i * 0.1f;
         host_out[i] = i;
-        //host_diffdata[i] = i;
         host_diffout[i] = 1.f;
     }
 
@@ -181,10 +171,8 @@ void test2() {
     alpha = 1.5f, beta = 1.f;
     auto s = cudnnPoolingBackward(handle, desc, &alpha, outTensor, out, diffoutTensor, diffout, dataTensor, data, &beta, diffdataTensor, diffdata);
 
-    //check(s);
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
-    //std::cout << "host_diffdata" << std::endl;
     std::vector<float> expect = {
         1.5, 1, 3.5, 3, 7,
         5, 6, 7, 8, 9,

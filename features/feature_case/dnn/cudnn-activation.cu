@@ -59,8 +59,6 @@ void test1() {
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
-
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(outTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
 
@@ -85,9 +83,9 @@ void test1() {
 
     float alpha = 2.f, beta = 1.5f;
     auto s = cudnnActivationForward(handle, desc, &alpha, dataTensor, data, &beta, outTensor, out);
-    //check(s);
+
     cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
+
     std::vector<float> expect = {
         1, 2.96212, 4.76159, 6.40515, 7.96403,
         9.48661, 10.9951, 12.4982, 13.9993, 15.4998,
@@ -125,8 +123,6 @@ void test2() {
     int n = 1, c = 2, h = 5, w = 5;
     int ele_num = n * c * h * w;
 
-    //using HT = dt_trait<T>::type;
-
     cudnnSetTensor4dDescriptor(dataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(outTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
     cudnnSetTensor4dDescriptor(diffdataTensor, CUDNN_TENSOR_NCHW, T, n, c, h, w);
@@ -159,15 +155,13 @@ void test2() {
 
     float alpha = 1.5f, beta = 0.f;
     cudnnActivationForward(handle, desc, &alpha, dataTensor, data, &beta, outTensor, out);
-    //cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
+
     alpha = 2.f, beta = 0.f;
 
     auto s = cudnnActivationBackward(handle, desc, &alpha, outTensor, out, diffoutTensor, diffout, dataTensor, data, &beta, diffdataTensor, diffdata);
 
-    //check(s);
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
-    //std::cout << "out = " << host_out[0] << ";" << std::endl;
     std::vector<float> expect = {
         0.375, 0.334723, 0.289074, 0.238399, 0.183142,
         0.123828, 0.0610447, -0.00457374, -0.072368, -0.141673,
@@ -180,7 +174,7 @@ void test2() {
         -1.39354, -1.40338, -1.41234, -1.42049, -1.42789,
         -1.43462, -1.44073, -1.44629, -1.45132, -1.4559             
     };
-    //check(expect, host_diffdata, expect.size(), 1e-3);
+
     cudnnDestroy(handle);
     cudaFree(data);
     cudaFree(out);
