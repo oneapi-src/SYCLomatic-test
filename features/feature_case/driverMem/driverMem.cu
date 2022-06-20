@@ -16,9 +16,9 @@ int main(){
     CUdeviceptr f_D = 0;
     CUdeviceptr f_D2 = 0;
     CUresult r;
-    
+
     cuMemHostAlloc((void **)&f_A, size, CU_MEMHOSTALLOC_DEVICEMAP);
-    
+
     cuMemAllocHost((void **)&f_A, size);
 
     cuMemAlloc(&f_D, size);
@@ -137,6 +137,16 @@ int main(){
 
     float *h_A = (float *)malloc(100);
     cuMemFreeHost(h_A);
+
+    unsigned int* pFlags;
+
+    cuMemAllocHost((void **)&f_A, size);
+
+    cuMemHostGetFlags(pFlags, f_A);
+
+    cuMemHostRegister((void *)pFlags, size, CU_MEMHOSTREGISTER_PORTABLE);
+
+    cuMemHostUnregister((void *)pFlags);
 
     return 0;
 }
