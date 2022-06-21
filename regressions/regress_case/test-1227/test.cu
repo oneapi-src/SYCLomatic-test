@@ -17,6 +17,8 @@ void ewSource(double *s)
 }
 
 int main(){
+  int *ptr;
+  cudaMalloc(&ptr, 5);
   double a[5] = {1.0, 2.9, 30.0, 5.1};
   ewSource(a);
   return 0;
