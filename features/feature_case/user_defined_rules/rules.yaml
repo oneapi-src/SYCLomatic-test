@@ -20,6 +20,8 @@
 - Rule: rule_cmath
   Kind: Header
   Priority: Takeover
+  Prefix: "#ifdef MACRO_HEADER\n"
+  Postfix: "#endif"
   In: cmath
   Out: iostream
   Includes: []
