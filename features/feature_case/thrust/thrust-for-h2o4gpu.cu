@@ -131,6 +131,12 @@ void foo() {
  }
 
  {
+   using TupleTy = thrust::tuple<int, double, const char *>;
+   const int size = thrust::tuple_size<TupleTy>::value;
+   static_assert(size == 3, "TupleTy size shoud be 3");
+ }
+
+ {
   thrust::device_vector<int> int_in(3);
   thrust::device_vector<float> float_in(3);
   auto ret = thrust::make_zip_iterator(thrust::make_tuple(int_in.begin(), float_in.begin()));
