@@ -1,3 +1,12 @@
+// ====------ math-funnelshift.cu---------- *- CUDA -* ----===////
+//
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+//
+//
+// ===----------------------------------------------------------------------===//
+
 #include <cassert>
 #include <iostream>
 
@@ -19,7 +28,8 @@ int main() {
   for (int i = 0; i < NumberOfTests; i++) {
     if (TestResults[i] == 0) {
       std::cerr << "funnelshift test " << i << " failed" << std::endl;
+      return 1;
     }
-    assert(TestResults[i] != 0);
   }
+  return 0;
 }
