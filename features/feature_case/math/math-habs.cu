@@ -37,7 +37,8 @@ int main() {
   for (int i = 0; i < NumberOfTests; i++) {
     if (TestResults[i] == 0) {
       std::cout << "Test " << i << " failed" << std::endl;
+      return 1;
     }
-    assert(TestResults[i] != 0);
   }
+  return 0;
 }
