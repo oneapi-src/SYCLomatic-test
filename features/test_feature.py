@@ -22,7 +22,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
              'thrust-rawptr-noneusm', 'driverStreamAndEvent', 'grid_sync', 'deviceProp', 'cub_block_p2',
              'cub_device', 'activemask', 'complex', 'user_defined_rules', 'math-exec', 'math-saturatef', 'math-habs', 'cudnn-activation',
              'cudnn-fill', 'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax',
-             'cudnn-sum', 'math-funnelshift']
+             'cudnn-sum', 'math-funnelshift', 'ccl']
 
 def setup_test():
     return True
@@ -80,6 +80,9 @@ def build_test():
             else:
                 link_opts = test_config.mkl_link_opt_win
 
+    if test_config.current_test == 'ccl':
+        link_opts.append('-lccl -lmpi')
+
     for dirpath, dirnames, filenames in os.walk(test_config.out_root):
         for filename in [f for f in filenames if re.match('.*(cpp|c)$', f)]:
             srcs.append(os.path.abspath(os.path.join(dirpath, filename)))
@@ -102,5 +105,7 @@ def run_test():
     if test_config.current_test not in exec_tests:
         return True
     os.environ['SYCL_DEVICE_FILTER'] = test_config.device_filter
+    if test_config.current_test == 'ccl':
+        return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '));
     return run_binary_with_args()
 
