@@ -315,5 +315,6 @@
     <test testName="cublas-extension" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
+    <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
   </tests>
 </suite>
