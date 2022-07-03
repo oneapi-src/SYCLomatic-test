@@ -1,4 +1,4 @@
-// ====------ math-habs.cu---------- *- CUDA -* ----===////
+// ====------ math-funnelshift.cu---------- *- CUDA -* ----===////
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
@@ -11,32 +11,23 @@
 #include <iostream>
 
 #include <cuda.h>
-#include <cuda_fp16.h>
 
-__global__ void testMathFunctions(char *const TestResults) {
-  {
-    __half h = -3.14;
-    h = __habs(h);
-    TestResults[0] = (h == half(3.14));
-  }
-
-  {
-    __half2 h2 = __halves2half2(-1.1, -1.1);
-    h2 = __habs2(h2);
-    TestResults[1] =
-        (__low2half(h2) == half(1.1) && __high2half(h2) == half(1.1));
-  }
+__global__ void testFunnelShiftKernel(char * const TestResults) {
+  TestResults[0] = (__funnelshift_l(0xAA000000, 0xBB, 8) == 0xBBAA);
+  TestResults[1] = (__funnelshift_lc(0xAA000000, 0xBB, 16) == 0xBBAA00);
+  TestResults[2] = (__funnelshift_r(0xAA00, 0xBB, 8) == 0xBB0000AA);
+  TestResults[3] = (__funnelshift_rc(0xAA0000, 0xBB, 16) == 0xBB00AA);
 }
 
 int main() {
-  constexpr int NumberOfTests = 2;
+  constexpr int NumberOfTests = 4;
   char *TestResults;
   cudaMallocManaged(&TestResults, NumberOfTests * sizeof(*TestResults));
-  testMathFunctions<<<1, 1>>>(TestResults);
+  testFunnelShiftKernel<<<1, 1>>>(TestResults);
   cudaDeviceSynchronize();
   for (int i = 0; i < NumberOfTests; i++) {
     if (TestResults[i] == 0) {
-      std::cout << "Test " << i << " failed" << std::endl;
+      std::cerr << "funnelshift test " << i << " failed" << std::endl;
       return 1;
     }
   }
