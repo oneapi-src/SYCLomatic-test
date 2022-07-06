@@ -135,6 +135,7 @@
         <test testName="bt-check-warning1083" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-unsupported-type-function" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="check-windows-version" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="query-api-mapping" configFile="config/TEMPLATE_behavior_tests.xml" />
     </tests>
 
 </suite>
