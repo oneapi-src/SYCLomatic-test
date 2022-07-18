@@ -813,10 +813,10 @@ void test_cublasTdgmm() {
   x2.H2D();
   x3.H2D();
 
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a0.d_data, 2, 0, x0.d_data, 1, 0, c0.d_data, 2, 0, 1);
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a1.d_data, 2, 0, x1.d_data, 1, 0, c1.d_data, 2, 0, 1);
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, (std::complex<float>*)a2.d_data, 2, 0, (std::complex<float>*)x2.d_data, 1, 0, (std::complex<float>*)c2.d_data, 2, 0, 1);
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, (std::complex<double>*)a3.d_data, 2, 0, (std::complex<double>*)x3.d_data, 1, 0, (std::complex<double>*)c3.d_data, 2, 0, 1);
+  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a0.d_data, 2, 0, x0.d_data, 1, 0, c0.d_data, 2, 2 * 2, 1);
+  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a1.d_data, 2, 0, x1.d_data, 1, 0, c1.d_data, 2, 2 * 2, 1);
+  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, (std::complex<float>*)a2.d_data, 2, 0, (std::complex<float>*)x2.d_data, 1, 0, (std::complex<float>*)c2.d_data, 2, 2 * 2, 1);
+  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, (std::complex<double>*)a3.d_data, 2, 0, (std::complex<double>*)x3.d_data, 1, 0, (std::complex<double>*)c3.d_data, 2, 2 * 2, 1);
 
   c0.D2H();
   c1.D2H();
