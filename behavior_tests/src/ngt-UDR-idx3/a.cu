@@ -1,3 +1,1 @@
-
-__global__ void kernel(){}
-
+__global__ void kernel_func(){}
