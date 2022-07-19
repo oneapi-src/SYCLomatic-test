@@ -8,7 +8,7 @@
 // ===----------------------------------------------------------------------===//
 
 
-#include "dpct/atomic_helper.hpp"
+#include "dpct/atomic.hpp"
 #include <CL/sycl.hpp>
 #include <assert.h>
 #include <dpct/dpct.hpp>
@@ -18,41 +18,32 @@
 
 void atomicRefExtKernel(int* atom_arr){
   ////default constructor
-  dpct::atomic<int> atomic_ref{0};
+  dpct::atomic<int> a{0};
   int temp1=3,temp2 = 4;
   for(int i = 0;i<loop_num;++i){
     // atomic store
-    atomic_ref.store(1);
+    a.store(1);
 
     // atomic load
-    atom_arr[0] = atomic_ref.load();
+    atom_arr[0] = a.load();
 
     // atomic exchange
-    atom_arr[1] = atomic_ref.exchange(3);
+    atom_arr[1] = a.exchange(3);
 
     // atomic compare_exchange_weak
-    atom_arr[2] = atomic_ref.load();
-    atomic_ref.compare_exchange_weak(temp1,4);
+    atom_arr[2] = a.load();
+    a.compare_exchange_weak(temp1,4);
 
     // atomic compare_exchange_strong
-    atom_arr[3] = atomic_ref.load();
-    atomic_ref.compare_exchange_strong(temp2,8);
+    atom_arr[3] = a.load();
+    a.compare_exchange_strong(temp2,8);
 
 
     //atomic fetch_add
-    atom_arr[4] =  atomic_ref.fetch_add(1);
+    atom_arr[4] =  a.fetch_add(1);
 
     //atomic fetch_sub
-    atom_arr[5] = atomic_ref.fetch_sub(-1);
-
-    //atomic fetch_and
-    atom_arr[6] = atomic_ref.fetch_and(4);
-
-    //atomic fetch_or
-    atom_arr[7] = atomic_ref.fetch_or(2);
-
-    //atomic fetch_xor
-    atom_arr[8] = atomic_ref.fetch_and(4);
+    atom_arr[5] = a.fetch_sub(-1);
   }
 
 }
@@ -85,7 +76,7 @@ int main(int argc, char **argv) {
 
   unsigned int numThreads = 256;
   unsigned int numBlocks = 64;
-  unsigned int numData = 9;
+  unsigned int numData = 6;
 
   int *atom_arr_device;
 
