@@ -9,19 +9,13 @@
 
 #include <CL/sycl.hpp>
 #include <dpct/dpct.hpp>
-#include <iostream>
 
-int main() try {
-  dpct::get_default_queue().submit(
-    [&](cl::sycl::handler &cgh) {
-      cgh.parallel_for<class kernel>(
-        cl::sycl::nd_range<3>(cl::sycl::range<3>(256, 1, 1), cl::sycl::range<3>(16384, 1, 1)),
-          [=](cl::sycl::nd_item<3> item_ct1) {
-      });
-  });
-} catch (sycl::exception const &exec) {
-  std::cerr << exec.what() << "Exception caught at file:" << __FILE__
-            << ", line:" << __LINE__ << std::endl;
-  std::exit(1);
-
+int main() {
+  dpct::get_default_queue().submit([&](cl::sycl::handler &cgh) {
+    cgh.host_task([=] {
+      throw sycl::exception(sycl::make_error_code(sycl::errc::invalid), "test_dpct_saync_handler");
+    });
+  }).wait();
+  return 0;
 }
+
