@@ -92,7 +92,7 @@ def run_test():
         args.append("./module.dll")
 
     ret = run_binary_with_args(args)
-    if test_config.current_test == "async_exception" and "Caught asynchronous SYCL exception" in test_config.command_output and "test_dpct_saync_handler" in test_config.command_output:
+    if test_config.current_test == "async_exception" and "Caught asynchronous SYCL exception" in test_config.command_output and "test_dpct_async_handler" in test_config.command_output:
         return True
     return ret
 

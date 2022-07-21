@@ -13,7 +13,7 @@
 int main() {
   dpct::get_default_queue().submit([&](cl::sycl::handler &cgh) {
     cgh.host_task([=] {
-      throw sycl::exception(sycl::make_error_code(sycl::errc::invalid), "test_dpct_saync_handler");
+      throw sycl::exception(sycl::make_error_code(sycl::errc::invalid), "test_dpct_async_handler");
     });
   }).wait();
   return 0;
