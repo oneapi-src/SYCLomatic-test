@@ -1,0 +1,6 @@
+- Rule: sample_rule
+  Kind: API
+  Priority: Takeover
+  In: foo
+  Out: goo($deref($1222222222222222222222))
+  Includes: []
