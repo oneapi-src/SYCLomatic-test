@@ -20,6 +20,10 @@
     <test testName="thrust-unique_by_key_copy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-for-hypre" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-rawptr-noneusm" configFile="config/TEMPLATE_thrust_noneusm_exec.xml" />
+    <test testName="thrust-find" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-sort_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-inner_product" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-reduce_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="curand" configFile="config/TEMPLATE_cuRand.xml" />
     <test testName="curandEnum" configFile="config/TEMPLATE_cuRand.xml" />
     <test testName="curand-usm" configFile="config/TEMPLATE_cuRand.xml" />
@@ -160,6 +164,7 @@
     <test testName="DplExtrasAlgorithm_api_test12" configFile="config/TEMPLATE_custom_helper_files_DplExtrasAlgorithm.xml" />
     <test testName="DplExtrasIterators_api_test1" configFile="config/TEMPLATE_custom_helper_files_DplExtrasIterators.xml" />
     <test testName="DplExtrasIterators_api_test2" configFile="config/TEMPLATE_custom_helper_files_DplExtrasIterators.xml" />
+    <test testName="DplExtrasIterators_api_test3" configFile="config/TEMPLATE_custom_helper_files_DplExtrasIterators.xml" />
     <test testName="DplExtrasMemory_api_test1" configFile="config/TEMPLATE_custom_helper_files_DplExtrasMemory.xml" />
     <test testName="DplExtrasMemory_api_test2" configFile="config/TEMPLATE_custom_helper_files_DplExtrasMemory.xml" />
     <test testName="DplExtrasMemory_api_test3" configFile="config/TEMPLATE_custom_helper_files_DplExtrasMemory.xml" />
