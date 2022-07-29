@@ -54,6 +54,12 @@ def change_dir(dir):
         os.chdir(dir)
     return True
 
+def set_default_compiler():
+    if (platform.system() == 'Windows'):
+        test_config.DPCXX_COM = "dpcpp-cl"
+    else:
+        test_config.DPCXX_COM = "dpcpp"
+
 def print_debug_log(desc, *args):
     if (test_config.VERBOSE_LEVEL != 0):
         print(desc + " : " )

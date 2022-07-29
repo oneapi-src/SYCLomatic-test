@@ -8,7 +8,7 @@
 # ===----------------------------------------------------------------------===#
 
 # The arguments
-DPCXX_COM = "dpcpp "     # Default compiler
+DPCXX_COM =              # Default compiler will set by set_default_compiler API call.
 CT_TOOL = "dpct"         # The migration tool binary name
 PYTHON_COM = "python3 "
 suite_list_file = "test_suite_list.xml"   # The configuration file lists all the suite to run and corresponding options.
