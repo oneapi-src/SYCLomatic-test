@@ -68,8 +68,12 @@ def build_test():
         if not ret:
             print("kernel_function_win created the shared lib failed.")
             return False
+
     if test_config.current_test in oneDNN_related:
-        link_opts.append(" -ldnnl")
+        if platform.system() == 'Linux':
+            link_opts.append(' -ldnnl')
+        else:
+            link_opts.append(' dnnl.lib')
     if test_config.current_test in blas_cases:
         mkl_opts = []
         if platform.system() == "Linux":

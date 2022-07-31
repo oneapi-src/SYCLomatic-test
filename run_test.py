@@ -488,6 +488,7 @@ def parse_input_args():
     return args
 
 def main():
+    set_default_compiler()
     args = parse_input_args()
     do_sanity_test()
 

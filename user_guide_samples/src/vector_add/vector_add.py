@@ -35,13 +35,15 @@ result = b'\n2.000000 4.000000 6.000000 8.000000 10.000000 12.000000 14.000000 1
 
 # check run result
 if platform.system() == "Windows":
+    compiler = "dpcpp-cl "
     out_exe = ".\\\\vector_add.dp.exe"
     options = "/EHsc" 
 else:
+    compiler = "dpcpp "
     out_exe = "./a.out"
     options = "" 
 
-subprocess.call("dpcpp vector_add.dp.cpp "  + options, shell=run_shell)
+subprocess.call(compiler + " vector_add.dp.cpp "  + options, shell=run_shell)
 
 print("Build done!!")
 if subprocess.check_output(out_exe, shell=run_shell).decode().replace("\r\n", "\n")==result.decode():
