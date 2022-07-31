@@ -89,7 +89,6 @@ def build_test():
     if platform.system() == 'Linux':
         link_opts.append(' -lpthread ')
     if test_config.current_test in oneDNN_related:
-        link_opts.append(' -ldnnl')
         if platform.system() == 'Linux':
             link_opts.append(' -ldnnl')
         else:
