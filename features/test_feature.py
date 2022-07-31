@@ -90,7 +90,10 @@ def build_test():
         link_opts.append(' -lpthread ')
     if test_config.current_test in oneDNN_related:
         link_opts.append(' -ldnnl')
-
+        if platform.system() == 'Linux':
+            link_opts.append(' -ldnnl')
+        else:
+            link_opts.append(' dnnl.lib')
     ret = False
     if test_config.current_test in exec_tests:
         ret = compile_and_link(srcs, cmp_options, objects, link_opts)
