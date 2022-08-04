@@ -135,6 +135,13 @@
         <test testName="bt-check-warning1083" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-unsupported-type-function" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="check-windows-version" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="query-api-mapping" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="ngt-invalid-experimental-features" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="ngt-UDR-path" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="ngt-UDR-keyword" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="ngt-UDR-idx1" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="ngt-UDR-idx2" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="ngt-UDR-idx3" configFile="config/TEMPLATE_behavior_tests.xml" />
     </tests>
 
 </suite>

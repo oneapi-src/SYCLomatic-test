@@ -813,25 +813,25 @@ void test_cublasTdgmm() {
   auto a0_d_data_buf_ct1 = dpct::get_buffer<float>(a0.d_data);
   auto x0_d_data_buf_ct2 = dpct::get_buffer<float>(x0.d_data);
   auto c0_d_data_buf_ct3 = dpct::get_buffer<float>(c0.d_data);
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a0_d_data_buf_ct1, 2, 0, x0_d_data_buf_ct2, 1, 0, c0_d_data_buf_ct3, 2, 0, 1);
+  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a0_d_data_buf_ct1, 2, 0, x0_d_data_buf_ct2, 1, 0, c0_d_data_buf_ct3, 2, 2 * 2, 1);
   }
   {
   auto a1_d_data_buf_ct4 = dpct::get_buffer<double>(a1.d_data);
   auto x1_d_data_buf_ct5 = dpct::get_buffer<double>(x1.d_data);
   auto c1_d_data_buf_ct6 = dpct::get_buffer<double>(c1.d_data);
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a1_d_data_buf_ct4, 2, 0, x1_d_data_buf_ct5, 1, 0, c1_d_data_buf_ct6, 2, 0, 1);
+  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a1_d_data_buf_ct4, 2, 0, x1_d_data_buf_ct5, 1, 0, c1_d_data_buf_ct6, 2, 2 * 2, 1);
   }
   {
   auto a2_d_data_buf_ct7 = dpct::get_buffer<std::complex<float>>(a2.d_data);
   auto x2_d_data_buf_ct8 = dpct::get_buffer<std::complex<float>>(x2.d_data);
   auto c2_d_data_buf_ct9 = dpct::get_buffer<std::complex<float>>(c2.d_data);
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a2_d_data_buf_ct7, 2, 0, x2_d_data_buf_ct8, 1, 0, c2_d_data_buf_ct9, 2, 0, 1);
+  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a2_d_data_buf_ct7, 2, 0, x2_d_data_buf_ct8, 1, 0, c2_d_data_buf_ct9, 2, 2 * 2, 1);
   }
   {
   auto a3_d_data_buf_ct10 = dpct::get_buffer<std::complex<double>>(a3.d_data);
   auto x3_d_data_buf_ct11 = dpct::get_buffer<std::complex<double>>(x3.d_data);
   auto c3_d_data_buf_ct12 = dpct::get_buffer<std::complex<double>>(c3.d_data);
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a3_d_data_buf_ct10, 2, 0, x3_d_data_buf_ct11, 1, 0, c3_d_data_buf_ct12, 2, 0, 1);
+  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a3_d_data_buf_ct10, 2, 0, x3_d_data_buf_ct11, 1, 0, c3_d_data_buf_ct12, 2, 2 * 2, 1);
   }
 
   c0.D2H();
