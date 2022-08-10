@@ -35,6 +35,9 @@ FeatureMap:
       SubFeatureMap:   {}
 CompileTargets:  {}
 OptionMap:
+  AnalysisScopePath:
+    Value:           ''
+    Specified:       true
   AsyncHandler:
     Value:           'false'
     Specified:       false
