@@ -27,7 +27,7 @@ def build_test():
     test_config.out_root = os.getcwd()
 
     lpthread_link_cases = ["devicemgr_multi_thread_aware", "memory_async_dpct_free", "blas_extension_api_usm",
-                           "blas_extension_api_buffer"]
+                           "blas_extension_api_buffer", "fft_utils"]
     oneDPL_related = ["thrust_test_device_ptr_2", "thrust_test-pennet_simple_pstl", "test_default_queue_2"]
     blas_cases = ["blas_utils_getrf", "blas_utils_getrf-usm", "blas_utils_getrf-complex",
                 "blas_utils_getrf-complex-usm", "blas_utils_getrs", "blas_utils_getrs-usm",
@@ -41,6 +41,7 @@ def build_test():
     oneDNN_related = ["dnnl_utils_activation", "dnnl_utils_fill", "dnnl_utils_lrn", "dnnl_utils_memory",
                 "dnnl_utils_pooling", "dnnl_utils_reorder", "dnnl_utils_scale", "dnnl_utils_softmax",
                 "dnnl_utils_sum"]
+    fft_cases = ["fft_utils"]
 
     srcs = []
     cmp_opts = []
@@ -74,7 +75,7 @@ def build_test():
             link_opts.append(' -ldnnl')
         else:
             link_opts.append(' dnnl.lib')
-    if test_config.current_test in blas_cases:
+    if (test_config.current_test in blas_cases) or (test_config.current_test in fft_cases):
         mkl_opts = []
         if platform.system() == "Linux":
             mkl_opts = test_config.mkl_link_opt_lin

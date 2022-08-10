@@ -140,5 +140,6 @@
     <test testName="dnnl_utils_sum" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
     <test testName="util_logical_group" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="fft_utils" configFile="config/TEMPLATE_help_function_skip_double.xml"  splitGroup="double" />
   </tests>
 </suite>
