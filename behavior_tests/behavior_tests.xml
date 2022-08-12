@@ -142,6 +142,9 @@
         <test testName="ngt-UDR-idx1" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-UDR-idx2" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-UDR-idx3" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-analysis-scope-path1" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-analysis-scope-path2" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="ngt-analysis-scope-path1" configFile="config/TEMPLATE_behavior_tests.xml" />
     </tests>
 
 </suite>
