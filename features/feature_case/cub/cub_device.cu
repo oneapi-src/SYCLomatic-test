@@ -1,4 +1,4 @@
-// ====------ cub_device.cu---------- *- CUDA -* ----===////
+// ====------ cub_device.cu------------------------------ *- CUDA -* ------===//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
@@ -6,6 +6,7 @@
 //
 //
 // ===----------------------------------------------------------------------===//
+
 #include <iostream>
 #include <vector>
 
@@ -247,6 +248,139 @@ bool test_max(){
   return true;
 }
 
+/// cub::DeviceReduce::Sum
+bool test_device_reduce_sum() {
+  int *device_in;
+  int *device_out;
+  void *temp_storage = NULL;
+  size_t temp_storage_size = 0;
+  int expect = 4950;
+  cudaMalloc((void **)&device_in, sizeof(int) * DATA_NUM);
+  cudaMalloc((void **)&device_out, sizeof(int));
+  init_data(device_in, DATA_NUM);
+  cub::DeviceReduce::Sum(&temp_storage, temp_storage_size, device_in,
+                         device_out, DATA_NUM);
+  cudaMalloc((void **)&temp_storage, temp_storage_size);
+  cub::DeviceReduce::Sum(&temp_storage, temp_storage_size, device_in,
+                         device_out, DATA_NUM);
+  cudaDeviceSynchronize();
+  if (!verify_data(device_out, &expect, 1)) {
+    std::cout << "cub::DeviceReduce::Sum verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(&expect, 1, true);
+    std::cout << "current result:\n";
+    print_data<int>(device_out, 1);
+    return false;
+  }
+  return true;
+}
+
+// cub::DeviceScan::InclusiveSum
+bool test_device_scan_inclusive_sum() {
+  static const int n = 10;
+  int *device_in;
+  int *device_out;
+  void *temp_storage = NULL;
+  size_t temp_storage_size = 0;
+  int expect[n] = {0, 1, 3, 6, 10, 15, 21, 28, 36, 45};
+  cudaMalloc((void **)&device_in, sizeof(int) * n);
+  cudaMalloc((void **)&device_out, sizeof(int));
+  init_data(device_in, n);
+  cub::DeviceScan::InclusiveSum(temp_storage, temp_storage_size, device_in,
+                                device_out, n);
+  cudaMalloc((void **)&temp_storage, temp_storage_size);
+  cub::DeviceScan::InclusiveSum(temp_storage, temp_storage_size, device_in,
+                                device_out, n);
+  cudaDeviceSynchronize();
+  if (!verify_data(device_out, expect, 1)) {
+    std::cout << "cub::DeviceScan::InclusiveSum verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(expect, 1, true);
+    std::cout << "current result:\n";
+    print_data<int>(device_out, 1);
+    return false;
+  }
+  return true;
+}
+
+// cub::DeviceScan::ExclusiveSum
+bool test_device_scan_exclusive_sum() {
+  static const int n = 10;
+  int *device_in;
+  int *device_out;
+  void *temp_storage = NULL;
+  size_t temp_storage_size = 0;
+  int expect[n] = {0, 0, 1, 3, 6, 10, 15, 21, 28, 36};
+  cudaMalloc((void **)&device_in, sizeof(int) * n);
+  cudaMalloc((void **)&device_out, sizeof(int));
+  init_data(device_in, n);
+  cub::DeviceScan::ExclusiveSum(temp_storage, temp_storage_size, device_in,
+                                device_out, n);
+  cudaMalloc((void **)&temp_storage, temp_storage_size);
+  cub::DeviceScan::ExclusiveSum(temp_storage, temp_storage_size, device_in,
+                                device_out, n);
+  cudaDeviceSynchronize();
+  if (!verify_data(device_out, expect, 1)) {
+    std::cout << "cub::DeviceScan::InclusiveSum verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(expect, 1, true);
+    std::cout << "current result:\n";
+    print_data<int>(device_out, 1);
+    return false;
+  }
+  return true;
+}
+
+// cub::DeviceSelect::Flagged
+bool test_device_select_flagged() {
+  static const int n = 10;
+  int *device_in = nullptr;
+  int *device_out = nullptr;
+  int *device_flagged = nullptr;
+  int *device_select_num = nullptr;
+  int *device_tmp = nullptr;
+  size_t n_device_tmp = 0;
+  int host_in[n] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  int host_flagged[n] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+  int expect_out[] = {1, 3, 5, 7, 9};
+  int expect_select_num = 5;
+  cudaMalloc((void **)&device_in, n * sizeof(int));
+  cudaMalloc((void **)&device_out, n * sizeof(int));
+  cudaMalloc((void **)&device_flagged, n * sizeof(int));
+  cudaMalloc((void **)&device_select_num, sizeof(int));
+  cudaMemcpy(device_in, (void *)host_in, sizeof(host_in),
+             cudaMemcpyHostToDevice);
+  cudaMemcpy(device_flagged, host_flagged, sizeof(host_flagged),
+             cudaMemcpyHostToDevice);
+  cub::DeviceSelect::Flagged(device_tmp, n_device_tmp, device_in,
+                             device_flagged, device_out, device_select_num,
+                             n);
+  cudaMalloc((void **)&device_tmp, n_device_tmp);
+  cub::DeviceSelect::Flagged(device_tmp, n_device_tmp, device_in,
+                             device_flagged, device_out, device_select_num,
+                             n);
+  cudaDeviceSynchronize();
+
+  if (!verify_data(device_select_num, &expect_select_num, 1)) {
+    std::cout << "cub::DeviceScan::InclusiveSum select_num verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(&expect_select_num, 1, true);
+    std::cout << "current result:\n";
+    print_data<int>(device_select_num, 1);
+    return false;
+  }
+
+  if (!verify_data(device_out, (int *)expect_out, expect_select_num)) {
+    std::cout << "cub::DeviceScan::InclusiveSum output data verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(expect_out, 1, true);
+    std::cout << "current result:\n";
+    print_data<int>(device_out, 1);
+    return false;
+  }
+  return true;
+}
+
 int main() {
   bool Result = true;
   Result = test_reduce_1() && Result;
@@ -254,6 +388,10 @@ int main() {
   Result = test_sum_2() && Result;
   Result = test_min() && Result;
   Result = test_max() && Result;
+  Result = test_device_reduce_sum() && Result;
+  Result = test_device_scan_inclusive_sum() && Result;
+  Result = test_device_scan_inclusive_sum() && Result;
+  Result = test_device_select_flagged() && Result;
   if(Result) {
     std::cout << "Pass" << std::endl;
   }
