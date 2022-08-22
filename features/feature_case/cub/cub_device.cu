@@ -258,10 +258,10 @@ bool test_device_reduce_sum() {
   cudaMalloc((void **)&device_in, sizeof(int) * DATA_NUM);
   cudaMalloc((void **)&device_out, sizeof(int));
   init_data(device_in, DATA_NUM);
-  cub::DeviceReduce::Sum(&temp_storage, temp_storage_size, device_in,
+  cub::DeviceReduce::Sum(temp_storage, temp_storage_size, device_in,
                          device_out, DATA_NUM);
   cudaMalloc((void **)&temp_storage, temp_storage_size);
-  cub::DeviceReduce::Sum(&temp_storage, temp_storage_size, device_in,
+  cub::DeviceReduce::Sum(temp_storage, temp_storage_size, device_in,
                          device_out, DATA_NUM);
   cudaDeviceSynchronize();
   if (!verify_data(device_out, &expect, 1)) {
