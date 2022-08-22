@@ -284,7 +284,7 @@ bool test_device_scan_inclusive_sum() {
   size_t temp_storage_size = 0;
   int expect[n] = {0, 1, 3, 6, 10, 15, 21, 28, 36, 45};
   cudaMalloc((void **)&device_in, sizeof(int) * n);
-  cudaMalloc((void **)&device_out, sizeof(int));
+  cudaMalloc((void **)&device_out, sizeof(int) * n);
   init_data(device_in, n);
   cub::DeviceScan::InclusiveSum(temp_storage, temp_storage_size, device_in,
                                 device_out, n);
@@ -292,12 +292,12 @@ bool test_device_scan_inclusive_sum() {
   cub::DeviceScan::InclusiveSum(temp_storage, temp_storage_size, device_in,
                                 device_out, n);
   cudaDeviceSynchronize();
-  if (!verify_data(device_out, expect, 1)) {
+  if (!verify_data(device_out, expect, n)) {
     std::cout << "cub::DeviceScan::InclusiveSum verify failed\n";
     std::cout << "expect:\n";
     print_data<int>(expect, 1, true);
     std::cout << "current result:\n";
-    print_data<int>(device_out, 1);
+    print_data<int>(device_out, n);
     return false;
   }
   return true;
@@ -312,7 +312,7 @@ bool test_device_scan_exclusive_sum() {
   size_t temp_storage_size = 0;
   int expect[n] = {0, 0, 1, 3, 6, 10, 15, 21, 28, 36};
   cudaMalloc((void **)&device_in, sizeof(int) * n);
-  cudaMalloc((void **)&device_out, sizeof(int));
+  cudaMalloc((void **)&device_out, sizeof(int) * n);
   init_data(device_in, n);
   cub::DeviceScan::ExclusiveSum(temp_storage, temp_storage_size, device_in,
                                 device_out, n);
@@ -320,12 +320,12 @@ bool test_device_scan_exclusive_sum() {
   cub::DeviceScan::ExclusiveSum(temp_storage, temp_storage_size, device_in,
                                 device_out, n);
   cudaDeviceSynchronize();
-  if (!verify_data(device_out, expect, 1)) {
+  if (!verify_data(device_out, expect, n)) {
     std::cout << "cub::DeviceScan::InclusiveSum verify failed\n";
     std::cout << "expect:\n";
     print_data<int>(expect, 1, true);
     std::cout << "current result:\n";
-    print_data<int>(device_out, 1);
+    print_data<int>(device_out, n);
     return false;
   }
   return true;
