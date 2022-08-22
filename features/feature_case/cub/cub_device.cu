@@ -393,7 +393,7 @@ int main() {
   Result = test_device_scan_inclusive_sum() && Result;
   Result = test_device_select_flagged() && Result;
   if(Result) {
-    std::cout << "Pass" << std::endl;
+    std::cout << "cub_device Pass" << std::endl;
   }
   return 0;
 }
