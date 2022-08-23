@@ -9,8 +9,6 @@
 
 #include <iostream>
 #include <vector>
-#include <memory>
-#include <type_traits>
 
 #include <cuda_runtime.h>
 #include <cub/cub.cuh>
