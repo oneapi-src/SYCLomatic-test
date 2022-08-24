@@ -82,6 +82,7 @@
         <test testName="bt-suppress-warnings" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-report-only" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-help" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-autocomplete" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="bt-suppress-warnings-all" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-comments" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-stop-on-parse-err" configFile="config/TEMPLATE_behavior_tests.xml" />
