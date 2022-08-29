@@ -15,6 +15,14 @@
 
 #define DATA_NUM 100
 
+struct ScanOp {
+  template <typename T, typename = typename std::enable_if<
+                            std::is_arithmetic<T>::value>::type>
+  __device__ T operator()(const T &lhs, const T &rhs) const {
+    return lhs + rhs;
+  }
+};
+
 template<typename T = int>
 void init_data(T* data, int num) {
   T host_data[DATA_NUM];
@@ -321,7 +329,7 @@ bool test_device_scan_exclusive_sum() {
                                 device_out, n);
   cudaDeviceSynchronize();
   if (!verify_data(device_out, expect, n)) {
-    std::cout << "cub::DeviceScan::InclusiveSum verify failed\n";
+    std::cout << "cub::DeviceScan::ExclusiveSum verify failed\n";
     std::cout << "expect:\n";
     print_data<int>(expect, 1, true);
     std::cout << "current result:\n";
@@ -362,7 +370,7 @@ bool test_device_select_flagged() {
   cudaDeviceSynchronize();
 
   if (!verify_data(device_select_num, &expect_select_num, 1)) {
-    std::cout << "cub::DeviceScan::InclusiveSum select_num verify failed\n";
+    std::cout << "cub::DeviceSelect::Flagged select_num verify failed\n";
     std::cout << "expect:\n";
     print_data<int>(&expect_select_num, 1, true);
     std::cout << "current result:\n";
@@ -371,13 +379,170 @@ bool test_device_select_flagged() {
   }
 
   if (!verify_data(device_out, (int *)expect_out, expect_select_num)) {
-    std::cout << "cub::DeviceScan::InclusiveSum output data verify failed\n";
+    std::cout << "cub::DeviceSelect::Flagged output data verify failed\n";
     std::cout << "expect:\n";
     print_data<int>(expect_out, 1, true);
     std::cout << "current result:\n";
     print_data<int>(device_out, 1);
     return false;
   }
+  return true;
+}
+
+// cub::DeviceScan::InclusiveScan
+bool test_device_inclusive_scan() {
+  static const int n = 10;
+  int *device_in;
+  int *device_out;
+  void *temp_storage = NULL;
+  size_t temp_storage_size = 0;
+  int expect[n] = {0, 1, 3, 6, 10, 15, 21, 28, 36, 45};
+  cudaMalloc((void **)&device_in, sizeof(int) * n);
+  cudaMalloc((void **)&device_out, sizeof(int) * n);
+  init_data(device_in, n);
+  ScanOp scan_op;
+  cub::DeviceScan::InclusiveScan(temp_storage, temp_storage_size, device_in,
+                                device_out, scan_op, n);
+  cudaMalloc((void **)&temp_storage, temp_storage_size);
+  cub::DeviceScan::InclusiveScan(temp_storage, temp_storage_size, device_in,
+                                device_out, scan_op, n);
+  cudaDeviceSynchronize();
+  if (!verify_data(device_out, expect, n)) {
+    std::cout << "cub::DeviceScan::InclusiveScan verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(expect, 1, true);
+    std::cout << "current result:\n";
+    print_data<int>(device_out, n);
+    return false;
+  }
+  return true;
+}
+
+// cub::DeviceScan::ExclusiveScan
+bool test_device_exclusive_scan() {
+  static const int n = 10;
+  int *device_in;
+  int *device_out;
+  void *temp_storage = NULL;
+  size_t temp_storage_size = 0;
+  int expect[n] = {0, 0, 1, 3, 6, 10, 15, 21, 28, 36};
+  cudaMalloc((void **)&device_in, sizeof(int) * n);
+  cudaMalloc((void **)&device_out, sizeof(int) * n);
+  init_data(device_in, n);
+  ScanOp scan_op;
+  cub::DeviceScan::ExclusiveScan(temp_storage, temp_storage_size, device_in,
+                                device_out, scan_op, 0, n);
+  cudaMalloc((void **)&temp_storage, temp_storage_size);
+  cub::DeviceScan::ExclusiveScan(temp_storage, temp_storage_size, device_in,
+                                device_out, scan_op, 0, n);
+  cudaDeviceSynchronize();
+  if (!verify_data(device_out, expect, n)) {
+    std::cout << "cub::DeviceScan::ExclusiveScan verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(expect, n, true);
+    std::cout << "current result:\n";
+    print_data<int>(device_out, n);
+    return false;
+  }
+  return true;
+}
+
+// cub::DeviceSelect::Unique
+bool test_device_unique() {
+  static const int N = 8;
+  int data[N] = {0, 2, 2, 9, 5, 5, 5, 8};
+  int *d_in = nullptr;
+  int *d_out = nullptr;
+  int *d_temp = nullptr;
+  int *d_selected_num = nullptr;
+  size_t d_temp_size = 0;
+  cudaMalloc((void **)&d_in, sizeof(int) * N);
+  cudaMalloc((void **)&d_out, sizeof(int) * N);
+  cudaMalloc((void **)&d_selected_num, sizeof(int));
+  cudaMemcpy((void *)d_in, (void *)data, sizeof(data), cudaMemcpyHostToDevice);
+  cub::DeviceSelect::Unique(nullptr, d_temp_size, d_in, d_out, d_selected_num, N);
+  cudaMalloc((void **)&d_temp, d_temp_size);
+  cub::DeviceSelect::Unique((void *)d_temp, d_temp_size, d_in, d_out, d_selected_num, N);
+  cudaDeviceSynchronize();
+
+  int expect_select_num = 5;
+  int expect_out[] = {0, 2, 9, 5, 8};
+
+  if (!verify_data(d_selected_num, &expect_select_num, 1)) {
+    std::cout << "cub::DeviceSelect::Unique select_num verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(&expect_select_num, 1, true);
+    std::cout << "current result:\n";
+    print_data<int>(d_selected_num, 1);
+    return false;
+  }
+
+  if (!verify_data(d_out, (int *)expect_out, expect_select_num)) {
+    std::cout << "cub::DeviceSelect::Unique output data verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(expect_out, 1, true);
+    std::cout << "current result:\n";
+    print_data<int>(d_out, 1);
+    return false;
+  }
+  return true;
+
+}
+
+// cub::DeviceRunLengthEncode::Encode
+bool test_device_encode() {
+  static const int N = 8;
+  int data[N] = {0, 2, 2, 9, 5, 5, 5, 8};
+  int *d_in = nullptr;
+  int *d_temp = nullptr;
+  int *d_unique = nullptr;
+  int *d_counts = nullptr;
+  int *d_selected_num = nullptr;
+  int h_selected_num = 0;
+  size_t d_temp_size = 0;
+
+  cudaMalloc((void **)&d_in, sizeof(int) * N);
+  cudaMalloc((void **)&d_unique, sizeof(int) * N);
+  cudaMalloc((void **)&d_counts, sizeof(int) * N);
+  cudaMalloc((void **)&d_selected_num, sizeof(int));
+  cudaMemcpy((void *)d_in, (void *)data, sizeof(data), cudaMemcpyHostToDevice);
+  cub::DeviceRunLengthEncode::Encode(nullptr, d_temp_size, d_in, d_unique, d_counts, d_selected_num, N);
+  cudaMalloc((void **)&d_temp, d_temp_size);
+  cub::DeviceRunLengthEncode::Encode(d_temp, d_temp_size, d_in, d_unique, d_counts, d_selected_num, N);
+  cudaDeviceSynchronize();
+
+  int expect_select_num = 5;
+  int expect_unique[] = {0, 2, 9, 5, 8};
+  int expect_counts[] = {1, 2, 1, 3, 1};
+
+  
+  if (!verify_data(d_selected_num, &expect_select_num, 1)) {
+    std::cout << "cub::DeviceRunLengthEncode::Encode select_num verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(&expect_select_num, 1, true);
+    std::cout << "current result:\n";
+    print_data<int>(d_selected_num, 1);
+    return false;
+  }
+
+  if (!verify_data(d_unique, (int *)expect_unique, expect_select_num)) {
+    std::cout << "cub::DeviceRunLengthEncode::Encode output unique data verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(expect_unique, 1, true);
+    std::cout << "current result:\n";
+    print_data<int>(d_unique, 1);
+    return false;
+  }
+
+   if (!verify_data(d_counts, (int *)expect_counts, expect_select_num)) {
+    std::cout << "cub::DeviceRunLengthEncode::Encode output counts data verify failed\n";
+    std::cout << "expect:\n";
+    print_data<int>(expect_counts, 1, true);
+    std::cout << "current result:\n";
+    print_data<int>(d_counts, 1);
+    return false;
+  }
+
   return true;
 }
 
@@ -392,6 +557,10 @@ int main() {
   Result = test_device_scan_inclusive_sum() && Result;
   Result = test_device_scan_inclusive_sum() && Result;
   Result = test_device_select_flagged() && Result;
+  Result = test_device_exclusive_scan() && Result;
+  Result = test_device_inclusive_scan() && Result;
+  Result = test_device_unique() && Result;
+  Result = test_device_encode() && Result;
   if(Result) {
     std::cout << "cub_device Pass" << std::endl;
   }
