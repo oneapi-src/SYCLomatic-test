@@ -73,11 +73,11 @@ void test1() {
         host_out[i] = i;
     }
 
-    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
+    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
 
-    q_ct1.memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
 
     unsigned int local_size = 3;
     float lrn_alpha = 1.5f;
@@ -94,7 +94,7 @@ void test1() {
                                  out),
               0);
 
-    q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
         0, 1.50032, 3.00057, 4.50076, 6.0009,
@@ -110,8 +110,8 @@ void test1() {
     };
     check(expect, host_out, expect.size(), 1e-3);
 
-    sycl::free(data, q_ct1);
-    sycl::free(out, q_ct1);
+    sycl::free(data, *stream1);
+    sycl::free(out, *stream1);
 }
 
 template <dpct::library_data_t T, typename HT = typename dt_trait<T>::type>
@@ -148,15 +148,15 @@ void test2() {
         host_diffout[i] = 1.f;
     }
 
-    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    diffdata = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    diffout = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
+    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    diffdata = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    diffout = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
 
-    q_ct1.memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(diffdata, host_diffdata.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(diffdata, host_diffdata.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
 
     unsigned int local_size = 3;
     float lrn_alpha = 1.5f;
@@ -179,7 +179,7 @@ void test2() {
               0);
     dev_ct1.queues_wait_and_throw();
 
-    q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
     dev_ct1.queues_wait_and_throw();
 
     std::vector<float> expect = {
@@ -196,10 +196,10 @@ void test2() {
       };
     check(expect, host_diffdata, expect.size(), 1e-3);
 
-    sycl::free(data, q_ct1);
-    sycl::free(out, q_ct1);
-    sycl::free(diffdata, q_ct1);
-    sycl::free(diffout, q_ct1);
+    sycl::free(data, *stream1);
+    sycl::free(out, *stream1);
+    sycl::free(diffdata, *stream1);
+    sycl::free(diffout, *stream1);
 }
 
 int main() {

@@ -71,17 +71,17 @@ void test() {
         host_out[i] = 0;
     }
 
-    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
+    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
 
-    q_ct1.memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
 
     float alpha = 3.f, beta = 1.f;
 
     auto s = (handle.reorder(alpha, dataTensor, data, beta, outTensor, out), 0);
 
-    q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     std::vector<float> expect = {
       0, 75, 3, 78, 6,
       81, 9, 84, 12, 87,
@@ -96,8 +96,8 @@ void test() {
     };
     check(expect, host_out, expect.size(), 1e-3);
 
-    sycl::free(data, q_ct1);
-    sycl::free(out, q_ct1);
+    sycl::free(data, *stream1);
+    sycl::free(out, *stream1);
 }
 
 int main() {

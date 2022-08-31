@@ -50,9 +50,7 @@ void test1() {
 
     cudnnCreate(&handle);
 
-    cudaStream_t stream1;
-    cudaStreamCreate(&stream1);
-    cudnnSetStream(handle, stream1);
+
 
     cudnnCreateTensorDescriptor(&dataTensor);
     cudnnCreateTensorDescriptor(&outTensor);
@@ -112,9 +110,7 @@ void test2() {
 
     cudnnCreate(&handle);
 
-    cudaStream_t stream1;
-    cudaStreamCreate(&stream1);
-    cudnnSetStream(handle, stream1);
+
 
     cudnnCreateTensorDescriptor(&dataTensor);
     cudnnCreateTensorDescriptor(&outTensor);

@@ -74,11 +74,11 @@ void test1() {
         host_out[i] = i;
     }
 
-    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
+    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
 
-    q_ct1.memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
 
     float alpha = 2.f, beta = 1.5f;
 
@@ -87,7 +87,7 @@ void test1() {
                                      dataTensor, data, beta, outTensor, out),
               0);
 
-    q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
         0, 1.5, 3, 4.5, 6,
@@ -103,8 +103,8 @@ void test1() {
       };
     check(expect, host_out, expect.size(), 1e-3);
 
-    sycl::free(data, q_ct1);
-    sycl::free(out, q_ct1);
+    sycl::free(data, *stream1);
+    sycl::free(out, *stream1);
 }
 
 template <dpct::library_data_t T, typename HT = typename dt_trait<T>::type>
@@ -141,21 +141,21 @@ void test2() {
         host_diffout[i] = 1.f;
     }
 
-    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    diffdata = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    diffout = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
+    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    diffdata = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    diffout = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
 
-    q_ct1.memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(diffdata, host_diffdata.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(diffdata, host_diffdata.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
 
     float alpha = 1.5f, beta = 0.f;
     handle.softmax_forward(dpct::dnnl::softmax_algorithm::normal,
                            dpct::dnnl::softmax_mode::channel, alpha, dataTensor,
                            data, beta, outTensor, out);
-    q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 0.f;
 
     auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::normal,
@@ -164,7 +164,7 @@ void test2() {
                                       beta, diffdataTensor, diffdata),
               0);
 
-    q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
         -0.113787, -0.113787, -0.113787, -0.113787, -0.113787,
@@ -180,10 +180,10 @@ void test2() {
       };
     check(expect, host_diffdata, expect.size(), 1e-3);
 
-    sycl::free(data, q_ct1);
-    sycl::free(out, q_ct1);
-    sycl::free(diffdata, q_ct1);
-    sycl::free(diffout, q_ct1);
+    sycl::free(data, *stream1);
+    sycl::free(out, *stream1);
+    sycl::free(diffdata, *stream1);
+    sycl::free(diffout, *stream1);
 }
 
 template <dpct::library_data_t T, typename HT = typename dt_trait<T>::type>
@@ -220,21 +220,21 @@ void test3() {
         host_diffout[i] = 1.f;
     }
 
-    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    diffdata = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    diffout = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
+    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    diffdata = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    diffout = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
 
-    q_ct1.memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(diffdata, host_diffdata.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(diffdata, host_diffdata.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
 
     float alpha = 1.5f, beta = 0.f;
     handle.softmax_forward(dpct::dnnl::softmax_algorithm::normal,
                            dpct::dnnl::softmax_mode::instance, alpha,
                            dataTensor, data, beta, outTensor, out);
-    q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 0.f;
 
     auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::normal,
@@ -243,7 +243,7 @@ void test3() {
                                       beta, diffdataTensor, diffdata),
               0);
 
-    q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
         -0.00107016, -0.00118271, -0.0013071, -0.00144457, -0.0015965,
@@ -269,10 +269,10 @@ void test3() {
       };
     check(expect, host_diffdata, expect.size(), 1e-3);
 
-    sycl::free(data, q_ct1);
-    sycl::free(out, q_ct1);
-    sycl::free(diffdata, q_ct1);
-    sycl::free(diffout, q_ct1);
+    sycl::free(data, *stream1);
+    sycl::free(out, *stream1);
+    sycl::free(diffdata, *stream1);
+    sycl::free(diffout, *stream1);
 }
 
 template <dpct::library_data_t T, typename HT = typename dt_trait<T>::type>
@@ -309,21 +309,21 @@ void test4() {
         host_diffout[i] = 1.f;
     }
 
-    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    diffdata = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    diffout = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
+    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    diffdata = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    diffout = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
 
-    q_ct1.memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(diffdata, host_diffdata.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(diffdata, host_diffdata.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
 
     float alpha = 1.5f, beta = 0.f;
     handle.softmax_forward(dpct::dnnl::softmax_algorithm::log,
                            dpct::dnnl::softmax_mode::channel, alpha, dataTensor,
                            data, beta, outTensor, out);
-    q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 3.f;
 
     auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::log,
@@ -332,7 +332,7 @@ void test4() {
                                       beta, diffdataTensor, diffdata),
               0);
 
-    q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
         1.91643, 4.91643, 7.91643, 10.9164, 13.9164,
@@ -348,10 +348,10 @@ void test4() {
       };
     check(expect, host_diffdata, expect.size(), 1e-3);
 
-    sycl::free(data, q_ct1);
-    sycl::free(out, q_ct1);
-    sycl::free(diffdata, q_ct1);
-    sycl::free(diffout, q_ct1);
+    sycl::free(data, *stream1);
+    sycl::free(out, *stream1);
+    sycl::free(diffdata, *stream1);
+    sycl::free(diffout, *stream1);
 }
 
 template <dpct::library_data_t T, typename HT = typename dt_trait<T>::type>
@@ -388,21 +388,21 @@ void test5() {
         host_diffout[i] = 1.f;
     }
 
-    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    diffdata = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
-    diffout = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
+    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    out = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    diffdata = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
+    diffout = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
 
-    q_ct1.memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(diffdata, host_diffdata.data(), ele_num * sizeof(HT)).wait();
-    q_ct1.memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(data, host_data.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(out, host_out.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(diffdata, host_diffdata.data(), ele_num * sizeof(HT)).wait();
+    stream1->memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
 
     float alpha = 1.5f, beta = 0.f;
     handle.softmax_forward(dpct::dnnl::softmax_algorithm::normal,
                            dpct::dnnl::softmax_mode::channel, alpha, dataTensor,
                            data, beta, outTensor, out);
-    q_ct1.memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 1.5f;
 
     auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::normal,
@@ -411,7 +411,7 @@ void test5() {
                                       beta, diffdataTensor, diffdata),
               0);
 
-    q_ct1.memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
         -0.113787, 1.38621, 2.88621, 4.38621, 5.88621,
@@ -427,10 +427,10 @@ void test5() {
       };
     check(expect, host_diffdata, expect.size(), 1e-3);
 
-    sycl::free(data, q_ct1);
-    sycl::free(out, q_ct1);
-    sycl::free(diffdata, q_ct1);
-    sycl::free(diffout, q_ct1);
+    sycl::free(data, *stream1);
+    sycl::free(out, *stream1);
+    sycl::free(diffdata, *stream1);
+    sycl::free(diffout, *stream1);
 }
 
 int main() {
