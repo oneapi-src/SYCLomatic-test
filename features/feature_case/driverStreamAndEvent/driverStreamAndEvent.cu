@@ -23,7 +23,7 @@ int main(){
   CUstream s;
   cudaStreamCreate(&s);
   CUevent e;
-  CUdeviceptr  cuPtr;  
+  CUdeviceptr  cuPtr;
   void* data;
   unsigned int flag;
   cuStreamAddCallback(s, callback<char>, data, flag);
@@ -43,6 +43,9 @@ int main(){
   r = cuEventQuery(e);
 
   CUevent start, end;
+  cuEventCreate(&start, CU_EVENT_DEFAULT);
+  cuEventCreate(&end, CU_EVENT_DEFAULT);
+
   cuEventRecord(start, s);
   cuEventRecord(end, s);
   cuEventSynchronize(start);
