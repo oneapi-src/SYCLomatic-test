@@ -13,42 +13,31 @@
 #include <stdio.h>
 
 #define DATA_NUM (100)
-#define EPS (1e-6)
 
 struct UserDefMul {
-  __device__ double operator()(double d) const {
-    return d * 3.0;
+  __device__ int operator()(int d) const {
+    return d * 3;
   }
 };
 
-__global__ void compute(double *d_in, double *d_out) {
-  cub::TransformInputIterator<double, UserDefMul, double *> iter(d_in, UserDefMul());
+__global__ void compute(int *d_in, int *d_out) {
+  cub::TransformInputIterator<int, UserDefMul, int *> iter(d_in, UserDefMul());
   for (int i = 0; i < DATA_NUM; ++i)
     d_out[i] = iter[i];
 }
 
-void print_array(double *d) {
-  for (int i = 0; i < DATA_NUM; ++i)
-    printf("%.2lf ", d[i]);
-  printf("\n");
-}
-
-bool equal(double a, double b) {
-  return a - b > -EPS && a - b < EPS;
-}
-
 bool test_transform_iterator() {
-  double *d_in = nullptr;
-  double *d_out = nullptr;
-  double h_in[DATA_NUM], h_out[DATA_NUM];
-  cudaMalloc((void **)&d_in, sizeof(double) * DATA_NUM);
-  cudaMalloc((void **)&d_out, sizeof(double) * DATA_NUM);
+  int *d_in = nullptr;
+  int *d_out = nullptr;
+  int h_in[DATA_NUM], h_out[DATA_NUM];
+  cudaMalloc((void **)&d_in, sizeof(int) * DATA_NUM);
+  cudaMalloc((void **)&d_out, sizeof(int) * DATA_NUM);
   for (int i = 0; i < DATA_NUM; ++i) h_in[i] = i;
-  cudaMemcpy((void *)d_in, (void *)h_in, sizeof(double) * DATA_NUM, cudaMemcpyHostToDevice);
+  cudaMemcpy((void *)d_in, (void *)h_in, sizeof(int) * DATA_NUM, cudaMemcpyHostToDevice);
   compute<<<1, 1>>>(d_in, d_out);
-  cudaMemcpy((void *)h_out, (void *)d_out, sizeof(double) * DATA_NUM, cudaMemcpyDeviceToHost);
+  cudaMemcpy((void *)h_out, (void *)d_out, sizeof(int) * DATA_NUM, cudaMemcpyDeviceToHost);
   for (int i = 0; i < DATA_NUM; ++i)
-    if (!equal(h_in[i] * 3.0, h_out[i]))
+    if (h_in[i] * 3 == h_out[i])
       return false;
   return true;
 }
