@@ -48,9 +48,7 @@ void test1() {
 
     cudnnCreate(&handle);
 
-    cudaStream_t stream1;
-    cudaStreamCreate(&stream1);
-    cudnnSetStream(handle, stream1);
+
 
     cudnnPoolingDescriptor_t desc;
     cudnnCreatePoolingDescriptor(&desc);
@@ -115,9 +113,7 @@ void test2() {
 
     cudnnCreate(&handle);
 
-    cudaStream_t stream1;
-    cudaStreamCreate(&stream1);
-    cudnnSetStream(handle, stream1);
+
 
     cudnnPoolingDescriptor_t desc;
     cudnnCreatePoolingDescriptor(&desc);

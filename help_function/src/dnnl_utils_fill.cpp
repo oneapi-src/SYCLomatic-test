@@ -51,11 +51,11 @@ void test() {
 
     dataTensor.set(dpct::dnnl::memory_format_tag::nchw, T, n, c, h, w);
 
-    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), q_ct1);
+    data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
 
     handle.fill(dataTensor, data, &value);
 
-    q_ct1.memcpy(host_data.data(), data, ele_num * sizeof(HT)).wait();
+    stream1->memcpy(host_data.data(), data, ele_num * sizeof(HT)).wait();
     float precision = 1e-3;
     for(int i = 0; i < ele_num; i++) {
         if(std::abs(host_data[i] -value) > precision) {
