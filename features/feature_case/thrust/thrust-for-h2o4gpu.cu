@@ -15,6 +15,8 @@
 #include <thrust/inner_product.h>
 #include <thrust/extrema.h>
 #include <thrust/host_vector.h>
+#include <thrust/tuple.h>
+#include <thrust/device_ptr.h>
 
 
 template <typename T> struct is_even {
@@ -157,5 +159,8 @@ void foo() {
   thrust::device_ptr<int> end=begin + 10;
   bool h_result = thrust::transform_reduce(begin, end, is_foo_test<int>(), 0, thrust::plus<bool>());
   bool h_result_1 = thrust::transform_reduce(thrust::seq, begin, end, is_foo_test<int>(), 0, thrust::plus<bool>());
+  auto ptrs = thrust::make_tuple(begin, end);
+  int num = thrust::get<1>(ptrs) - thrust::get<0>(ptrs);
+  assert(num == 10);
  }
 }
