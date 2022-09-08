@@ -91,6 +91,16 @@
     <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
+    <test testName="cub_device_scan_inclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_scan_exclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_scan_inclusive_scan" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_scan_exclusive_scan" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_select_unique" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_select_flagged" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_run_length_encode_encode" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_counting_iterator" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
     <test testName="cudnn-activation" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-fill" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-lrn" configFile="config/TEMPLATE_cuDNN.xml" />
