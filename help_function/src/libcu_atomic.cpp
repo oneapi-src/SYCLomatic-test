@@ -11,9 +11,7 @@
 #include "dpct/atomic.hpp"
 #include <CL/sycl.hpp>
 #include <assert.h>
-#include <dpct/dpct.hpp>
 #include <stdio.h>
-
 #define loop_num 50
 
 void atomicRefExtKernel(int* atom_arr){
@@ -79,24 +77,23 @@ int main(int argc, char **argv) {
   unsigned int numData = 6;
 
   int *atom_arr_device;
-
-  atom_arr_device = sycl::malloc_shared<int>(numData, dpct::get_default_queue());
+  sycl::queue q;
+  atom_arr_device = sycl::malloc_shared<int>(numData, q);
 
   for (unsigned int i = 0; i < numData; i++)
     atom_arr_device[i] = 0;
 
 
   std::cout << "Selected device: "
-            << dpct::get_default_queue()
-                   .get_device()
-                   .get_info<sycl::info::device::name>()
+            << q.get_device()
+                .get_info<sycl::info::device::name>().c_str()
             << "\n";
 
   std::chrono::time_point<std::chrono::steady_clock> start_ct1;
   std::chrono::time_point<std::chrono::steady_clock> stop_ct1;
 
   start_ct1 = std::chrono::steady_clock::now();
-  dpct::get_default_queue().submit([&](sycl::handler &cgh) {
+  q.submit([&](sycl::handler &cgh) {
     cgh.parallel_for(
         sycl::nd_range<3>(sycl::range<3>(1, 1, numBlocks) *
                               sycl::range<3>(1, 1, numThreads),
@@ -104,7 +101,7 @@ int main(int argc, char **argv) {
         [=](sycl::nd_item<3> item_ct1) { atomicRefExtKernel(atom_arr_device); });
   });
 
-  dpct::get_current_device().queues_wait_and_throw();
+  q.wait_and_throw();
 
   stop_ct1 = std::chrono::steady_clock::now();
 
@@ -119,15 +116,15 @@ int main(int argc, char **argv) {
 
   int *atom_arr_cpu;
 
-  atom_arr_cpu = sycl::malloc_shared<int>(numData, dpct::get_default_queue());
+  atom_arr_cpu = sycl::malloc_shared<int>(numData, q);
 
   for (unsigned int i = 0; i < numData; i++)
     atom_arr_cpu[i] = 0;
 
   atomicRefExtKernel(atom_arr_cpu);
   int testResult = verify(atom_arr_device, atom_arr_cpu,numData);
-  { sycl::free(atom_arr_device, dpct::get_default_queue()); }
-  { sycl::free(atom_arr_cpu, dpct::get_default_queue()); }
+  { sycl::free(atom_arr_device, q); }
+  { sycl::free(atom_arr_cpu, q); }
   printf("Atomics test completed, returned %s \n",
          testResult ? "OK" : "ERROR!");
   exit(testResult ? 0 : -1);
