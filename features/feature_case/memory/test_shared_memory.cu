@@ -9,9 +9,9 @@
 #include <cuda.h>
 #include <stdio.h>
 
-__device__ double mem_input[10];
-__device__ double mem_output[10];
-__global__ void kernel(double *value, int *out) {
+__device__ int mem_input[10];
+__device__ int mem_output[10];
+__global__ void kernel(int *value, int *out) {
     __shared__ int a;
     if (threadIdx.x == 0)
         a = 0;
@@ -23,10 +23,10 @@ __global__ void kernel(double *value, int *out) {
     mem_output[threadIdx.x] = mem_input[threadIdx.x];
 }
 int main() {
-    double *value;
+    int *value;
     int *out;
     // malloc
-    cudaMalloc((void**)&value, 10 * sizeof(double));
+    cudaMalloc((void**)&value, 10 * sizeof(int));
     cudaMalloc(&out, sizeof(int));
     kernel<<<1, 10>>>(value, out);
     int h;
