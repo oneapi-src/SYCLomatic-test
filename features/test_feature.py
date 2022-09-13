@@ -27,7 +27,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
              'user_defined_rules', 'math-exec', 'math-saturatef', 'math-habs', 'cudnn-activation',
              'cudnn-fill', 'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax',
              'cudnn-sum', 'math-funnelshift', 'ccl', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
-             'math-bfloat16']
+             'math-bfloat16','libcu_atomic']
 
 def setup_test():
     return True
