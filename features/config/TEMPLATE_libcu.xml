@@ -8,5 +8,5 @@
     <rules>
         <platformRule OSFamily="Linux" kit="CUDA11.3" kitRange="OLDER" runOnThisPlatform="false"/>
         <platformRule OSFamily="Windows" kit="CUDA11.3" kitRange="OLDER" runOnThisPlatform="false"/>
-    <rules />
+    </rules>
 </test>
