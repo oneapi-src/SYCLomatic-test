@@ -27,7 +27,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
              'user_defined_rules', 'math-exec', 'math-saturatef', 'math-habs', 'cudnn-activation',
              'cudnn-fill', 'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax',
              'cudnn-sum', 'math-funnelshift', 'ccl', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
-             'math-bfloat16','libcu_atomic']
+             'math-bfloat16','libcu_atomic','math_intel_specific']
 
 def setup_test():
     return True
@@ -57,6 +57,8 @@ def migrate_test():
         src.append(' --rule-file=./user_defined_rules/rules.yaml')
     if test_config.current_test in logical_group_exper:
         src.append(' --use-experimental-features=logical-group ')
+    if test_config.current_test == 'math_intel_specific':
+        src.append(' --rule-file=$(dirname $(which dpct))/../extensions/opt_rules/intel_specific_math.yaml ')
 
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
