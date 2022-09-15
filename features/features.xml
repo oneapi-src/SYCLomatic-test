@@ -84,6 +84,8 @@
     <!-- <test testName="module-kernel" configFile="config/TEMPLATE_module.xml" /> -->
     <test testName="macro" configFile="config/TEMPLATE_macro.xml" />
     <test testName="driverMem" configFile="config/TEMPLATE_driverMem.xml" />
+    <test testName="driverCtx" configFile="config/TEMPLATE_driverCtx.xml" />
+    <test testName="driverTex" configFile="config/TEMPLATE_driverTex.xml" />
     <test testName="driverDevice" configFile="config/TEMPLATE_driverDevice.xml" />
     <test testName="driverStreamAndEvent" configFile="config/TEMPLATE_driverStreamAndEvent.xml" />
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
