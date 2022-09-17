@@ -189,3 +189,18 @@ def is_sub_string(substr, fullstr):
     if substr in fullstr:
         return True
     return False
+
+# Get dpct path, None if dpct is not in $PATH
+def get_ct_path():
+    return shutil.which('dpct')
+
+# Get the CT's bundled clang version
+# E.g., <dpct_root>/bin/dpct/../../lib/clang/15.0.0
+def get_ct_clang_version():
+    ct_path = get_ct_path()
+    if ct_path:
+        ct_clang_path = os.path.join(os.path.dirname(ct_path), "..", "lib", "clang")
+        sub_dirs = [dir.name for dir in os.scandir(ct_clang_path) if dir.is_dir() and re.fullmatch("(\d+)\.(\d+)\.(\d+).*", dir.name)]
+        if len(sub_dirs) > 0:
+            return sub_dirs[0]
+    return None
