@@ -1,4 +1,4 @@
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 void getFlags(unsigned int *flags) {
   *flags = 0; // should give a warning
