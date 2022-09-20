@@ -5,4 +5,7 @@
     <files>
         <file path="feature_case/math/${testName}.cu" />
     </files>
+    <rules>
+        <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
+    </rules>
 </test>
