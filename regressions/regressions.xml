@@ -43,5 +43,6 @@
         <test testName="test-1996" configFile="config/TEMPLATE_regressions.xml" />
         <test testName="test-2041" configFile="config/TEMPLATE_regressions_thrust.xml" />
         <test testName="cuda_device_prop" configFile="config/TEMPLATE_regressions.xml" />
+        <test testName="extern_shared_mem" configFile="config/TEMPLATE_regressions.xml" />
     </tests>
 </suite>
