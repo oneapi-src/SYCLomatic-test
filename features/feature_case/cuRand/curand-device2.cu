@@ -1,9 +1,8 @@
-// ====------ curand-device2.cu---------- *- CUDA -* ----===////
+// ====------ curand-device2.cu ---------------------------- *- CUDA -* ----===//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
-//
 //
 // ===----------------------------------------------------------------------===//
 
@@ -18,6 +17,7 @@ __global__ void kernel1() {
   float4 f4;
   double d;
   double2 d2;
+  double4 d4;
 
   curandStatePhilox4_32_10_t rng1;
   curand_init(1, 2, 3, &rng1);
@@ -90,6 +90,18 @@ __global__ void kernel1() {
   curandStatePhilox4_32_10_t rng18;
   curand_init(1, 2, 3, &rng18);
   u4 = curand_poisson4(&rng18, 3);
+
+  curandStatePhilox4_32_10_t rng19;
+  curand_init(1, 2, 3, &rng19);
+  d4 = curand_uniform4_double(&rng19);
+
+  curandStatePhilox4_32_10_t rng20;
+  curand_init(1, 2, 3, &rng20);
+  d4 = curand_normal4_double(&rng20);
+
+  curandStatePhilox4_32_10_t rng21;
+  curand_init(1, 2, 3, &rng21);
+  d4 = curand_log_normal4_double(&rng21, 3, 7);
 }
 
 __global__ void kernel2() {
@@ -142,3 +154,11 @@ int main() {
   kernel3<<<1,1>>>();
   return 0;
 }
+
+__global__ void kernel4() {
+  curandStateMRG32k3a_t rng;
+  curand_init(1, 2 + 3, 4, &rng);
+  skipahead_sequence(2 + 3, &rng);
+  skipahead_subsequence(2 + 3, &rng);
+}
+
