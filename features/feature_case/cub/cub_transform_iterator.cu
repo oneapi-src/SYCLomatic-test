@@ -43,7 +43,9 @@ bool test_transform_iterator() {
 }
 
 int main() {
-  if (test_transform_iterator())
+  if (test_transform_iterator()) {
     std::cout << "cub::TransformInputIterator Pass\n";
-  return 0;
+    return 0;
+  }
+  return 1;
 }

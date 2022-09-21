@@ -92,7 +92,9 @@ bool test_device_inclusive_scan() {
 }
 
 int main() {
-  if (test_device_inclusive_scan())
+  if (test_device_inclusive_scan()) {
     std::cout << "cub::DeviceScan::InclusiveScan Pass\n";
-  return 0;
+    return 0;
+  }
+  return 1;
 }

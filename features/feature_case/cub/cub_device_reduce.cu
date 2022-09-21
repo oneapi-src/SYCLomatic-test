@@ -80,7 +80,9 @@ bool test_device_reduce(void) {
 }
 
 int main() {
-  if (test_device_reduce())
-     std::cout << "cub::DeviceReduce::Reduce Pass\n";
-  return 0;
+  if (test_device_reduce()) {
+    std::cout << "cub::DeviceReduce::Reduce Pass\n";
+    return 0;
+  }
+  return 1;
 }

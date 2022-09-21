@@ -83,7 +83,9 @@ bool test_device_scan_exclusive_sum() {
 }
 
 int main() {
-  if (test_device_scan_exclusive_sum())
+  if (test_device_scan_exclusive_sum()) {
     std::cout << "cub::DeviceScan::ExclusiveSum Pass\n";
-  return 0;
+    return 0;
+  }
+  return 1;
 }

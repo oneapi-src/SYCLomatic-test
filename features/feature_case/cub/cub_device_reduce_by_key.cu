@@ -110,7 +110,9 @@ bool test_device_reduce_by_key(void) {
 }
 
 int main() {
-  if (test_device_reduce_by_key())
-     std::cout << "cub::DeviceReduce::ReduceByKey Pass\n";
-  return 0;
+  if (test_device_reduce_by_key()) {
+    std::cout << "cub::DeviceReduce::ReduceByKey Pass\n";
+    return 0;
+  }
+  return 1;
 }
