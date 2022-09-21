@@ -81,7 +81,7 @@ void test1() {
 
     float alpha = 2.f, beta = 1.5f;
     auto s = cudnnActivationForward(handle, desc, &alpha, dataTensor, data, &beta, outTensor, out);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {
@@ -155,7 +155,7 @@ void test2() {
     alpha = 2.f, beta = 0.f;
 
     auto s = cudnnActivationBackward(handle, desc, &alpha, outTensor, out, diffoutTensor, diffout, dataTensor, data, &beta, diffdataTensor, diffdata);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {
@@ -170,7 +170,7 @@ void test2() {
         -1.39354, -1.40338, -1.41234, -1.42049, -1.42789,
         -1.43462, -1.44073, -1.44629, -1.45132, -1.4559             
     };
-
+    check(expect, host_diffdata, expect.size(), 1e-3);
     cudnnDestroy(handle);
     cudaFree(data);
     cudaFree(out);

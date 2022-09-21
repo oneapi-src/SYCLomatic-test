@@ -51,7 +51,7 @@ void test() {
     cudaMalloc(&data, ele_num * sizeof(HT));
 
     cudnnSetTensor(handle, dataTensor, data, &value);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_data.data(), data, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
     float precision = 1e-3;
     for(int i = 0; i < ele_num; i++) {

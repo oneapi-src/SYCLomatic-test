@@ -6,9 +6,9 @@
 //
 //
 // ===----------------------------------------------------------------------===//
+#include <dpct/dnnl_utils.hpp>
 #include <CL/sycl.hpp>
 #include <dpct/dpct.hpp>
-#include <dpct/dnnl_utils.hpp>
 
 #include <iostream>
 #include <vector>
@@ -95,7 +95,7 @@ void test1() {
     auto s = (handle.pooling_forward(desc, alpha, dataTensor, data, beta,
                                      outTensor, out),
               0);
-
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_out.data(), out, ele_num2 * sizeof(HT)).wait();
 
     std::vector<float> expect = {
@@ -175,6 +175,7 @@ void test2() {
 
     float alpha = 1.5f, beta = 1.f;
     handle.pooling_forward(desc, alpha, dataTensor, data, beta, outTensor, out, &pooling_workspace);
+    dev_ct1.queues_wait_and_throw();    
     stream1->memcpy(host_out.data(), out, ele_num2 * sizeof(HT)).wait();
     alpha = 1.5f, beta = 1.f;
 
@@ -182,7 +183,7 @@ void test2() {
                                       diffoutTensor, diffout, dataTensor, data,
                                       beta, diffdataTensor, diffdata, &pooling_workspace),
               0);
-
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {

@@ -84,7 +84,7 @@ void test1() {
 
     float alpha = 2.f, beta = 1.5f;
     auto s = cudnnLRNCrossChannelForward(handle, desc, CUDNN_LRN_CROSS_CHANNEL_DIM1, &alpha, dataTensor, data, &beta, outTensor, out);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {

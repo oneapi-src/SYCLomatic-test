@@ -70,7 +70,7 @@ void test() {
 
     float alpha = 3.f;
     auto s = cudnnScaleTensor(handle, dataTensor, data, &alpha);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_data.data(), data, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {

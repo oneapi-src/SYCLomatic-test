@@ -100,6 +100,19 @@
     <test testName="cudnn-scale" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-softmax" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-sum" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-reduction" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-binary" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-bnp1" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-bnp2" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-bnp3" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-normp1" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-normp2" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-convp1" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-convp2" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-convp3" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-convp4" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-convp5" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="Atomic_api_test1" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
     <test testName="Atomic_api_test2" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
     <test testName="Atomic_api_test3" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />

@@ -86,7 +86,7 @@ void test1() {
 
     float alpha = 1.f, beta = 0.f;
     auto s = cudnnPoolingForward(handle, desc, &alpha, dataTensor, data, &beta, outTensor, out);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_out.data(), out, ele_num2 * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {
@@ -99,7 +99,7 @@ void test1() {
         45, 47, 49, 49,
         45, 47, 49, 49
       };
-      check(expect, host_out, expect.size(), 1e-3);
+    check(expect, host_out, expect.size(), 1e-3);
     cudnnDestroy(handle);
     cudaFree(data);
     cudaFree(out);
@@ -163,10 +163,11 @@ void test2() {
 
     float alpha = 1.5f, beta = 1.f;
     cudnnPoolingForward(handle, desc, &alpha, dataTensor, data, &beta, outTensor, out);
+    cudaDeviceSynchronize();
     cudaMemcpy(host_out.data(), out, ele_num2 * sizeof(HT), cudaMemcpyDeviceToHost);
     alpha = 1.5f, beta = 1.f;
     auto s = cudnnPoolingBackward(handle, desc, &alpha, outTensor, out, diffoutTensor, diffout, dataTensor, data, &beta, diffdataTensor, diffdata);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {
@@ -181,7 +182,7 @@ void test2() {
         40, 41, 42, 43, 44,
         48, 46, 50, 48, 55
       };
-      check(expect, host_diffdata, expect.size(), 1e-3);
+    check(expect, host_diffdata, expect.size(), 1e-3);
     cudnnDestroy(handle);
     cudaFree(data);
     cudaFree(out);
