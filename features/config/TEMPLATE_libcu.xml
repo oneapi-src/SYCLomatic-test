@@ -5,5 +5,8 @@
     <files>
         <file path="feature_case/libcu/${testName}.cu" />
     </files>
-    <rules />
+    <rules>
+        <platformRule OSFamily="Linux" kit="CUDA11.3" kitRange="OLDER" runOnThisPlatform="false"/>
+        <platformRule OSFamily="Windows" kit="CUDA11.3" kitRange="OLDER" runOnThisPlatform="false"/>
+    </rules>
 </test>
