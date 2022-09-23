@@ -33,7 +33,6 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
 def setup_test():
     return True
 
-
 def migrate_test():
     src = []
     extra_args = []
