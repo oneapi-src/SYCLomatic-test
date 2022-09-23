@@ -113,7 +113,9 @@ bool test_device_encode() {
 }
 
 int main() {
-  if (test_device_encode())
+  if (test_device_encode()) {
     std::cout << "cub::DeviceRunLengthEncode::Encode Pass\n";
-  return 0;
+    return 0;
+  }
+  return 1;
 }

@@ -105,7 +105,9 @@ bool test_device_select_flagged() {
 }
 
 int main() {
-  if (test_device_select_flagged())
+  if (test_device_select_flagged()) {
     std::cout << "cub::DeviceSelect::Flagged Pass\n";
-  return 0;
+    return 0;
+  }
+  return 1;
 }

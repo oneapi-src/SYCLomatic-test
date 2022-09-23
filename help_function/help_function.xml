@@ -142,6 +142,6 @@
     <test testName="util_logical_group" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="fft_utils_engine_buffer" configFile="config/TEMPLATE_help_function_fft_buffer.xml"  splitGroup="double" />
     <test testName="fft_utils_engine_usm" configFile="config/TEMPLATE_help_function_fft_usm.xml"  splitGroup="double" />
-    <test testName="libcu_atomic" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="libcu_atomic" configFile="config/TEMPLATE_help_function_skip_double.xml" />
   </tests>
 </suite>
