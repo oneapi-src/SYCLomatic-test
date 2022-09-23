@@ -148,6 +148,7 @@
         <test testName="bt-analysis-scope-path3" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-analysis-scope-path4" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-analysis-scope-path1" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-depreate-custom-helper" configFile="config/TEMPLATE_behavior_tests.xml" />
     </tests>
 
 </suite>
