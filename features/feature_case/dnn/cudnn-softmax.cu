@@ -75,7 +75,7 @@ void test1() {
 
     float alpha = 2.f, beta = 1.5f;
     auto s = cudnnSoftmaxForward(handle, CUDNN_SOFTMAX_ACCURATE, CUDNN_SOFTMAX_MODE_CHANNEL, &alpha, dataTensor, data, &beta, outTensor, out);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {
@@ -141,10 +141,11 @@ void test2() {
 
     float alpha = 1.5f, beta = 0.f;
     cudnnSoftmaxForward(handle, CUDNN_SOFTMAX_ACCURATE, CUDNN_SOFTMAX_MODE_CHANNEL, &alpha, dataTensor, data, &beta, outTensor, out);
+    cudaDeviceSynchronize();
     cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
     alpha = 2.f, beta = 0.f;
     auto s = cudnnSoftmaxBackward(handle, CUDNN_SOFTMAX_ACCURATE, CUDNN_SOFTMAX_MODE_CHANNEL, &alpha, outTensor, out, diffoutTensor, diffout, &beta, diffdataTensor, diffdata);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {
@@ -212,10 +213,11 @@ void test3() {
 
     float alpha = 1.5f, beta = 0.f;
     cudnnSoftmaxForward(handle, CUDNN_SOFTMAX_ACCURATE, CUDNN_SOFTMAX_MODE_INSTANCE, &alpha, dataTensor, data, &beta, outTensor, out);
+    cudaDeviceSynchronize();
     cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
     alpha = 2.f, beta = 0.f;
     auto s = cudnnSoftmaxBackward(handle, CUDNN_SOFTMAX_ACCURATE, CUDNN_SOFTMAX_MODE_INSTANCE, &alpha, outTensor, out, diffoutTensor, diffout, &beta, diffdataTensor, diffdata);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {
@@ -293,10 +295,11 @@ void test4() {
 
     float alpha = 1.5f, beta = 0.f;
     cudnnSoftmaxForward(handle, CUDNN_SOFTMAX_LOG, CUDNN_SOFTMAX_MODE_CHANNEL, &alpha, dataTensor, data, &beta, outTensor, out);
+    cudaDeviceSynchronize();
     cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
     alpha = 2.f, beta = 3.f;
     auto s = cudnnSoftmaxBackward(handle, CUDNN_SOFTMAX_LOG, CUDNN_SOFTMAX_MODE_CHANNEL, &alpha, outTensor, out, diffoutTensor, diffout, &beta, diffdataTensor, diffdata);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {
@@ -364,10 +367,11 @@ void test5() {
 
     float alpha = 1.5f, beta = 0.f;
     cudnnSoftmaxForward(handle, CUDNN_SOFTMAX_FAST, CUDNN_SOFTMAX_MODE_CHANNEL, &alpha, dataTensor, data, &beta, outTensor, out);
+    cudaDeviceSynchronize();
     cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
     alpha = 2.f, beta = 1.5f;
     auto s = cudnnSoftmaxBackward(handle, CUDNN_SOFTMAX_FAST, CUDNN_SOFTMAX_MODE_CHANNEL, &alpha, outTensor, out, diffoutTensor, diffout, &beta, diffdataTensor, diffdata);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {

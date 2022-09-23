@@ -76,7 +76,7 @@ void test() {
 
     float alpha = 3.f, beta = 1.f;
     auto s = cudnnAddTensor(handle, &alpha, dataTensor, data, &beta, outTensor, out);
-
+    cudaDeviceSynchronize();
     cudaMemcpy(host_out.data(), out, ele_num * sizeof(HT), cudaMemcpyDeviceToHost);
 
     std::vector<float> expect = {

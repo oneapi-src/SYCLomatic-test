@@ -6,9 +6,9 @@
 //
 //
 // ===----------------------------------------------------------------------===//
+#include <dpct/dnnl_utils.hpp>
 #include <CL/sycl.hpp>
 #include <dpct/dpct.hpp>
-#include <dpct/dnnl_utils.hpp>
 
 #include <iostream>
 #include <vector>
@@ -75,7 +75,7 @@ void test() {
     float alpha = 3.f;
 
     auto s = (handle.scale(alpha, dataTensor, data), 0);
-
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_data.data(), data, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {

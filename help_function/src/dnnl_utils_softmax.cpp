@@ -6,9 +6,9 @@
 //
 //
 // ===----------------------------------------------------------------------===//
+#include <dpct/dnnl_utils.hpp>
 #include <CL/sycl.hpp>
 #include <dpct/dpct.hpp>
-#include <dpct/dnnl_utils.hpp>
 
 #include <iostream>
 #include <vector>
@@ -86,7 +86,7 @@ void test1() {
                                      dpct::dnnl::softmax_mode::channel, alpha,
                                      dataTensor, data, beta, outTensor, out),
               0);
-
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
@@ -155,6 +155,7 @@ void test2() {
     handle.softmax_forward(dpct::dnnl::softmax_algorithm::normal,
                            dpct::dnnl::softmax_mode::channel, alpha, dataTensor,
                            data, beta, outTensor, out);
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 0.f;
 
@@ -163,7 +164,7 @@ void test2() {
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
               0);
-
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
@@ -234,6 +235,7 @@ void test3() {
     handle.softmax_forward(dpct::dnnl::softmax_algorithm::normal,
                            dpct::dnnl::softmax_mode::instance, alpha,
                            dataTensor, data, beta, outTensor, out);
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 0.f;
 
@@ -242,7 +244,7 @@ void test3() {
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
               0);
-
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
@@ -323,6 +325,7 @@ void test4() {
     handle.softmax_forward(dpct::dnnl::softmax_algorithm::log,
                            dpct::dnnl::softmax_mode::channel, alpha, dataTensor,
                            data, beta, outTensor, out);
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 3.f;
 
@@ -331,7 +334,7 @@ void test4() {
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
               0);
-
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
@@ -402,6 +405,7 @@ void test5() {
     handle.softmax_forward(dpct::dnnl::softmax_algorithm::normal,
                            dpct::dnnl::softmax_mode::channel, alpha, dataTensor,
                            data, beta, outTensor, out);
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 1.5f;
 
@@ -410,7 +414,7 @@ void test5() {
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
               0);
-
+    dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_diffdata.data(), diffdata, ele_num * sizeof(HT)).wait();
 
     std::vector<float> expect = {
