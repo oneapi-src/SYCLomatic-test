@@ -7,7 +7,6 @@
 //
 // ===---------------------------------------------------------===//
 
-
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 #include <thrust/unique.h>
@@ -152,9 +151,8 @@ void test_4() {
                        thrust::host_vector<int>::iterator>
       iter_pair;
 
-  iter_pair new_last =
-      thrust::unique_by_key(h_keys.begin(), h_keys.end(),
-                            h_values.begin(), binary_pred);
+  iter_pair new_last = thrust::unique_by_key(h_keys.begin(), h_keys.end(),
+                                             h_values.begin(), binary_pred);
 
   int keys_ref[10] = {1, 3, 2, 1};
   int values_ref[10] = {9, 8, 5, 3};
@@ -318,9 +316,8 @@ void test_8() {
                        thrust::device_vector<int>::iterator>
       iter_pair;
 
-  iter_pair new_last =
-      thrust::unique_by_key(d_keys.begin(), d_keys.end(),
-                            d_values.begin(), binary_pred);
+  iter_pair new_last = thrust::unique_by_key(d_keys.begin(), d_keys.end(),
+                                             d_values.begin(), binary_pred);
 
   int keys_ref[10] = {1, 3, 2, 1};
   int values_ref[10] = {9, 8, 5, 3};
