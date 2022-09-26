@@ -138,8 +138,21 @@
     <test testName="dnnl_utils_scale" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_softmax" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_sum" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_binary" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_reduction" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_convolution_1" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_convolution_2" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_convolution_3" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_convolution_4" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_convolution_5" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_batch_normalization_1" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_batch_normalization_2" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_batch_normalization_3" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_normalization_1" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_normalization_2" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_normalization_3" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
     <test testName="util_logical_group" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="libcu_atomic" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="libcu_atomic" configFile="config/TEMPLATE_help_function_skip_double.xml" />
   </tests>
 </suite>

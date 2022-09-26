@@ -6,9 +6,9 @@
 //
 //
 // ===----------------------------------------------------------------------===//
+#include <dpct/dnnl_utils.hpp>
 #include <CL/sycl.hpp>
 #include <dpct/dpct.hpp>
-#include <dpct/dnnl_utils.hpp>
 
 #include <iostream>
 #include <vector>

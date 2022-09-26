@@ -83,7 +83,9 @@ bool test_device_reduce_sum() {
 }
 
 int main() {
-  if (test_device_reduce_sum())
+  if (test_device_reduce_sum()) {
     std::cout << "cub::DeviceReduce::Sum Pass\n";
-  return 0;
+    return 0;
+  }
+  return 1;
 }

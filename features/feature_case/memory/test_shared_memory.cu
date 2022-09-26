@@ -7,16 +7,32 @@
 //
 // ===----------------------------------------------------------------------===//
 #include <cuda.h>
+#include <stdio.h>
 
-__device__ double mem_input[10];
-__device__ double mem_output[10];
-__global__ void kernel(double *value) {
+__device__ int mem_input[10];
+__device__ int mem_output[10];
+__global__ void kernel(int *value, int *out) {
+    __shared__ int a;
+    if (threadIdx.x == 0)
+        a = 0;
+    __syncthreads();
+    atomicAdd(&a, 1);    
+    __syncthreads();
+    if (threadIdx.x == 0)
+        *out = a;
     mem_output[threadIdx.x] = mem_input[threadIdx.x];
 }
 int main() {
-    double *value;
+    int *value;
+    int *out;
     // malloc
-    cudaMalloc((void**)&value, 10 * sizeof(double));
-    kernel<<<1, 10>>>(value);
-
+    cudaMalloc((void**)&value, 10 * sizeof(int));
+    cudaMalloc(&out, sizeof(int));
+    kernel<<<1, 10>>>(value, out);
+    int h;
+    cudaMemcpy(&h, out, sizeof(int), cudaMemcpyDeviceToHost);
+    printf("result: %d\n", h);
+    if (h == 10)
+      return 0;
+    return -1;
 }

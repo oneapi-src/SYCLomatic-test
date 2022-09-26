@@ -824,8 +824,10 @@ int main() {
   }
 
 
-  if(Result)
+  if(Result) {
     std::cout << "passed" << std::endl;
-  return 0;
+    return 0;
+  }
+  return 1;
 }
 

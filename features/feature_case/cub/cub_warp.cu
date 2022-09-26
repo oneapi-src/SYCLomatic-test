@@ -498,8 +498,10 @@ int main() {
     print_data(dev_data, DATA_NUM);
   }
 
-  if(Result)
+  if(Result) {
     std::cout << "passed" << std::endl;
-  return 0;
+    return 0;
+  }
+  return 1;
 }
 
