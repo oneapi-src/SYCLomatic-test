@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test driverID="test_help" name="TEMPLATE">
+    <description>test cufft cases</description>
+    <files>
+        <file path="src/fft_utils/usm" />
+    </files>
+    <rules>
+      <optlevelRule excludeOptlevelNameString="acc" />
+      <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
+    </rules>
+</test>

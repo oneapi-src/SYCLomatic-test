@@ -30,20 +30,22 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
              'cudnn-sum', 'math-funnelshift', 'ccl', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
              'math-bfloat16', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
              'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5',
-             'thrust-unique_by_key']
+             'thrust-unique_by_key', 'cufft_test']
 
 def setup_test():
     return True
-
 
 def migrate_test():
     src = []
     extra_args = []
     in_root = os.path.join(os.getcwd(), test_config.current_test)
     test_config.out_root = os.path.join(in_root, 'out_root')
+
+    if test_config.current_test == 'cufft_test':
+        return do_migrate([os.path.join(in_root, 'cufft_test.cu')], in_root, test_config.out_root, extra_args)
+
     for dirpath, dirnames, filenames in os.walk(in_root):
         for filename in [f for f in filenames if re.match('.*(cu|cpp|c)$', f)]:
-
             src.append(os.path.abspath(os.path.join(dirpath, filename)))
 
     # if 'module-kernel' in current_test:
@@ -104,7 +106,9 @@ def build_test():
         else:
             link_opts.append(' dnnl.lib')
     ret = False
-    if test_config.current_test in exec_tests:
+    if test_config.current_test == 'cufft_test':
+        ret = compile_and_link([os.path.join(test_config.out_root, 'cufft_test.dp.cpp')], cmp_options, objects, link_opts)
+    elif test_config.current_test in exec_tests:
         ret = compile_and_link(srcs, cmp_options, objects, link_opts)
     elif re.match('^cufft.*', test_config.current_test) and platform.system() == 'Linux':
         ret = compile_and_link(srcs, cmp_options, objects, link_opts)

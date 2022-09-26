@@ -27,7 +27,7 @@ def build_test():
     test_config.out_root = os.getcwd()
 
     lpthread_link_cases = ["devicemgr_multi_thread_aware", "memory_async_dpct_free", "blas_extension_api_usm",
-                           "blas_extension_api_buffer"]
+                           "blas_extension_api_buffer", "fft_utils_engine_buffer", "fft_utils_engine_usm"]
     oneDPL_related = ["thrust_test_device_ptr_2", "thrust_test-pennet_simple_pstl", "test_default_queue_2"]
     blas_cases = ["blas_utils_getrf", "blas_utils_getrf-usm", "blas_utils_getrf-complex",
                 "blas_utils_getrf-complex-usm", "blas_utils_getrs", "blas_utils_getrs-usm",
@@ -44,6 +44,7 @@ def build_test():
                 "dnnl_utils_batch_normalization_2", "dnnl_utils_batch_normalization_3", "dnnl_utils_convolution_1",
                 "dnnl_utils_convolution_2", "dnnl_utils_convolution_3", "dnnl_utils_convolution_4", "dnnl_utils_convolution_5",
                 "dnnl_utils_normalization_1", "dnnl_utils_normalization_2", "dnnl_utils_normalization_3"]
+    fft_cases = ["fft_utils_engine_buffer", "fft_utils_engine_usm"]
 
     srcs = []
     cmp_opts = []
@@ -77,7 +78,7 @@ def build_test():
             link_opts.append(' -ldnnl')
         else:
             link_opts.append(' dnnl.lib')
-    if test_config.current_test in blas_cases:
+    if (test_config.current_test in blas_cases) or (test_config.current_test in fft_cases):
         mkl_opts = []
         if platform.system() == "Linux":
             mkl_opts = test_config.mkl_link_opt_lin
@@ -86,7 +87,10 @@ def build_test():
 
         link_opts += mkl_opts
         cmp_opts.append("-DMKL_ILP64")
-    ret = compile_and_link(srcs, cmp_opts, objects, link_opts)
+    if test_config.current_test == 'fft_utils_engine_buffer' or test_config.current_test == 'fft_utils_engine_usm':
+        ret = compile_and_link([os.path.join(test_config.out_root, 'cufft_test.dp.cpp')], cmp_opts, objects, link_opts)
+    else:
+        ret = compile_and_link(srcs, cmp_opts, objects, link_opts)
     return ret
 
 
