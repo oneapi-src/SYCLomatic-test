@@ -53,7 +53,7 @@ void test() {
 
     data = (HT *)sycl::malloc_device(ele_num * sizeof(HT), *stream1);
 
-    handle.fill(dataTensor, data, &value);
+    handle.async_fill(dataTensor, data, &value);
     dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_data.data(), data, ele_num * sizeof(HT)).wait();
     float precision = 1e-3;

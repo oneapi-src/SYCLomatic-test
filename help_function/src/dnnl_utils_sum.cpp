@@ -79,7 +79,7 @@ void test() {
 
     float alpha = 3.f, beta = 1.f;
 
-    auto s = (handle.sum(alpha, dataTensor, data, beta, outTensor, out), 0);
+    auto s = (handle.async_sum(alpha, dataTensor, data, beta, outTensor, out), 0);
     dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
 
