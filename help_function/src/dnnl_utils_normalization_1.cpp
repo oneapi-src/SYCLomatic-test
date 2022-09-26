@@ -124,7 +124,7 @@ void test1() {
                 ActivationDesc.set(dnnl::algorithm::eltwise_relu_use_dst_for_bwd, 0.0f);
 
         auto status =
-        (handle.batch_normalization_forward_inference_ex(
+        (handle.async_batch_normalization_forward_inference_ex(
              dpct::dnnl::batch_normalization_mode::per_activation,
              dpct::dnnl::batch_normalization_ops::none, ActivationDesc, eps,
              alpha, dataTensor, data, beta, outTensor, out, dataTensor, z,
@@ -266,7 +266,7 @@ void test2() {
                 ActivationDesc.set(dnnl::algorithm::eltwise_relu_use_dst_for_bwd, 0.0f);
 
         auto status =
-        (handle.batch_normalization_forward_inference_ex(
+        (handle.async_batch_normalization_forward_inference_ex(
              dpct::dnnl::batch_normalization_mode::spatial,
              dpct::dnnl::batch_normalization_ops::none, ActivationDesc, eps,
              alpha, dataTensor, data, beta, outTensor, out, dataTensor, z,

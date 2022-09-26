@@ -86,7 +86,7 @@ void test1() {
 
     float alpha = 2.f, beta = 1.5f;
 
-    auto s = (handle.activation_forward(desc, alpha, dataTensor, data, beta,
+    auto s = (handle.async_activation_forward(desc, alpha, dataTensor, data, beta,
                                         outTensor, out),
               0);
     dev_ct1.queues_wait_and_throw();
@@ -159,13 +159,13 @@ void test2() {
     desc.set(dnnl::algorithm::eltwise_logistic_use_dst_for_bwd, 0.f);
 
     float alpha = 1.5f, beta = 0.f;
-    handle.activation_forward(desc, alpha, dataTensor, data, beta, outTensor,
+    handle.async_activation_forward(desc, alpha, dataTensor, data, beta, outTensor,
                               out);
 
     alpha = 2.f, beta = 0.f;
 
 
-    auto s = (handle.activation_backward(desc, alpha, outTensor, out,
+    auto s = (handle.async_activation_backward(desc, alpha, outTensor, out,
                                          diffoutTensor, diffout, dataTensor,
                                          data, beta, diffdataTensor, diffdata),
               0);

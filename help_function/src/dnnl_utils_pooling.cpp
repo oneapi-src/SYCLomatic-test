@@ -92,7 +92,7 @@ void test1() {
 
     float alpha = 1.f, beta = 0.f;
 
-    auto s = (handle.pooling_forward(desc, alpha, dataTensor, data, beta,
+    auto s = (handle.async_pooling_forward(desc, alpha, dataTensor, data, beta,
                                      outTensor, out),
               0);
     dev_ct1.queues_wait_and_throw();
@@ -174,12 +174,12 @@ void test2() {
     dnnl::memory pooling_workspace;
 
     float alpha = 1.5f, beta = 1.f;
-    handle.pooling_forward(desc, alpha, dataTensor, data, beta, outTensor, out, &pooling_workspace);
+    handle.async_pooling_forward(desc, alpha, dataTensor, data, beta, outTensor, out, &pooling_workspace);
     dev_ct1.queues_wait_and_throw();    
     stream1->memcpy(host_out.data(), out, ele_num2 * sizeof(HT)).wait();
     alpha = 1.5f, beta = 1.f;
 
-    auto s = (handle.pooling_backward(desc, alpha, outTensor, out,
+    auto s = (handle.async_pooling_backward(desc, alpha, outTensor, out,
                                       diffoutTensor, diffout, dataTensor, data,
                                       beta, diffdataTensor, diffdata, &pooling_workspace),
               0);

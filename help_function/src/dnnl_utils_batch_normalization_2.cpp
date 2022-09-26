@@ -120,7 +120,7 @@ void test4() {
 
     float alpha = 2.5f, beta = 1.5f, eps = 1.f;
     double factor = 0.1f;
-        auto status = (handle.batch_normalization_forward_training(
+        auto status = (handle.async_batch_normalization_forward_training(
                        dpct::dnnl::batch_normalization_mode::spatial, eps,
                        factor, alpha, dataTensor, data, beta, outTensor, out,
                        scalebiasTensor, scale, bias, rmean, rvar, smean, svar),
@@ -295,7 +295,7 @@ void test5() {
     reservespace = (float *)sycl::malloc_device(reservespace_size, q_ct1);
 
         auto status =
-        (handle.batch_normalization_forward_training_ex(
+        (handle.async_batch_normalization_forward_training_ex(
              dpct::dnnl::batch_normalization_mode::per_activation,
              dpct::dnnl::batch_normalization_ops::activation, ActivationDesc,
              eps, factor, alpha, dataTensor, data, beta, outTensor, out,
@@ -512,12 +512,12 @@ void test6() {
     float alpha = 2.5f, beta = 1.5f, eps = 1.f;
     double factor = 0.1f;
         auto status =
-        (handle.batch_normalization_forward_training(
+        (handle.async_batch_normalization_forward_training(
              dpct::dnnl::batch_normalization_mode::per_activation, eps, factor,
              alpha, dataTensor, data, beta, outTensor, out, scalebiasTensor,
              scale, bias, rmean, rvar, smean, svar),
          0);
-        status = (handle.batch_normalization_backward(
+        status = (handle.async_batch_normalization_backward(
                   dpct::dnnl::batch_normalization_mode::per_activation, eps,
                   alpha, dataTensor, data, outTensor, diffout, beta, dataTensor,
                   diffdata, alpha, scalebiasTensor, scale, beta, diffscale,

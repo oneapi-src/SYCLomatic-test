@@ -79,7 +79,7 @@ void test1() {
 
     float alpha0 = 1.5f, alpha1 = 2.5f, beta = 2.f;
 
-    auto status = (handle.binary(OpDesc, alpha0, outTensor, out, alpha1,
+    auto status = (handle.async_binary(OpDesc, alpha0, outTensor, out, alpha1,
                                  dataTensor, data, beta, outTensor, out),
                    0);
     dev_ct1.queues_wait_and_throw();
@@ -151,7 +151,7 @@ void test2() {
 
     float alpha0 = 1.5f, alpha1 = 2.5f, beta = 2.f;
 
-    auto status = (handle.binary(OpDesc, alpha0, outTensor, out, alpha1,
+    auto status = (handle.async_binary(OpDesc, alpha0, outTensor, out, alpha1,
                                  dataTensor, data, beta, outTensor, out),
                    0);
     dev_ct1.queues_wait_and_throw();
@@ -223,7 +223,7 @@ void test3() {
 
     float alpha0 = 1.5f, alpha1 = 2.5f, beta = 2.f;
 
-    auto status = (handle.binary(OpDesc, alpha0, outTensor, out, alpha1,
+    auto status = (handle.async_binary(OpDesc, alpha0, outTensor, out, alpha1,
                                  dataTensor, data, beta, outTensor, out),
                    0);
     dev_ct1.queues_wait_and_throw();
@@ -295,7 +295,7 @@ void test4() {
 
     float alpha0 = 1.5f, alpha1 = 2.5f, beta = 2.f;
 
-    auto status = (handle.binary(OpDesc, alpha0, outTensor, out, alpha1,
+    auto status = (handle.async_binary(OpDesc, alpha0, outTensor, out, alpha1,
                                  dataTensor, data, beta, outTensor, out),
                    0);
     dev_ct1.queues_wait_and_throw();
@@ -366,7 +366,7 @@ void test5() {
 
     float alpha0 = 1.5f, alpha1 = 2.5f, beta = 2.f;
 
-    auto status = (handle.binary(OpDesc, alpha0, outTensor, out, alpha1,
+    auto status = (handle.async_binary(OpDesc, alpha0, outTensor, out, alpha1,
                                  dataTensor, data, beta, outTensor, out),
                    0);
     dev_ct1.queues_wait_and_throw();
@@ -437,7 +437,7 @@ void test6() {
 
     float alpha0 = 1.5f, alpha1 = 2.5f, beta = 2.f;
 
-    auto status = (handle.binary(OpDesc, alpha0, outTensor, out, alpha1,
+    auto status = (handle.async_binary(OpDesc, alpha0, outTensor, out, alpha1,
                                  dataTensor, data, beta, outTensor, out),
                    0);
     dev_ct1.queues_wait_and_throw();
