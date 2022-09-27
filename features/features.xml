@@ -18,7 +18,7 @@
     <test testName="thrust-gather" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-scatter" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key_copy" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <test testName="thrust-unique_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-unique_by_key" configFile="config/TEMPLATE_thrust-unique_by_key.xml" />
     <test testName="thrust-for-hypre" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-rawptr-noneusm" configFile="config/TEMPLATE_thrust_noneusm_exec.xml" />
     <test testName="thrust-find" configFile="config/TEMPLATE_thrust_exec.xml" />
