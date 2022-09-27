@@ -95,7 +95,9 @@ bool test_device_exclusive_scan() {
 
 
 int main() {
-  if (test_device_exclusive_scan())
+  if (test_device_exclusive_scan()) {
     std::cout << "cub::DeviceScan::ExclusiveScan Pass\n";
-  return 0;
+    return 0;
+  }
+  return 1;
 }

@@ -21,7 +21,9 @@ bool test_counting_iterator() {
 }
 
 int main() {
-  if (test_counting_iterator())
+  if (test_counting_iterator()) {
     std::cout << "cub::CountingInputIterator Pass\n";
-  return 0;
+    return 0;
+  }
+  return 1;
 }

@@ -257,7 +257,8 @@ int main() {
   Result = test_max() && Result;
   if(Result) {
     std::cout << "cub_device Pass" << std::endl;
+    return 0;
   }
-  return 0;
+  return 1;
 }
 

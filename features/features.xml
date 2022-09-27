@@ -18,6 +18,7 @@
     <test testName="thrust-gather" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-scatter" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key_copy" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-unique_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-for-hypre" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-rawptr-noneusm" configFile="config/TEMPLATE_thrust_noneusm_exec.xml" />
     <test testName="thrust-find" configFile="config/TEMPLATE_thrust_exec.xml" />
@@ -84,6 +85,8 @@
     <!-- <test testName="module-kernel" configFile="config/TEMPLATE_module.xml" /> -->
     <test testName="macro" configFile="config/TEMPLATE_macro.xml" />
     <test testName="driverMem" configFile="config/TEMPLATE_driverMem.xml" />
+    <test testName="driverCtx" configFile="config/TEMPLATE_driverCtx.xml" />
+    <test testName="driverTex" configFile="config/TEMPLATE_driverTex.xml" />
     <test testName="driverDevice" configFile="config/TEMPLATE_driverDevice.xml" />
     <test testName="driverStreamAndEvent" configFile="config/TEMPLATE_driverStreamAndEvent.xml" />
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
@@ -92,6 +95,8 @@
     <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
+    <test testName="cub_device_reduce" configFile="config/TEMPLATE_cub_device.xml"/>
+    <test testName="cub_device_reduce_by_key" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_scan_inclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_scan_exclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_scan_inclusive_scan" configFile="config/TEMPLATE_cub_device.xml" />
@@ -110,6 +115,19 @@
     <test testName="cudnn-scale" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-softmax" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-sum" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-reduction" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-binary" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-bnp1" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-bnp2" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-bnp3" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-normp1" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-normp2" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-convp1" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-convp2" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-convp3" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-convp4" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-convp5" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="Atomic_api_test1" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
     <test testName="Atomic_api_test2" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
     <test testName="Atomic_api_test3" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />

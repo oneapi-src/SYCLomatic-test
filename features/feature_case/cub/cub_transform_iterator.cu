@@ -37,13 +37,15 @@ bool test_transform_iterator() {
   compute<<<1, 1>>>(d_in, d_out);
   cudaMemcpy((void *)h_out, (void *)d_out, sizeof(int) * DATA_NUM, cudaMemcpyDeviceToHost);
   for (int i = 0; i < DATA_NUM; ++i)
-    if (h_in[i] * 3 == h_out[i])
+    if (h_in[i] * 3 != h_out[i])
       return false;
   return true;
 }
 
 int main() {
-  if (test_transform_iterator())
+  if (test_transform_iterator()) {
     std::cout << "cub::TransformInputIterator Pass\n";
-  return 0;
+    return 0;
+  }
+  return 1;
 }
