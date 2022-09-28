@@ -18,7 +18,7 @@
     <test testName="thrust-gather" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-scatter" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key_copy" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <test testName="thrust-unique_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-unique_by_key" configFile="config/TEMPLATE_thrust-unique_by_key.xml" />
     <test testName="thrust-for-hypre" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-rawptr-noneusm" configFile="config/TEMPLATE_thrust_noneusm_exec.xml" />
     <test testName="thrust-find" configFile="config/TEMPLATE_thrust_exec.xml" />
@@ -106,28 +106,28 @@
     <test testName="cub_device_run_length_encode_encode" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_counting_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
-    <test testName="cudnn-activation" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-fill" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-lrn" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-memory" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-pooling" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-reorder" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-scale" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-softmax" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-sum" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-reduction" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-binary" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-bnp1" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-bnp2" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-bnp3" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-normp1" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-normp2" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-convp1" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-convp2" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-convp3" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-convp4" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-convp5" configFile="config/TEMPLATE_cuDNN.xml" />
+    <!-- <test testName="cudnn-activation" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-fill" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-lrn" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-memory" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-pooling" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-reorder" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-scale" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-softmax" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-sum" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-reduction" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-binary" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-bnp1" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-bnp2" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-bnp3" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-normp1" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-normp2" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-convp1" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-convp2" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-convp3" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-convp4" configFile="config/TEMPLATE_cuDNN.xml" /> -->
+    <!-- <test testName="cudnn-convp5" configFile="config/TEMPLATE_cuDNN.xml" /> -->
     <test testName="Atomic_api_test1" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
     <test testName="Atomic_api_test2" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
     <test testName="Atomic_api_test3" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
@@ -337,6 +337,9 @@
     <test testName="BlasUtils_api_test33" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
     <test testName="RngUtils_api_test1" configFile="config/TEMPLATE_custom_helper_files_RngUtils.xml" />
     <test testName="RngUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_RngUtils.xml" />
+    <test testName="FftUtils_api_test1" configFile="config/TEMPLATE_custom_helper_files_FftUtils.xml" />
+    <test testName="FftUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_FftUtils.xml" />
+    <test testName="FftUtils_api_test3" configFile="config/TEMPLATE_custom_helper_files_FftUtils.xml" />
     <test testName="curand-device2" configFile="config/curand-device2.xml" splitGroup="double"/>
     <test testName="test_shared_memory" configFile="config/TEMPLATE_memory.xml" />
     <test testName="activemask" configFile="config/TEMPLATE_misc_excluding_80.xml" />
@@ -350,6 +353,7 @@
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
     <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" />
+    <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
   </tests>
 </suite>

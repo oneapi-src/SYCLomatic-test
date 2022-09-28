@@ -11,7 +11,10 @@
         "opt_format_range_all_cpu" : "--format-range=all",
         "opt_format_range_none_cpu" : "--format-range=none",
         "opt_no_cl_namespace_cpu": "--no-cl-namespace-inline",
-        "opt_custom_helper_files_file_cpu": "--use-custom-helper=file",
-        "opt_custom_helper_files_all_cpu": "--use-custom-helper=all",
-        "opt_custom_helper_files_api_cpu": "--use-custom-helper=api"
+        "option_cpu_custom_helper_files_file": "--use-custom-helper=file",
+        "option_usmnone_cpu_custom_helper_files_file": "--use-custom-helper=file --usm-level=none",
+        "option_cpu_custom_helper_files_all": "--use-custom-helper=all",
+        "option_usmnone_cpu_custom_helper_files_all": "--use-custom-helper=all --usm-level=none",
+        "option_cpu_custom_helper_files_api": "--use-custom-helper=api",
+        "option_usmnone_cpu_custom_helper_files_api": "--use-custom-helper=api --usm-level=none"
     }

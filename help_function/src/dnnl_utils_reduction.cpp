@@ -86,7 +86,7 @@ void test1() {
     void * ws;
     ws = (void *)sycl::malloc_device(ws_size, q_ct1);
 
-    handle.reduction(reducedesc, alpha, dataTensor, data, beta, outTensor, out);
+    handle.async_reduction(reducedesc, alpha, dataTensor, data, beta, outTensor, out);
     dev_ct1.queues_wait_and_throw();
     q_ct1.memcpy(host_out.data(), out, sizeof(HT) * on * oc * oh * ow).wait();
     std::vector<float> expect = {-337.5, -246, -154.5, -63,  28.5,   120,
@@ -142,7 +142,7 @@ void test2() {
     void * ws;
     ws = (void *)sycl::malloc_device(ws_size, q_ct1);
 
-    handle.reduction(reducedesc, alpha, dataTensor, data, beta, outTensor, out);
+    handle.async_reduction(reducedesc, alpha, dataTensor, data, beta, outTensor, out);
     dev_ct1.queues_wait_and_throw();
     q_ct1.memcpy(host_out.data(), out, sizeof(HT) * on * oc * oh * ow).wait();
     std::vector<float> expect = {
@@ -197,7 +197,7 @@ void test3() {
     void * ws;
     ws = (void *)sycl::malloc_device(ws_size, q_ct1);
 
-    handle.reduction(reducedesc, alpha, dataTensor, data, beta, outTensor, out);
+    handle.async_reduction(reducedesc, alpha, dataTensor, data, beta, outTensor, out);
     dev_ct1.queues_wait_and_throw();
     q_ct1.memcpy(host_out.data(), out, sizeof(HT) * on * oc * oh * ow).wait();
     std::vector<float> expect = {
@@ -253,7 +253,7 @@ void test4() {
     ws = (void *)sycl::malloc_device(ws_size, q_ct1);
 
 
-    handle.reduction(reducedesc, alpha, dataTensor, data, beta, outTensor, out);
+    handle.async_reduction(reducedesc, alpha, dataTensor, data, beta, outTensor, out);
     dev_ct1.queues_wait_and_throw();
     q_ct1.memcpy(host_out.data(), out, sizeof(HT) * on * oc * oh * ow).wait();
     std::vector<float> expect = {
@@ -312,7 +312,7 @@ void test5() {
     ws = (void *)sycl::malloc_device(ws_size, q_ct1);
 
 
-    handle.reduction(reducedesc, alpha, dataTensor, data, beta, outTensor, out);
+    handle.async_reduction(reducedesc, alpha, dataTensor, data, beta, outTensor, out);
     dev_ct1.queues_wait_and_throw();
     q_ct1.memcpy(host_out.data(), out, sizeof(HT) * on * oc * oh * ow).wait();
     std::vector<float> expect = {

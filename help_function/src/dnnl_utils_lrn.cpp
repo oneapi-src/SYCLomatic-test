@@ -90,7 +90,7 @@ void test1() {
 
     float alpha = 2.f, beta = 1.5f;
 
-    auto s = (handle.lrn_forward(desc, alpha, dataTensor, data, beta, outTensor,
+    auto s = (handle.async_lrn_forward(desc, alpha, dataTensor, data, beta, outTensor,
                                  out),
               0);
     dev_ct1.queues_wait_and_throw();
@@ -168,12 +168,12 @@ void test2() {
     desc.set(local_size, lrn_alpha, lrn_beta, lrn_k);
 
     float alpha = 1.5f, beta = 0.f;
-    handle.lrn_forward(desc, alpha, dataTensor, data, beta, outTensor, out);
+    handle.async_lrn_forward(desc, alpha, dataTensor, data, beta, outTensor, out);
 
     alpha = 2000.f, beta = 0.f;
     dev_ct1.queues_wait_and_throw();
 
-    auto s = (handle.lrn_backward(desc, alpha, outTensor, out, diffoutTensor,
+    auto s = (handle.async_lrn_backward(desc, alpha, outTensor, out, diffoutTensor,
                                   diffout, dataTensor, data, beta,
                                   diffdataTensor, diffdata),
               0);

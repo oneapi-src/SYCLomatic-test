@@ -137,7 +137,7 @@ void test1() {
     workspacesize = (void *)sycl::malloc_device(size, q_ct1);
 
     float alpha = 1.5f, beta = 1.5f;
-    handle.convolution_backward_weight(
+    handle.async_convolution_backward_weight(
         covdes, dnnl::algorithm::convolution_direct, alpha, dataTensor, data,
         diffoutTensor, diffout, beta, difffilterTensor, difffilter);
     dev_ct1.queues_wait_and_throw();
@@ -292,7 +292,7 @@ void test2() {
     workspacesize = (void *)sycl::malloc_device(size, q_ct1);
 
     float alpha = 1.5f, beta = 1.5f;
-    handle.convolution_backward_weight(
+    handle.async_convolution_backward_weight(
         covdes, dnnl::algorithm::convolution_direct, alpha, dataTensor, data,
         diffoutTensor, diffout, beta, difffilterTensor, difffilter);
     dev_ct1.queues_wait_and_throw();
