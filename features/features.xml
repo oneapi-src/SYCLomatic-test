@@ -312,6 +312,7 @@
     <test testName="deviceAPI" configFile="config/TEMPLATE_deviceAPI.xml" />
     <test testName="free-queries" configFile="config/TEMPLATE_freeQueries.xml" />
     <test testName="deviceProp" configFile="config/TEMPLATE_deviceProp.xml" />
+    <test testName="gridThreads" configFile="config/TEMPLATE_gridThreads.xml" />
     <test testName="BlasUtils_api_test11" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
     <test testName="BlasUtils_api_test12" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
     <test testName="BlasUtils_api_test13" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
