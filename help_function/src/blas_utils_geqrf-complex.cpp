@@ -51,6 +51,7 @@ int test() {
 
   sycl::queue *handle;
   handle = &dpct::get_default_queue();
+  std::cout << "Device Name: " << handle->get_device().get_info<sycl::info::device::name>() << std::endl;
 
   T **Aarray;
   T *a0, *a1;

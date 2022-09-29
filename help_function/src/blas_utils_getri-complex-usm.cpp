@@ -28,6 +28,7 @@ template<class T>
 int test() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   int n = 2;
   T *A = (T *)malloc(n * n * sizeof(T));
   A[0].x() = 2;   A[0].y() = 0;
