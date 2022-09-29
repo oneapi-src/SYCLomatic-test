@@ -18,9 +18,12 @@ def setup_test():
     return True
 
 def migrate_test():
-
     call_subprocess(test_config.CT_TOOL + " --version")
-    return is_sub_string("version", test_config.command_output)
+    ct_clang_version = get_ct_clang_version()
+    expected_output = "dpct version {0}".format(ct_clang_version)
+    print("expected dpct version output: {0}".format(expected_output))
+    print("\n'dpct --version' outputs {0}".format(test_config.command_output))
+    return is_sub_string(expected_output, test_config.command_output)
 
 def build_test():
     return True

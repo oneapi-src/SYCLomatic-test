@@ -112,7 +112,7 @@ void test1() {
 
     float alpha = 2.5f, beta = 1.5f;
 
-    handle.convolution_backward_bias(alpha, outTensor, out, beta, biasTensor,
+    handle.async_convolution_backward_bias(alpha, outTensor, out, beta, biasTensor,
                                      bias);
 
     dev_ct1.queues_wait_and_throw();

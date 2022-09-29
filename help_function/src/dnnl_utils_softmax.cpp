@@ -82,7 +82,7 @@ void test1() {
 
     float alpha = 2.f, beta = 1.5f;
 
-    auto s = (handle.softmax_forward(dpct::dnnl::softmax_algorithm::normal,
+    auto s = (handle.async_softmax_forward(dpct::dnnl::softmax_algorithm::normal,
                                      dpct::dnnl::softmax_mode::channel, alpha,
                                      dataTensor, data, beta, outTensor, out),
               0);
@@ -152,14 +152,14 @@ void test2() {
     stream1->memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
 
     float alpha = 1.5f, beta = 0.f;
-    handle.softmax_forward(dpct::dnnl::softmax_algorithm::normal,
+    handle.async_softmax_forward(dpct::dnnl::softmax_algorithm::normal,
                            dpct::dnnl::softmax_mode::channel, alpha, dataTensor,
                            data, beta, outTensor, out);
     dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 0.f;
 
-    auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::normal,
+    auto s = (handle.async_softmax_backward(dpct::dnnl::softmax_algorithm::normal,
                                       dpct::dnnl::softmax_mode::channel, alpha,
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
@@ -232,14 +232,14 @@ void test3() {
     stream1->memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
 
     float alpha = 1.5f, beta = 0.f;
-    handle.softmax_forward(dpct::dnnl::softmax_algorithm::normal,
+    handle.async_softmax_forward(dpct::dnnl::softmax_algorithm::normal,
                            dpct::dnnl::softmax_mode::instance, alpha,
                            dataTensor, data, beta, outTensor, out);
     dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 0.f;
 
-    auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::normal,
+    auto s = (handle.async_softmax_backward(dpct::dnnl::softmax_algorithm::normal,
                                       dpct::dnnl::softmax_mode::instance, alpha,
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
@@ -322,14 +322,14 @@ void test4() {
     stream1->memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
 
     float alpha = 1.5f, beta = 0.f;
-    handle.softmax_forward(dpct::dnnl::softmax_algorithm::log,
+    handle.async_softmax_forward(dpct::dnnl::softmax_algorithm::log,
                            dpct::dnnl::softmax_mode::channel, alpha, dataTensor,
                            data, beta, outTensor, out);
     dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 3.f;
 
-    auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::log,
+    auto s = (handle.async_softmax_backward(dpct::dnnl::softmax_algorithm::log,
                                       dpct::dnnl::softmax_mode::channel, alpha,
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
@@ -402,14 +402,14 @@ void test5() {
     stream1->memcpy(diffout, host_diffout.data(), ele_num * sizeof(HT)).wait();
 
     float alpha = 1.5f, beta = 0.f;
-    handle.softmax_forward(dpct::dnnl::softmax_algorithm::normal,
+    handle.async_softmax_forward(dpct::dnnl::softmax_algorithm::normal,
                            dpct::dnnl::softmax_mode::channel, alpha, dataTensor,
                            data, beta, outTensor, out);
     dev_ct1.queues_wait_and_throw();
     stream1->memcpy(host_out.data(), out, ele_num * sizeof(HT)).wait();
     alpha = 2.f, beta = 1.5f;
 
-    auto s = (handle.softmax_backward(dpct::dnnl::softmax_algorithm::normal,
+    auto s = (handle.async_softmax_backward(dpct::dnnl::softmax_algorithm::normal,
                                       dpct::dnnl::softmax_mode::channel, alpha,
                                       outTensor, out, diffoutTensor, diffout,
                                       beta, diffdataTensor, diffdata),
