@@ -15,7 +15,7 @@
 // CHECK: #include <sycl/ext/intel/math.hpp>
 
 #include "cuda_fp16.h"
-
+#include <iostream>
 // CHECK: void kernelFunc(double *deviceArray) {
 // CHECK:   double &d0 = *deviceArray;
 // CHECK:   d0 = sycl::ext::intel::math::erfinv(d0);
@@ -59,17 +59,21 @@ __global__ void kernelFunc(float *deviceArray) {
 // CHECK:   q_ct1.memcpy(hostArrayDouble, deviceArrayDouble, bytes).wait();
 // CHECK:   sycl::free(deviceArrayDouble, q_ct1);
 // CHECK: }
-void testDouble() {
-  const unsigned int NUM = 1;
-  const unsigned int bytes = NUM * sizeof(double);
-  double *hostArrayDouble = (double *)malloc(bytes);
-  memset(hostArrayDouble, 0, bytes);
+bool testDouble() {
+  double *hostArrayDouble = (double *)malloc(sizeof(double));
+  *hostArrayDouble = 0.956841;
   double *deviceArrayDouble;
-  cudaMalloc((double **)&deviceArrayDouble, bytes);
-  cudaMemcpy(deviceArrayDouble, hostArrayDouble, bytes, cudaMemcpyHostToDevice);
+  cudaMalloc((double **)&deviceArrayDouble, sizeof(double));
+  cudaMemcpy(deviceArrayDouble, hostArrayDouble, sizeof(double), cudaMemcpyHostToDevice);
   kernelFunc<<<1, 1>>>(deviceArrayDouble);
-  cudaMemcpy(hostArrayDouble, deviceArrayDouble, bytes, cudaMemcpyDeviceToHost);
+  cudaMemcpy(hostArrayDouble, deviceArrayDouble, sizeof(double), cudaMemcpyDeviceToHost);
   cudaFree(deviceArrayDouble);
+  if((*hostArrayDouble-0.923625516883796)>1e-6){
+    std::cout << "test on double failed" << std::endl;
+    return false;
+  }
+  free(hostArrayDouble);
+  return true;
 }
 
 // CHECK: void testFloat() {
@@ -90,23 +94,27 @@ void testDouble() {
 // CHECK:   q_ct1.memcpy(hostArrayFloat, deviceArrayFloat, bytes).wait();
 // CHECK:   sycl::free(deviceArrayFloat, q_ct1);
 // CHECK: }
-void testFloat() {
-  const unsigned int NUM = 1;
-  const unsigned int bytes = NUM * sizeof(float);
-  float *hostArrayFloat = (float *)malloc(bytes);
-  memset(hostArrayFloat, 0, bytes);
+bool testFloat() {
+  float *hostArrayFloat = (float *)malloc(sizeof(float));
+  *hostArrayFloat = 0.1568541541f;
   float *deviceArrayFloat;
-  cudaMalloc((float **)&deviceArrayFloat, bytes);
-  cudaMemcpy(deviceArrayFloat, hostArrayFloat, bytes, cudaMemcpyHostToDevice);
+  cudaMalloc((float **)&deviceArrayFloat,sizeof(float));
+  cudaMemcpy(deviceArrayFloat, hostArrayFloat, sizeof(float), cudaMemcpyHostToDevice);
   kernelFunc<<<1, 1>>>(deviceArrayFloat);
-  cudaMemcpy(hostArrayFloat, deviceArrayFloat, bytes, cudaMemcpyDeviceToHost);
+  cudaMemcpy(hostArrayFloat, deviceArrayFloat, sizeof(float), cudaMemcpyDeviceToHost);
   cudaFree(deviceArrayFloat);
+  if((*hostArrayFloat- 0.555636882781982)>1e-6){
+    std::cout << "test on float failed" << std::endl;
+    return false;
+  }
+  free(hostArrayFloat);
+  return true;
 }
 
 
 
 
 int main() {
-  testDouble();
-  testFloat();
+  if(testDouble()&&testFloat()) return 0;
+  return 1;
 }
