@@ -16,6 +16,14 @@
 
 #define DATA_NUM 100
 
+
+template<typename T>
+struct NonZeroOp {
+    __host__ __device__ __forceinline__ bool operator()(const T& a) const {
+      return (a!=T(0));
+    }
+};
+
 template<typename T = int>
 void init_data(T* data, int num) {
   T host_data[DATA_NUM];
@@ -82,8 +90,26 @@ bool test_device_reduce_sum() {
   return true;
 }
 
+bool test_device_reduce_sum2() {
+  int ret = 0;
+  float f4[] = {0.1, 0.2, 0.3, 0.4};
+  float *d_in;
+  int *d_out;
+  cudaMalloc((void **)&d_in, 4 * sizeof(float));
+  cudaMalloc((void **)&d_out, sizeof(float));
+  cudaMemcpy(d_in, f4, sizeof(f4), cudaMemcpyHostToDevice);
+  cub::TransformInputIterator<bool, NonZeroOp<float>, float *> itr(d_in, NonZeroOp<float>());
+  void *tmp = nullptr;
+  size_t tmp_size = 0;
+  cub::DeviceReduce::Sum(tmp, tmp_size, itr, d_out, 4);
+  cudaMalloc((void **)&tmp, tmp_size);
+  cub::DeviceReduce::Sum(tmp, tmp_size, itr, d_out, 4);
+  cudaMemcpy(&ret, d_out, sizeof(int), cudaMemcpyDeviceToHost);
+  return ret == 4;
+}
+
 int main() {
-  if (test_device_reduce_sum()) {
+  if (test_device_reduce_sum() && test_device_reduce_sum2()) {
     std::cout << "cub::DeviceReduce::Sum Pass\n";
     return 0;
   }
