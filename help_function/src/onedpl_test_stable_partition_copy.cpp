@@ -58,9 +58,9 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<int64_t, 1> input_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> true_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> false_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> input_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> true_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> false_buf{ sycl::range<1>(8) };
 
         auto inp_it = oneapi::dpl::begin(input_buf);
         auto inp_end_it = oneapi::dpl::end(input_buf);
@@ -68,9 +68,9 @@ int main() {
         auto out_false_it = oneapi::dpl::begin(false_buf);
 
         {
-            auto inp = inp_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto out_true = out_true_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto out_false = out_false_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto inp = inp_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto out_true = out_true_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto out_false = out_false_it.get_buffer().template get_access<sycl::access::mode::write>();
             for (int i = 0; i != 8; ++i) {
                 inp[i] = i;
                 out_true[i] = -1;
@@ -85,8 +85,8 @@ int main() {
         dpct::stable_partition_copy(new_policy, inp_it, inp_end_it, out_true_it, out_false_it, is_odd());
 
         {
-            auto out_true = out_true_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
-            auto out_false = out_false_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto out_true = out_true_it.get_buffer().template get_access<sycl::access::mode::read>();
+            auto out_false = out_false_it.get_buffer().template get_access<sycl::access::mode::read>();
             test_name = "stable_partition_copy test 1";
 
             num_failing += ASSERT_EQUAL(test_name, out_true[0], 1);
@@ -105,10 +105,10 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<int64_t, 1> input_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> stencil_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> true_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> false_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> input_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> stencil_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> true_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> false_buf{ sycl::range<1>(8) };
 
         auto inp_it = oneapi::dpl::begin(input_buf);
         auto inp_end_it = oneapi::dpl::end(input_buf);
@@ -117,10 +117,10 @@ int main() {
         auto out_false_it = oneapi::dpl::begin(false_buf);
 
         {
-            auto inp = inp_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto stn = stn_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto out_true = out_true_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto out_false = out_false_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto inp = inp_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto stn = stn_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto out_true = out_true_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto out_false = out_false_it.get_buffer().template get_access<sycl::access::mode::write>();
             for (int i = 0; i != 8; ++i) {
                 inp[i] = i;
                 stn[i] = i % 2;
@@ -137,8 +137,8 @@ int main() {
                                                oneapi::dpl::identity());
 
         {
-            auto out_true = out_true_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
-            auto out_false = out_false_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto out_true = out_true_it.get_buffer().template get_access<sycl::access::mode::read>();
+            auto out_false = out_false_it.get_buffer().template get_access<sycl::access::mode::read>();
             test_name = "stable_partition_copy test 2";
 
             num_failing += ASSERT_EQUAL(test_name, out_true[0], 1);

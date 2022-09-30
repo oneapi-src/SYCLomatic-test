@@ -13,7 +13,7 @@
 
 int main() {
   dpct::image_channel IC;
-  cl::sycl::range<3> Range(1,1,1);
+  sycl::range<3> Range(1,1,1);
   // test_feature:image_matrix
   dpct::image_matrix IM(IC, Range);
   // test_feature:image_data
@@ -25,7 +25,7 @@ int main() {
 
   // image_wrapper
   // test_feature:image_wrapper
-  dpct::image_wrapper<cl::sycl::float4, 3> tex43;
+  dpct::image_wrapper<sycl::float4, 3> tex43;
   dpct::image_channel chn1 =
     dpct::image_channel(16, 16, 16, 16, dpct::image_channel_data_type::unsigned_int);
   dpct::image_matrix_p array3;
@@ -54,7 +54,7 @@ int main() {
   // test_feature:attach(image_matrix *, image_channel)
   tex43.attach(array3, chn1);
 
-  dpct::get_default_queue().submit([&](cl::sycl::handler &cgh) {
+  dpct::get_default_queue().submit([&](sycl::handler &cgh) {
     // test_feature:get_access
     tex43.get_access(cgh);
   });

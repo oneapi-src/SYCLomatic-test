@@ -13,7 +13,7 @@
 int main() {
 
   dpct::image_channel IC;
-  cl::sycl::range<3> Range(1,1,1);
+  sycl::range<3> Range(1,1,1);
   // test_feature:image_matrix
   dpct::image_matrix IM(IC, Range);
 

@@ -13,7 +13,7 @@
 #include <iostream>
 #include <dpct/dpct.hpp>
 
-using namespace cl::sycl;
+using namespace sycl;
 
 int main() {
   std::cout << "CPU Device Name: " << dpct::dev_mgr::instance().cpu_device().get_info<info::device::name>() << "\n";

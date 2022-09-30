@@ -57,16 +57,16 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<int64_t, 1> input_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> stencil_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> input_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> stencil_buf{ sycl::range<1>(8) };
 
         auto inp_it = oneapi::dpl::begin(input_buf);
         auto inp_end_it = oneapi::dpl::end(input_buf);
         auto stn_it = oneapi::dpl::begin(stencil_buf);
 
         {
-            auto inp = inp_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto stn = stn_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto inp = inp_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto stn = stn_it.get_buffer().template get_access<sycl::access::mode::write>();
             for (int i = 0; i != 8; ++i) {
                 inp[i] = i;
                 stn[i] = i % 2;
@@ -81,7 +81,7 @@ int main() {
 
         {
             test_name = "stable_partition test";
-            auto inp = inp_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto inp = inp_it.get_buffer().template get_access<sycl::access::mode::read>();
             num_failing += ASSERT_EQUAL(test_name, inp[0], 1);
             num_failing += ASSERT_EQUAL(test_name, inp[1], 3);
             num_failing += ASSERT_EQUAL(test_name, inp[2], 5);

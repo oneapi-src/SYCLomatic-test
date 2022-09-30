@@ -37,7 +37,7 @@ int test_device_ptr_manipulation(void)
     typedef int T;
 
 #ifdef DPCT_USM_LEVEL_NONE
-    cl::sycl::buffer<T, 1> data(cl::sycl::range<1>(5));
+    sycl::buffer<T, 1> data(sycl::range<1>(5));
 
     dpct::device_pointer<int> begin(data, 0);
     dpct::device_pointer<int> end(data, 5);
@@ -92,7 +92,7 @@ void test_device_ptr_iteration(void)
     typedef size_t T;
 
 #ifdef DPCT_USM_LEVEL_NONE
-    cl::sycl::buffer<T, 1> data(cl::sycl::range<1>(1024));
+    sycl::buffer<T, 1> data(sycl::range<1>(1024));
 
     dpct::device_pointer<T> begin(data, 0);
     dpct::device_pointer<T> end(data, 1024);
@@ -111,20 +111,20 @@ void test_device_ptr_iteration(void)
 int main() {
     // FPGA device selector:  Emulator or Hardware
 #ifdef FPGA_EMULATOR
-    cl::sycl::intel::fpga_emulator_selector device_selector;
+    sycl::intel::fpga_emulator_selector device_selector;
 #elif defined(FPGA)
-    cl::sycl::intel::fpga_selector device_selector;
+    sycl::intel::fpga_selector device_selector;
 #else
     // Initializing the devices queue with the default selector
     // The device queue is used to enqueue the kernels and encapsulates
     // all the states needed for execution
-    cl::sycl::default_selector device_selector;
+    sycl::default_selector device_selector;
 #endif
 
-    std::unique_ptr<cl::sycl::queue> device_queue;
+    std::unique_ptr<sycl::queue> device_queue;
     try {
-        device_queue.reset( new cl::sycl::queue(device_selector) );
-    } catch (cl::sycl::exception const& e) {
+        device_queue.reset( new sycl::queue(device_selector) );
+    } catch (sycl::exception const& e) {
         std::cout << "Caught a synchronous SYCL exception:" << std::endl
                   << e.what() << std::endl;
         std::cout << "If you are targeting an FPGA hardware, please ensure that your system is "
@@ -134,7 +134,7 @@ int main() {
                   << std::endl;
     }
 
-    std::cout << "Device: " << device_queue->get_device().get_info<cl::sycl::info::device::name>()
+    std::cout << "Device: " << device_queue->get_device().get_info<sycl::info::device::name>()
               << std::endl;
     int failed_tests = test_device_ptr_manipulation();
     test_device_ptr_iteration();

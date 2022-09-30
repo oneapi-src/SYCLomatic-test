@@ -44,12 +44,12 @@ int main() {
 
     {
         // Test One, test normal call with duplicates to std::unique
-        cl::sycl::buffer<int64_t,1> src_buf{ cl::sycl::range<1>(16) };
+        sycl::buffer<int64_t,1> src_buf{ sycl::range<1>(16) };
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             // src = {2, 3, 3, 6, 7, 6, 1, 2, 0, 4, 4, 4, 4, 5, 7, 0}
             src[0] = 2; src[1] = 3; src[2] = 3; src[3] = 6; src[4] = 7; src[5] = 6;
             src[6] = 1; src[7] = 2; src[8] = 0; src[9] = 4; src[10] = 4; src[11] = 4;
@@ -58,7 +58,7 @@ int main() {
         // Call algorithm
         auto location_it = std::unique(oneapi::dpl::execution::dpcpp_default, src_it, src_end_it); // returns location of new logical end
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             size_t d = std::distance(src_it, location_it);
             test_name = "unique test with duplicates";
 
@@ -76,12 +76,12 @@ int main() {
 
     {
         // Test Two, test normal call without duplicates to std::unique
-        cl::sycl::buffer<int64_t,1> src_buf{ cl::sycl::range<1>(11) };
+        sycl::buffer<int64_t,1> src_buf{ sycl::range<1>(11) };
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             // src = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'x', 'y', 'z'}
             src[0] = 'a'; src[1] = 'b'; src[2] = 'c'; src[3] = 'd'; src[4] = 'e'; src[5] = 'f';
             src[6] = 'g'; src[7] = 'h'; src[8] = 'x'; src[9] = 'y'; src[10] = 'z';
@@ -91,7 +91,7 @@ int main() {
         auto location_it = std::unique(oneapi::dpl::execution::dpcpp_default, src_it, src_end_it); // returns location of new logical end
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             size_t d = std::distance(src_it, location_it);
             test_name = "unique test without duplicates";
 

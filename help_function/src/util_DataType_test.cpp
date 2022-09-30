@@ -18,7 +18,7 @@ void util_DataType_test() {
   if (!std::is_same<dpct::DataType<float>::T2, float>::value)
     exit(-1);
 
-  if (!std::is_same<dpct::DataType<cl::sycl::float2>::T2,
+  if (!std::is_same<dpct::DataType<sycl::float2>::T2,
                     std::complex<float>>::value)
     exit(-1);
 

@@ -103,13 +103,13 @@ int main(){
 
     {
         // Test Two, test normal call to std::exclusive_scan with std::plus<> with overlapping source and destination
-        cl::sycl::buffer<int64_t,1> src_buf{ cl::sycl::range<1>(16) };
+        sycl::buffer<int64_t,1> src_buf{ sycl::range<1>(16) };
 
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
 
             // src = {5, 7, 2, 2, 4, 2, 2, 7, 3, 8, 9, 4, 2, 0, 1, 9}
             src[0] = 5; src[1] = 7; src[2] = 2; src[3] = 2; src[4] = 4; src[5] = 2; src[6] = 2;
@@ -121,7 +121,7 @@ int main(){
         int64_t one = 1;
         std::exclusive_scan(oneapi::dpl::execution::dpcpp_default, src_it, src_end_it, src_it, one, std::multiplies<int64_t>());
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             int check_src[16] = {1, 5, 35, 70, 140, 560, 1120, 2240, 15680, 47040, 376320, 3386880, 13547520, 27095040, 0, 0};
 
             std::string test_name = "Normal call to std::exclusive_scan with std::plus<> and overlapping source and destination";

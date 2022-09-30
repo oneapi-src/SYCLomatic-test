@@ -11,7 +11,7 @@
 #include <iostream>
 #include <dpct/dpct.hpp>
 
-using namespace cl::sycl;
+using namespace sycl;
 
 void dev_info_output(const device& dev, std::string selector_name) {
   std::cout << selector_name << ": Selected device: " << dev.get_info<info::device::name>() << "\n";
@@ -22,10 +22,10 @@ int main() {
   dpct::get_current_device().queues_wait_and_throw();
 
   int device_count = dpct::dev_mgr::instance().device_count();
-  cl::sycl::queue queue_1(dpct::get_default_context(), dpct::get_current_device());
+  sycl::queue queue_1(dpct::get_default_context(), dpct::get_current_device());
   if(device_count > 1) {
     dpct::dev_mgr::instance().select_device(1);
-    cl::sycl::queue queue_2(dpct::get_default_context(), dpct::get_current_device());
+    sycl::queue queue_2(dpct::get_default_context(), dpct::get_current_device());
   }
 
   auto device = dpct::get_default_queue().get_device();

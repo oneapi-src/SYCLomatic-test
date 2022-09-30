@@ -51,14 +51,14 @@ int main() {
 
     {
         // create buffers
-        cl::sycl::buffer<uint64_t, 1> src_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src_buf{ sycl::range<1>(8) };
 
         // declare iterators
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             // initialize data
             src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4; src[5] = 5; src[6] = 6; src[7] = 7;
         }
@@ -74,7 +74,7 @@ int main() {
 
     {
         // create buffers
-        cl::sycl::buffer<uint64_t, 1> src_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src_buf{ sycl::range<1>(8) };
 
         // declare iterators
         auto src_it = oneapi::dpl::begin(src_buf);
@@ -82,7 +82,7 @@ int main() {
 
         // initialize data
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4; src[5] = 5; src[6] = 6; src[7] = 7;
         }
 

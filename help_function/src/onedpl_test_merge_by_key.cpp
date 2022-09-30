@@ -57,12 +57,12 @@ int main() {
 
     {
         // create buffers
-        cl::sycl::buffer<uint64_t, 1> key_buf1{ key1.data(), cl::sycl::range<1>(6) };
-        cl::sycl::buffer<uint64_t, 1> key_buf2{ key2.data(), cl::sycl::range<1>(7) };
-        cl::sycl::buffer<uint64_t, 1> val_buf1{ val1.data(), cl::sycl::range<1>(6) };
-        cl::sycl::buffer<uint64_t, 1> val_buf2{ val2.data(), cl::sycl::range<1>(7) };
-        cl::sycl::buffer<uint64_t, 1> key_res_buf{ keys.data(), cl::sycl::range<1>(13) };
-        cl::sycl::buffer<uint64_t, 1> val_res_buf{ vals.data(), cl::sycl::range<1>(13) };
+        sycl::buffer<uint64_t, 1> key_buf1{ key1.data(), sycl::range<1>(6) };
+        sycl::buffer<uint64_t, 1> key_buf2{ key2.data(), sycl::range<1>(7) };
+        sycl::buffer<uint64_t, 1> val_buf1{ val1.data(), sycl::range<1>(6) };
+        sycl::buffer<uint64_t, 1> val_buf2{ val2.data(), sycl::range<1>(7) };
+        sycl::buffer<uint64_t, 1> key_res_buf{ keys.data(), sycl::range<1>(13) };
+        sycl::buffer<uint64_t, 1> val_res_buf{ vals.data(), sycl::range<1>(13) };
 
         // create sycl iterators
         auto key_beg1 = oneapi::dpl::begin(key_buf1);
@@ -87,8 +87,8 @@ int main() {
 
         bool pass = true;
 
-	auto key_acc = key_res_buf.template get_access<cl::sycl::access::mode::read>();
-	auto res_acc = val_res_buf.template get_access<cl::sycl::access::mode::read>();
+	auto key_acc = key_res_buf.template get_access<sycl::access::mode::read>();
+	auto res_acc = val_res_buf.template get_access<sycl::access::mode::read>();
 
         for (int i = 1; i != 13; ++i) {
             pass = pass && key_acc[i-1] <= key_acc[i];
@@ -116,12 +116,12 @@ int main() {
 
     {
         // create buffers
-        cl::sycl::buffer<uint64_t, 1> key_buf1{ key1.data(), cl::sycl::range<1>(6) };
-        cl::sycl::buffer<uint64_t, 1> key_buf2{ key2.data(), cl::sycl::range<1>(7) };
-        cl::sycl::buffer<uint64_t, 1> val_buf1{ val1.data(), cl::sycl::range<1>(6) };
-        cl::sycl::buffer<uint64_t, 1> val_buf2{ val2.data(), cl::sycl::range<1>(7) };
-        cl::sycl::buffer<uint64_t, 1> key_res_buf{ keys.data(), cl::sycl::range<1>(13) };
-        cl::sycl::buffer<uint64_t, 1> val_res_buf{ vals.data(), cl::sycl::range<1>(13) };
+        sycl::buffer<uint64_t, 1> key_buf1{ key1.data(), sycl::range<1>(6) };
+        sycl::buffer<uint64_t, 1> key_buf2{ key2.data(), sycl::range<1>(7) };
+        sycl::buffer<uint64_t, 1> val_buf1{ val1.data(), sycl::range<1>(6) };
+        sycl::buffer<uint64_t, 1> val_buf2{ val2.data(), sycl::range<1>(7) };
+        sycl::buffer<uint64_t, 1> key_res_buf{ keys.data(), sycl::range<1>(13) };
+        sycl::buffer<uint64_t, 1> val_res_buf{ vals.data(), sycl::range<1>(13) };
 
         // create sycl iterators
         auto key_beg1 = oneapi::dpl::begin(key_buf1);
@@ -146,8 +146,8 @@ int main() {
 
         bool pass = true;
 
-	auto key_acc = key_res_buf.template get_access<cl::sycl::access::mode::read>();
-	auto res_acc = val_res_buf.template get_access<cl::sycl::access::mode::read>();
+	auto key_acc = key_res_buf.template get_access<sycl::access::mode::read>();
+	auto res_acc = val_res_buf.template get_access<sycl::access::mode::read>();
 
         for (int i = 1; i != 13; ++i) {
           pass = pass && key_acc[i-1] >= key_acc[i];
