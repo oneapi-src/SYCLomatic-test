@@ -49,12 +49,12 @@ int main() {
 
     {
         // Test One, regular calls to std::max_element
-        cl::sycl::buffer<int64_t,1> src_buf{ cl::sycl::range<1>(12) };
+        sycl::buffer<int64_t,1> src_buf{ sycl::range<1>(12) };
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             // src = {2, 0, 11, 7, 8, 5, 4, 1, 3, 6, 10, 9}
             src[0] = 2; src[1] = 0; src[2] = 11; src[3] = 7; src[4] = 8;
             src[5] = 5; src[6] = 4; src[7] = 1; src[8] = 3; src[9] = 6;
@@ -66,7 +66,7 @@ int main() {
 
         {
             std::string test_name = "Regular call to std::max_element";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             size_t d = std::distance(src_it, location_it);
             num_failing += ASSERT_EQUAL(test_name, src[d], 11);
             int data_check[12] = {2, 0, 11, 7, 8, 5, 4, 1, 3, 6, 10, 9};
@@ -82,12 +82,12 @@ int main() {
 
     {
         // Test Two, test call to std::max_element with transform_iterators as parameters
-        cl::sycl::buffer<int64_t,1> src_buf{ cl::sycl::range<1>(10) };
+        sycl::buffer<int64_t,1> src_buf{ sycl::range<1>(10) };
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             // src = {1, 5, 4, 0, 6, 2, 3, 7, 9, 8}
             src[0] = 1; src[1] = 5; src[2] = 4; src[3] = 0; src[4] = 6;
             src[5] = 2; src[6] = 3; src[7] = 7; src[8] = 9; src[9] = 8;
@@ -102,7 +102,7 @@ int main() {
 
         {
             std::string test_name = "std::max_element with trf_it";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             size_t d = std::distance(trans_begin, location_it);
 
             // bug in transform_iterator dereference

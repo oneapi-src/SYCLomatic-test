@@ -12,7 +12,7 @@
 #include <iostream>
 
 // This file is compiled together with test_default_queue_2.cpp.
-cl::sycl::queue &get_queue_1(void)
+sycl::queue &get_queue_1(void)
 {
     auto v = dpct::malloc_device(32);
     std::cout << v.get() << std::endl;

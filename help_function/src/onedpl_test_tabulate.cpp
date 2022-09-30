@@ -58,13 +58,13 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<int64_t, 1> dst_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> dst_buf{ sycl::range<1>(8) };
 
         auto dst_it = oneapi::dpl::begin(dst_buf);
         auto dst_end_it = oneapi::dpl::end(dst_buf);
 
         {
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::write>();
             dst[0] = 0; dst[1] = 0; dst[2] = 0; dst[3] = 0; dst[4] = 0; dst[5] = 0; dst[6] = 0; dst[7] = 0;
         }
 
@@ -75,7 +75,7 @@ int main() {
 
         {
             test_name = "tabulate test";
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::read>();
             num_failing += ASSERT_EQUAL(test_name, dst[0], 0);
             num_failing += ASSERT_EQUAL(test_name, dst[1], -1);
             num_failing += ASSERT_EQUAL(test_name, dst[2], -2);

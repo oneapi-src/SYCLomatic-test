@@ -11,20 +11,20 @@
 #define DPCT_NAMED_LAMBDA
 #include <dpct/dpct.hpp>
 
-dpct::image_wrapper<cl::sycl::float4, 2> tex42;
-dpct::image_wrapper<cl::sycl::char4, 1> tex_char4;
-dpct::image_wrapper<cl::sycl::ushort4, 3> tex43;
+dpct::image_wrapper<sycl::float4, 2> tex42;
+dpct::image_wrapper<sycl::char4, 1> tex_char4;
+dpct::image_wrapper<sycl::ushort4, 3> tex43;
 
 // test_feature:image_accessor_ext
-void test_image(sycl::float4* out, dpct::image_accessor_ext<cl::sycl::float4, 2> acc42,
-                  dpct::image_accessor_ext<cl::sycl::char4, 1> acc21,
-                  dpct::image_accessor_ext<cl::sycl::ushort4, 3> acc13) {
+void test_image(sycl::float4* out, dpct::image_accessor_ext<sycl::float4, 2> acc42,
+                  dpct::image_accessor_ext<sycl::char4, 1> acc21,
+                  dpct::image_accessor_ext<sycl::ushort4, 3> acc13) {
   // test_feature:read
   out[0] = acc42.read(0.5f, 0.5f);
   // test_feature:read
-  cl::sycl::ushort4 data13 = acc13.read((uint64_t)3, (int)4, (short)5);
+  sycl::ushort4 data13 = acc13.read((uint64_t)3, (int)4, (short)5);
   // test_feature:read
-  cl::sycl::char4 data21 = acc21.read(0.5f);
+  sycl::char4 data21 = acc21.read(0.5f);
   int a = data21.x();
   int b = data13.x();
   out[1] = {a,b,a,b};
@@ -32,17 +32,17 @@ void test_image(sycl::float4* out, dpct::image_accessor_ext<cl::sycl::float4, 2>
 
 int main() {
 
-  cl::sycl::float4 *host_buffer = new cl::sycl::float4[640 * 480 * 24];
-  cl::sycl::char4 *host_char_buffer = new cl::sycl::char4[640];
+  sycl::float4 *host_buffer = new sycl::float4[640 * 480 * 24];
+  sycl::char4 *host_char_buffer = new sycl::char4[640];
 
   for(int i = 0; i < 640 * 480 * 24; ++i) {
 	  host_buffer[i] = sycl::float4{10.0f, 10.0f, 10.0f, 10.0f};
 	  if (i < 640)
 		  host_char_buffer[i] = sycl::char4{30, 30, 30, 30};
   }
-  cl::sycl::float4 *device_buffer;
-  device_buffer = (cl::sycl::float4 *)dpct::dpct_malloc(
-                      640 * 480 * 24 * sizeof(cl::sycl::float4));
+  sycl::float4 *device_buffer;
+  device_buffer = (sycl::float4 *)dpct::dpct_malloc(
+                      640 * 480 * 24 * sizeof(sycl::float4));
   dpct::dpct_memcpy(device_buffer, host_buffer, 640 * 480 * 24 * sizeof(sycl::float4));
 
   dpct::image_channel chn1 =
@@ -60,11 +60,11 @@ int main() {
   array1 = new dpct::image_matrix(chn2, sycl::range<1>(640));
   array3 = new dpct::image_matrix(chn1, sycl::range<3>(640, 480, 24));
 
-  tex42.attach(image_data2, 640, 480, 650 * sizeof(cl::sycl::float4));
+  tex42.attach(image_data2, 640, 480, 650 * sizeof(sycl::float4));
 
-  dpct::dpct_memcpy(array1->to_pitched_data(), sycl::id<3>(0, 0, 0), dpct::pitched_data(host_buffer, 640 * sizeof(cl::sycl::char4), 640 * sizeof(cl::sycl::char4), 1), sycl::id<3>(0, 0, 0), sycl::range<3>(640 * sizeof(cl::sycl::char4), 1, 1));
-  dpct::dpct_memcpy(dpct::pitched_data(image_data2, 650 * sizeof(cl::sycl::float4), 640 * sizeof(cl::sycl::float4*), 480), sycl::id<3>(0, 0, 0), dpct::pitched_data(host_buffer, 640 * 480 * sizeof(cl::sycl::float4), 640 * 480 * sizeof(cl::sycl::float4), 1), sycl::id<3>(0, 0, 0), sycl::range<3>(640 * 480 * sizeof(cl::sycl::float4), 1, 1));
-  dpct::dpct_memcpy(array3->to_pitched_data(), sycl::id<3>(0, 0, 0), dpct::pitched_data(device_buffer, 640 * 480 * 24 * sizeof(cl::sycl::ushort4), 640 * 480 * 24 * sizeof(cl::sycl::ushort4), 1), sycl::id<3>(0, 0, 0), sycl::range<3>(640 * 480 * 24 * sizeof(cl::sycl::ushort4), 1, 1));
+  dpct::dpct_memcpy(array1->to_pitched_data(), sycl::id<3>(0, 0, 0), dpct::pitched_data(host_buffer, 640 * sizeof(sycl::char4), 640 * sizeof(sycl::char4), 1), sycl::id<3>(0, 0, 0), sycl::range<3>(640 * sizeof(sycl::char4), 1, 1));
+  dpct::dpct_memcpy(dpct::pitched_data(image_data2, 650 * sizeof(sycl::float4), 640 * sizeof(sycl::float4*), 480), sycl::id<3>(0, 0, 0), dpct::pitched_data(host_buffer, 640 * 480 * sizeof(sycl::float4), 640 * 480 * sizeof(sycl::float4), 1), sycl::id<3>(0, 0, 0), sycl::range<3>(640 * 480 * sizeof(sycl::float4), 1, 1));
+  dpct::dpct_memcpy(array3->to_pitched_data(), sycl::id<3>(0, 0, 0), dpct::pitched_data(device_buffer, 640 * 480 * 24 * sizeof(sycl::ushort4), 640 * 480 * 24 * sizeof(sycl::ushort4), 1), sycl::id<3>(0, 0, 0), sycl::range<3>(640 * 480 * 24 * sizeof(sycl::ushort4), 1, 1));
 
   tex43.attach(array3);
 
@@ -73,23 +73,23 @@ int main() {
   dpct::sampling_info texDesc21;
   res21.set_data(array1);
 
-  tex42.set(cl::sycl::addressing_mode::clamp);
-  texDesc21.set(cl::sycl::addressing_mode::clamp);
-  tex43.set(cl::sycl::addressing_mode::clamp);
+  tex42.set(sycl::addressing_mode::clamp);
+  texDesc21.set(sycl::addressing_mode::clamp);
+  tex43.set(sycl::addressing_mode::clamp);
 
-  tex42.set(cl::sycl::coordinate_normalization_mode::normalized);
+  tex42.set(sycl::coordinate_normalization_mode::normalized);
   texDesc21.set_coordinate_normalization_mode(1);
-  tex43.set(cl::sycl::coordinate_normalization_mode::unnormalized);
+  tex43.set(sycl::coordinate_normalization_mode::unnormalized);
 
-  tex42.set(cl::sycl::filtering_mode::linear);
-  texDesc21.set(cl::sycl::filtering_mode::linear);
-  tex43.set(cl::sycl::filtering_mode::linear);
+  tex42.set(sycl::filtering_mode::linear);
+  texDesc21.set(sycl::filtering_mode::linear);
+  tex43.set(sycl::filtering_mode::linear);
 
-  tex42.set(cl::sycl::addressing_mode::clamp, cl::sycl::filtering_mode::linear, 1);
-  tex42.set(cl::sycl::addressing_mode::clamp, cl::sycl::filtering_mode::linear, cl::sycl::coordinate_normalization_mode::normalized);
+  tex42.set(sycl::addressing_mode::clamp, sycl::filtering_mode::linear, 1);
+  tex42.set(sycl::addressing_mode::clamp, sycl::filtering_mode::linear, sycl::coordinate_normalization_mode::normalized);
 
-  texDesc21.set(cl::sycl::addressing_mode::clamp, cl::sycl::filtering_mode::linear, 1);
-  texDesc21.set(cl::sycl::addressing_mode::clamp, cl::sycl::filtering_mode::linear, cl::sycl::coordinate_normalization_mode::normalized);
+  texDesc21.set(sycl::addressing_mode::clamp, sycl::filtering_mode::linear, 1);
+  texDesc21.set(sycl::addressing_mode::clamp, sycl::filtering_mode::linear, sycl::coordinate_normalization_mode::normalized);
 
   tex41 = dpct::create_image_wrapper(res21, texDesc21);
 
@@ -99,10 +99,10 @@ int main() {
   }
   {
     sycl::buffer<sycl::float4, 1> buf(d, sycl::range<1>(32));
-    dpct::get_default_queue().submit([&](cl::sycl::handler &cgh) {
+    dpct::get_default_queue().submit([&](sycl::handler &cgh) {
       auto acc42 = tex42.get_access(cgh);
       auto acc13 = tex43.get_access(cgh);
-      auto acc21 = static_cast<dpct::image_wrapper<cl::sycl::char4, 1> *>(tex41)->get_access(cgh);
+      auto acc21 = static_cast<dpct::image_wrapper<sycl::char4, 1> *>(tex41)->get_access(cgh);
 
       auto smpl42 = tex42.get_sampler();
       auto smpl13 = tex43.get_sampler();
@@ -111,9 +111,9 @@ int main() {
       auto acc_out = buf.get_access<sycl::access::mode::read_write, sycl::access::target::global_buffer>(cgh);
 
       cgh.single_task<dpct_kernel_name<class dpct_single_kernel>>([=] {
-        test_image(acc_out.get_pointer(),dpct::image_accessor_ext<cl::sycl::float4, 2>(smpl42, acc42),
-                   dpct::image_accessor_ext<cl::sycl::char4, 1>(smpl21, acc21),
-                   dpct::image_accessor_ext<cl::sycl::ushort4, 3>(smpl13, acc13));
+        test_image(acc_out.get_pointer(),dpct::image_accessor_ext<sycl::float4, 2>(smpl42, acc42),
+                   dpct::image_accessor_ext<sycl::char4, 1>(smpl21, acc21),
+                   dpct::image_accessor_ext<sycl::ushort4, 3>(smpl13, acc13));
       });
     });
   }

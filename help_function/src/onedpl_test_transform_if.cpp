@@ -86,13 +86,13 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<int64_t, 1> dst_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> dst_buf{ sycl::range<1>(8) };
 
         auto dst_it = oneapi::dpl::begin(dst_buf);
         auto dst_end_it = oneapi::dpl::end(dst_buf);
 
         {
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::write>();
             dst[0] = -1; dst[1] = 2; dst[2] = -3; dst[3] = 4; dst[4] = -5; dst[5] = 6; dst[6] = -7; dst[7] = 8;
         }
 
@@ -104,7 +104,7 @@ int main() {
 
         {
             test_name = "transform_if test 1";
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::read>();
             num_failing += ASSERT_EQUAL(test_name, dst[0], 1);
             num_failing += ASSERT_EQUAL(test_name, dst[1], 2);
             num_failing += ASSERT_EQUAL(test_name, dst[2], 3);
@@ -121,16 +121,16 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<int64_t, 1> dst_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> stencil_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> dst_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> stencil_buf{ sycl::range<1>(8) };
 
         auto dst_it = oneapi::dpl::begin(dst_buf);
         auto dst_end_it = oneapi::dpl::end(dst_buf);
         auto stn_it = oneapi::dpl::begin(stencil_buf);
 
         {
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto stn = stn_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto stn = stn_it.get_buffer().template get_access<sycl::access::mode::write>();
             dst[0] = -1; dst[1] = 2; dst[2] = -3; dst[3] = 4; dst[4] = -5; dst[5] = 6; dst[6] = -7; dst[7] = 8;
             stn[0] = 1; stn[1] = 1; stn[2] = 0; stn[3] = 0; stn[4] = 1; stn[5] = 1; stn[6] = 0; stn[7] = 0;
         }
@@ -144,7 +144,7 @@ int main() {
 
         {
             test_name = "transform_if test 2";
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::read>();
             num_failing += ASSERT_EQUAL(test_name, dst[0], 1);
             num_failing += ASSERT_EQUAL(test_name, dst[1], -2);
             num_failing += ASSERT_EQUAL(test_name, dst[2], -3);
@@ -161,16 +161,16 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<int64_t, 1> dst_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> stencil_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> dst_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> stencil_buf{ sycl::range<1>(8) };
 
         auto dst_it = oneapi::dpl::begin(dst_buf);
         auto dst_end_it = oneapi::dpl::end(dst_buf);
         auto stn_it = oneapi::dpl::begin(stencil_buf);
 
         {
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto stn = stn_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto stn = stn_it.get_buffer().template get_access<sycl::access::mode::write>();
             dst[0] = -1; dst[1] = 2; dst[2] = -3; dst[3] = 4; dst[4] = -5; dst[5] = 6; dst[6] = -7; dst[7] = 8;
             stn[0] = 1; stn[1] = 1; stn[2] = 0; stn[3] = 0; stn[4] = 1; stn[5] = 1; stn[6] = 0; stn[7] = 0;
         }
@@ -184,7 +184,7 @@ int main() {
 
         {
             test_name = "transform_if test 3";
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::read>();
             num_failing += ASSERT_EQUAL(test_name, dst[0], 1);
             num_failing += ASSERT_EQUAL(test_name, dst[1], 4);
             num_failing += ASSERT_EQUAL(test_name, dst[2], -3);
@@ -204,16 +204,16 @@ int main() {
     // test 1/4
 
     {
-        cl::sycl::buffer<int64_t, 1> src1_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> src2_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> src3_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> map_buf{ cl::sycl::range<1>(4) };
+        sycl::buffer<int64_t, 1> src1_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> src2_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> src3_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> map_buf{ sycl::range<1>(4) };
 
         {
-            auto src1 = src1_buf.template get_access<cl::sycl::access::mode::write>();
-            auto src2 = src2_buf.template get_access<cl::sycl::access::mode::write>();
-            auto src3 = src3_buf.template get_access<cl::sycl::access::mode::write>();
-            auto map = map_buf.template get_access<cl::sycl::access::mode::write>();
+            auto src1 = src1_buf.template get_access<sycl::access::mode::write>();
+            auto src2 = src2_buf.template get_access<sycl::access::mode::write>();
+            auto src3 = src3_buf.template get_access<sycl::access::mode::write>();
+            auto map = map_buf.template get_access<sycl::access::mode::write>();
 
             for (int i = 0; i != 8; ++i) {
                 src1[i] = i;
@@ -238,9 +238,9 @@ int main() {
             dpct::transform_if(oneapi::dpl::execution::dpcpp_default, zip1, zip1 + 4, zip2, map_it, zip1, add_tuple_components(), is_even());
         }
 
-        auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
-        auto src2 = src2_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
-        auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+        auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
+        auto src2 = src2_it.get_buffer().template get_access<sycl::access::mode::read>();
+        auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
         test_name = "transform_if with fancy iterators 1";
 
         for (int i = 0; i != 8; ++i) {
@@ -263,14 +263,14 @@ int main() {
     // test 2/4
 
     {
-        cl::sycl::buffer<int64_t, 1> src1_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> src2_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> map_buf{ cl::sycl::range<1>(4) };
+        sycl::buffer<int64_t, 1> src1_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> src2_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> map_buf{ sycl::range<1>(4) };
 
         {
-            auto src1 = src1_buf.template get_access<cl::sycl::access::mode::write>();
-            auto src2 = src2_buf.template get_access<cl::sycl::access::mode::write>();
-            auto map = map_buf.template get_access<cl::sycl::access::mode::write>();
+            auto src1 = src1_buf.template get_access<sycl::access::mode::write>();
+            auto src2 = src2_buf.template get_access<sycl::access::mode::write>();
+            auto map = map_buf.template get_access<sycl::access::mode::write>();
 
             for (int i = 0; i != 8; ++i) {
                 src1[i] = i;
@@ -291,7 +291,7 @@ int main() {
             dpct::transform_if(oneapi::dpl::execution::dpcpp_default, perm_begin, perm_begin + 4, zip, map_it, perm_begin, add_tuple_components2(), is_even());
         }
 
-        auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+        auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
         test_name = "transform_if with fancy iterators 2";
 
         for (int i = 0; i != 8; ++i) {
@@ -310,14 +310,14 @@ int main() {
     // test 3/4
 
     {
-        cl::sycl::buffer<int64_t, 1> src1_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> src2_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> map_buf{ cl::sycl::range<1>(4) };
+        sycl::buffer<int64_t, 1> src1_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> src2_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> map_buf{ sycl::range<1>(4) };
 
         {
-            auto src1 = src1_buf.template get_access<cl::sycl::access::mode::write>();
-            auto src2 = src2_buf.template get_access<cl::sycl::access::mode::write>();
-            auto map = map_buf.template get_access<cl::sycl::access::mode::write>();
+            auto src1 = src1_buf.template get_access<sycl::access::mode::write>();
+            auto src2 = src2_buf.template get_access<sycl::access::mode::write>();
+            auto map = map_buf.template get_access<sycl::access::mode::write>();
 
             for (int i = 0; i != 8; ++i) {
                 src1[i] = i;
@@ -337,8 +337,8 @@ int main() {
             dpct::transform_if(oneapi::dpl::execution::dpcpp_default, perm_begin, perm_begin + 4, zip, map_it, perm_begin, add_tuple_components2(), is_odd());
         }
 
-        auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
-        auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+        auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
+        auto map = map_it.get_buffer().template get_access<sycl::access::mode::read>();
         test_name = "transform_if with fancy iterators 3";
 
         for (int i = 0; i != 8; ++i) {
@@ -357,14 +357,14 @@ int main() {
     // test 4/4
 
     {
-        cl::sycl::buffer<int64_t, 1> src1_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> src2_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<int64_t, 1> map_buf{ cl::sycl::range<1>(4) };
+        sycl::buffer<int64_t, 1> src1_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> src2_buf{ sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> map_buf{ sycl::range<1>(4) };
 
         {
-            auto src1 = src1_buf.template get_access<cl::sycl::access::mode::write>();
-            auto src2 = src2_buf.template get_access<cl::sycl::access::mode::write>();
-            auto map = map_buf.template get_access<cl::sycl::access::mode::write>();
+            auto src1 = src1_buf.template get_access<sycl::access::mode::write>();
+            auto src2 = src2_buf.template get_access<sycl::access::mode::write>();
+            auto map = map_buf.template get_access<sycl::access::mode::write>();
 
             for (int i = 0; i != 8; ++i) {
                 src1[i] = i;
@@ -392,7 +392,7 @@ int main() {
         }
 
         {
-            auto src2 = src2_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src2 = src2_it.get_buffer().template get_access<sycl::access::mode::read>();
             test_name = "transform_if with fancy iterators 4";
 
             for (int i = 0; i != 8; ++i) {

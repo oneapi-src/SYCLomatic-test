@@ -58,13 +58,13 @@ int main() {
         // test 1/3
 
         // create buffer
-        cl::sycl::buffer<uint64_t, 1> src_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src_buf{ sycl::range<1>(8) };
 
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             init_buffer(src, 0, 8, 0);
         }
 
@@ -73,7 +73,7 @@ int main() {
 
         {
             std::string test_name = "Regular call to std::fill 1/3";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4)
                     num_failing += ASSERT_EQUAL(test_name, src[i], 2);
@@ -88,7 +88,7 @@ int main() {
         // test 2/3
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             init_buffer(src, 0, 8, 0);
         }
 
@@ -97,7 +97,7 @@ int main() {
 
         {
             std::string test_name = "Regular call to std::fill 2/3";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i > 1)
                     num_failing += ASSERT_EQUAL(test_name, src[i], 5);
@@ -112,7 +112,7 @@ int main() {
         // test 3/3
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             init_buffer(src, 0, 8, 0);
         }
 
@@ -121,7 +121,7 @@ int main() {
 
         {
             std::string test_name = "Regular call to std::fill 3/3";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i > 1 && i < 6)
                     num_failing += ASSERT_EQUAL(test_name, src[i], 3);
@@ -140,12 +140,12 @@ int main() {
         // test 1/3
 
         // create buffer
-        cl::sycl::buffer<uint64_t, 1> src_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> map_buf{ cl::sycl::range<1>(4) };
+        sycl::buffer<uint64_t, 1> src_buf{ sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> map_buf{ sycl::range<1>(4) };
 
         {
-            auto src = src_buf.template get_access<cl::sycl::access::mode::write>();
-            auto map = map_buf.template get_access<cl::sycl::access::mode::write>();
+            auto src = src_buf.template get_access<sycl::access::mode::write>();
+            auto map = map_buf.template get_access<sycl::access::mode::write>();
             for (int i = 0; i != 8; ++i) {
                 src[i] = i;
             }
@@ -167,7 +167,7 @@ int main() {
 
         {
             std::string test_name = "std::fill with perm_it 1/3";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4)
                     num_failing += ASSERT_EQUAL(test_name, src[i], i);
@@ -182,8 +182,8 @@ int main() {
         // test 2/3
 
         {
-            auto src = src_buf.template get_access<cl::sycl::access::mode::write>();
-            auto map = map_buf.template get_access<cl::sycl::access::mode::write>();
+            auto src = src_buf.template get_access<sycl::access::mode::write>();
+            auto map = map_buf.template get_access<sycl::access::mode::write>();
             for (int i = 0; i != 8; ++i) {
                 src[i] = i;
             }
@@ -203,7 +203,7 @@ int main() {
 
         {
             std::string test_name = "std::fill with perm_it 2/3";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4)
                     num_failing += ASSERT_EQUAL(test_name, src[i], 20);
@@ -218,8 +218,8 @@ int main() {
         // test 3/3
 
         {
-            auto src = src_buf.template get_access<cl::sycl::access::mode::write>();
-            auto map = map_buf.template get_access<cl::sycl::access::mode::write>();
+            auto src = src_buf.template get_access<sycl::access::mode::write>();
+            auto map = map_buf.template get_access<sycl::access::mode::write>();
             for (int i = 0; i != 8; ++i) {
                 src[i] = i;
             }
@@ -239,7 +239,7 @@ int main() {
 
         {
             std::string test_name = "std::fill with perm_it 3/3";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i > 1 && i < 6)
                     num_failing += ASSERT_EQUAL(test_name, src[i], 20);

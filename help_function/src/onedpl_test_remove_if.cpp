@@ -64,16 +64,16 @@ int main() {
 
     {
         const int N = 6;
-        cl::sycl::buffer<int, 1> a_buf{ cl::sycl::range<1>(N) };
-        cl::sycl::buffer<int, 1> s_buf{ cl::sycl::range<1>(N) };
-        //cl::sycl::buffer<int, 1> b_buf{ cl::sycl::range<1>(N) };
+        sycl::buffer<int, 1> a_buf{ sycl::range<1>(N) };
+        sycl::buffer<int, 1> s_buf{ sycl::range<1>(N) };
+        //sycl::buffer<int, 1> b_buf{ sycl::range<1>(N) };
 
         auto A_it = oneapi::dpl::begin(a_buf);
         auto S_it = oneapi::dpl::begin(s_buf);
 
         {
-            auto A = A_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto S = S_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto A = A_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto S = S_it.get_buffer().template get_access<sycl::access::mode::write>();
             A[0] = 1; A[1] = 4; A[2] = 2; A[3] = 8; A[4] = 5; A[5] = 7;
             S[0] = 0; S[1] = 1; S[2] = 1; S[3] = 1; S[4] = 0; S[5] = 0;
         }
@@ -85,7 +85,7 @@ int main() {
 
         {
             test_name = "remove_if test";
-            auto A = A_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto A = A_it.get_buffer().template get_access<sycl::access::mode::read>();
             num_failing += ASSERT_EQUAL(test_name, A[0], 1);
             num_failing += ASSERT_EQUAL(test_name, A[1], 5);
             num_failing += ASSERT_EQUAL(test_name, A[2], 7);
@@ -100,18 +100,18 @@ int main() {
 
     {
         const int N = 6;
-        cl::sycl::buffer<int, 1> a_buf{ cl::sycl::range<1>(N) };
-        cl::sycl::buffer<int, 1> s_buf{ cl::sycl::range<1>(N) };
-        cl::sycl::buffer<int, 1> b_buf{ cl::sycl::range<1>(N) };
+        sycl::buffer<int, 1> a_buf{ sycl::range<1>(N) };
+        sycl::buffer<int, 1> s_buf{ sycl::range<1>(N) };
+        sycl::buffer<int, 1> b_buf{ sycl::range<1>(N) };
 
         auto A_it = oneapi::dpl::begin(a_buf);
         auto S_it = oneapi::dpl::begin(s_buf);
         auto B_it = oneapi::dpl::begin(b_buf);
 
         {
-            auto A = A_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto S = S_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto B = B_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto A = A_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto S = S_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto B = B_it.get_buffer().template get_access<sycl::access::mode::write>();
             A[0] = 1; A[1] = 4; A[2] = 2; A[3] = 8; A[4] = 5; A[5] = 7;
             S[0] = 0; S[1] = 1; S[2] = 1; S[3] = 1; S[4] = 0; S[5] = 0;
             B[0] = 0; B[1] = 0; B[2] = 0; B[3] = 0; B[4] = 0; B[5] = 0;
@@ -124,7 +124,7 @@ int main() {
 
         {
             test_name = "remove_copy_if test";
-            auto B = B_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto B = B_it.get_buffer().template get_access<sycl::access::mode::read>();
             num_failing += ASSERT_EQUAL(test_name, B[0], 1);
             num_failing += ASSERT_EQUAL(test_name, B[1], 5);
             num_failing += ASSERT_EQUAL(test_name, B[2], 7);

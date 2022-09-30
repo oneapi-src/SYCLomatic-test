@@ -55,13 +55,13 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<int64_t, 1> input_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<int64_t, 1> input_buf{ sycl::range<1>(8) };
 
         auto inp_it = oneapi::dpl::begin(input_buf);
         auto inp_end_it = oneapi::dpl::end(input_buf);
 
         {
-            auto inp = inp_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto inp = inp_it.get_buffer().template get_access<sycl::access::mode::write>();
             for (int i = 0; i != 8; ++i) {
                 inp[i] = i;
             }
@@ -72,7 +72,7 @@ int main() {
 
         // call algorithm:
         auto res_it = dpct::partition_point(new_policy, inp_it, inp_end_it, less_than_n(4));
-        auto result = res_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+        auto result = res_it.get_buffer().template get_access<sycl::access::mode::read>();
 
         failed_tests += ASSERT_EQUAL("Regular call to partition_point", result[std::distance(inp_it, res_it)], 4);
     }

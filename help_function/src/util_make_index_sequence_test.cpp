@@ -13,9 +13,9 @@
 const int ref_range[3] = {1, 2, 3};
 
 template <int... DimIdx>
-cl::sycl::range<sizeof...(DimIdx)>
+sycl::range<sizeof...(DimIdx)>
 get_range(dpct::integer_sequence<DimIdx...>) {
-  return cl::sycl::range<sizeof...(DimIdx)>(ref_range[DimIdx]...);
+  return sycl::range<sizeof...(DimIdx)>(ref_range[DimIdx]...);
 }
 
 void make_index_sequence_test() {

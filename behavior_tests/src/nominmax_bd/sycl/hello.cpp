@@ -9,7 +9,7 @@
 #include <CL/sycl.hpp>
 #include <dpct/dpct.hpp>
 int foo(int i) {
- return cl::sycl::max(0, i);
+ return sycl::max(0, i);
 }
 int main() {
  if (foo(23) == 23 )

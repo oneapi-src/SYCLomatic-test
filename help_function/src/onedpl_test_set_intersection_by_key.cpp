@@ -50,11 +50,11 @@ int main() {
 
     {
         // create buffers
-        cl::sycl::buffer<uint64_t, 1> key_buf1{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> key_buf2{ cl::sycl::range<1>(10) };
-        cl::sycl::buffer<uint64_t, 1> val_buf1{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> key_res_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> val_res_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> key_buf1{ sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> key_buf2{ sycl::range<1>(10) };
+        sycl::buffer<uint64_t, 1> val_buf1{ sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> key_res_buf{ sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> val_res_buf{ sycl::range<1>(8) };
 
         // create sycl iterators
         auto key_beg1_it = oneapi::dpl::begin(key_buf1);
@@ -74,11 +74,11 @@ int main() {
 
         // Initialize data
         {
-            auto key_beg1 = key_beg1_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto key_beg2 = key_beg2_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto val_beg1 = val_beg1_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto key_res_beg = key_res_beg_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto val_res_beg = val_res_beg_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto key_beg1 = key_beg1_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto key_beg2 = key_beg2_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto val_beg1 = val_beg1_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto key_res_beg = key_res_beg_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto val_res_beg = val_res_beg_it.get_buffer().template get_access<sycl::access::mode::write>();
 
             key_beg1[0] = 1; key_beg1[1] = 1; key_beg1[2] = 3; key_beg1[3] = 3; key_beg1[4] = 5;
             key_beg1[5] = 5; key_beg1[6] = 7; key_beg1[7] = 9;
@@ -103,11 +103,11 @@ int main() {
 
         // check values
         {
-            auto key_beg1 = key_beg1_it.get_buffer().template get_access<cl::sycl::access::mode::read_write>();
-            auto key_beg2 = key_beg2_it.get_buffer().template get_access<cl::sycl::access::mode::read_write>();
-            auto val_beg1 = val_beg1_it.get_buffer().template get_access<cl::sycl::access::mode::read_write>();
-            auto key_res_beg = key_res_beg_it.get_buffer().template get_access<cl::sycl::access::mode::read_write>();
-            auto val_res_beg = val_res_beg_it.get_buffer().template get_access<cl::sycl::access::mode::read_write>();
+            auto key_beg1 = key_beg1_it.get_buffer().template get_access<sycl::access::mode::read_write>();
+            auto key_beg2 = key_beg2_it.get_buffer().template get_access<sycl::access::mode::read_write>();
+            auto val_beg1 = val_beg1_it.get_buffer().template get_access<sycl::access::mode::read_write>();
+            auto key_res_beg = key_res_beg_it.get_buffer().template get_access<sycl::access::mode::read_write>();
+            auto val_res_beg = val_res_beg_it.get_buffer().template get_access<sycl::access::mode::read_write>();
 
             for (int i = 1; i != 4; ++i) {
                 if (key_res_beg[i-1] > key_res_beg[i]) {
@@ -159,8 +159,8 @@ int main() {
 
         // check values
         {
-            auto key_res_beg = key_res_beg_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto val_res_beg = val_res_beg_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto key_res_beg = key_res_beg_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto val_res_beg = val_res_beg_it.get_buffer().template get_access<sycl::access::mode::write>();
             for (int i = 1; i != 4; ++i) {
                 if (key_res_beg[i-1] < key_res_beg[i]) {
                     std::cout << "fail - keys not sorted" << std::endl;

@@ -117,7 +117,7 @@ void test1(volatile int *acc_d1, int *acc_d2, int *c1, int c2) {
 
 int main() try {
   dpct::get_default_queue().submit(
-    [&](cl::sycl::handler &cgh) {
+    [&](sycl::handler &cgh) {
       d1_a.init();
       d2_a.init();
       c1_a.init();
@@ -127,34 +127,34 @@ int main() try {
       auto c1_acc = c1_a.get_access(cgh);
       auto c2_acc = c2_a.get_access(cgh);
       cgh.parallel_for<dpct_kernel_name<class kernel_test1>>(
-        cl::sycl::nd_range<3>(cl::sycl::range<3>(1, 1, 1), cl::sycl::range<3>(1, 1, 1)),
-        [=] (cl::sycl::nd_item<3> item) {
+        sycl::nd_range<3>(sycl::range<3>(1, 1, 1), sycl::range<3>(1, 1, 1)),
+        [=] (sycl::nd_item<3> item) {
           test1(d1_acc.get_pointer(), d2_acc.get_pointer(), c1_acc.get_pointer(), c2_acc);
         });
     });
   dpct::get_default_queue().submit(
-    [&](cl::sycl::handler &cgh) {
+    [&](sycl::handler &cgh) {
       c3_a.init();
       c4_a.init();
       auto c3_acc = c3_a.get_access(cgh);
       auto c4_acc = c4_a.get_access(cgh);
       cgh.parallel_for<dpct_kernel_name<class kernel_test2>>(
-        cl::sycl::nd_range<3>(cl::sycl::range<3>(1, 1, 1), cl::sycl::range<3>(1, 1, 1)),
-        [=] (cl::sycl::nd_item<3> item) {
+        sycl::nd_range<3>(sycl::range<3>(1, 1, 1), sycl::range<3>(1, 1, 1)),
+        [=] (sycl::nd_item<3> item) {
           test3(c3_acc, c4_acc);
         });
     });
 
   sycl::queue *q = dpct::get_current_device().create_queue();
   q->submit(
-    [&](cl::sycl::handler &cgh) {
+    [&](sycl::handler &cgh) {
       d3_a.init(*q);
       d4_a.init(*q);
       auto d3_acc = d3_a.get_access(cgh);
       auto d4_acc = d4_a.get_access(cgh);
       cgh.parallel_for<dpct_kernel_name<class kernel_test3>>(
-        cl::sycl::nd_range<3>(cl::sycl::range<3>(1, 1, 1), cl::sycl::range<3>(1, 1, 1)),
-        [=] (cl::sycl::nd_item<3> item) {
+        sycl::nd_range<3>(sycl::range<3>(1, 1, 1), sycl::range<3>(1, 1, 1)),
+        [=] (sycl::nd_item<3> item) {
           test4(d3_acc.get_pointer(), d4_acc.get_pointer());
         });
     });
@@ -167,4 +167,4 @@ int main() try {
   }
   return 0;
 }
-catch(cl::sycl::exception const &exc){}
+catch(sycl::exception const &exc){}

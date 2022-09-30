@@ -19,7 +19,7 @@ int main() {
   i = (int)dpct::image_data_type::unsupport;
 
   dpct::image_channel IC;
-  cl::sycl::range<3> Range(1,1,1);
+  sycl::range<3> Range(1,1,1);
   dpct::image_matrix IM(IC, Range);
   // test_feature:image_data
   dpct::image_data ID(&IM);

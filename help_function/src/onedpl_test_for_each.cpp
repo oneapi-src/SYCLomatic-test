@@ -36,14 +36,14 @@ int test_passed(int failing_elems, std::string test_name) {
 }
 
 template<typename Buffer> void fill_buffer(Buffer& src_buf, int start_index, int end_index, uint64_t value) {
-    auto src = src_buf.template get_access<cl::sycl::access::mode::write>();
+    auto src = src_buf.template get_access<sycl::access::mode::write>();
     for (int i = start_index; i != end_index; ++i) {
         src[i] = value;
     }
 }
 
 template<typename Buffer> void iota_buffer(Buffer& dst_buf, int start_index, int end_index) {
-    auto dst = dst_buf.template get_access<cl::sycl::access::mode::write>();
+    auto dst = dst_buf.template get_access<sycl::access::mode::write>();
     for (int i = start_index; i != end_index; ++i) {
         dst[i] = i;
     }
@@ -105,7 +105,7 @@ int main() {
         // test 1/1
 
         // create buffer
-        cl::sycl::buffer<uint64_t> src_buf { cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t> src_buf { sycl::range<1>(8) };
 
         auto src_it = oneapi::dpl::begin(src_buf);
 
@@ -116,7 +116,7 @@ int main() {
 
         {
             test_name = "Regular call to std::for_each";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4)
                     num_failing += ASSERT_EQUAL(test_name, src[i], i*i);
@@ -217,8 +217,8 @@ int main() {
 
         // create buffer
 
-        cl::sycl::buffer<uint64_t> src_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t> map_buf { cl::sycl::range<1>(4) };
+        sycl::buffer<uint64_t> src_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t> map_buf { sycl::range<1>(4) };
 
         auto src_it = oneapi::dpl::begin(src_buf);
         auto map_it = oneapi::dpl::begin(map_buf);
@@ -226,7 +226,7 @@ int main() {
         iota_buffer(src_buf, 0, 8);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 4; map[1] = 3; map[2] = 6; map[3] = 5;
         }
 
@@ -246,7 +246,7 @@ int main() {
 
         {
             test_name = "std::for_each using make_perm_it";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 3 || i == 7)
                     num_failing += ASSERT_EQUAL(test_name, src[i], i);
@@ -264,7 +264,7 @@ int main() {
         // test 1/2
 
         // create buffer
-        cl::sycl::buffer<uint64_t> src_buf { cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t> src_buf { sycl::range<1>(8) };
 
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
@@ -290,7 +290,7 @@ int main() {
 
         {
             test_name = "std::for_each using make_zip_it 1/2";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4)
                     num_failing += ASSERT_EQUAL(test_name, src[i], i);
@@ -305,13 +305,13 @@ int main() {
         // test 2/2
 
         // create buffer
-        cl::sycl::buffer<uint64_t> map_buf { cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t> map_buf { sycl::range<1>(8) };
 
         auto map_it = oneapi::dpl::begin(map_buf);
         auto map_end_it = oneapi::dpl::end(map_buf);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 5; map[1] = 2; map[2] = 4; map[3] = 3;
         }
 
@@ -344,7 +344,7 @@ int main() {
 
         {
             test_name = "std::for_each using make_zip_it 2/2";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
 
             // check that src is now { 0, 1, 1, 9, 4, 0, 36, 49 }
             num_failing += ASSERT_EQUAL(test_name, src[0], 0);
