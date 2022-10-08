@@ -36,21 +36,21 @@ int test_passed(int failing_elems, std::string test_name) {
 }
 
 template<typename Buffer> void fill_buffer(Buffer& src_buf, int start_index, int end_index, uint64_t value) {
-    auto src = src_buf.template get_access<cl::sycl::access::mode::write>();
+    auto src = src_buf.template get_access<sycl::access::mode::write>();
     for (int i = start_index; i != end_index; ++i) {
         src[i] = value;
     }
 }
 
 template<typename Buffer> void iota_buffer(Buffer& dst_buf, int start_index, int end_index, int offset) {
-    auto dst = dst_buf.template get_access<cl::sycl::access::mode::write>();
+    auto dst = dst_buf.template get_access<sycl::access::mode::write>();
     for (int i = start_index; i != end_index; ++i) {
         dst[i] = i + offset;
     }
 }
 
 template<typename Buffer> void iota_reverse_buffer(Buffer& dst_buf, int start_index, int end_index, int offset) {
-    auto dst = dst_buf.template get_access<cl::sycl::access::mode::write>();
+    auto dst = dst_buf.template get_access<sycl::access::mode::write>();
     for (int i = start_index; i != end_index; ++i) {
         dst[i] = (end_index - start_index - 1) - i + offset;
     }
@@ -638,14 +638,14 @@ int main() {
         // test 1/15
 
         // create buffers
-        cl::sycl::buffer<uint64_t, 1> src1_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src2_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src3_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src4_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src5_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src6_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> dst_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> map_buf { cl::sycl::range<1>(4) };
+        sycl::buffer<uint64_t, 1> src1_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src2_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src3_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src4_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src5_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src6_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> dst_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> map_buf { sycl::range<1>(4) };
 
         auto src1_it = oneapi::dpl::begin(src1_buf);
         auto src2_it = oneapi::dpl::begin(src2_buf);
@@ -665,7 +665,7 @@ int main() {
         fill_buffer(dst_buf, 0, 8, 0);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 3; map[1] = 2; map[2] = 0; map[3] = 1;
         }
 
@@ -728,7 +728,7 @@ int main() {
 
         {
             test_name = "transform with buffer 1/15";
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4) {
                     num_failing += ASSERT_EQUAL(test_name, dstHostArray[i], 10 + i*2);
@@ -764,7 +764,7 @@ int main() {
 
         {
             test_name = "transform with buffer 2/15";
-            auto src = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray[i], -4-i);
@@ -800,7 +800,7 @@ int main() {
 
         {
             test_name = "transform with buffer 3/15";
-            auto src = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray[i], i);
@@ -842,7 +842,7 @@ int main() {
 
         {
             test_name = "transform with buffer 4/15";
-            auto src = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i == 0) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray[i], 4);
@@ -893,7 +893,7 @@ int main() {
 
         {
             test_name = "transform with buffer 5/15";
-            auto src = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray[i], 34);
@@ -934,7 +934,7 @@ int main() {
 
         {
             test_name = "transform with buffer 6/15";
-            auto src = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray[i], (7-i)*(7-i) + i);
@@ -958,7 +958,7 @@ int main() {
         host_to_device(myQueue, hostArray, deviceArray);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 2; map[1] = 6; map[2] = 7; map[3] = 4;
         }
 
@@ -981,7 +981,7 @@ int main() {
 
         {
             test_name = "transform with buffer 7/15";
-            auto src2 = src2_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src2 = src2_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i == 2) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray2[i], 1);
@@ -1020,7 +1020,7 @@ int main() {
         host_to_device(myQueue, mapHostArray, mapDeviceArray);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 5; map[1] = 6; map[2] = 4; map[3] = 7;
         }
 
@@ -1054,8 +1054,8 @@ int main() {
 
         {
             test_name = "transform with buffer 8/15";
-            auto src2 = src2_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
-            auto src3 = src3_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src2 = src2_it.get_buffer().template get_access<sycl::access::mode::read>();
+            auto src3 = src3_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 std::cout << "src2[" << i << "] = " << src2[i] << " ";
                 std::cout << "hostArray2[" << i << "] = " << hostArray2[i] << " ";
@@ -1084,7 +1084,7 @@ int main() {
         host_to_device(myQueue, mapHostArray, mapDeviceArray);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 1; map[1] = 2; map[2] = 3; map[3] = 4;
         }
 
@@ -1106,7 +1106,7 @@ int main() {
 
         {
             test_name = "transform with buffer 9/15";
-            auto src2 = src2_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src2 = src2_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i > 0 && i < 5) {
                     num_failing += ASSERT_EQUAL(test_name, src2[i], i+16);
@@ -1140,7 +1140,7 @@ int main() {
         host_to_device(myQueue, mapHostArray, mapDeviceArray);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 4; map[1] = 2; map[2] = 5; map[3] = 3;
         }
 
@@ -1164,7 +1164,7 @@ int main() {
 
         {
             test_name = "transform with buffer 10/15";
-            auto src3 = src3_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src3 = src3_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i == 0) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray3[i], 25);
@@ -1215,8 +1215,8 @@ int main() {
 
         {
             test_name = "transform with buffer 11/15";
-            auto src2 = src2_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
-            auto src3 = src3_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src2 = src2_it.get_buffer().template get_access<sycl::access::mode::read>();
+            auto src3 = src3_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray2[i], 14 + i*2);
@@ -1252,7 +1252,7 @@ int main() {
 
         {
             test_name = "transform with buffer 12/15";
-            auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4)
                     num_failing += ASSERT_EQUAL(test_name, src1[i], i + 5);
@@ -1286,7 +1286,7 @@ int main() {
 
         {
             test_name = "transform with buffer 13/15";
-            auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
 
             for (int i = 0; i != 8; ++i) {
                 if (i > 1 && i < 6) {
@@ -1378,11 +1378,11 @@ int main() {
 
         // create buffers
 
-        cl::sycl::buffer<uint64_t, 1> src1_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src2_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src3_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> map_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> map2_buf { cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src1_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src2_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src3_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> map_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> map2_buf { sycl::range<1>(8) };
 
         auto src1_it = oneapi::dpl::begin(src1_buf);
         auto src2_it = oneapi::dpl::begin(src2_buf);
@@ -1428,10 +1428,10 @@ int main() {
         host_to_device(myQueue, mapHostArray2, mapDeviceArray2);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 7; map[1] = 6; map[2] = 5; map[3] = 4; map[4] = 2; map[5] = 3; map[6] = 0; map[7] = 1;
 
-            auto map2 = map2_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map2 = map2_it.get_buffer().template get_access<sycl::access::mode::write>();
             map2[0] = 0; map2[1] = 2; map2[2] = 1; map2[3] = 3; map2[4] = 7; map2[5] = 4; map2[6] = 6; map2[7] = 5;
         }
 
@@ -1451,7 +1451,7 @@ int main() {
 
         {
             test_name = "transform with make_perm_it 1/8";
-            auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray[i], i);
@@ -1491,7 +1491,7 @@ int main() {
 
         {
             test_name = "transform with make_perm_it 2/8";
-            auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i == 0) {
                     num_failing += ASSERT_EQUAL(test_name, src1[i], 5);
@@ -1530,7 +1530,7 @@ int main() {
         host_to_device(myQueue, mapHostArray, mapDeviceArray);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 4; map[1] = 3; map[2] = 5; map[3] = 6;
         }
 
@@ -1549,7 +1549,7 @@ int main() {
 
         {
             test_name = "transform with make_perm_it 3/8";
-            auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 std::cout << src1[i] << " ";
                 std::cout << hostArray[i] << std::endl;
@@ -1570,7 +1570,7 @@ int main() {
         host_to_device(myQueue, mapHostArray, mapDeviceArray);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 4; map[1] = 3; map[2] = 1; map[3] = 2;
         }
 
@@ -1590,7 +1590,7 @@ int main() {
 
         {
             test_name = "transform with make_perm_it 4/8";
-            auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i > 0 && i < 5) {
                     num_failing += ASSERT_EQUAL(test_name, src1[i], i+17);
@@ -1617,7 +1617,7 @@ int main() {
         host_to_device(myQueue, mapHostArray, mapDeviceArray);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 4; map[1] = 3; map[2] = 5; map[3] = 6;
         }
 
@@ -1636,7 +1636,7 @@ int main() {
 
         {
             test_name = "transform with make_perm_it 5/8";
-            auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i > 2 && i < 7) {
                     num_failing += ASSERT_EQUAL(test_name, src1[i], i + (7-i)*(7-i));
@@ -1663,7 +1663,7 @@ int main() {
         host_to_device(myQueue, mapHostArray, mapDeviceArray);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 1; map[1] = 2; map[2] = 3; map[3] = 0;
         }
 
@@ -1682,7 +1682,7 @@ int main() {
 
         {
             test_name = "transform with make_perm_it 6/8";
-            auto src2 = src2_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src2 = src2_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4) {
                     num_failing += ASSERT_EQUAL(test_name, src2[i], -i);
@@ -1709,7 +1709,7 @@ int main() {
         host_to_device(myQueue, hostArray2, deviceArray2);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 1; map[1] = 2; map[2] = 3; map[3] = 0;
         }
 
@@ -1728,7 +1728,7 @@ int main() {
 
         {
             test_name = "transform with make_perm_it 7/8";
-            auto src2 = src2_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src2 = src2_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 3) {
                     num_failing += ASSERT_EQUAL(test_name, src2[i], -i-1);
@@ -1762,10 +1762,10 @@ int main() {
         host_to_device(myQueue, mapHostArray2, mapDeviceArray2);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 1; map[1] = 2; map[2] = 3; map[3] = 0;
 
-            auto map2 = map2_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map2 = map2_it.get_buffer().template get_access<sycl::access::mode::write>();
             map2[0] = 6; map2[1] = 7; map2[2] = 5; map2[3] = 4;
         }
 
@@ -1785,7 +1785,7 @@ int main() {
 
         {
             test_name = "transform with make_perm_it 8/8";
-            auto src2 = src2_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src2 = src2_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i == 0) {
                     num_failing += ASSERT_EQUAL(test_name, src2[i], 7);
@@ -1820,10 +1820,10 @@ int main() {
         // test 1/4
 
         // create buffers
-        cl::sycl::buffer<uint64_t, 1> src1_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src2_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src3_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> map_buf { cl::sycl::range<1>(4) };
+        sycl::buffer<uint64_t, 1> src1_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src2_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src3_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> map_buf { sycl::range<1>(4) };
 
         auto src1_it = oneapi::dpl::begin(src1_buf);
         auto src2_it = oneapi::dpl::begin(src2_buf);
@@ -1863,7 +1863,7 @@ int main() {
         host_to_device(myQueue, mapHostArray, mapDeviceArray);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 3; map[1] = 5; map[2] = 7; map[3] = 1;
         }
 
@@ -1881,7 +1881,7 @@ int main() {
 
         {
             test_name = "transform with make_counting_it 1/4";
-            auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i == 1) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray[i], 4);
@@ -1926,7 +1926,7 @@ int main() {
 
         {
             test_name = "transform with make_counting_it 2/4";
-            auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray[i], -i-1);
@@ -1965,7 +1965,7 @@ int main() {
 
         {
             test_name = "transform with make_counting_it 3/4";
-            auto src3 = src3_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src3 = src3_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray3[i], i+7);
@@ -2029,14 +2029,14 @@ int main() {
         // runtime hang with zip_it<buffer x2, perm_it x2>
 
         // create buffers
-        cl::sycl::buffer<uint64_t, 1> src1_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src2_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src3_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src4_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src5_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src6_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> map_buf { cl::sycl::range<1>(4) };
-        cl::sycl::buffer<uint64_t, 1> map2_buf { cl::sycl::range<1>(4) };
+        sycl::buffer<uint64_t, 1> src1_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src2_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src3_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src4_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src5_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src6_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> map_buf { sycl::range<1>(4) };
+        sycl::buffer<uint64_t, 1> map2_buf { sycl::range<1>(4) };
 
         auto src1_it = oneapi::dpl::begin(src1_buf);
         auto src2_it = oneapi::dpl::begin(src2_buf);
@@ -2098,10 +2098,10 @@ int main() {
         host_to_device(myQueue, mapHostArray, mapDeviceArray);
         host_to_device(myQueue, mapHostArray2, mapDeviceArray2);
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 5; map[1] = 6; map[2] = 7; map[3] = 4;
 
-            auto map2 = map2_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map2 = map2_it.get_buffer().template get_access<sycl::access::mode::write>();
             map2[0] = 0; map2[1] = 2; map2[2] = 1; map2[3] = 3;
         }
 
@@ -2124,7 +2124,7 @@ int main() {
 
         {
             test_name = "transform with make_zip_it 1/2";
-            auto src4 = src4_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src4 = src4_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 std::cout << src4[i] << " ";
                 std::cout << hostArray4[i] << std::endl;
@@ -2141,7 +2141,7 @@ int main() {
         mapHostArray[0] = 4; mapHostArray[1] = 2; mapHostArray[2] = 5; mapHostArray[3] = 3;
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 4; map[1] = 2; map[2] = 5; map[3] = 3;
         }
 
@@ -2165,8 +2165,8 @@ int main() {
 
         {
             test_name = "transform with make_zip_it 2/2";
-            auto src1 = src1_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
-            auto src2 = src2_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
+            auto src2 = src2_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 std::cout << src1[i] << " ";
                 std::cout << src2[i] << " ";
@@ -2191,9 +2191,9 @@ int main() {
         // runtime fail due to make_constant_iterator bug
 
         // create buffers
-        cl::sycl::buffer<uint64_t, 1> src1_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src2_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> map_buf { cl::sycl::range<1>(4) };
+        sycl::buffer<uint64_t, 1> src1_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src2_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> map_buf { sycl::range<1>(4) };
 
         auto src1_it = oneapi::dpl::begin(src1_buf);
         auto src2_it = oneapi::dpl::begin(src2_buf);
@@ -2227,7 +2227,7 @@ int main() {
         host_to_device(myQueue, mapHostArray, mapDeviceArray);
 
         {
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 4; map[1] = 2; map[2] = 3; map[3] = 1;
         }
 
@@ -2247,7 +2247,7 @@ int main() {
 
         {
             test_name = "transform with make_constant_it";
-            auto src2 = src2_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src2 = src2_it.get_buffer().template get_access<sycl::access::mode::read>();
 
             for (int i = 0; i != 8; ++i) {
                 if (i > 0 && i < 5) {
@@ -2275,10 +2275,10 @@ int main() {
         // test 1/1
 
         // create buffers
-        cl::sycl::buffer<uint64_t, 1> src1_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src2_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src3_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> src4_buf { cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src1_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src2_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src3_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src4_buf { sycl::range<1>(8) };
 
         auto src1_it = oneapi::dpl::begin(src1_buf);
         auto src2_it = oneapi::dpl::begin(src2_buf);
@@ -2334,7 +2334,7 @@ int main() {
 
         {
             test_name = "transform with make_transform_it";
-            auto src4 = src4_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src4 = src4_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
                 if (i < 4) {
                     num_failing += ASSERT_EQUAL(test_name, src4[i], 0);

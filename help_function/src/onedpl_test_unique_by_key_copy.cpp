@@ -57,10 +57,10 @@ int main() {
 
     {
         const int N = 10;
-        cl::sycl::buffer<int, 1> keys_buf{ cl::sycl::range<1>(N) };
-        cl::sycl::buffer<int, 1> values_buf{ cl::sycl::range<1>(N) };
-        cl::sycl::buffer<int, 1> keys_res_buf{ cl::sycl::range<1>(N) };
-        cl::sycl::buffer<int, 1> values_res_buf{ cl::sycl::range<1>(N) };
+        sycl::buffer<int, 1> keys_buf{ sycl::range<1>(N) };
+        sycl::buffer<int, 1> values_buf{ sycl::range<1>(N) };
+        sycl::buffer<int, 1> keys_res_buf{ sycl::range<1>(N) };
+        sycl::buffer<int, 1> values_res_buf{ sycl::range<1>(N) };
 
         auto keys_it = oneapi::dpl::begin(keys_buf);
         auto values_it = oneapi::dpl::begin(values_buf);
@@ -68,10 +68,10 @@ int main() {
         auto values_res_it = oneapi::dpl::begin(values_res_buf);
 
         {
-            auto keys = keys_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto values = values_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto keys_res = keys_res_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto values_res = values_res_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto keys = keys_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto values = values_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto keys_res = keys_res_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto values_res = values_res_it.get_buffer().template get_access<sycl::access::mode::write>();
 
             keys[0] = 1; keys[1] = 1; keys[2] = 1; keys[3] = 4; keys[4] = 2; keys[5] = 2; keys[6] = 8;
             keys[7] = 5; keys[8] = 3; keys[9] = 3;
@@ -94,7 +94,7 @@ int main() {
 
         {
             test_name = "unique_copy test";
-            auto values_res = values_res_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto values_res = values_res_it.get_buffer().template get_access<sycl::access::mode::read>();
 
             num_failing += ASSERT_EQUAL(test_name, values_res[0], 'a');
             num_failing += ASSERT_EQUAL(test_name, values_res[1], 'd');

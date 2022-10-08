@@ -117,6 +117,7 @@ bool test_passed = true;
 void test_cublasNrm2Ex() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> x_f(v.data(), 4);
   Data<double> x_d(v.data(), 4);
@@ -169,6 +170,7 @@ void test_cublasNrm2Ex() {
 void test_cublasDotEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> x_f(v.data(), 4);
   Data<double> x_d(v.data(), 4);
@@ -230,6 +232,7 @@ void test_cublasDotEx() {
 void test_cublasDotcEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> x_f(v.data(), 4);
   Data<double> x_d(v.data(), 4);
@@ -291,6 +294,7 @@ void test_cublasDotcEx() {
 void test_cublasScalEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> x_f(v.data(), 4);
   Data<double> x_d(v.data(), 4);
@@ -348,6 +352,7 @@ void test_cublasScalEx() {
 void test_cublasAxpyEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> x_f(v.data(), 4);
   Data<double> x_d(v.data(), 4);
@@ -415,6 +420,7 @@ void test_cublasAxpyEx() {
 void test_cublasRotEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float>         x2(v.data(), 4);
   Data<double>        x3(v.data(), 4);
@@ -503,6 +509,7 @@ void test_cublasRotEx() {
 void test_cublasGemmEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
   Data<sycl::half> a0(v.data(), 16);
   Data<sycl::half> a3(v.data(), 16);
@@ -634,6 +641,7 @@ void test_cublasGemmEx() {
 void test_cublasTsyrkx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 11, 13};
   Data<float> a0(v.data(), 6);
   Data<double> a1(v.data(), 6);
@@ -717,6 +725,7 @@ void test_cublasTsyrkx() {
 void test_cublasTherkx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 11, 13};
   Data<sycl::float2> a0(v.data(), 6);
   Data<sycl::double2> a1(v.data(), 6);
@@ -776,6 +785,7 @@ void test_cublasTherkx() {
 void test_cublasTdgmm() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> a0(v.data(), 4);
   Data<double> a1(v.data(), 4);
@@ -878,6 +888,7 @@ struct Ptr_Data {
 void test_cublasGemmBatchedEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
                           2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
   Data<sycl::half> a0(v.data(), 32);
@@ -1027,6 +1038,7 @@ void test_cublasGemmBatchedEx() {
 void test_cublasGemmStridedBatchedEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
                           2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
   std::vector<float> v2 = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
@@ -1127,6 +1139,7 @@ void test_cublasGemmStridedBatchedEx() {
 void test_cublasTgemmBatched() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
                           2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
   Data<sycl::half> a0(v.data(), 32);
@@ -1277,6 +1290,7 @@ void test_cublasTgemmBatched() {
 void test_cublasTtrsmBatched() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
                           2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
   Data<float> a1(v.data(), 32);
@@ -1379,6 +1393,7 @@ void test_cublasTtrsmBatched() {
 void test_cublasTtrmm() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> a0(v.data(), 4);
   Data<double> a1(v.data(), 4);

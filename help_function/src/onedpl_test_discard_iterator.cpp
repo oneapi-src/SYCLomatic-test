@@ -36,7 +36,7 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<uint64_t, 1> src_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src_buf{ sycl::range<1>(8) };
 
         oneapi::dpl::discard_iterator dst;
 
@@ -44,7 +44,7 @@ int main() {
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             for (int i=0; i != 8; ++i) {
                 src[i] = i;
             }
@@ -61,8 +61,8 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<uint64_t, 1> src_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> dst_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src_buf{ sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> dst_buf{ sycl::range<1>(8) };
 
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
@@ -72,8 +72,8 @@ int main() {
         oneapi::dpl::discard_iterator discard;
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::write>();
             for (int i=0; i != 8; ++i) {
                 src[i] = i;
                 dst[i] = 0;
@@ -87,7 +87,7 @@ int main() {
 
         // check that dst is written correctly when discard_iterator is used.
         {
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i=0; i != 8; ++i) {
                 num_failing += ASSERT_EQUAL("PASS: discard_it test", dst[i], i);
             }

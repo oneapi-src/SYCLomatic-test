@@ -70,9 +70,9 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<uint64_t, 1> src_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> stn_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> dst_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src_buf{ sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> stn_buf{ sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> dst_buf{ sycl::range<1>(8) };
 
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
@@ -80,9 +80,9 @@ int main() {
         auto dst_it = oneapi::dpl::begin(dst_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto stn = stn_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto stn = stn_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::write>();
 
             for (int i=0; i != 8; ++i) {
                 src[i] = i;
@@ -98,8 +98,8 @@ int main() {
 
         {
             std::string test_name = "Regular call to dpct::copy_if";
-            auto stn = stn_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto stn = stn_it.get_buffer().template get_access<sycl::access::mode::read>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::read>();
 
             for (int i=0; i != 8; ++i) {
                 num_failing += ASSERT_EQUAL(test_name, dst[i], i < 4 ? i*2 + 1 : 0);
@@ -113,8 +113,8 @@ int main() {
 
     {
         // create buffer
-        cl::sycl::buffer<uint64_t, 1> src_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> dst_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src_buf{ sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> dst_buf{ sycl::range<1>(8) };
 
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
@@ -122,8 +122,8 @@ int main() {
         auto dst_end_it = oneapi::dpl::end(dst_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::write>();
 
             for (int i=0; i != 8; ++i) {
                 src[i] = i;
@@ -138,7 +138,7 @@ int main() {
 
         {
             std::string test_name = "Regular call to std::copy_if";
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::read>();
 
             int pos = 0;
             for (int i=0; i != 8; ++i) {
@@ -159,10 +159,10 @@ int main() {
 
     {
         // create buffers
-        cl::sycl::buffer<uint64_t, 1> src_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> map_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> stn_buf{ cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> dst_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src_buf{ sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> map_buf{ sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> stn_buf{ sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> dst_buf{ sycl::range<1>(8) };
 
         auto src_it = oneapi::dpl::begin(src_buf);
         auto map_it = oneapi::dpl::begin(map_buf);
@@ -170,10 +170,10 @@ int main() {
         auto dst_it = oneapi::dpl::begin(dst_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto map = map_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto stn = stn_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto stn = stn_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::write>();
             for (int i = 0; i != 8; ++i) {
                 src[i] = i;
                 dst[i] = 0;
@@ -206,7 +206,7 @@ int main() {
         // expected dst: { 3, 2, 6, 0, 0, 0, 0, 0 }
 
         std::string test_name = "copy_if with perm_it";
-        auto dst = dst_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+        auto dst = dst_it.get_buffer().template get_access<sycl::access::mode::read>();
 
         for (int i = 0; i != 8; ++i) {
             if (i == 0)

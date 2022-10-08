@@ -31,14 +31,14 @@ int ASSERT_EQUAL(String msg, _T1&& X, _T2&& Y) {
 }
 
 template<typename Buffer> void fill_buffer(Buffer& src_buf, int start_index, int end_index, uint64_t value) {
-    auto src = src_buf.template get_access<cl::sycl::access::mode::write>();
+    auto src = src_buf.template get_access<sycl::access::mode::write>();
     for (int i = start_index; i != end_index; ++i) {
         src[i] = value;
     }
 }
 
 template<typename Buffer> void iota_buffer(Buffer& dst_buf, int start_index, int end_index) {
-    auto dst = dst_buf.template get_access<cl::sycl::access::mode::write>();
+    auto dst = dst_buf.template get_access<sycl::access::mode::write>();
     for (int i = start_index; i != end_index; ++i) {
         dst[i] = i;
     }
@@ -92,7 +92,7 @@ int main() {
         // test 1/2
 
         // create buffer
-        cl::sycl::buffer<uint64_t, 1> src_buf { cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> src_buf { sycl::range<1>(8) };
 
         auto src_it = oneapi::dpl::begin(src_buf);
 
@@ -119,13 +119,13 @@ int main() {
         // test 1/3
 
         // create buffer
-        cl::sycl::buffer<std::tuple<bool, bool, bool>, 1> src_buf { cl::sycl::range<1>(3) };
+        sycl::buffer<std::tuple<bool, bool, bool>, 1> src_buf { sycl::range<1>(3) };
 
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_buf.template get_access<cl::sycl::access::mode::write>();
+            auto src = src_buf.template get_access<sycl::access::mode::write>();
             src[0] = std::tuple<bool, bool, bool>(false, false, false);
             src[1] = std::tuple<bool, bool, bool>(false, true, true);
             src[2] = std::tuple<bool, bool, bool>(false, false, true);
@@ -181,15 +181,15 @@ int main() {
         // test 3/3
 
         // create buffer
-        cl::sycl::buffer<uint64_t, 1> rand_buf { cl::sycl::range<1>(8) };
-        cl::sycl::buffer<uint64_t, 1> field_buf { cl::sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> rand_buf { sycl::range<1>(8) };
+        sycl::buffer<uint64_t, 1> field_buf { sycl::range<1>(8) };
 
         auto rand_it = oneapi::dpl::begin(rand_buf);
         auto field_it = oneapi::dpl::begin(field_buf);
 
         {
-            auto rand = rand_buf.template get_access<cl::sycl::access::mode::write>();
-            auto field = field_buf.template get_access<cl::sycl::access::mode::write>();
+            auto rand = rand_buf.template get_access<sycl::access::mode::write>();
+            auto field = field_buf.template get_access<sycl::access::mode::write>();
 
             rand[0] = 4; rand[1] = 1; rand[2] = 9; rand[3] = 8; rand[4] = 5; rand[5] = 3; rand[6] = 0; rand[7] = 7;
 

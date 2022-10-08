@@ -14,8 +14,8 @@ int main() {
 
   // test_feature:cpu_device()
   int _cpu_device = -1;
-  std::vector<cl::sycl::device> sycl_all_devs =
-    cl::sycl::device::get_devices(cl::sycl::info::device_type::all);
+  std::vector<sycl::device> sycl_all_devs =
+    sycl::device::get_devices(sycl::info::device_type::all);
   for (auto &dev : sycl_all_devs) {
     if (dev.is_cpu()) {
       _cpu_device = 1;
@@ -38,7 +38,7 @@ int main() {
   dpct::get_default_context();
 
   // test_feature:exception_handler
-  cl::sycl::exception_list ExceptionList;
+  sycl::exception_list ExceptionList;
   dpct::exception_handler(ExceptionList);
 
   return 0;

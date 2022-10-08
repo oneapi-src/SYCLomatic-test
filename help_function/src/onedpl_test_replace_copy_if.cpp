@@ -64,17 +64,17 @@ int main() {
 
     {
         const int N = 4;
-        cl::sycl::buffer<int, 1> a_buf{ cl::sycl::range<1>(N) };
-        cl::sycl::buffer<int, 1> s_buf{ cl::sycl::range<1>(N) };
-        cl::sycl::buffer<int, 1> b_buf{ cl::sycl::range<1>(N) };
+        sycl::buffer<int, 1> a_buf{ sycl::range<1>(N) };
+        sycl::buffer<int, 1> s_buf{ sycl::range<1>(N) };
+        sycl::buffer<int, 1> b_buf{ sycl::range<1>(N) };
 
         auto A_it = oneapi::dpl::begin(a_buf);
         auto S_it = oneapi::dpl::begin(s_buf);
         auto B_it = oneapi::dpl::begin(b_buf);
 
         {
-            auto A = A_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto S = S_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto A = A_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto S = S_it.get_buffer().template get_access<sycl::access::mode::write>();
             A[0] = 10; A[1] = 20; A[2] = 30; A[3] = 40;
             S[0] = -1; S[1] = 0; S[2] = -1; S[3] = 0;
         }
@@ -87,7 +87,7 @@ int main() {
 
         {
             test_name = "replace_copy_if test";
-            auto B = B_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto B = B_it.get_buffer().template get_access<sycl::access::mode::read>();
             num_failing += ASSERT_EQUAL(test_name, B[0], 0);
             num_failing += ASSERT_EQUAL(test_name, B[1], 20);
             num_failing += ASSERT_EQUAL(test_name, B[2], 0);
@@ -102,15 +102,15 @@ int main() {
 
     {
         const int N = 4;
-        cl::sycl::buffer<int, 1> a_buf{ cl::sycl::range<1>(N) };
-        cl::sycl::buffer<int, 1> s_buf{ cl::sycl::range<1>(N) };
+        sycl::buffer<int, 1> a_buf{ sycl::range<1>(N) };
+        sycl::buffer<int, 1> s_buf{ sycl::range<1>(N) };
 
         auto A_it = oneapi::dpl::begin(a_buf);
         auto S_it = oneapi::dpl::begin(s_buf);
 
         {
-            auto A = A_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
-            auto S = S_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto A = A_it.get_buffer().template get_access<sycl::access::mode::write>();
+            auto S = S_it.get_buffer().template get_access<sycl::access::mode::write>();
             A[0] = 10; A[1] = 20; A[2] = 30; A[3] = 40;
             S[0] = -1; S[1] = 0; S[2] = -1; S[3] = 0;
         }
@@ -123,7 +123,7 @@ int main() {
 
         {
             test_name = "replace_if test";
-            auto A = A_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto A = A_it.get_buffer().template get_access<sycl::access::mode::write>();
             num_failing += ASSERT_EQUAL(test_name, A[0], 0);
             num_failing += ASSERT_EQUAL(test_name, A[1], 20);
             num_failing += ASSERT_EQUAL(test_name, A[2], 0);

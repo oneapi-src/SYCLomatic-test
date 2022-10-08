@@ -107,14 +107,14 @@ void test2() {
     dpct::buffer_t buffer_C = dpct::get_buffer(d_C);
 
     dpct::get_default_queue().submit(
-      [&](cl::sycl::handler &cgh) {
-      auto A = buffer_A.reinterpret<float>().get_access<cl::sycl::access::mode::read_write>(cgh);
-      auto B = buffer_B.reinterpret<float>().get_access<cl::sycl::access::mode::read_write>(cgh);
-      auto C = buffer_C.reinterpret<float>().get_access<cl::sycl::access::mode::read_write>(cgh);
+      [&](sycl::handler &cgh) {
+      auto A = buffer_A.reinterpret<float>().get_access<sycl::access::mode::read_write>(cgh);
+      auto B = buffer_B.reinterpret<float>().get_access<sycl::access::mode::read_write>(cgh);
+      auto C = buffer_C.reinterpret<float>().get_access<sycl::access::mode::read_write>(cgh);
 
         cgh.parallel_for(
-          cl::sycl::range<1>(Num),
-          [=](cl::sycl::id<1> id) {
+          sycl::range<1>(Num),
+          [=](sycl::id<1> id) {
              int i = id[0];
 
             C[i] = A[i] + B[i];
@@ -179,14 +179,14 @@ void test3() {
     auto buffer_C = dpct::get_buffer<float>(d_C);
 
     dpct::get_default_queue().submit(
-      [&](cl::sycl::handler &cgh) {
-      auto A = buffer_A.get_access<cl::sycl::access::mode::read_write>(cgh);
-      auto B = buffer_B.get_access<cl::sycl::access::mode::read_write>(cgh);
-      auto C = buffer_C.get_access<cl::sycl::access::mode::read_write>(cgh);
+      [&](sycl::handler &cgh) {
+      auto A = buffer_A.get_access<sycl::access::mode::read_write>(cgh);
+      auto B = buffer_B.get_access<sycl::access::mode::read_write>(cgh);
+      auto C = buffer_C.get_access<sycl::access::mode::read_write>(cgh);
 
         cgh.parallel_for(
-          cl::sycl::range<1>(Num),
-          [=](cl::sycl::id<1> id) {
+          sycl::range<1>(Num),
+          [=](sycl::id<1> id) {
              int i = id[0];
 
             C[i] = A[i] + B[i];
@@ -252,7 +252,7 @@ void test4() {
 
   {
     dpct::get_default_queue().submit(
-      [&](cl::sycl::handler &cgh) {
+      [&](sycl::handler &cgh) {
       //test_feature:access_wrapper
       dpct::access_wrapper<float *> d_A_acc(d_A, cgh);
       //test_feature:access_wrapper
@@ -261,8 +261,8 @@ void test4() {
       dpct::access_wrapper<float *> d_C_acc(d_C, cgh);
 
         cgh.parallel_for(
-          cl::sycl::range<1>(Num-Offset),
-          [=](cl::sycl::id<1> id) {
+          sycl::range<1>(Num-Offset),
+          [=](sycl::id<1> id) {
 
             float *A = d_A_acc.get_raw_pointer();
             float *B = d_B_acc.get_raw_pointer();
@@ -322,13 +322,13 @@ void test5() {
 
   {
     dpct::get_default_queue().submit(
-      [&](cl::sycl::handler &cgh) {
+      [&](sycl::handler &cgh) {
       auto c_A_acc = c_A.get_access(cgh);
       auto c_B_acc = c_B.get_access(cgh);
       auto c_C_acc = c_C.get_access(cgh);
         cgh.parallel_for(
-          cl::sycl::range<2>(DataW, DataH),
-          [=](cl::sycl::id<2> id) {
+          sycl::range<2>(DataW, DataH),
+          [=](sycl::id<2> id) {
             //test_feature:accessor
             //test_feature:memory_region
             dpct::accessor<float, dpct::constant, 2> A(c_A_acc);
@@ -384,13 +384,13 @@ void test6() {
 
   {
     dpct::get_default_queue().submit(
-      [&](cl::sycl::handler &cgh) {
+      [&](sycl::handler &cgh) {
       auto g_A_acc = g_A.get_access(cgh);
       auto g_B_acc = g_B.get_access(cgh);
       auto g_C_acc = g_C.get_access(cgh);
         cgh.parallel_for(
-          cl::sycl::range<2>(DataW, DataH),
-          [=](cl::sycl::id<2> id) {
+          sycl::range<2>(DataW, DataH),
+          [=](sycl::id<2> id) {
             //test_feature:accessor
             //test_feature:memory_region
             dpct::accessor<float, dpct::global, 2> A(g_A_acc);
@@ -437,7 +437,7 @@ void test7() {
 
   {
     dpct::get_default_queue().submit(
-      [&](cl::sycl::handler &cgh) {
+      [&](sycl::handler &cgh) {
         //test_feature:access_wrapper
         dpct::access_wrapper<float *> A_acc(s_A.get_ptr(), cgh);
         //test_feature:access_wrapper
@@ -445,8 +445,8 @@ void test7() {
         //test_feature:access_wrapper
         dpct::access_wrapper<float *> C_acc(s_C.get_ptr(), cgh);
         cgh.parallel_for(
-          cl::sycl::range<1>(DataW),
-          [=](cl::sycl::id<1> id) {
+          sycl::range<1>(DataW),
+          [=](sycl::id<1> id) {
             int i = id[0];
             float * A = A_acc.get_raw_pointer();
             float * B = B_acc.get_raw_pointer();
@@ -487,13 +487,13 @@ void test8() {
 
   {
     dpct::get_default_queue().submit(
-      [&](cl::sycl::handler &cgh) {
+      [&](sycl::handler &cgh) {
       auto s_A_acc = s_A.get_access(cgh);
       auto s_B_acc = s_B.get_access(cgh);
       auto s_C_acc = s_C.get_access(cgh);
         cgh.parallel_for(
-          cl::sycl::range<2>(DataW, DataH),
-          [=](cl::sycl::id<2> id) {
+          sycl::range<2>(DataW, DataH),
+          [=](sycl::id<2> id) {
             dpct::accessor<float, dpct::shared, 2> A(s_A_acc);
             dpct::accessor<float, dpct::shared, 2> B(s_B_acc);
             dpct::accessor<float, dpct::shared, 2> C(s_C_acc);
@@ -538,14 +538,14 @@ void test9() {
     auto buffer_A = dpct::get_buffer<float>(d_A);
 
     dpct::get_default_queue().submit(
-      [&](cl::sycl::handler &cgh) {
+      [&](sycl::handler &cgh) {
       sycl::range<2> acc_range(Num, Num);
       sycl::accessor<float, 2, sycl::access_mode::read_write, sycl::access::target::local> C_local_acc(acc_range, cgh);
-      auto A = buffer_A.get_access<cl::sycl::access::mode::read_write>(cgh);
+      auto A = buffer_A.get_access<sycl::access::mode::read_write>(cgh);
 
         cgh.parallel_for(
-          cl::sycl::range<2>(Num, Num),
-          [=](cl::sycl::id<2> id) {
+          sycl::range<2>(Num, Num),
+          [=](sycl::id<2> id) {
             //test_feature:accessor
             //test_feature:memory_region
             dpct::accessor<float, dpct::local, 2> C_local(C_local_acc, acc_range);
@@ -575,7 +575,7 @@ void test9() {
   free(h_B);
 }
 
-void test1(cl::sycl::queue &q) {
+void test1(sycl::queue &q) {
   size_t width = 6;
   size_t height = 8;
   float *h_data;
@@ -634,7 +634,7 @@ int main() {
   //test8();
   test9();
 
-  cl::sycl::queue q;
+  sycl::queue q;
   test1(q);
 
   return 0;

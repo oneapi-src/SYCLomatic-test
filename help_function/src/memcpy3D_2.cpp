@@ -335,7 +335,7 @@ void test_3(void) {
   printf("Test3 passed!\n");
 }
 
-void test_1(cl::sycl::queue &q) {
+void test_1(sycl::queue &q) {
   size_t width = 6;
   size_t height = 8;
   size_t depth = 10;
@@ -414,7 +414,7 @@ void test_1(cl::sycl::queue &q) {
   printf("Test1 passed!\n");
 }
 
-void test_2(cl::sycl::queue &q) {
+void test_2(sycl::queue &q) {
   size_t width = 4;
   size_t height = 4;
   size_t depth = 5;
@@ -511,7 +511,7 @@ void test_2(cl::sycl::queue &q) {
   printf("Test2 passed!\n");
 }
 
-void test_3(cl::sycl::queue &q) {
+void test_3(sycl::queue &q) {
   size_t width = 4;
   size_t height = 4;
   size_t depth = 5;
@@ -613,7 +613,7 @@ int main() {
   test_2();
   test_3();
 
-  cl::sycl::queue q;
+  sycl::queue q;
   test_1(q);
   test_2(q);
   test_3(q);

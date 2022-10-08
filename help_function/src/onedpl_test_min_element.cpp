@@ -64,12 +64,12 @@ int main(){
 
     {
         // Test One, test normal call to std::min_element
-        cl::sycl::buffer<int64_t,1> src_buf{ cl::sycl::range<1>(30) };
+        sycl::buffer<int64_t,1> src_buf{ sycl::range<1>(30) };
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             first_buffer(src, 0, 30, 30); // src = {30, 29, 28, ..., 2, 1 }
         }
 
@@ -78,7 +78,7 @@ int main(){
 
         {
             test_name = "Regular call to std::min_element 1";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             size_t d = std::distance(src_it, location_it);
             num_failing += ASSERT_EQUAL(test_name, src[d], 1);
 
@@ -93,12 +93,12 @@ int main(){
 
     {
         // Test Two, test normal call to std::min_element
-        cl::sycl::buffer<int64_t,1> src_buf{ cl::sycl::range<1>(8) };
+        sycl::buffer<int64_t,1> src_buf{ sycl::range<1>(8) };
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             second_buffer(src, 0, 8, 0); // src = {0, 1, 2, ..., 7 }
         }
 
@@ -107,7 +107,7 @@ int main(){
 
         {
             test_name = "Regular call to std::min_element 2";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             size_t d = std::distance(src_it, location_it);
             num_failing += ASSERT_EQUAL(test_name, src[d], 0);
 
@@ -122,12 +122,12 @@ int main(){
 
     {
         // Test Three, test normal call to std::min_element
-        cl::sycl::buffer<int64_t,1> src_buf{ cl::sycl::range<1>(1) };
+        sycl::buffer<int64_t,1> src_buf{ sycl::range<1>(1) };
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
 
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             src[0] = 1; // src = {1}
         }
 
@@ -136,7 +136,7 @@ int main(){
 
         {
             test_name = "Regular call to std::min_element 3";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             size_t d = std::distance(src_it, location_it);
             num_failing += ASSERT_EQUAL(test_name, src[d], 1); // smallest element check
             num_failing += ASSERT_EQUAL(test_name, src[0], 1); // unchanged buffer check
@@ -148,11 +148,11 @@ int main(){
 
     {
         // Test Four, test call to std::min_element with transform_iterators as parameters
-        cl::sycl::buffer<int64_t,1> src_buf{ cl::sycl::range<1>(10) };
+        sycl::buffer<int64_t,1> src_buf{ sycl::range<1>(10) };
         auto src_it = oneapi::dpl::begin(src_buf);
         auto src_end_it = oneapi::dpl::end(src_buf);
         {
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
             // src = {5, 8, 2, 9, 7, 4, 6, 3, 0, 1}
             src[0] = 5; src[1] = 8; src[2] = 2; src[3] = 9; src[4] = 7;
             src[5] = 4; src[6] = 6; src[7] = 3; src[8] = 0; src[9] = 1;
@@ -167,7 +167,7 @@ int main(){
 
         {
             test_name = "std::min_element with trf_it";
-            auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+            auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
             size_t d = std::distance(trans_begin, location_it);
 
             // bug in transform_iterator dereference.

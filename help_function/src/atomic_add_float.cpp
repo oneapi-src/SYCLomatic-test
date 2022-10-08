@@ -12,7 +12,7 @@
 #include <dpct/dpct.hpp>
 #include <stdio.h>
 
-void atomic_test_kernel(float *ddata, cl::sycl::nd_item<3> item_ct1) {
+void atomic_test_kernel(float *ddata, sycl::nd_item<3> item_ct1) {
   unsigned int tid = item_ct1.get_local_range().get(2) * item_ct1.get_group(2) + item_ct1.get_local_id(2);
   // add test
   dpct::atomic_fetch_add(ddata, 1.f);
@@ -32,19 +32,19 @@ int main(int argc, char **argv) try {
 
   // allocate device memory for result
   float *Ddata;
-  *((void **)&Ddata) = cl::sycl::malloc_device(sizeof(int), dpct::dev_mgr::instance().current_device(), dpct::get_default_queue().get_context());
+  *((void **)&Ddata) = sycl::malloc_device(sizeof(int), dpct::dev_mgr::instance().current_device(), dpct::get_default_queue().get_context());
 
   dpct::get_default_queue().memcpy((void*)(Ddata), (void*)(&Hdata), sizeof(int)).wait();
 
   {
     dpct::get_default_queue().submit(
-      [&](cl::sycl::handler &cgh) {
-        auto dpct_global_range = cl::sycl::range<3>(numBlocks, 1, 1) * cl::sycl::range<3>(numThreads, 1, 1);
-        auto dpct_local_range = cl::sycl::range<3>(numThreads, 1, 1);
+      [&](sycl::handler &cgh) {
+        auto dpct_global_range = sycl::range<3>(numBlocks, 1, 1) * sycl::range<3>(numThreads, 1, 1);
+        auto dpct_local_range = sycl::range<3>(numThreads, 1, 1);
         cgh.parallel_for<dpct_kernel_name<class atomic_test_kernel_f6c444>>(
-          cl::sycl::nd_range<3>(cl::sycl::range<3>(dpct_global_range.get(2), dpct_global_range.get(1), dpct_global_range.get(0)),
-                                cl::sycl::range<3>(dpct_local_range.get(2), dpct_local_range.get(1), dpct_local_range.get(0))),
-          [=](cl::sycl::nd_item<3> item_ct1) {
+          sycl::nd_range<3>(sycl::range<3>(dpct_global_range.get(2), dpct_global_range.get(1), dpct_global_range.get(0)),
+                                sycl::range<3>(dpct_local_range.get(2), dpct_local_range.get(1), dpct_local_range.get(0))),
+          [=](sycl::nd_item<3> item_ct1) {
             atomic_test_kernel(Ddata, item_ct1);
           });
       });
@@ -58,11 +58,11 @@ int main(int argc, char **argv) try {
     printf("atomicAdd test failed\n");
   }
 
-  cl::sycl::free(Ddata, dpct::get_default_queue().get_context());
+  sycl::free(Ddata, dpct::get_default_queue().get_context());
   printf("atomic test completed, returned %s\n", err == 0 ? "OK" : "ERROR");
   return err;
 }
-catch (cl::sycl::exception const &exc) {
+catch (sycl::exception const &exc) {
   std::cerr << exc.what() << "EOE at line " << __LINE__ << std::endl;
   std::exit(1);
 }

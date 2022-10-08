@@ -16,15 +16,15 @@ void fast_length_test() {
   {
     float inputData_0(0.8970062715);
 
-    cl::sycl::range<1> ndRng(1);
+    sycl::range<1> ndRng(1);
     float *kernelResult = new float[1];
     auto testQueue = dpct::get_default_queue();
     {
-      cl::sycl::buffer<float, 1> buffer(kernelResult, ndRng);
+      sycl::buffer<float, 1> buffer(kernelResult, ndRng);
 
-      testQueue.submit([&](cl::sycl::handler &h) {
+      testQueue.submit([&](sycl::handler &h) {
         auto resultPtr =
-            buffer.template get_access<cl::sycl::access::mode::write>(h);
+            buffer.template get_access<sycl::access::mode::write>(h);
 
         h.single_task(
             [=]() { resultPtr[0] = dpct::fast_length(&inputData_0, 1); });
@@ -41,15 +41,15 @@ void fast_length_test() {
   {
     float inputData_0[2] = {0.8335529744, 0.7346600673};
 
-    cl::sycl::range<1> ndRng(1);
+    sycl::range<1> ndRng(1);
     float *kernelResult = new float[1];
     auto testQueue = dpct::get_default_queue();
     {
-      cl::sycl::buffer<float, 1> buffer(kernelResult, ndRng);
+      sycl::buffer<float, 1> buffer(kernelResult, ndRng);
 
-      testQueue.submit([&](cl::sycl::handler &h) {
+      testQueue.submit([&](sycl::handler &h) {
         auto resultPtr =
-            buffer.template get_access<cl::sycl::access::mode::write>(h);
+            buffer.template get_access<sycl::access::mode::write>(h);
 
         h.single_task(
             [=]() { resultPtr[0] = dpct::fast_length(&inputData_0[0], 2); });
@@ -69,15 +69,15 @@ void fast_length_test() {
   {
     float inputData_0[3] = {0.1658983906, 0.590226484, 0.4891553616};
 
-    cl::sycl::range<1> ndRng(1);
+    sycl::range<1> ndRng(1);
     float *kernelResult = new float[1];
     auto testQueue = dpct::get_default_queue();
     {
-      cl::sycl::buffer<float, 1> buffer(kernelResult, ndRng);
+      sycl::buffer<float, 1> buffer(kernelResult, ndRng);
 
-      testQueue.submit([&](cl::sycl::handler &h) {
+      testQueue.submit([&](sycl::handler &h) {
         auto resultPtr =
-            buffer.template get_access<cl::sycl::access::mode::write>(h);
+            buffer.template get_access<sycl::access::mode::write>(h);
 
         h.single_task(
             [=]() { resultPtr[0] = dpct::fast_length(&inputData_0[0], 3); });
@@ -99,15 +99,15 @@ void fast_length_test() {
     float inputData_0[4] = {0.6041178723, 0.7760620605, 0.2944284976,
                             0.6851913766};
 
-    cl::sycl::range<1> ndRng(1);
+    sycl::range<1> ndRng(1);
     float *kernelResult = new float[1];
     auto testQueue = dpct::get_default_queue();
     {
-      cl::sycl::buffer<float, 1> buffer(kernelResult, ndRng);
+      sycl::buffer<float, 1> buffer(kernelResult, ndRng);
 
-      testQueue.submit([&](cl::sycl::handler &h) {
+      testQueue.submit([&](sycl::handler &h) {
         auto resultPtr =
-            buffer.template get_access<cl::sycl::access::mode::write>(h);
+            buffer.template get_access<sycl::access::mode::write>(h);
 
         h.single_task(
             [=]() { resultPtr[0] = dpct::fast_length(&inputData_0[0], 4); });
@@ -129,15 +129,15 @@ void fast_length_test() {
     float inputData_0[5] = {0.6041178723, 0.7760620605, 0.2944284976,
                             0.6851913766, 0.6851913766};
 
-    cl::sycl::range<1> ndRng(1);
+    sycl::range<1> ndRng(1);
     float *kernelResult = new float[1];
     auto testQueue = dpct::get_default_queue();
     {
-      cl::sycl::buffer<float, 1> buffer(kernelResult, ndRng);
+      sycl::buffer<float, 1> buffer(kernelResult, ndRng);
 
-      testQueue.submit([&](cl::sycl::handler &h) {
+      testQueue.submit([&](sycl::handler &h) {
         auto resultPtr =
-            buffer.template get_access<cl::sycl::access::mode::write>(h);
+            buffer.template get_access<sycl::access::mode::write>(h);
 
         h.single_task(
             [=]() { resultPtr[0] = dpct::fast_length(&inputData_0[0], 5); });

@@ -12,9 +12,9 @@
 #include <dpct/dpl_utils.hpp>
 #include <iostream>
 
-extern cl::sycl::queue &get_queue_1(void);
+extern sycl::queue &get_queue_1(void);
 
-cl::sycl::queue &get_queue_2(void) { 
+sycl::queue &get_queue_2(void) { 
     auto v = dpct::malloc_device(32);
     std::cout << v.get() << std::endl;
     return dpct::get_default_queue();

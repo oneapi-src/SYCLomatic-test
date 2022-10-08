@@ -133,7 +133,7 @@ int main(int argc, char** argv)
     uint64_t value = 7;
 
     // create buffers
-    cl::sycl::buffer<uint64_t, 1> ref_buf{ cl::sycl::range<1>(n) };
+    sycl::buffer<uint64_t, 1> ref_buf{ sycl::range<1>(n) };
 
     auto ref_begin = oneapi::dpl::begin(ref_buf);
     auto ref_end = oneapi::dpl::end(ref_buf);
@@ -147,13 +147,13 @@ int main(int argc, char** argv)
     // Adding test for make_constant_iterator
 
     // create buffer
-    cl::sycl::buffer<uint64_t, 1> src_buf { cl::sycl::range<1>(8) };
+    sycl::buffer<uint64_t, 1> src_buf { sycl::range<1>(8) };
     auto src_it = oneapi::dpl::begin(src_buf);
 
     constant_it_test c1(3, 4, 'd');
 
     {
-        auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::write>();
+        auto src = src_it.get_buffer().template get_access<sycl::access::mode::write>();
         for (int i = 0; i != 8; ++i) {
             src[i] = 10;
         }
@@ -164,7 +164,7 @@ int main(int argc, char** argv)
 
     {
         std::string test_name = "dpct::make_constant_iterator with std::transform";
-        auto src = src_it.get_buffer().template get_access<cl::sycl::access::mode::read>();
+        auto src = src_it.get_buffer().template get_access<sycl::access::mode::read>();
         for (int i = 0; i != 8; ++i) {
             if (i < 5)
                 num_failing += ASSERT_EQUAL(test_name, src[i], i*4);

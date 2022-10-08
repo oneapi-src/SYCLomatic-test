@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
 
-  int Size = dev_ct1.get_info<cl::sycl::info::device::max_work_group_size>();
+  int Size = dev_ct1.get_info<sycl::info::device::max_work_group_size>();
   if(getTemplateFuncAttrs<int>() != Size || getFuncAttrs() != Size) {
     std::cout << "dpct::get_kernel_function_info verify failed" << std::endl;
     return -1;

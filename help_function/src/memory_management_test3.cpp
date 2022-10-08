@@ -182,14 +182,14 @@ void test3() {
     std::pair<dpct::buffer_t, size_t> buffer_and_offset_C = dpct::get_buffer_and_offset(d_C);
     size_t offset_C = buffer_and_offset_A.second;
     dpct::get_default_queue().submit(
-      [&](cl::sycl::handler &cgh) {
-      auto d_A_acc = buffer_and_offset_A.first.get_access<cl::sycl::access::mode::read_write>(cgh);
-      auto d_B_acc = buffer_and_offset_B.first.get_access<cl::sycl::access::mode::read_write>(cgh);
-      auto d_C_acc = buffer_and_offset_C.first.get_access<cl::sycl::access::mode::read_write>(cgh);
+      [&](sycl::handler &cgh) {
+      auto d_A_acc = buffer_and_offset_A.first.get_access<sycl::access::mode::read_write>(cgh);
+      auto d_B_acc = buffer_and_offset_B.first.get_access<sycl::access::mode::read_write>(cgh);
+      auto d_C_acc = buffer_and_offset_C.first.get_access<sycl::access::mode::read_write>(cgh);
 
         cgh.parallel_for<class vectorAdd3_1>(
-          cl::sycl::range<1>(Num-Offset),
-          [=](cl::sycl::id<1> id) {
+          sycl::range<1>(Num-Offset),
+          [=](sycl::id<1> id) {
 
             float *A = (float*)(&d_A_acc[0]+offset_A);
             float *B = (float*)(&d_B_acc[0]+offset_B);
@@ -389,7 +389,7 @@ void test6() {
   printf("Test6 passed!\n");
 }
 
-void test1(cl::sycl::queue &q) {
+void test1(sycl::queue &q) {
 
   int Num = 5000;
   int N1 = 1000;
@@ -440,7 +440,7 @@ void test1(cl::sycl::queue &q) {
   free(h_C);
 }
 
-void test2(cl::sycl::queue &q) {
+void test2(sycl::queue &q) {
 
   int Num = 5000;
   int N1 = 1000;
@@ -495,7 +495,7 @@ void test2(cl::sycl::queue &q) {
   free(h_C);
 }
 
-void test3(cl::sycl::queue &q) {
+void test3(sycl::queue &q) {
   class vectorAdd3;
   int Num = 5000;
   int Offset = 0; // Current dpcpp version in ics environment has bugs with Offset > 0,
@@ -539,14 +539,14 @@ void test3(cl::sycl::queue &q) {
     std::pair<dpct::buffer_t, size_t> buffer_and_offset_C = dpct::get_buffer_and_offset(d_C);
     size_t offset_C = buffer_and_offset_A.second;
     dpct::get_default_queue().submit(
-      [&](cl::sycl::handler &cgh) {
-      auto d_A_acc = buffer_and_offset_A.first.get_access<cl::sycl::access::mode::read_write>(cgh);
-      auto d_B_acc = buffer_and_offset_B.first.get_access<cl::sycl::access::mode::read_write>(cgh);
-      auto d_C_acc = buffer_and_offset_C.first.get_access<cl::sycl::access::mode::read_write>(cgh);
+      [&](sycl::handler &cgh) {
+      auto d_A_acc = buffer_and_offset_A.first.get_access<sycl::access::mode::read_write>(cgh);
+      auto d_B_acc = buffer_and_offset_B.first.get_access<sycl::access::mode::read_write>(cgh);
+      auto d_C_acc = buffer_and_offset_C.first.get_access<sycl::access::mode::read_write>(cgh);
 
         cgh.parallel_for<class vectorAdd3_2>(
-          cl::sycl::range<1>(Num-Offset),
-          [=](cl::sycl::id<1> id) {
+          sycl::range<1>(Num-Offset),
+          [=](sycl::id<1> id) {
 
             float *A = (float*)(&d_A_acc[0]+offset_A);
             float *B = (float*)(&d_B_acc[0]+offset_B);
@@ -581,7 +581,7 @@ void test3(cl::sycl::queue &q) {
 }
 
 
-void test4(cl::sycl::queue &q) {
+void test4(sycl::queue &q) {
 
   int Num = 10;
   int *h_A = (int*)malloc(Num*sizeof(int));
@@ -630,7 +630,7 @@ void test4(cl::sycl::queue &q) {
   free(h_A);
 }
 
-void test5(cl::sycl::queue &q) {
+void test5(sycl::queue &q) {
 
   const unsigned int Num = 5000;
   const unsigned int N1 = 1000;
@@ -689,7 +689,7 @@ void test5(cl::sycl::queue &q) {
   printf("Test5 Passed\n");
 }
 
-void test6(cl::sycl::queue &q) {
+void test6(sycl::queue &q) {
   size_t width = 6;
   size_t height = 8;
   float *h_data;
@@ -748,7 +748,7 @@ int main() {
   test5();
   test6();
 
-  cl::sycl::queue q;
+  sycl::queue q;
   test1(q);
   test2(q);
   test3(q);
