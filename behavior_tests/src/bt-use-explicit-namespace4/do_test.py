@@ -24,5 +24,4 @@ def build_test():
     return True
 
 def run_test():
-    os.environ["SYCL_DEVICE_FILTER"] = test_config.device_filter
     return True
