@@ -357,5 +357,6 @@
     <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
+    <test testName="image" configFile="config/TEMPLATE_image.xml" />
   </tests>
 </suite>
