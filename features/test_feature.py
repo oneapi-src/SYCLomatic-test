@@ -125,6 +125,6 @@ def run_test():
         return True
     os.environ['SYCL_DEVICE_FILTER'] = test_config.device_filter
     if test_config.current_test == 'ccl':
-        return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '));
+        return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '))
     return run_binary_with_args()
 
