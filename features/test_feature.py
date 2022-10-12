@@ -64,7 +64,7 @@ def migrate_test():
     if test_config.current_test in logical_group_exper:
         src.append(' --use-experimental-features=logical-group ')
     if test_config.current_test == 'math_intel_specific':
-        src.append(' --rule-file=./math/intel_specific_math.yaml')
+        src.append(' --rule-file=./math_intel_specific/intel_specific_math.yaml')
 
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
