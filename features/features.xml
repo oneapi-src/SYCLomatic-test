@@ -50,6 +50,7 @@
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="math-bfloat16" configFile="config/TEMPLATE_math_bfloat16.xml" />
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-exec" configFile="config/TEMPLATE_math_exec.xml" />
     <test testName="math-funnelshift" configFile="config/TEMPLATE_math_funnelshift.xml" />
