@@ -64,7 +64,7 @@ def migrate_test():
     if test_config.current_test in logical_group_exper:
         src.append(' --use-experimental-features=logical-group ')
     if test_config.current_test == 'math_intel_specific':
-        src.append(' --rule-file=$(dirname $(which dpct))/../extensions/opt_rules/intel_specific_math.yaml ')
+        src.append(' --rule-file=./math_intel_specific/intel_specific_math.yaml')
 
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
@@ -125,6 +125,6 @@ def run_test():
         return True
     os.environ['SYCL_DEVICE_FILTER'] = test_config.device_filter
     if test_config.current_test == 'ccl':
-        return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '));
+        return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '))
     return run_binary_with_args()
 

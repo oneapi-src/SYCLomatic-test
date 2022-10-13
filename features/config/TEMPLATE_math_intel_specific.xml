@@ -4,6 +4,7 @@
     <description>test</description>
     <files>
         <file path="feature_case/math/${testName}.cu" />
+        <file path="feature_case/math/intel_specific_math.yaml" />
     </files>
     <rules>
         <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
