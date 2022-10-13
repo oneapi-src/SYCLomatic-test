@@ -4,9 +4,9 @@
   <description>Feature test</description>
 
   <tests>
-    <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="thrust-for-RapidCFD" configFile="config/TEMPLATE_thrust_api.xml" />
+    <!-- <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" /> -->
+    <!-- <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" /> -->
+    <!-- <test testName="thrust-for-RapidCFD" configFile="config/TEMPLATE_thrust_api.xml" /> -->
     <test testName="thrust-vector-2" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-binary-search" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-count" configFile="config/TEMPLATE_thrust_exec.xml" />
@@ -50,6 +50,7 @@
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="math-bfloat16" configFile="config/TEMPLATE_math_bfloat16.xml" />
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-exec" configFile="config/TEMPLATE_math_exec.xml" />
     <test testName="math-funnelshift" configFile="config/TEMPLATE_math_funnelshift.xml" />
@@ -73,15 +74,15 @@
     <test testName="cusparse-helper" configFile="feature_case/cuparse/config/cusparse-helper.xml" />
     <test testName="backprop" configFile="config/TEMPLATE_backprop.xml" />
     <!-- <test testName="autoGenMakefile" configFile="config/TEMPLATE_autoGenMakefile.xml" /> -->
-    <test testName="cufft-deduce" configFile="config/TEMPLATE_cuFFT.xml" />
+    <!-- <test testName="cufft-deduce" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft-different-locations-usm" configFile="config/TEMPLATE_cuFFT.xml" />
-    <test testName="cufft-different-locations" configFile="config/TEMPLATE_cuFFT.xml" />
+    <test testName="cufft-different-locations" configFile="config/TEMPLATE_cuFFT.xml" /> -->
     <test testName="cufft-reuse-handle" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft-type" configFile="config/TEMPLATE_cuFFT.xml" />
-    <test testName="cufft-usm" configFile="config/TEMPLATE_cuFFT.xml" />
+    <!-- <test testName="cufft-usm" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft-func-ptr" configFile="config/TEMPLATE_cuFFT.xml" />
-    <test testName="cufft-others" configFile="config/TEMPLATE_cuFFT.xml" />
+    <test testName="cufft-others" configFile="config/TEMPLATE_cuFFT.xml" /> -->
     <!-- <test testName="module-kernel" configFile="config/TEMPLATE_module.xml" /> -->
     <test testName="macro" configFile="config/TEMPLATE_macro.xml" />
     <test testName="driverMem" configFile="config/TEMPLATE_driverMem.xml" />
@@ -92,20 +93,20 @@
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
     <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
-    <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
-    <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
+    <!-- <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" /> -->
+    <!-- <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce" configFile="config/TEMPLATE_cub_device.xml"/>
-    <test testName="cub_device_reduce_by_key" configFile="config/TEMPLATE_cub_device.xml"/>
-    <test testName="cub_device_scan_inclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_reduce_by_key" configFile="config/TEMPLATE_cub_device.xml"/> -->
+    <!-- <test testName="cub_device_scan_inclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_scan_exclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_scan_inclusive_scan" configFile="config/TEMPLATE_cub_device.xml" />
-    <test testName="cub_device_scan_exclusive_scan" configFile="config/TEMPLATE_cub_device.xml" />
-    <test testName="cub_device_select_unique" configFile="config/TEMPLATE_cub_device.xml" />
-    <test testName="cub_device_select_flagged" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_scan_exclusive_scan" configFile="config/TEMPLATE_cub_device.xml" /> -->
+    <!-- <test testName="cub_device_select_unique" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_select_flagged" configFile="config/TEMPLATE_cub_device.xml" /> -->
     <test testName="cub_device_run_length_encode_encode" configFile="config/TEMPLATE_cub_device.xml" />
-    <test testName="cub_counting_iterator" configFile="config/TEMPLATE_cub_device.xml" />
-    <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
+    <!-- <test testName="cub_counting_iterator" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" /> -->
     <test testName="cudnn-activation" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-fill" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-lrn" configFile="config/TEMPLATE_cuDNN.xml" />
@@ -353,8 +354,8 @@
     <test testName="cublas-extension" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
-    <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" />
-    <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
+    <!-- <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" /> -->
+    <!-- <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/> -->
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
   </tests>
