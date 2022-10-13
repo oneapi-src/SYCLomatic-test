@@ -154,7 +154,7 @@ void test7() {
     workspace = (float *)sycl::malloc_device(workspace_size, q_ct1);
     reservespace = (float *)sycl::malloc_device(reservespace_size, q_ct1);
         auto status =
-        (handle.async_batch_normalization_forward_training_ex(
+        (handle.async_batch_normalization_forward_training(
              dpct::dnnl::batch_normalization_mode::per_activation,
              dpct::dnnl::batch_normalization_ops::none, ActivationDesc, eps,
              factor, alpha, dataTensor, data, beta, outTensor, out, dataTensor,
@@ -168,7 +168,7 @@ void test7() {
     bworkspace_size = 0;
     bworkspace = (float *)sycl::malloc_device(bworkspace_size, q_ct1);
         status =
-        (handle.async_batch_normalization_backward_ex(
+        (handle.async_batch_normalization_backward(
              dpct::dnnl::batch_normalization_mode::per_activation,
              dpct::dnnl::batch_normalization_ops::none, ActivationDesc, eps,
              alpha, dataTensor, data, outTensor, out, outTensor, diffout, beta,
@@ -415,7 +415,7 @@ void test8() {
     workspace = (float *)sycl::malloc_device(workspace_size, q_ct1);
     reservespace = (float *)sycl::malloc_device(reservespace_size, q_ct1);
         auto status =
-        (handle.async_batch_normalization_forward_training_ex(
+        (handle.async_batch_normalization_forward_training(
              dpct::dnnl::batch_normalization_mode::spatial,
              dpct::dnnl::batch_normalization_ops::none, ActivationDesc, eps,
              factor, alpha, dataTensor, data, beta, outTensor, out, dataTensor,
@@ -429,7 +429,7 @@ void test8() {
     bworkspace_size = 0;
     bworkspace = (float *)sycl::malloc_device(bworkspace_size, q_ct1);
         status =
-        (handle.async_batch_normalization_backward_ex(
+        (handle.async_batch_normalization_backward(
              dpct::dnnl::batch_normalization_mode::spatial,
              dpct::dnnl::batch_normalization_ops::none, ActivationDesc, eps,
              alpha, dataTensor, data, outTensor, out, outTensor, diffout, beta,

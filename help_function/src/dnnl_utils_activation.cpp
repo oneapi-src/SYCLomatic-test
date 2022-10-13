@@ -112,8 +112,8 @@ void test1() {
 
 template <dpct::library_data_t T, typename HT = typename dt_trait<T>::type>
 void test2() {
-  dpct::device_ext &dev_ct1 = dpct::get_current_device();
-  sycl::queue &q_ct1 = dev_ct1.default_queue();
+    dpct::device_ext &dev_ct1 = dpct::get_current_device();
+    sycl::queue &q_ct1 = dev_ct1.default_queue();
 
     dpct::dnnl::engine_ext handle;
     dpct::dnnl::memory_desc_ext dataTensor, outTensor, diffdataTensor,

@@ -295,7 +295,7 @@ void test5() {
     reservespace = (float *)sycl::malloc_device(reservespace_size, q_ct1);
 
         auto status =
-        (handle.async_batch_normalization_forward_training_ex(
+        (handle.async_batch_normalization_forward_training(
              dpct::dnnl::batch_normalization_mode::per_activation,
              dpct::dnnl::batch_normalization_ops::activation, ActivationDesc,
              eps, factor, alpha, dataTensor, data, beta, outTensor, out,
