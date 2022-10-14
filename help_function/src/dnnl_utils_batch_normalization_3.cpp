@@ -347,7 +347,7 @@ void test8() {
     breservespace = (float *)sycl::malloc_device(reservespace_size, q_ct1);
 
         auto status =
-        (handle.async_batch_normalization_forward_training_ex(
+        (handle.async_batch_normalization_forward_training(
              dpct::dnnl::batch_normalization_mode::per_activation,
              dpct::dnnl::batch_normalization_ops::activation, ActivationDesc,
              eps, factor, alpha, dataTensor, data, beta, outTensor, out,
@@ -361,7 +361,7 @@ void test8() {
 
     bworkspace = (float *)sycl::malloc_device(bworkspace_size, q_ct1);
 
-    handle.async_batch_normalization_backward_ex(
+    handle.async_batch_normalization_backward(
         dpct::dnnl::batch_normalization_mode::per_activation,
         dpct::dnnl::batch_normalization_ops::activation, ActivationDesc, eps,
         alpha, dataTensor, data, outTensor, out, outTensor, diffout, beta,

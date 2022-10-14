@@ -129,29 +129,29 @@
     <test testName="lib_common_utils_mkl_get_version" configFile="config/TEMPLATE_help_function.xml" />
     <!-- <test testName="rng_generator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/> -->
     <test testName="blas_extension_api_buffer" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
-    <!-- <test testName="dnnl_utils_activation" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_fill" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_lrn" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_memory" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_pooling" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_reorder" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_scale" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_softmax" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_sum" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_binary" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_reduction" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_convolution_1" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_convolution_2" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_convolution_3" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_convolution_4" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_convolution_5" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_batch_normalization_1" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_batch_normalization_2" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_batch_normalization_3" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_normalization_1" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_normalization_2" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
-    <!-- <test testName="dnnl_utils_normalization_3" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
     <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
+    <test testName="dnnl_utils_activation" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_fill" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_lrn" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_memory" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_pooling" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_reorder" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_scale" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_softmax" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_sum" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_binary" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_reduction" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_convolution_1" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_convolution_2" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_convolution_3" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_convolution_4" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_convolution_5" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_batch_normalization_1" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_batch_normalization_2" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_batch_normalization_3" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_normalization_1" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_normalization_2" configFile="config/TEMPLATE_help_function_usmnone.xml" />
+    <test testName="dnnl_utils_normalization_3" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="util_logical_group" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="fft_utils_engine_buffer" configFile="config/TEMPLATE_help_function_fft_buffer.xml"  splitGroup="double" />
     <test testName="fft_utils_engine_usm" configFile="config/TEMPLATE_help_function_fft_usm.xml"  splitGroup="double" />

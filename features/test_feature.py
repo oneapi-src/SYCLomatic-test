@@ -30,7 +30,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
              'cudnn-sum', 'math-funnelshift', 'ccl', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
              'math-bfloat16', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
              'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5',
-             'thrust-unique_by_key', 'cufft_test', "pointer_attributes", 'math_intel_specific']
+             'thrust-unique_by_key', 'cufft_test', "pointer_attributes", 'math_intel_specific', 'math-drcp']
 
 
 def setup_test():
@@ -64,7 +64,7 @@ def migrate_test():
     if test_config.current_test in logical_group_exper:
         src.append(' --use-experimental-features=logical-group ')
     if test_config.current_test == 'math_intel_specific':
-        src.append(' --rule-file=$(dirname $(which dpct))/../extensions/opt_rules/intel_specific_math.yaml ')
+        src.append(' --rule-file=./math_intel_specific/intel_specific_math.yaml')
 
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
@@ -125,6 +125,6 @@ def run_test():
         return True
     os.environ['SYCL_DEVICE_FILTER'] = test_config.device_filter
     if test_config.current_test == 'ccl':
-        return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '));
+        return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '))
     return run_binary_with_args()
 

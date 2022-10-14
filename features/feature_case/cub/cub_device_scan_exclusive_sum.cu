@@ -14,6 +14,7 @@
 #include <cub/cub.cuh>
 
 #define DATA_NUM 100
+#define EPS (1e-6)
 
 template<typename T = int>
 void init_data(T* data, int num) {
@@ -82,8 +83,32 @@ bool test_device_scan_exclusive_sum() {
   return true;
 }
 
+bool test_device_scan_exclusive_sum2() {
+  static constexpr int num_items = 4;
+  float ret[num_items];
+  float f4[] = {0.1, 0.2, 0.3, 0.4};
+  float expect[] = {0.0, 0.1, 0.3, 0.6};
+  float *d_in;
+  float *d_out;
+  void *tmp = nullptr;
+  size_t tmp_size = 0;
+  cudaMalloc((void **)&d_in, num_items * sizeof(float));
+  cudaMalloc((void **)&d_out, num_items * sizeof(float));
+  cudaMemcpy(d_in, f4, sizeof(f4), cudaMemcpyHostToDevice);
+  cub::DeviceScan::ExclusiveSum(tmp, tmp_size, d_in, d_out, num_items);
+  cudaMalloc((void **)&tmp, tmp_size);
+  cub::DeviceScan::ExclusiveSum(tmp, tmp_size, d_in, d_out, num_items);
+  cudaMemcpy(ret, d_out, num_items * sizeof(float), cudaMemcpyDeviceToHost);
+  for (int i = 0; i < num_items; ++i) {
+    float eps = ret[i] - expect[i];
+    if (eps < -EPS || eps > EPS)
+      return false;
+  }
+  return true;
+}
+
 int main() {
-  if (test_device_scan_exclusive_sum()) {
+  if (test_device_scan_exclusive_sum() && test_device_scan_exclusive_sum2()) {
     std::cout << "cub::DeviceScan::ExclusiveSum Pass\n";
     return 0;
   }

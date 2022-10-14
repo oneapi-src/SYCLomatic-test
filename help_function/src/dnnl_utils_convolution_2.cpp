@@ -123,7 +123,7 @@ void test1() {
                 ActivationDesc.set(dnnl::algorithm::eltwise_relu_use_dst_for_bwd, 0.0f);
 
     float alpha = 2.5f, beta = 1.5f;
-    handle.async_convolution_forward_ex(covdes, dnnl::algorithm::convolution_auto,
+    handle.async_convolution_forward(covdes, dnnl::algorithm::convolution_auto,
                                   ActivationDesc, alpha, dataTensor, data,
                                   filterTensor, filter, beta, outTensor, z,
                                   biasTensor, bias, outTensor, out);
@@ -259,7 +259,7 @@ void test2() {
                 ActivationDesc.set(dnnl::algorithm::eltwise_relu_use_dst_for_bwd, 0.0f);
 
     float alpha = 2.5f, beta = 1.5f;
-    handle.async_convolution_forward_ex(covdes, dnnl::algorithm::convolution_auto,
+    handle.async_convolution_forward(covdes, dnnl::algorithm::convolution_auto,
                                   ActivationDesc, alpha, dataTensor, data,
                                   filterTensor, filter, beta, outTensor, z,
                                   biasTensor, bias, outTensor, out);
