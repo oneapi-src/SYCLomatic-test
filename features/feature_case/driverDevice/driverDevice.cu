@@ -40,6 +40,23 @@ int main(){
   cuDeviceGetName(name, 90, device);
   CUDA_SAFE_CALL(cuDeviceGetName(name, 90, device));
 
+  cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X, device);
+  cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK, device);
+  CUcontext context;
+  unsigned int flags = CU_CTX_MAP_HOST;
+  flags += CU_CTX_SCHED_BLOCKING_SYNC;
+  flags += CU_CTX_SCHED_SPIN;
+
+  if (cuCtxCreate(&context, flags, device) == CUDA_SUCCESS) {
+    return 0;
+  }
+
+  cuCtxSetCacheConfig(CU_FUNC_CACHE_PREFER_SHARED);
+
+  cuCtxSetLimit(CU_LIMIT_PRINTF_FIFO_SIZE, 10);
+  size_t printfsize;
+
+  cuCtxGetLimit(&printfsize, CU_LIMIT_PRINTF_FIFO_SIZE);
   return 0;
 }
 
