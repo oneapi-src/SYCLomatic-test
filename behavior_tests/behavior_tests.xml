@@ -48,7 +48,7 @@
         <test testName="cmps_cuda_compile_test_1" configFile="config/TEMPLATE_behavior_tests_win.xml" />
         <test testName="cmps_cuda_compile_test_2" configFile="config/TEMPLATE_behavior_tests_win.xml" />
         <test testName="sh-ct-1306" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
-        <test testName="bt-version" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <!-- <test testName="bt-version" configFile="config/TEMPLATE_behavior_tests.xml" /> -->
 	    <test testName="ngt-no-db-specified" configFile="config/TEMPLATE_behavior_tests.xml" />
 	    <test testName="bt-extra-arg" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-output" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
