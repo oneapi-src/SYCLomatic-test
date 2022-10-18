@@ -22,9 +22,10 @@ def migrate_test():
     install_root = os.path.join(os.path.dirname(shutil.which("dpct")), '..')
 
     res = True
-    if not os.path.isfile(os.path.join(install_root, 'env/bash-autocomplete.sh')):
-        print('Cannot found file:' + os.path.join(install_root, 'env/bash-autocomplete.sh'))
-        res = False
+    if platform.system() == 'Linux':
+      if not os.path.isfile(os.path.join(install_root, 'env/bash-autocomplete.sh')):
+          print('Cannot found file:' + os.path.join(install_root, 'env/bash-autocomplete.sh'))
+          res = False
     if not os.path.isfile(os.path.join(install_root, 'extensions/opt_rules/forceinline.yaml')):
         print('Cannot found file:' + os.path.join(install_root, 'extensions/opt_rules/forceinline.yaml'))
         res = False
