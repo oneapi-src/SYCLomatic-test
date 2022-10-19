@@ -540,7 +540,7 @@ void test9() {
     dpct::get_default_queue().submit(
       [&](sycl::handler &cgh) {
       sycl::range<2> acc_range(Num, Num);
-      sycl::accessor<float, 2, sycl::access_mode::read_write, sycl::access::target::local> C_local_acc(acc_range, cgh);
+      sycl::local_accessor<float, 2> C_local_acc(acc_range, cgh);
       auto A = buffer_A.get_access<sycl::access::mode::read_write>(cgh);
 
         cgh.parallel_for(
