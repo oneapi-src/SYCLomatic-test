@@ -31,6 +31,6 @@ int main(){
   ans = a.fetch_sub(-1);
 
   int * data = new int(0);
-  example_kernel(data) ;
+  example_kernel<<<1,1>>>(data) ;
   return 0;
 }
