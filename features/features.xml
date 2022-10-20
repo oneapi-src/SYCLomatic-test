@@ -93,8 +93,8 @@
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
     <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
-    <!-- <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" /> -->
-    <!-- <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" /> -->
+    <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
+    <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_by_key" configFile="config/TEMPLATE_cub_device.xml"/>
