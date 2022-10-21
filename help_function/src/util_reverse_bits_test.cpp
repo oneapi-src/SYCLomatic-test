@@ -21,7 +21,7 @@ void reverse_bits_test() {
   if (b != 0x1e6a2c48)
     exit(-1);
 
-  printf("double_int2_cast_test passed!\n");
+  printf("util_reverse_bits_test passed!\n");
 }
 
 int main() {
