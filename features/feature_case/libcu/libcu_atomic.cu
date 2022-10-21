@@ -29,8 +29,14 @@ int main(){
 
   ans = a.fetch_add(1);
   ans = a.fetch_sub(-1);
-
-  int * data = new int(0);
-  example_kernel(data) ;
-  return 0;
+  int data_host = 0;
+  int * data_ptr_device; 
+  cudaMalloc(&data_ptr_device, sizeof(unsigned int));
+  cudaMemcpy(data_ptr_device, &data_host, sizeof(unsigned int) , cudaMemcpyHostToDevice);
+  example_kernel<<<1,1>>>(data_ptr_device) ;
+  cudaMemcpy(&data_host, data_ptr_device, sizeof(unsigned int) , cudaMemcpyDeviceToHost);
+  cudaFree(data_ptr_device);
+  if(data_host==42) 
+    return 0;
+  return 1;
 }
