@@ -34,19 +34,19 @@ def migrate_test():
         return c2s_md5 == dpct_md5
     elif platform.system() == 'Windows':
         os.makedirs('copy_binary')
-        shutil.copy(dpct_path, '.\copy_binary')
-        shutil.copy(c2s_path, '.\copy_binary')
-        subprocess.check_call(['signtool', 'remove', '/s', '.\copy_binary\dpct.exe'])
-        subprocess.check_call(['signtool', 'remove', '/s', '.\copy_binary\c2s.exe'])
-        dpct_file = open('.\copy_binary\dpct.exe', "rb")
-        c2s_file = open('.\copy_binary\c2s.exe', "rb")
+        shutil.copy(dpct_path, './copy_binary')
+        shutil.copy(c2s_path, './copy_binary')
+        subprocess.check_call(['signtool', 'remove', '/s', './copy_binary/dpct.exe'])
+        subprocess.check_call(['signtool', 'remove', '/s', './copy_binary/c2s.exe'])
+        dpct_file = open('./copy_binary/dpct.exe', "rb")
+        c2s_file = open('./copy_binary/c2s.exe', "rb")
         dpct_md5 = md5(dpct_file.read()).hexdigest()
         c2s_md5 = md5(c2s_file.read()).hexdigest()
         print("dpct_md5:" + dpct_md5)
         print("c2s_md5:" + c2s_md5)
         dpct_file.close()
         c2s_file.close()
-        shutil.rmtree('.\copy_binary')
+        shutil.rmtree('./copy_binary')
         return c2s_md5 == dpct_md5
 
 def build_test():
