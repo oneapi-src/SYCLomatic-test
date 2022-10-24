@@ -68,7 +68,7 @@ bool test_reduce_1(){
   cudaMalloc(&device_in, DATA_NUM * sizeof(int));
   cudaMalloc(&device_out, num_segments * sizeof(int));
   init_data(device_in, DATA_NUM);
-  int host_offsets[10];
+  int host_offsets[11];
   for(int i = 0; i < num_segments + 1; i++) {
     host_offsets[i] = i * 10;
   }
@@ -107,7 +107,7 @@ bool test_sum_1(){
   cudaMalloc(&device_in, DATA_NUM * sizeof(int));
   cudaMalloc(&device_out, num_segments * sizeof(int));
   init_data(device_in, DATA_NUM);
-  int host_offsets[10];
+  int host_offsets[11];
   for(int i = 0; i < num_segments + 1; i++) {
     host_offsets[i] = i * 10;
   }
@@ -145,7 +145,7 @@ bool test_sum_2(){
   cudaMalloc(&device_in, DATA_NUM * sizeof(int));
   cudaMalloc(&device_out, num_segments * sizeof(int));
   init_data(device_in, DATA_NUM);
-  int host_offsets[10];
+  int host_offsets[11];
   for(int i = 0; i < num_segments + 1; i++) {
     host_offsets[i] = i * 10;
   }
@@ -183,7 +183,7 @@ bool test_min(){
   cudaMalloc(&device_in, DATA_NUM * sizeof(int));
   cudaMalloc(&device_out, num_segments * sizeof(int));
   init_data(device_in, DATA_NUM);
-  int host_offsets[10];
+  int host_offsets[11];
   for(int i = 0; i < num_segments + 1; i++) {
     host_offsets[i] = i * 10;
   }
@@ -223,7 +223,7 @@ bool test_max(){
   cudaMalloc(&device_out, num_segments * sizeof(int));
   init_data(device_in, DATA_NUM);
 
-  int host_offsets[10];
+  int host_offsets[11];
   for(int i = 0; i < num_segments + 1; i++) {
     host_offsets[i] = i * 10;
   }
