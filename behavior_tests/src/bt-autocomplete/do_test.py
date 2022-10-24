@@ -147,6 +147,7 @@ def migrate_test():
                 '--suppress-warnings-all\n' + \
                 '--sycl-named-lambda\n' + \
                 '--use-custom-helper=\n' + \
+                '--use-dpcpp-extensions=\n' + \
                 '--use-experimental-features=\n' + \
                 '--use-explicit-namespace=\n' + \
                 '--usm-level=\n' + \
