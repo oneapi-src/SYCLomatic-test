@@ -51,7 +51,7 @@
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="math-bfloat16" configFile="config/TEMPLATE_math_bfloat16.xml" />
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
-    <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml" />
+    <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml"  splitGroup="double" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-exec" configFile="config/TEMPLATE_math_exec.xml" />
     <test testName="math-funnelshift" configFile="config/TEMPLATE_math_funnelshift.xml" />
@@ -119,12 +119,12 @@
     <test testName="cudnn-sum" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-reduction" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-binary" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-bnp1" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-bnp2" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-bnp3" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-normp1" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-normp2" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-bnp1" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
+    <test testName="cudnn-bnp2" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
+    <test testName="cudnn-bnp3" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
+    <test testName="cudnn-normp1" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
+    <test testName="cudnn-normp2" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
+    <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
     <test testName="cudnn-convp1" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp2" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp3" configFile="config/TEMPLATE_cuDNN.xml" />
@@ -360,6 +360,6 @@
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
-    <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" />
+    <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" splitGroup="double" />
   </tests>
 </suite>
