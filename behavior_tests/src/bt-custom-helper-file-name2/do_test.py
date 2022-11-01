@@ -38,12 +38,12 @@ def migrate_test():
     if (platform.system() == 'Windows'):
         os.environ["INCLUDE"] = header_path
         print(os.environ["INCLUDE"])
-        ret_val = call_subprocess("dpcpp /EHsc out/test.dp.cpp -o out/run")
+        ret_val = call_subprocess("icx-cl -fsycl /EHsc out/test.dp.cpp -o out/run")
         os.environ["INCLUDE"] = path_env
     else:
         os.environ["CPATH"] = header_path
         call_subprocess("env | grep CPATH")
-        ret_val = call_subprocess("dpcpp out/test.dp.cpp -o out/run")
+        ret_val = call_subprocess("icpx -fsycl out/test.dp.cpp -o out/run")
         os.environ["CPATH"] = path_env
     return ret_val
 
