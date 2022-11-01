@@ -373,15 +373,15 @@ void test_cusolverDnTpotrsBatched() {
   cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
   printf("info:%d,%d\n", info[0], info[1]);
   printf("status:%d\n", status);
-  status = cusolverDnDpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (double **)a_d_ptrs.d_data, 3, (double **)b_s_ptrs.d_data, 3, infoArray, 2);
+  status = cusolverDnDpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (double **)a_d_ptrs.d_data, 3, (double **)b_d_ptrs.d_data, 3, infoArray, 2);
   cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
   printf("info:%d,%d\n", info[0], info[1]);
   printf("status:%d\n", status);
-  status = cusolverDnCpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (float2 **)a_c_ptrs.d_data, 3, (float2 **)b_s_ptrs.d_data, 3, infoArray, 2);
+  status = cusolverDnCpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (float2 **)a_c_ptrs.d_data, 3, (float2 **)b_c_ptrs.d_data, 3, infoArray, 2);
   cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
   printf("info:%d,%d\n", info[0], info[1]);
   printf("status:%d\n", status);
-  status = cusolverDnZpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (double2 **)a_z_ptrs.d_data, 3, (double2 **)b_s_ptrs.d_data, 3, infoArray, 2);
+  status = cusolverDnZpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (double2 **)a_z_ptrs.d_data, 3, (double2 **)b_z_ptrs.d_data, 3, infoArray, 2);
   cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
   printf("info:%d,%d\n", info[0], info[1]);
   printf("status:%d\n", status);
@@ -419,8 +419,8 @@ int main() {
   test_cusolverDnTsygvd();
   test_cusolverDnThegvd();
 #ifndef DPCT_USM_LEVEL_NONE
-  //test_cusolverDnTpotrfBatched();
-  //test_cusolverDnTpotrsBatched();
+  test_cusolverDnTpotrfBatched();
+  test_cusolverDnTpotrsBatched();
 #endif
 
   if (test_passed)
