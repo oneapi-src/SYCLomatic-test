@@ -94,7 +94,7 @@ def compile_and_link(srcs, cmpopts = [], objects = [], linkopt = []):
         if new_obj not in obj_files:
             obj_files.append(new_obj)
     cmd = test_config.DPCXX_COM + ' '  + ' '.join(obj_files) + ' ' + \
-                        ' '.join(linkopt) + ' ' + ' '.join(objects) + ' -o ' + test_config.current_test + '.run \n'
+                        ' '.join(linkopt) + ' ' + ' '.join(objects) + ' -o ' + test_config.current_test + '.run'
     return call_subprocess(cmd)
 
 
