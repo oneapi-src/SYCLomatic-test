@@ -298,7 +298,7 @@ template<class T>
 bool compare(T* data, T* ref) {
   bool res = true;
   for (size_t i = 0; i < 12; i++) {
-    if (fabs(data[i] - ref[i]) > 0.01) {
+    if ((fabs(data[i] - ref[i]) / ref[i]) > 0.01) {
       res = false;
       break;
     }
