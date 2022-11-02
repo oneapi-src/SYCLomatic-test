@@ -53,6 +53,15 @@ int main(){
 
     cuMemcpyDtoH(f_A, f_D, size);
 
+    cuMemcpy(f_D, f_D2, size);
+    r = cuMemcpy(f_D, f_D2, size);
+
+    cuMemcpyAsync(f_D, f_D2, size, stream);
+    r = cuMemcpyAsync(f_D, f_D2, size, stream);
+
+    cuMemcpyAsync(f_D, f_D2, size, 0);
+    r = cuMemcpyAsync(f_D, f_D2, size, 0);
+
 
     cuMemHostGetDevicePointer(&f_D, f_A, 0);
 
