@@ -81,6 +81,15 @@ bool compare_result(float* expect, float* result, int element_num) {
   return true;
 }
 
+bool compare_result(float* expect, float* result, std::vector<int> indices) {
+  for (int i = 0; i < indices.size(); i++) {
+    if (std::abs(result[indices[i]]-expect[indices[i]]) >= 0.05) {
+      return false;
+    }
+  }
+  return true;
+}
+
 bool test_passed = true;
 
 void test_cusolverDnTsygvd() {
@@ -103,11 +112,8 @@ void test_cusolverDnTsygvd() {
 
   int lwork_s;
   int lwork_d;
-  int status;
-  status = cusolverDnSsygvd_bufferSize(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_s.d_data, 3, b_s.d_data, 3, w_s.d_data, &lwork_s);
-  printf("status=%d\n", status);
-  status = cusolverDnDsygvd_bufferSize(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_d.d_data, 3, b_d.d_data, 3, w_d.d_data, &lwork_d);
-  printf("status=%d\n", status);
+  cusolverDnSsygvd_bufferSize(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_s.d_data, 3, b_s.d_data, 3, w_s.d_data, &lwork_s);
+  cusolverDnDsygvd_bufferSize(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_d.d_data, 3, b_d.d_data, 3, w_d.d_data, &lwork_d);
 
   float* work_s;
   double* work_d;
@@ -116,16 +122,8 @@ void test_cusolverDnTsygvd() {
   cudaMalloc(&work_d, sizeof(double) * lwork_d);
   cudaMalloc(&devInfo, sizeof(int));
 
-
-  int info_h;
-  status = cusolverDnSsygvd(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_s.d_data, 3, b_s.d_data, 3, w_s.d_data, work_s, lwork_s, devInfo);
-  cudaMemcpy(&info_h, devInfo, sizeof(int), cudaMemcpyDeviceToHost);
-  printf("status=%d\n", status);
-  printf("info_h=%d\n", info_h);
-  status = cusolverDnDsygvd(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_d.d_data, 3, b_d.d_data, 3, w_d.d_data, work_d, lwork_d, devInfo);
-  cudaMemcpy(&info_h, devInfo, sizeof(int), cudaMemcpyDeviceToHost);
-  printf("status=%d\n", status);
-  printf("info_h=%d\n", info_h);
+  cusolverDnSsygvd(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_s.d_data, 3, b_s.d_data, 3, w_s.d_data, work_s, lwork_s, devInfo);
+  cusolverDnDsygvd(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_d.d_data, 3, b_d.d_data, 3, w_d.d_data, work_d, lwork_d, devInfo);
 
   a_s.D2H();
   a_d.D2H();
@@ -141,7 +139,7 @@ void test_cusolverDnTsygvd() {
   cudaFree(work_d);
   cudaFree(devInfo);
 
-  float expect_a[9] = {-0.500000,-0.000000,0.500000,0.194937,-0.484769,0.194937,0.679705,0.874642,0.679705};
+  float expect_a[9] = {0.500000,-0.000000,-0.500000,0.194937,-0.484769,0.194937,0.679705,0.874642,0.679705};
   float expect_b[9] = {1.414214,-1.000000,0.000000,-0.707107,1.224745,-1.000000,0.000000,-0.816497,1.154701};
   float expect_w[3] = {-1.000000,-0.216991,9.216990};
   if (compare_result(expect_a, a_s.h_data, 9)
@@ -177,11 +175,8 @@ void test_cusolverDnThegvd() {
 
   int lwork_s;
   int lwork_d;
-  int status;
-  status = cusolverDnChegvd_bufferSize(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_s.d_data, 3, b_s.d_data, 3, w_s.d_data, &lwork_s);
-  printf("status=%d\n", status);
-  status = cusolverDnZhegvd_bufferSize(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_d.d_data, 3, b_d.d_data, 3, w_d.d_data, &lwork_d);
-  printf("status=%d\n", status);
+  cusolverDnChegvd_bufferSize(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_s.d_data, 3, b_s.d_data, 3, w_s.d_data, &lwork_s);
+  cusolverDnZhegvd_bufferSize(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_d.d_data, 3, b_d.d_data, 3, w_d.d_data, &lwork_d);
 
   float2* work_s;
   double2* work_d;
@@ -190,16 +185,8 @@ void test_cusolverDnThegvd() {
   cudaMalloc(&work_d, sizeof(double2) * lwork_d);
   cudaMalloc(&devInfo, sizeof(int));
 
-
-  int info_h;
-  status = cusolverDnChegvd(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_s.d_data, 3, b_s.d_data, 3, w_s.d_data, work_s, lwork_s, devInfo);
-  cudaMemcpy(&info_h, devInfo, sizeof(int), cudaMemcpyDeviceToHost);
-  printf("status=%d\n", status);
-  printf("info_h=%d\n", info_h);
-  status = cusolverDnZhegvd(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_d.d_data, 3, b_d.d_data, 3, w_d.d_data, work_d, lwork_d, devInfo);
-  cudaMemcpy(&info_h, devInfo, sizeof(int), cudaMemcpyDeviceToHost);
-  printf("status=%d\n", status);
-  printf("info_h=%d\n", info_h);
+  cusolverDnChegvd(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_s.d_data, 3, b_s.d_data, 3, w_s.d_data, work_s, lwork_s, devInfo);
+  cusolverDnZhegvd(handle, CUSOLVER_EIG_TYPE_1, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 3, a_d.d_data, 3, b_d.d_data, 3, w_d.d_data, work_d, lwork_d, devInfo);
 
   a_s.D2H();
   a_d.D2H();
@@ -215,7 +202,7 @@ void test_cusolverDnThegvd() {
   cudaFree(work_d);
   cudaFree(devInfo);
 
-  float expect_a[9] = {-0.500000,-0.000000,0.500000,0.194937,-0.484769,0.194937,0.679705,0.874642,0.679705};
+  float expect_a[9] = {0.500000,-0.000000,-0.500000,0.194937,-0.484769,0.194937,0.679705,0.874642,0.679705};
   float expect_b[9] = {1.414214,-1.000000,0.000000,-0.707107,1.224745,-1.000000,0.000000,-0.816497,1.154701};
   float expect_w[3] = {-1.000000,-0.216991,9.216990};
   if (compare_result(expect_a, a_s.h_data, 9)
@@ -280,19 +267,10 @@ void test_cusolverDnTpotrfBatched() {
   int *infoArray;
   cudaMalloc(&infoArray, 2 * sizeof(int));
 
-  int info[2];
   cusolverDnSpotrfBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, (float **)a_s_ptrs.d_data, 3, infoArray, 2);
-  cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
-  printf("info:%d,%d\n", info[0], info[1]);
   cusolverDnDpotrfBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, (double **)a_d_ptrs.d_data, 3, infoArray, 2);
-  cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
-  printf("info:%d,%d\n", info[0], info[1]);
   cusolverDnCpotrfBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, (float2 **)a_c_ptrs.d_data, 3, infoArray, 2);
-  cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
-  printf("info:%d,%d\n", info[0], info[1]);
   cusolverDnZpotrfBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, (double2 **)a_z_ptrs.d_data, 3, infoArray, 2);
-  cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
-  printf("info:%d,%d\n", info[0], info[1]);
 
   a_s.D2H();
   a_d.D2H();
@@ -303,12 +281,14 @@ void test_cusolverDnTpotrfBatched() {
 
   cusolverDnDestroy(handle);
 
+  std::vector<int> indeces = {0, 3, 4, 6, 7, 8,
+                              9,12,13,15,16,17 };
   float expect[18] = { 1.414214,-0.707107,0.000000,-0.707107,1.224745,-0.816497,0.000000,-0.816497,1.154701,
                        1.414214,-0.707107,0.000000,-0.707107,1.224745,-0.816497,0.000000,-0.816497,1.154701 };
-  if (compare_result(expect, a_s.h_data, 18) &&
-      compare_result(expect, a_d.h_data, 18) &&
-      compare_result(expect, a_c.h_data, 18) &&
-      compare_result(expect, a_z.h_data, 18))
+  if (compare_result(expect, a_s.h_data, indeces) &&
+      compare_result(expect, a_d.h_data, indeces) &&
+      compare_result(expect, a_c.h_data, indeces) &&
+      compare_result(expect, a_z.h_data, indeces))
     printf("DnTpotrfBatched pass\n");
   else {
     printf("DnTpotrfBatched fail\n");
@@ -367,24 +347,10 @@ void test_cusolverDnTpotrsBatched() {
   int *infoArray;
   cudaMalloc(&infoArray, 2 * sizeof(int));
 
-  int info[2];
-  int status;
-  status = cusolverDnSpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (float **)a_s_ptrs.d_data, 3, (float **)b_s_ptrs.d_data, 3, infoArray, 2);
-  cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
-  printf("info:%d,%d\n", info[0], info[1]);
-  printf("status:%d\n", status);
-  status = cusolverDnDpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (double **)a_d_ptrs.d_data, 3, (double **)b_d_ptrs.d_data, 3, infoArray, 2);
-  cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
-  printf("info:%d,%d\n", info[0], info[1]);
-  printf("status:%d\n", status);
-  status = cusolverDnCpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (float2 **)a_c_ptrs.d_data, 3, (float2 **)b_c_ptrs.d_data, 3, infoArray, 2);
-  cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
-  printf("info:%d,%d\n", info[0], info[1]);
-  printf("status:%d\n", status);
-  status = cusolverDnZpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (double2 **)a_z_ptrs.d_data, 3, (double2 **)b_z_ptrs.d_data, 3, infoArray, 2);
-  cudaMemcpy(&info, infoArray, 2*sizeof(int), cudaMemcpyDeviceToHost);
-  printf("info:%d,%d\n", info[0], info[1]);
-  printf("status:%d\n", status);
+  cusolverDnSpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (float **)a_s_ptrs.d_data, 3, (float **)b_s_ptrs.d_data, 3, infoArray, 2);
+  cusolverDnDpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (double **)a_d_ptrs.d_data, 3, (double **)b_d_ptrs.d_data, 3, infoArray, 2);
+  cusolverDnCpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (float2 **)a_c_ptrs.d_data, 3, (float2 **)b_c_ptrs.d_data, 3, infoArray, 2);
+  cusolverDnZpotrsBatched(handle, CUBLAS_FILL_MODE_UPPER, 3, 1, (double2 **)a_z_ptrs.d_data, 3, (double2 **)b_z_ptrs.d_data, 3, infoArray, 2);
 
   a_s.D2H();
   a_d.D2H();
