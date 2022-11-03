@@ -4,9 +4,9 @@
   <description>Feature test</description>
 
   <tests>
-    <!-- <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="thrust-for-RapidCFD" configFile="config/TEMPLATE_thrust_api.xml" /> -->
+    <test testName="thrust-for-RapidCFD" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector-2" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-binary-search" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-count" configFile="config/TEMPLATE_thrust_exec.xml" />
@@ -94,7 +94,7 @@
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
     <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
-    <!-- <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" /> -->
+    <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce" configFile="config/TEMPLATE_cub_device.xml"/>
