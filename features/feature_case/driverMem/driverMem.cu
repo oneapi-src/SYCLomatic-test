@@ -9,7 +9,10 @@
 #include <cuda.h>
 #include <cuda_runtime_api.h>
 #include <iostream>
-int main(){
+#include <vector>
+#include <algorithm>
+
+void test1(){
     size_t result1, result2;
     int size = 32;
     float* f_A;
@@ -156,7 +159,43 @@ int main(){
     cuMemHostRegister((void *)pFlags, size, CU_MEMHOSTREGISTER_PORTABLE);
 
     cuMemHostUnregister((void *)pFlags);
-
-    return 0;
 }
 
+int test2() {
+  int ret = 0;
+  std::vector<int> v1, v2;
+  CUdeviceptr p1;
+  CUdeviceptr p2;
+  CUdeviceptr q;
+  auto check = [&](std::string fail) {
+    if (!std::equal(v1.begin(), v1.end(), v2.begin())) {
+      std::cout << fail << "\n";
+      ret = 1;
+    }
+  };
+
+  v1 = std::vector<int>({1, 2, 3});
+  v2 = std::vector<int>(v1.size(), 0);
+  p1 = (CUdeviceptr)v1.data();
+  p2 = (CUdeviceptr)v2.data();
+  q = 0;
+  cuMemcpy(p2, p1, sizeof(int)*v1.size());
+  check("cuMemcpy fail");
+
+  v1 = std::vector<int>({1, 2, 3});
+  v2 = std::vector<int>(v1.size(), 0);
+  p1 = (CUdeviceptr)v1.data();
+  p2 = (CUdeviceptr)v2.data();
+  q = 0;
+  cuMemAlloc(&q, sizeof(int)*v1.size());
+  cuMemcpyAsync(q, p1, sizeof(int)*v1.size(), 0);
+  cuStreamSynchronize(0);
+  cuMemcpy(p2, q, sizeof(int)*v1.size());
+  check("cuMemcpyAsync fail");
+
+  return ret;
+}
+
+int main() {
+  return test2();
+}
