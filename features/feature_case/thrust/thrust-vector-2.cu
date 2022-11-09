@@ -83,5 +83,12 @@ int main() {
   Report::check("device_vector size", dv2.size(), 5);
   checkVector(dv2, "device_vector dynamic expansion");
 
+  thrust::device_vector<int> dv5(2, -1);
+  dv5[1] = 10;
+  thrust::device_reference<int> r0 = dv5[0];
+  thrust::device_reference<int> r1 = dv5[1];
+  r0 = r1;
+  Report::check("device_reference = ", dv5[0], 10);
+
   return Report::finish();
 }
