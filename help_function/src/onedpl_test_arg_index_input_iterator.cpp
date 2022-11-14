@@ -374,19 +374,19 @@ inline void inclusive_scan_(InputIteratorT input, OutputIteratorT output,
                             ScanOpT scan_op, int64_t num_items,
                             sycl::queue queue) {
 
-  constexpr int max_cub_size = ::std::numeric_limits<int>::max() / 2 + 1;
-  int size_cub = ::std::min<int64_t>(num_items, max_cub_size);
+  constexpr int max_size = ::std::numeric_limits<int>::max() / 2 + 1;
+  int my_size = ::std::min<int64_t>(num_items, max_size);
 
   using input_t = ::std::remove_reference_t<decltype(*input)>;
   oneapi::dpl::inclusive_scan(oneapi::dpl::execution::make_device_policy(queue),
-                              input, input + size_cub, output, scan_op);
+                              input, input + my_size, output, scan_op);
   queue.wait();
 
   input_t *first_elem_ptr = sycl::malloc_device<input_t>(1, queue);
 
-  for (int64_t i = max_cub_size; i < num_items; i += max_cub_size) {
+  for (int64_t i = max_size; i < num_items; i += max_size) {
 
-    size_cub = ::std::min<int64_t>(num_items - i, max_cub_size);
+    my_size = ::std::min<int64_t>(num_items - i, max_size);
 
     auto event = queue.submit([&](sycl::handler &h) {
       h.single_task([=]() {
@@ -412,7 +412,7 @@ inline void inclusive_scan_(InputIteratorT input, OutputIteratorT output,
 
     oneapi::dpl::inclusive_scan(
         oneapi::dpl::execution::make_device_policy(queue), input_,
-        input_ + size_cub, output + i, scan_op);
+        input_ + my_size, output + i, scan_op);
     queue.wait();
   }
   sycl::free(first_elem_ptr, queue);
