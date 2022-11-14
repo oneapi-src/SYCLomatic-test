@@ -20,9 +20,6 @@
 #include <chrono>
 #include <iostream>
 
-// TODO: REPLACE oneDPL test style with pass / fail text subroutines in this
-// file
-
 #define EPSILON 0.0001
 
 template <typename String, typename _T1, typename _T2>
@@ -377,7 +374,6 @@ inline void inclusive_scan_(InputIteratorT input, OutputIteratorT output,
                             ScanOpT scan_op, int64_t num_items,
                             sycl::queue queue) {
 
-  // splitting at max_int / 2 because CUB AND oneDPL dont work beyond max_int
   constexpr int max_cub_size = ::std::numeric_limits<int>::max() / 2 + 1;
   int size_cub = ::std::min<int64_t>(num_items, max_cub_size);
 
@@ -399,10 +395,6 @@ inline void inclusive_scan_(InputIteratorT input, OutputIteratorT output,
     });
     queue.wait();
 
-    // We are using USM, therefore we can pass use this input iterator directly
-    //  with the arg_index_input_iterator class.  If we were to use sycl::buffer
-    //  and sycl::accessor, we are currently unable to use
-    //  arg_index_input_iterator.
     using ArgIndexInputIterator =
         dpct::arg_index_input_iterator<InputIteratorT>;
     using tuple = typename ArgIndexInputIterator::value_type;
