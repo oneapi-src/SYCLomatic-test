@@ -163,39 +163,68 @@ void test1(){
 
 int test2() {
   int ret = 0;
-  std::vector<int> v1, v2;
-  CUdeviceptr p1;
-  CUdeviceptr p2;
-  CUdeviceptr q;
-  auto check = [&](std::string fail) {
-    if (!std::equal(v1.begin(), v1.end(), v2.begin())) {
+  constexpr int size = 64;
+  int v1[size];
+  int v2[size];
+
+  CUdeviceptr p1 = (CUdeviceptr)v1;
+  CUdeviceptr p2 = (CUdeviceptr)v2;
+  CUdeviceptr q1;
+  CUdeviceptr q2;
+
+  // check if v1 and v2 agree on first i elements
+
+  auto check = [&](int i, std::string fail) {
+    if (!std::equal(v1, v1+i, v2)) {
       std::cout << fail << "\n";
       ret = 1;
     }
   };
 
-  v1 = std::vector<int>({1, 2, 3});
-  v2 = std::vector<int>(v1.size(), 0);
-  p1 = (CUdeviceptr)v1.data();
-  p2 = (CUdeviceptr)v2.data();
-  q = 0;
-  cuMemcpy(p2, p1, sizeof(int)*v1.size());
-  check("cuMemcpy fail");
+  // v1 = {0, 1, 2, ...}
+  // v2 = {-1, -1, ...}
+  auto initialize = [&]() {
+    for (int i = 0; i < size; ++i) {
+      v1[i] = i;
+      v2[i] = -1;
+    }
+    cuMemAlloc(&q1, sizeof(int)*size);
+    cuMemAlloc(&q2, sizeof(int)*size);
+  };
 
-  v1 = std::vector<int>({1, 2, 3});
-  v2 = std::vector<int>(v1.size(), 0);
-  p1 = (CUdeviceptr)v1.data();
-  p2 = (CUdeviceptr)v2.data();
-  q = 0;
-  cuMemAlloc(&q, sizeof(int)*v1.size());
-  cuMemcpyAsync(q, p1, sizeof(int)*v1.size(), 0);
-  cuStreamSynchronize(0);
-  cuMemcpy(p2, q, sizeof(int)*v1.size());
-  check("cuMemcpyAsync fail");
+  for (int i = 1; i < size; i *= 2) {
+    int n = sizeof(int)*i;
+
+    // host to host copy
+    initialize();
+    cuMemcpy(p2, p1, n);
+    check(i, "cuMemcpy fail " + std::to_string(i));
+
+    // host to device copy async, device to host copy
+    initialize();
+    cuMemcpyAsync(q1, p1, n, 0);
+    cuStreamSynchronize(0);
+    cuMemcpy(p2, q1, n);
+    check(i, "cuMemcpyAsync 1 fail " + std::to_string(i));
+
+    // host to device copy, device to device async copy,
+    // device to host copy
+    initialize();
+    cuMemcpy(q1, p1, n);
+    cuMemcpyAsync(q2, q1, n, 0);
+    cuStreamSynchronize(0);
+    cuMemcpy(p2, q2, n);
+    check(i, "cuMemcpyAsync 2 fail " + std::to_string(i));
+  }
 
   return ret;
 }
 
 int main() {
+  cuInit(0);
+  CUdevice dev = 0;
+  cuDeviceGet(&dev, 0);
+  CUcontext ctx = 0;
+  cuCtxCreate(&ctx, 0, dev);
   return test2();
 }
