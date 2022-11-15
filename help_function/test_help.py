@@ -68,7 +68,7 @@ def build_test():
             print("kernel_function_lin created the shared lib failed.")
             return False
     if test_config.current_test == "kernel_function_win":
-        ret = call_subprocess("icx-cl -fsycl /EHsc kernel_module_win.cpp /link /DLL /OUT:module.dll")
+        ret = call_subprocess("icx-cl -fsycl /EHsc /LD kernel_module_win.cpp /link /OUT:module.dll")
         if not ret:
             print("kernel_function_win created the shared lib failed.")
             return False
