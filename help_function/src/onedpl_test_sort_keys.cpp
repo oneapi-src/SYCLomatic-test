@@ -212,8 +212,7 @@ int setup_and_run(int64_t n, SetupDataOpT setup_data, VerifyOpT verify,
   bool ret = verify(input_keys, output_keys);
   sycl::free(dev_input_keys, queue);
   sycl::free(dev_output_keys, queue);
-  int tests_failed = ASSERT_EQUAL(true, ret, test_name.c_str());
-  return tests_failed;
+  return ASSERT_EQUAL(true, ret, test_name.c_str());
 }
 
 int main() {
