@@ -44,14 +44,14 @@ void expect_rvalues(T_conv &&_expected, T &&_actual, const char *err_string) {
 
 int main() {
 
-  int tests_suites_failed = 0;
+  int test_suites_failed = 0;
   {
     ::std::string test_name = "translate int->uint32_t";
     auto trans_key = dpct::internal::translate_key<int, uint32_t>(0, 32);
     int tests_failed = 0;
     tests_failed += ASSERT_EQUAL(0x7fffff9cU, trans_key(-100), test_name);
     tests_failed += ASSERT_EQUAL(0x80000064U, trans_key(100), test_name);
-    tests_suites_failed += test_passed(tests_failed, test_name);
+    test_suites_failed += test_passed(tests_failed, test_name);
   }
 
   {
@@ -60,7 +60,7 @@ int main() {
     int tests_failed = 0;
     tests_failed += ASSERT_EQUAL(0xff9cU, trans_key(-100), test_name);
     tests_failed += ASSERT_EQUAL(0x0064U, trans_key(100), test_name);
-    tests_suites_failed += test_passed(tests_failed, test_name);
+    test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
     ::std::string test_name = "translate int->uint32_t";
@@ -68,7 +68,7 @@ int main() {
     int tests_failed = 0;
     tests_failed += ASSERT_EQUAL(0x7fffU, trans_key(-100), test_name);
     tests_failed += ASSERT_EQUAL(0x8000U, trans_key(100), test_name);
-    tests_suites_failed += test_passed(tests_failed, test_name);
+    test_suites_failed += test_passed(tests_failed, test_name);
   }
 
   {
@@ -77,7 +77,7 @@ int main() {
     int tests_failed = 0;
     tests_failed += ASSERT_EQUAL(0xffffU, trans_key(-100), test_name);
     tests_failed += ASSERT_EQUAL(0x0000U, trans_key(100), test_name);
-    tests_suites_failed += test_passed(tests_failed, test_name);
+    test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
     ::std::string test_name = "translate int->uint8_t bits:[8-13)";
@@ -85,7 +85,7 @@ int main() {
     int tests_failed = 0;
     tests_failed += ASSERT_EQUAL(0x1fU, trans_key(-100), test_name);
     tests_failed += ASSERT_EQUAL(0x00U, trans_key(100), test_name);
-    tests_suites_failed += test_passed(tests_failed, test_name);
+    test_suites_failed += test_passed(tests_failed, test_name);
   }
 
   {
@@ -96,7 +96,7 @@ int main() {
     tests_failed += ASSERT_EQUAL(0x80000000U, trans_key(-0.0f), test_name);
     tests_failed += ASSERT_EQUAL(0x80000000U, trans_key(0.0f), test_name);
     tests_failed += ASSERT_EQUAL(0xc6408c00U, trans_key(12323.0f), test_name);
-    tests_suites_failed += test_passed(tests_failed, test_name);
+    test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
     ::std::string test_name = "translate double->uint64_t bits:[0-64)";
@@ -110,12 +110,12 @@ int main() {
         ASSERT_EQUAL(0x8000000000000000UL, trans_key(0.0), test_name);
     tests_failed +=
         ASSERT_EQUAL(0xc0c8118000000000UL, trans_key(12323.0), test_name);
-    tests_suites_failed += test_passed(tests_failed, test_name);
+    test_suites_failed += test_passed(tests_failed, test_name);
   }
 
   std::cout << std::endl
-            << tests_suites_failed << " failing test(s) detected." << std::endl;
-  if (tests_suites_failed == 0) {
+            << test_suites_failed << " failing test(s) detected." << std::endl;
+  if (test_suites_failed == 0) {
     return 0;
   }
   return 1;
