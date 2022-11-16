@@ -35,11 +35,11 @@ result = b'\n2.000000 4.000000 6.000000 8.000000 10.000000 12.000000 14.000000 1
 
 # check run result
 if platform.system() == "Windows":
-    compiler = "dpcpp-cl "
+    compiler = "icx-cl -fsycl "
     out_exe = ".\\\\vector_add.dp.exe"
     options = "/EHsc" 
 else:
-    compiler = "dpcpp "
+    compiler = "icpx -fsycl "
     out_exe = "./a.out"
     options = "" 
 
