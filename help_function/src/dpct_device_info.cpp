@@ -48,6 +48,12 @@ int main() {
   if(device.is_accelerator())
       dev_info_output(device, "accelerator device");
 
+  size_t free_memory, global_memory;
+  // Here just to test get_memory_info() to be called, as not all sycl backends
+  // can support to query free memory, and return 0 for free memory if the
+  // backend does not support it.
+  dpct::get_current_device().get_memory_info(free_memory, global_memory);
+
   printf("Test passed!\n");
   return 0;
 }
