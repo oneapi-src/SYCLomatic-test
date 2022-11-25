@@ -45,6 +45,7 @@ def build_test():
                 "dnnl_utils_convolution_2", "dnnl_utils_convolution_3", "dnnl_utils_convolution_4", "dnnl_utils_convolution_5",
                 "dnnl_utils_normalization_1", "dnnl_utils_normalization_2", "dnnl_utils_normalization_3"]
     fft_cases = ["fft_utils_engine_buffer", "fft_utils_engine_usm"]
+    lapack_cases = ["lapack_utils_buffer", "lapack_utils_usm"]
 
     srcs = []
     cmp_opts = []
@@ -78,7 +79,7 @@ def build_test():
             link_opts.append(' -ldnnl')
         else:
             link_opts.append(' dnnl.lib')
-    if (test_config.current_test in blas_cases) or (test_config.current_test in fft_cases):
+    if (test_config.current_test in blas_cases) or (test_config.current_test in fft_cases) or (test_config.current_test in lapack_cases):
         mkl_opts = []
         if platform.system() == "Linux":
             mkl_opts = test_config.mkl_link_opt_lin
