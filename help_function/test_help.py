@@ -64,12 +64,12 @@ def build_test():
     if test_config.current_test == "test_default_queue_2":
         srcs.append("test_default_queue_1.cpp")
     if test_config.current_test == "kernel_function_lin":
-        ret = call_subprocess("dpcpp -shared -fPIC -o module.so kernel_module_lin.cpp")
+        ret = call_subprocess("icpx -fsycl -shared -fPIC -o module.so kernel_module_lin.cpp")
         if not ret:
             print("kernel_function_lin created the shared lib failed.")
             return False
     if test_config.current_test == "kernel_function_win":
-        ret = call_subprocess("dpcpp /EHsc -shared -o module.dll kernel_module_win.cpp")
+        ret = call_subprocess("icx-cl -fsycl /EHsc /LD kernel_module_win.cpp /link /OUT:module.dll")
         if not ret:
             print("kernel_function_win created the shared lib failed.")
             return False

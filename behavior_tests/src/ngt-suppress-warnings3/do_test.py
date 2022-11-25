@@ -20,7 +20,7 @@ def setup_test():
 def migrate_test():
 
     call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path +
-        " --suppress-warnings=1100")
+        " --suppress-warnings=1900")
     return is_sub_string("Invalid warning ID or range:", test_config.command_output)
 
 def build_test():

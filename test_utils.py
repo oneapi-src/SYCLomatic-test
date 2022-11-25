@@ -56,9 +56,9 @@ def change_dir(dir):
 
 def set_default_compiler():
     if (platform.system() == 'Windows'):
-        test_config.DPCXX_COM = "dpcpp-cl"
+        test_config.DPCXX_COM = "icx-cl -fsycl"
     else:
-        test_config.DPCXX_COM = "dpcpp"
+        test_config.DPCXX_COM = "icpx -fsycl"
 
 def print_debug_log(desc, *args):
     if (test_config.VERBOSE_LEVEL != 0):
@@ -94,7 +94,7 @@ def compile_and_link(srcs, cmpopts = [], objects = [], linkopt = []):
         if new_obj not in obj_files:
             obj_files.append(new_obj)
     cmd = test_config.DPCXX_COM + ' '  + ' '.join(obj_files) + ' ' + \
-                        ' '.join(linkopt) + ' ' + ' '.join(objects) + ' -o ' + test_config.current_test + '.run \n'
+                        ' '.join(linkopt) + ' ' + ' '.join(objects) + ' -o ' + test_config.current_test + '.run'
     return call_subprocess(cmd)
 
 

@@ -54,7 +54,7 @@
     <test testName="blas_utils_getri-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_getri-complex-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
     <test testName="blas_utils_geqrf" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
-    <!-- <test testName="blas_utils_geqrf-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/> -->
+    <test testName="blas_utils_geqrf-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
     <test testName="blas_utils_geqrf-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_geqrf-complex-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
     <test testName="blas_utils_get_transpose" configFile="config/TEMPLATE_help_function.xml" />
@@ -126,10 +126,10 @@
     <test testName="util_conj" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double"/>
     <test testName="util_cdiv" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double"/>
     <test testName="util_cmul" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double"/>
-    <!-- <test testName="lib_common_utils_mkl_get_version" configFile="config/TEMPLATE_help_function.xml" /> -->
-    <!-- <test testName="rng_generator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/> -->
+    <test testName="lib_common_utils_mkl_get_version" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="rng_generator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="blas_extension_api_buffer" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
-    <!--   <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/> -->
+    <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
     <test testName="dnnl_utils_activation" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_fill" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_lrn" configFile="config/TEMPLATE_help_function_usmnone.xml" />

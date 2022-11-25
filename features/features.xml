@@ -4,9 +4,9 @@
   <description>Feature test</description>
 
   <tests>
-    <!-- <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="thrust-for-RapidCFD" configFile="config/TEMPLATE_thrust_api.xml" /> -->
+    <test testName="thrust-for-RapidCFD" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector-2" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-binary-search" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-count" configFile="config/TEMPLATE_thrust_exec.xml" />
@@ -57,7 +57,7 @@
     <test testName="math-funnelshift" configFile="config/TEMPLATE_math_funnelshift.xml" />
     <test testName="math-habs" configFile="config/TEMPLATE_math_habs.xml" />
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
-    <test testName="math-saturatef" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-saturate" configFile="config/TEMPLATE_math.xml" />
     <test testName="cusparse" configFile="config/TEMPLATE_cusparse.xml" />
     <test testName="cusparse-type10.1" configFile="config/TEMPLATE_cuParse.xml" />
     <test testName="cusparse-type" configFile="config/TEMPLATE_cuParse.xml" />
@@ -94,7 +94,7 @@
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
     <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
-    <!-- <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" /> -->
+    <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce" configFile="config/TEMPLATE_cub_device.xml"/>
@@ -108,6 +108,7 @@
     <test testName="cub_device_run_length_encode_encode" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_counting_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
+    <test testName="cub_constant_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cudnn-activation" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-fill" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-lrn" configFile="config/TEMPLATE_cuDNN.xml" />
@@ -366,6 +367,6 @@
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
-    <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" splitGroup="double" />
+    <!-- <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" splitGroup="double" /> -->
   </tests>
 </suite>
