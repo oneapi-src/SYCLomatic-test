@@ -50,15 +50,18 @@ inline int *generate_device_random(size_t N, int Low, int High) {
   return Buffer;
 }
 
-void host() {
+bool host() {
   size_t N = 1000;
   std::vector<int> Input = generate_random(N, 1, 100000);
   cub::ArgIndexInputIterator<int *> Iter(Input.data());
   for (size_t I = 0; I < N; ++I, ++Iter) {
     const auto &P = *Iter;
-    if (Input[P.key] != P.value)
-      abort();
+    if (Input[P.key] != P.value) {
+      std::cerr << __func__ << " fun failed\n";
+      return false;
+    }
   }
+  return true;
 }
 
 __global__ void device_kernel(int *Input, bool *Ret, size_t N) {
@@ -73,15 +76,18 @@ __global__ void device_kernel(int *Input, bool *Ret, size_t N) {
   *Ret = true;
 }
 
-void device() {
+bool device() {
   bool HostRet;
   size_t N = 1000;
   int *Buffer = generate_device_random(N, 1, 10000);
   bool *Ret = safe_device_malloc<bool>(1);
   device_kernel<<<1, 1>>>(Buffer, Ret, N);
   safe_device_copy_to_host(&HostRet, Ret, 1);
-  if (!HostRet)
-    abort();
+  if (!HostRet) {
+    std::cerr << __func__ << " fun failed\n";
+      return false;
+  }
+  return true;
 }
 
 __global__ void host_to_device_kernel(cub::ArgIndexInputIterator<int *> Iter,
@@ -96,7 +102,7 @@ __global__ void host_to_device_kernel(cub::ArgIndexInputIterator<int *> Iter,
   *Ret = true;
 }
 
-void host_to_device() {
+bool host_to_device() {
   bool HostRet;
   size_t N = 1000;
   int *Buffer = generate_device_random(N, 1, 10000);
@@ -104,14 +110,20 @@ void host_to_device() {
   cub::ArgIndexInputIterator<int *> Iter(Buffer);
   host_to_device_kernel<<<1, 1>>>(Iter, Buffer, Ret, N);
   safe_device_copy_to_host(&HostRet, Ret, 1);
-  if (!HostRet)
-    abort();
+  if (!HostRet) {
+    std::cerr << __func__ << " fun failed\n";
+    return false;
+  }
 }
 
 int main() {
-  host();
-  device();
-  host_to_device();
-  std::cout << "cub::ArgIndexInputIterator pass\n";
+  bool Result = true;
+  Result = host() && Result;
+  Result = device() && Result;
+  Result = host_to_device() && Result;
+  if (!Result) {
+    std::cout << "cub::ArgIndexInputIterator failed\n";
+    return 1;
+  }
   return 0;
 }
