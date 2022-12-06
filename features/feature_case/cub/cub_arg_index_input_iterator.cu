@@ -44,7 +44,7 @@ inline void safe_device_copy_to_host(void *Dst, void *Src, size_t Size) {
 }
 
 inline int *generate_device_random(size_t N, int Low, int High) {
-  std::vector<int> Vec = generate_random<int>(N, Low, High);
+  std::vector<int> Vec = generate_random(N, Low, High);
   int *Buffer = safe_device_malloc<int>(N);
   safe_host_copy_to_device(Buffer, Vec.data(), N * sizeof(int));
   return Buffer;
@@ -52,7 +52,7 @@ inline int *generate_device_random(size_t N, int Low, int High) {
 
 void host() {
   size_t N = 1000;
-  std::vector<int> Input = generate_random<int>(N, 1, 100000);
+  std::vector<int> Input = generate_random(N, 1, 100000);
   cub::ArgIndexInputIterator<int *> Iter(Input.data());
   for (size_t I = 0; I < N; ++I, ++Iter) {
     const auto &P = *Iter;
