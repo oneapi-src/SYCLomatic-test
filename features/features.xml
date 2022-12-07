@@ -124,6 +124,7 @@
     <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
     <test testName="cub_constant_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_arg_index_input_iterator" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_radix_sort" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
     <test testName="cudnn-activation" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-fill" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-lrn" configFile="config/TEMPLATE_cuDNN.xml" />
