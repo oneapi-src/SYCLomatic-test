@@ -126,6 +126,7 @@ def run_test():
     if test_config.current_test not in exec_tests:
         return True
     os.environ['SYCL_DEVICE_FILTER'] = test_config.device_filter
+    os.environ['CL_CONFIG_CPU_EXPERIMENTAL_FP16']="1"
     if test_config.current_test == 'ccl':
         return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '))
     return run_binary_with_args()

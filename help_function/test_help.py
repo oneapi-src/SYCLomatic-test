@@ -102,7 +102,7 @@ def run_test():
         args.append("./module.so")
     if test_config.current_test == "kernel_function_win":
         args.append("./module.dll")
-
+    os.environ['CL_CONFIG_CPU_EXPERIMENTAL_FP16']="1"
     ret = run_binary_with_args(args)
     if test_config.current_test == "async_exception" and "Caught asynchronous SYCL exception" in test_config.command_output and "test_dpct_async_handler" in test_config.command_output:
         return True
