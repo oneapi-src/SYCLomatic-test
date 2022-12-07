@@ -90,37 +90,10 @@ bool device() {
   return true;
 }
 
-__global__ void host_to_device_kernel(cub::ArgIndexInputIterator<int *> Iter,
-                                      int *Input, bool *Ret, size_t N) {
-  for (size_t I = 0; I < N; ++I, ++Iter) {
-    const auto &P = *Iter;
-    if (Input[P.key] != P.value) {
-      *Ret = false;
-      return;
-    }
-  }
-  *Ret = true;
-}
-
-bool host_to_device() {
-  bool HostRet;
-  size_t N = 1000;
-  int *Buffer = generate_device_random(N, 1, 10000);
-  bool *Ret = safe_device_malloc<bool>(1);
-  cub::ArgIndexInputIterator<int *> Iter(Buffer);
-  host_to_device_kernel<<<1, 1>>>(Iter, Buffer, Ret, N);
-  safe_device_copy_to_host(&HostRet, Ret, 1);
-  if (!HostRet) {
-    std::cerr << __func__ << " fun failed\n";
-    return false;
-  }
-}
-
 int main() {
   bool Result = true;
   Result = host() && Result;
   Result = device() && Result;
-  Result = host_to_device() && Result;
   if (!Result) {
     std::cout << "cub::ArgIndexInputIterator failed\n";
     return 1;
