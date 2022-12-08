@@ -11,7 +11,7 @@ inline std::vector<int> generate_random(size_t N, int Low, int High) {
   std::vector<int> Vec(N, 0);
   std::random_device Dev;
   std::mt19937 Rng(Dev());
-  std::uniform_int_distribution<> Dist;
+  std::uniform_int_distribution<> Dist(Low, High);
   for (size_t I = 0; I < N; ++I)
     Vec[I] = Dist(Rng);
   return Vec;
