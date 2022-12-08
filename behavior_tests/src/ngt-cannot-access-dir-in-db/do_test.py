@@ -20,6 +20,8 @@ def setup_test():
 
 def migrate_test():
     cur_dr = os.getcwd()
+    if (platform.system() == 'Windows'):
+        cur_dr = cur_dr.replace('\\', '/')
     ret = ""
     with open("compile_commands.json", 'r') as f:
         ret = f.read()
