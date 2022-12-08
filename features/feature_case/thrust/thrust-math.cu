@@ -16,8 +16,8 @@ __global__ void complex_math_kernel(float * res)
 
   c = thrust::log10(c);
   c = thrust::sqrt(c);
-  thrust::pow(1.0, c);
-  thrust::pow(c, 1.0);
+  c = thrust::pow(1.0, c);
+  c = thrust::pow(c, 1.0);
   c = thrust::pow(c, c);
   c = thrust::sin(c);
   c = thrust::cos(c);
@@ -42,8 +42,8 @@ void complex_math(float * res)
 
   c = thrust::log10(c);
   c = thrust::sqrt(c);
-  thrust::pow(1.0, c);
-  thrust::pow(c, 1.0);
+  c = thrust::pow(1.0, c);
+  c = thrust::pow(c, 1.0);
   c = thrust::pow(c, c);
   c = thrust::sin(c);
   c = thrust::cos(c);
