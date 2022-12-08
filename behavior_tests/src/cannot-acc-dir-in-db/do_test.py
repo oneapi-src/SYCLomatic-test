@@ -22,7 +22,7 @@ def migrate_test():
     change_dir('..')
     call_subprocess('mv helloworld helloworld_tst')
 
-    call_subprocess(test_config.CT_TOOL + ' helloworld_tst/src/test.cu --cuda-include-path=' + \
+    call_subprocess(test_config.CT_TOOL + ' -p ./helloworld_tst/compile_commands.json --cuda-include-path=' + \
                    os.environ['CUDA_INCLUDE_PATH'])
 
     if 'check if the directory exists and can be accessed by the tool' in test_config.command_output:

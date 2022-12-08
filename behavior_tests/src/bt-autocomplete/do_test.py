@@ -110,50 +110,51 @@ def migrate_test():
     res = res and (reference == test_config.command_output)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=-")
-    reference = '--always-use-async-handler\n' + \
-                '--analysis-scope-path\n' + \
-                '--assume-nd-range-dim=\n' + \
-                '--build-script-file\n' + \
-                '--check-unicode-security\n' + \
-                '--comments\n' + \
-                '--cuda-include-path\n' + \
-                '--custom-helper-name\n' + \
-                '--enable-ctad\n' + \
-                '--extra-arg\n' + \
-                '--format-range=\n' + \
-                '--format-style=\n' + \
-                '--gen-build-script\n' + \
-                '--help\n' + \
-                '--in-root\n' + \
-                '--in-root-exclude\n' + \
-                '--keep-original-code\n' + \
-                '--no-cl-namespace-inline\n' + \
-                '--no-dpcpp-extensions=\n' + \
-                '--no-dry-pattern\n' + \
-                '--no-incremental-migration\n' + \
-                '--optimize-migration\n' + \
-                '--out-root\n' + \
-                '--output-file\n' + \
-                '--output-verbosity=\n' + \
-                '--process-all\n' + \
-                '--query-api-mapping\n' + \
-                '--report-file-prefix\n' + \
-                '--report-format=\n' + \
-                '--report-only\n' + \
-                '--report-type=\n' + \
-                '--rule-file\n' + \
-                '--stop-on-parse-err\n' + \
-                '--suppress-warnings\n' + \
-                '--suppress-warnings-all\n' + \
-                '--sycl-named-lambda\n' + \
-                '--use-custom-helper=\n' + \
-                '--use-dpcpp-extensions=\n' + \
-                '--use-experimental-features=\n' + \
-                '--use-explicit-namespace=\n' + \
-                '--usm-level=\n' + \
-                '--version\n' + \
-                '-p\n'
-    res = res and (reference == test_config.command_output)
+    opts = ['--always-use-async-handler\n',
+            '--analysis-scope-path\n',
+            '--assume-nd-range-dim=\n',
+            '--build-script-file\n',
+            '--check-unicode-security\n',
+            '--comments\n',
+            '--cuda-include-path\n',
+            '--custom-helper-name\n',
+            '--enable-ctad\n',
+            '--extra-arg\n',
+            '--format-range=\n',
+            '--format-style=\n',
+            '--gen-build-script\n',
+            '--help\n',
+            '--in-root\n',
+            '--in-root-exclude\n',
+            '--keep-original-code\n',
+            '--no-cl-namespace-inline\n',
+            '--no-dpcpp-extensions=\n',
+            '--no-dry-pattern\n',
+            '--no-incremental-migration\n',
+            '--optimize-migration\n',
+            '--out-root\n',
+            '--output-file\n',
+            '--output-verbosity=\n',
+            '--process-all\n',
+            '--query-api-mapping\n',
+            '--report-file-prefix\n',
+            '--report-format=\n',
+            '--report-only\n',
+            '--report-type=\n',
+            '--rule-file\n',
+            '--stop-on-parse-err\n',
+            '--suppress-warnings\n',
+            '--suppress-warnings-all\n',
+            '--sycl-named-lambda\n',
+            '--use-custom-helper=\n',
+            '--use-dpcpp-extensions=\n',
+            '--use-experimental-features=\n',
+            '--use-explicit-namespace=\n',
+            '--usm-level=\n',
+            '--version\n',
+            '-p\n']
+    for opt in opts:
+        res = res and (opt in test_config.command_output)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=##")
     reference = '\n'
