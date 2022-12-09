@@ -55,7 +55,7 @@ def migrate_test():
                 'silent\n'
     res = res and (reference == test_config.command_output)
 
-    call_subprocess(test_config.CT_TOOL + " --autocomplete=foo#bar##--enable")
+    call_subprocess(test_config.CT_TOOL + " --autocomplete=foo#bar##--enable-c")
     reference = '--enable-ctad\n'
     res = res and (reference == test_config.command_output)
 
