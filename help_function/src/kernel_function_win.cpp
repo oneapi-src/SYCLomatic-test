@@ -6,7 +6,7 @@
 //
 //
 // ===----------------------------------------------------------------------===//
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 #include <libloaderapi.h>
 #include <string>

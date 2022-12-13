@@ -7,7 +7,7 @@
 //
 // ===----------------------------------------------------------------------===//
 #define DPCT_NAMED_LAMBDA
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 #include <stdio.h>
 

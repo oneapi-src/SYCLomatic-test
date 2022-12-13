@@ -7,7 +7,7 @@
 //===---------------------------------------------------------------===//
 //test_feature:Util_cmul
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 #include <iostream>
 #include <complex>

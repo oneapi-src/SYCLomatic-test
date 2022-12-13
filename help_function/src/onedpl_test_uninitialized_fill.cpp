@@ -18,7 +18,7 @@
 #include <iostream>
 #include <iomanip>
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 
 struct Int
 {

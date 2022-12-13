@@ -7,7 +7,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <cstring>
 #include <dpct/dpct.hpp>
 #include <iostream>
