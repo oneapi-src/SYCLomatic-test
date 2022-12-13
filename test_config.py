@@ -38,7 +38,7 @@ back_end_device = ""
 
 # The default device for the test. Device can be "CPU", "OpenCL:GPU" and "LEVEL_ZERO:GPU".
 # For all the devices: https://intel.github.io/llvm-docs/EnvironmentVariables.html#sycl_device_filter
-device_filter = "LEVEL_ZERO:GPU"
+device_filter = "level_zero:gpu"
 
 # Depended libraries
 mkl_link_opt_lin = ["-lmkl_intel_ilp64", "-lmkl_sequential", "-lmkl_core",
