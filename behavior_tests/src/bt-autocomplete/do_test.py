@@ -136,7 +136,8 @@ def migrate_test():
             '--output-file\n',
             '--output-verbosity=\n',
             '--process-all\n',
-            '--query-api-mapping\n',
+            # Disable --query-api-mapping as it will be hidden
+            #'--query-api-mapping\n',
             '--report-file-prefix\n',
             '--report-format=\n',
             '--report-only\n',
