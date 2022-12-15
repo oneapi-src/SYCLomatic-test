@@ -26,7 +26,10 @@ def migrate_test():
     return os.path.exists(os.path.join("dpct_output", "init.cpp.dp.cpp"))
 def build_test():
     # make shared library
-    ret = call_subprocess(test_config.DPCXX_COM + " dpct_output/jit.dp.cpp -fPIC -shared -o premade.ptx")
+    if (platform.system() == 'Windows'):
+        ret = call_subprocess(test_config.DPCXX_COM + " dpct_output/jit.dp.cpp -fPIC -shared -o premade.ptx")
+    else:
+        ret = call_subprocess(test_config.DPCXX_COM + " dpct_output/jit.dp.cpp       -shared -o premade.ptx")
     if not ret:
         print("Could not make premade.ptx shared library.")
         return False
