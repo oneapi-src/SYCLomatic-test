@@ -200,8 +200,8 @@ def get_ct_clang_version():
     ct_path = get_ct_path()
     if ct_path:
         ct_clang_path = os.path.join(os.path.dirname(ct_path), "..", "lib", "clang")
-        sub_dirs = [dir.name for dir in os.scandir(ct_clang_path) if dir.is_dir() and re.fullmatch("(\d+)\.(\d+)\.(\d+).*", dir.name)]
+        sub_dirs = [dir.name for dir in os.scandir(ct_clang_path) if dir.is_dir() and re.fullmatch("(\d+).*", dir.name)]
         if len(sub_dirs) > 0:
             sub_dirs.sort()
-            return sub_dirs[-1]
+            return sub_dirs[-1] + ".0.0"
     return None
