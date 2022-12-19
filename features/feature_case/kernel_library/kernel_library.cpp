@@ -52,7 +52,9 @@ if (load_type==0) {
  
 }
 
-int main(int argc, char **argv) {  
+int run_tests() {
+  static int cnt;
+
   for (load_type=0; load_type<3; load_type++) {
     for (invoke_type=0; invoke_type<2; invoke_type++) {
       int seed = SEED;
@@ -70,8 +72,8 @@ int main(int argc, char **argv) {
       cudaMallocManaged((void **) &c, sizeof(int) * VEC_LENGTH);
 
       for (int i=0; i<VEC_LENGTH; i++) {
-        b[i] = i   + load_type*53 + invoke_type*97;
-        c[i] = i+1 + load_type*53 + invoke_type*97;
+        b[i] = i   + load_type*53 + invoke_type*97 + cnt*101;
+        c[i] = i+1 + load_type*53 + invoke_type*97 + cnt*101;
       }
 
       // test ptx module-loading, kernel function invocation, and verify results
@@ -148,7 +150,19 @@ int main(int argc, char **argv) {
           return 1;
         }
       }
+      ++cnt;
+      if (cnt&0x3)
+        // Do not unload every time, so that we exercise automatic unloading on program exit with Windows
+        cuModuleUnload(module);
     }
+  }
+  return 0;
+}
+
+int main(int argc, char **argv) {
+  for (auto i=0; i<5; i++) {
+    if (run_tests())
+      return 1;
   }
   return 0;
 }
