@@ -48,7 +48,7 @@ void test_bits(unsigned int *u) {
 }
 
 void ref_bits(unsigned int *u) {
-  oneapi::mkl::rng::device::philox4x32x10<1> rng(1, {3, 2 * 4});
+  oneapi::mkl::rng::device::philox4x32x10<4> rng(1, {3, 2 * 4});
   oneapi::mkl::rng::device::bits<std::uint32_t> distr;
   sycl::uint4 u4_1 = oneapi::mkl::rng::device::generate(distr, rng);
   sycl::uint4 u4_2 = oneapi::mkl::rng::device::generate(distr, rng);
@@ -79,7 +79,7 @@ void test_normal(float *f) {
 }
 
 void ref_normal(float *f) {
-  oneapi::mkl::rng::device::philox4x32x10<1> rng(1, {3, 2 * 4});
+  oneapi::mkl::rng::device::philox4x32x10<4> rng(1, {3, 2 * 4});
   oneapi::mkl::rng::device::gaussian<float> distr;
   sycl::float4 f4_1 = oneapi::mkl::rng::device::generate(distr, rng);
   sycl::float4 f4_2 = oneapi::mkl::rng::device::generate(distr, rng);
@@ -110,7 +110,7 @@ void test_normal_double(double *d) {
 }
 
 void ref_normal_double(double *d) {
-  oneapi::mkl::rng::device::philox4x32x10<1> rng(1, {3, 2 * 4});
+  oneapi::mkl::rng::device::philox4x32x10<4> rng(1, {3, 2 * 4});
   oneapi::mkl::rng::device::gaussian<double> distr;
   sycl::double4 d4_1 = oneapi::mkl::rng::device::generate(distr, rng);
   sycl::double4 d4_2 = oneapi::mkl::rng::device::generate(distr, rng);
@@ -141,7 +141,7 @@ void test_log_normal(float *f) {
 }
 
 void ref_log_normal(float *f) {
-  oneapi::mkl::rng::device::philox4x32x10<1> rng(1, {3, 2 * 4});
+  oneapi::mkl::rng::device::philox4x32x10<4> rng(1, {3, 2 * 4});
   oneapi::mkl::rng::device::lognormal<float> distr(3, 7);
   sycl::float4 f4_1 = oneapi::mkl::rng::device::generate(distr, rng);
   sycl::float4 f4_2 = oneapi::mkl::rng::device::generate(distr, rng);
@@ -172,7 +172,7 @@ void test_log_normal_double(double *d) {
 }
 
 void ref_log_normal_double(double *d) {
-  oneapi::mkl::rng::device::philox4x32x10<1> rng(1, {3, 2 * 4});
+  oneapi::mkl::rng::device::philox4x32x10<4> rng(1, {3, 2 * 4});
   oneapi::mkl::rng::device::lognormal<double> distr(3, 7);
   sycl::double4 d4_1 = oneapi::mkl::rng::device::generate(distr, rng);
   sycl::double4 d4_2 = oneapi::mkl::rng::device::generate(distr, rng);
@@ -203,7 +203,7 @@ void test_uniform(float *f) {
 }
 
 void ref_uniform(float *f) {
-  oneapi::mkl::rng::device::philox4x32x10<1> rng(1, {3, 2 * 4});
+  oneapi::mkl::rng::device::philox4x32x10<4> rng(1, {3, 2 * 4});
   oneapi::mkl::rng::device::uniform<float> distr;
   sycl::float4 f4_1 = oneapi::mkl::rng::device::generate(distr, rng);
   sycl::float4 f4_2 = oneapi::mkl::rng::device::generate(distr, rng);
@@ -234,7 +234,7 @@ void test_uniform_double(double *d) {
 }
 
 void ref_uniform_double(double *d) {
-  oneapi::mkl::rng::device::philox4x32x10<1> rng(1, {3, 2 * 4});
+  oneapi::mkl::rng::device::philox4x32x10<4> rng(1, {3, 2 * 4});
   oneapi::mkl::rng::device::uniform<double> distr;
   sycl::double4 d4_1 = oneapi::mkl::rng::device::generate(distr, rng);
   sycl::double4 d4_2 = oneapi::mkl::rng::device::generate(distr, rng);
@@ -265,7 +265,7 @@ void test_poisson(unsigned int *u) {
 }
 
 void ref_poisson(unsigned int *u) {
-  oneapi::mkl::rng::device::philox4x32x10<1> rng(1, {3, 2 * 4});
+  oneapi::mkl::rng::device::philox4x32x10<4> rng(1, {3, 2 * 4});
   oneapi::mkl::rng::device::poisson<std::uint32_t> distr(3);
   sycl::uint4 u4_1 = oneapi::mkl::rng::device::generate(distr, rng);
   sycl::uint4 u4_2 = oneapi::mkl::rng::device::generate(distr, rng);
@@ -286,7 +286,7 @@ void test_skipahead(unsigned int *u) {
 }
 
 void ref_skipahead(unsigned int *u) {
-  oneapi::mkl::rng::device::philox4x32x10<1> rng(1, {3, 2 * 4});
+  oneapi::mkl::rng::device::philox4x32x10<4> rng(1, {3, 2 * 4});
   oneapi::mkl::rng::device::bits<std::uint32_t> distr;
   oneapi::mkl::rng::device::skip_ahead(rng, 7);
   sycl::uint4 u4_1 = oneapi::mkl::rng::device::generate(distr, rng);
