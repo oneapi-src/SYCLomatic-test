@@ -158,5 +158,6 @@
     <test testName="libcu_atomic" configFile="config/TEMPLATE_help_function_skip_double.xml" />
     <test testName="lapack_utils_buffer" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double" />
     <test testName="lapack_utils_usm" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
+    <test testName="util_cast_double_from_to_int_test" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
   </tests>
 </suite>
