@@ -152,7 +152,6 @@
         <test testName="bt-check-install-files" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-deprecate-custom-helper" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-c2s" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="bt-multi-cuda-inc-path" configFile="config/TEMPLATE_behavior_tests.xml" />
     </tests>
 
 </suite>
