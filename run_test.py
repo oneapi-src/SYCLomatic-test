@@ -497,8 +497,6 @@ def main():
     test_config.option_map = get_option_mapping()
     test_config.backend_device = args.device
 
-    print(subprocess.Popen("which " + test_config.CT_TOOL, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True).stdout.readlines()[0].decode())
-
     ret = True
     # Run all the tests in the test_suite_list.xml
     if not args.suite:
