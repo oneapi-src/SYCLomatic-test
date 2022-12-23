@@ -27,7 +27,7 @@ def build_test():
     test_config.out_root = os.getcwd()
 
     lpthread_link_cases = ["devicemgr_multi_thread_aware", "memory_async_dpct_free", "blas_extension_api_usm",
-                           "blas_extension_api_buffer", "fft_utils_engine_buffer", "fft_utils_engine_usm"]
+                           "blas_extension_api_buffer", "fft_utils_engine_buffer", "fft_utils_engine_usm", "cufft_workspace_interface"]
     oneDPL_related = ["thrust_test_device_ptr_2", "thrust_test-pennet_simple_pstl", "test_default_queue_2"]
     blas_cases = ["blas_utils_getrf", "blas_utils_getrf-usm", "blas_utils_getrf-complex",
                 "blas_utils_getrf-complex-usm", "blas_utils_getrs", "blas_utils_getrs-usm",
@@ -44,7 +44,7 @@ def build_test():
                 "dnnl_utils_batch_normalization_2", "dnnl_utils_batch_normalization_3", "dnnl_utils_convolution_1",
                 "dnnl_utils_convolution_2", "dnnl_utils_convolution_3", "dnnl_utils_convolution_4", "dnnl_utils_convolution_5",
                 "dnnl_utils_normalization_1", "dnnl_utils_normalization_2", "dnnl_utils_normalization_3"]
-    fft_cases = ["fft_utils_engine_buffer", "fft_utils_engine_usm"]
+    fft_cases = ["fft_utils_engine_buffer", "fft_utils_engine_usm", "fft_workspace_interface"]
     lapack_cases = ["lapack_utils_buffer", "lapack_utils_usm"]
 
     srcs = []

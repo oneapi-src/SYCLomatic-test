@@ -85,6 +85,7 @@
     <test testName="cufft" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft-func-ptr" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft-others" configFile="config/TEMPLATE_cuFFT.xml" />
+    <test testName="cufft-external-workspace" configFile="config/cufft-external-workspace.xml" splitGroup="double"/>
     <!-- <test testName="module-kernel" configFile="config/TEMPLATE_module.xml" /> -->
     <test testName="macro" configFile="config/TEMPLATE_macro.xml" />
     <test testName="driverMem" configFile="config/TEMPLATE_driverMem.xml" />

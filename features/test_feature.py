@@ -10,6 +10,7 @@ import os
 import re
 import sys
 from pathlib import Path
+import fileinput
 
 parent = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.append(parent)
@@ -70,6 +71,22 @@ def migrate_test():
 
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
+def manual_fix_for_cufft_external_workspace(migrated_file):
+    lines = []
+    is_first_occur = True
+    with open(migrated_file) as in_f:
+        for line in in_f:
+            if ('&workSize' in line):
+                if (is_first_occur):
+                    line = line.replace('&workSize', '&workSize, std::pair(dpct::fft::fft_direction::forward, true)')
+                    is_first_occur = False
+                else:
+                    line = line.replace('&workSize', '&workSize, std::pair(dpct::fft::fft_direction::backward, true)')
+            lines.append(line)
+    with open(migrated_file, 'w') as out_f:
+        for line in lines:
+            out_f.write(line)
+
 def build_test():
     if (os.path.exists(test_config.current_test)):
         os.chdir(test_config.current_test)
@@ -111,6 +128,10 @@ def build_test():
         else:
             link_opts.append(' dnnl.lib')
     ret = False
+
+    if (test_config.current_test == 'cufft-external-workspace'):
+        manual_fix_for_cufft_external_workspace(srcs[0])
+
     if test_config.current_test == 'cufft_test':
         ret = compile_and_link([os.path.join(test_config.out_root, 'cufft_test.dp.cpp')], cmp_options, objects, link_opts)
     elif test_config.current_test in exec_tests:
