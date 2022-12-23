@@ -55,7 +55,7 @@ def migrate_test():
                 'silent\n'
     res = res and (reference == test_config.command_output)
 
-    call_subprocess(test_config.CT_TOOL + " --autocomplete=foo#bar##--enable")
+    call_subprocess(test_config.CT_TOOL + " --autocomplete=foo#bar##--enable-c")
     reference = '--enable-ctad\n'
     res = res and (reference == test_config.command_output)
 
@@ -119,6 +119,7 @@ def migrate_test():
             '--cuda-include-path\n',
             '--custom-helper-name\n',
             '--enable-ctad\n',
+            '--enable-profiling\n',
             '--extra-arg\n',
             '--format-range=\n',
             '--format-style=\n',
@@ -136,7 +137,8 @@ def migrate_test():
             '--output-file\n',
             '--output-verbosity=\n',
             '--process-all\n',
-            '--query-api-mapping\n',
+            # Disable --query-api-mapping as it will be hidden
+            #'--query-api-mapping\n',
             '--report-file-prefix\n',
             '--report-format=\n',
             '--report-only\n',
