@@ -43,7 +43,7 @@ def build_test():
                 "dnnl_utils_sum", "dnnl_utils_reduction", "dnnl_utils_binary", "dnnl_utils_batch_normalization_1",
                 "dnnl_utils_batch_normalization_2", "dnnl_utils_batch_normalization_3", "dnnl_utils_convolution_1",
                 "dnnl_utils_convolution_2", "dnnl_utils_convolution_3", "dnnl_utils_convolution_4", "dnnl_utils_convolution_5",
-                "dnnl_utils_normalization_1", "dnnl_utils_normalization_2", "dnnl_utils_normalization_3"]
+                "dnnl_utils_normalization_1", "dnnl_utils_normalization_2", "dnnl_utils_normalization_3", "dnnl_utils_rnn"]
     fft_cases = ["fft_utils_engine_buffer", "fft_utils_engine_usm"]
     lapack_cases = ["lapack_utils_buffer", "lapack_utils_usm"]
 
