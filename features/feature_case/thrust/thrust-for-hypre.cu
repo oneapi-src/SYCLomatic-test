@@ -116,6 +116,69 @@ void foo_host(){
   Report::check("replace_if", B[2], 0);
   Report::check("replace_if", B[3], 0);
 
+  // numerically the same as the replace_if test, but use replace_copy_if
+
+  A[0] = -5;
+  A[1] = 3;
+  A[2] = 0;
+  A[3] = 4;
+
+  S[0] = -1;
+  S[1] =  0;
+  S[2] = -1;
+  S[3] =  1;
+
+  B[0] = -5;
+  B[1] = 3;
+  B[2] = 0;
+  B[3] = 4;
+
+  S2[0] = -1;
+  S2[1] =  0;
+  S2[2] = -1;
+  S2[3] =  1;
+
+  thrust::replace_copy_if(thrust::device, A.begin(), A.end(), A.begin(), pred, 0);
+  Report::check("replace_copy_if", A[0], -5);
+  Report::check("replace_copy_if", A[1], 0);
+  Report::check("replace_copy_if", A[2], 0);
+  Report::check("replace_copy_if", A[3], 0);
+  thrust::replace_copy_if(A.begin(), A.end(), A.begin(), pred, 0);
+  Report::check("replace_copy_if", A[0], -5);
+  Report::check("replace_copy_if", A[1], 0);
+  Report::check("replace_copy_if", A[2], 0);
+  Report::check("replace_copy_if", A[3], 0);
+  thrust::replace_copy_if(thrust::device, A.begin(), A.end(), S.begin(), A.begin(), pred, 0);
+  Report::check("replace_copy_if", A[0], -5);
+  Report::check("replace_copy_if", A[1], 0);
+  Report::check("replace_copy_if", A[2], 0);
+  Report::check("replace_copy_if", A[3], 0);
+  thrust::replace_copy_if(A.begin(), A.end(), S.begin(), A.begin(), pred, 0);
+  Report::check("replace_copy_if", A[0], -5);
+  Report::check("replace_copy_if", A[1], 0);
+  Report::check("replace_copy_if", A[2], 0);
+  Report::check("replace_copy_if", A[3], 0);
+  thrust::replace_copy_if(thrust::seq, B.begin(), B.end(), B.begin(), pred, 0);
+  Report::check("replace_copy_if", B[0], -5);
+  Report::check("replace_copy_if", B[1], 0);
+  Report::check("replace_copy_if", B[2], 0);
+  Report::check("replace_copy_if", B[3], 0);
+  thrust::replace_copy_if(B.begin(), B.end(), B.begin(), pred, 0);
+  Report::check("replace_copy_if", B[0], -5);
+  Report::check("replace_copy_if", B[1], 0);
+  Report::check("replace_copy_if", B[2], 0);
+  Report::check("replace_copy_if", B[3], 0);
+  thrust::replace_copy_if(thrust::seq, B.begin(), B.end(), S2.begin(), B.begin(), pred, 0);
+  Report::check("replace_copy_if", B[0], -5);
+  Report::check("replace_copy_if", B[1], 0);
+  Report::check("replace_copy_if", B[2], 0);
+  Report::check("replace_copy_if", B[3], 0);
+  thrust::replace_copy_if(B.begin(), B.end(), S2.begin(), B.begin(), pred, 0);
+  Report::check("replace_copy_if", B[0], -5);
+  Report::check("replace_copy_if", B[1], 0);
+  Report::check("replace_copy_if", B[2], 0);
+  Report::check("replace_copy_if", B[3], 0);
+
   A[0] = -5;
   A[1] = 3;
   A[2] = 0;
