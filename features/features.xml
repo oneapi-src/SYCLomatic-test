@@ -4,7 +4,7 @@
   <description>Feature test</description>
 
   <tests>
-    <test testName="thrust-op" configFile="config/TEMPLATE_thrust-qmc.xml" splitGroup="double"/>
+    <test testName="thrust-op" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-for-RapidCFD" configFile="config/TEMPLATE_thrust_api.xml" />
