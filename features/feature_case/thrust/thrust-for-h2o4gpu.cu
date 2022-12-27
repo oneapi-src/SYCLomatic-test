@@ -92,6 +92,7 @@ void foo() {
   thrust::transform(t1.begin(), t1.end(), t2.begin(), t3.begin(), thrust::divides<float>());
   thrust::transform(t1.begin(), t1.end(), t2.begin(), t3.begin(), thrust::multiplies<float>());
   thrust::transform(t1.begin(), t1.end(), t2.begin(), t3.begin(), thrust::plus<float>());
+  thrust::transform(t1.begin(), t1.end(), t2.begin(), t3.begin(), thrust::modulus<float>());
  }
 
  {
