@@ -14,10 +14,10 @@
 
 void foo() {
   dpct::fft::fft_engine *plan;
-  dpct::fft::fft_type type;
+  dpct::fft::fft_type type = dpct::fft::fft_type::real_float_to_complex_float;
   size_t workSize;
   int batch = 1;
-  plan->create();
+  plan = dpct::fft::fft_engine::create();
   plan->use_internal_workspace(1);
   plan->commit(&dpct::get_default_queue(), 3, type, batch, &workSize);
   void *workArea;
