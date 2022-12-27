@@ -38,7 +38,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'cusolver_test1', 'cusolver_test2', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
               'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',
               'thrust_set_difference', 'thrust_set_difference_by_key', 'thrust_set_intersection_by_key', 'thrust_stable_sort',
-              'thrust_tabulate', 'thrust_for_each_n', 'device_info', 'defaultStream', 'cudnn-rnn']
+              'thrust_tabulate', 'thrust_for_each_n', 'device_info', 'defaultStream', 'cudnn-rnn', 'feature_profiling']
 
 def setup_test():
     return True
@@ -74,8 +74,8 @@ def migrate_test():
         src.append(' --use-experimental-features=logical-group ')
     if test_config.current_test == 'math_intel_specific':
         src.append(' --rule-file=./math_intel_specific/intel_specific_math.yaml')
-    if test_config.current_test in math_extension_tests:
-        src.append(' --use-dpcpp-extensions=intel_device_math')
+    if test_config.current_test == 'feature_profiling':
+        src.append(' --enable-profiling ')
 
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
