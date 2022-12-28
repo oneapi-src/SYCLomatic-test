@@ -28,6 +28,7 @@
     <test testName="thrust-reduce_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-pinned-allocator" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust_minmax_element" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_is_sorted" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-math" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="curand" configFile="config/TEMPLATE_cuRand.xml" />
     <test testName="curandEnum" configFile="config/TEMPLATE_cuRand.xml" />
