@@ -11,7 +11,7 @@
 #include <nccl.h>
 
 int main() {
-    int version, nranks = 2, rank = 0;
+    int version, nranks = 2, rank = 3, device_num = -1;
     ncclUniqueId id;
     ncclComm_t comm;
 
@@ -28,7 +28,18 @@ int main() {
 
     ncclCommInitRank(&comm, nranks, id, rank);
 
-    MPI_Finalize();
+    ncclCommCount(comm, &device_num);
+    
+    int device_id = -1;
+    ncclCommCuDevice(comm, &device_id);
+    std::cout<<"device_id: "<<device_id<<std::endl;
 
+    MPI_Finalize();
+    if(device_num != 2) {//hard code
+      printf("TEST failed for ncclCommCount\n");
+      return 1;
+    } 
+      
     printf("TEST PASS\n");
+    return 0;
 }
