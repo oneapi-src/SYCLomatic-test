@@ -32,13 +32,14 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'math-bfloat16', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
               'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5',
               'thrust-unique_by_key', 'cufft_test', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
-              'cusolver_test1', 'cusolver_test2', 'thrust_op', 'cublas-extension', 'cublas_v1_runable']
+              'cusolver_test1', 'cusolver_test2', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element']
 
 
 def setup_test():
     return True
 
 def migrate_test():
+    print("migrate_test:", test_config.current_test)
     src = []
     extra_args = []
     in_root = os.path.join(os.getcwd(), test_config.current_test)
@@ -111,6 +112,7 @@ def build_test():
         else:
             link_opts.append(' dnnl.lib')
     ret = False
+    print("test_config.current_test:", test_config.current_test)
     if test_config.current_test == 'cufft_test':
         ret = compile_and_link([os.path.join(test_config.out_root, 'cufft_test.dp.cpp')], cmp_options, objects, link_opts)
     elif test_config.current_test in exec_tests:
@@ -123,6 +125,7 @@ def build_test():
 
 
 def run_test():
+    print("run_test:", test_config.current_test)
     if test_config.current_test not in exec_tests:
         return True
     os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
