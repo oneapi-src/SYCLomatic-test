@@ -189,85 +189,6 @@ void test_8() { // device iterator
   printf("test_8 run passed!\n");
 }
 
-// void test_9() { // raw iterator
-//   const int N = 6;
-//   int datas[N] = {1, 4, 2, 8, 5, 7};
-//   bool result = thrust::is_sorted(thrust::host, datas, datas + N);
-//   if (result == true) {
-//     printf("test_9 run failed\n");
-//     exit(-1);
-//   }
-//   thrust::sort(datas, datas + N);
-//   result = thrust::is_sorted(thrust::host, datas, datas + N);
-
-//   if (result == false) {
-//     printf("test_9 run failed\n");
-//     exit(-1);
-//   }
-
-//   printf("test_9 run passed!\n");
-// }
-
-// void test_10() { // raw iterator
-
-//   const int N = 6;
-//   int datas[N] = {1, 4, 2, 8, 5, 7};
-//   bool result = thrust::is_sorted(datas, datas + N);
-//   if (result == true) {
-//     printf("test_10 run failed\n");
-//     exit(-1);
-//   }
-//   thrust::sort(datas, datas + N);
-//   result = thrust::is_sorted(datas, datas + N);
-
-//   if (result == false) {
-//     printf("test_10 run failed\n");
-//     exit(-1);
-//   }
-
-//   printf("test_10 run passed!\n");
-// }
-
-// void test_11() { // raw iterator
-
-//   const int N = 6;
-//   int datas[N] = {1, 4, 2, 8, 5, 7};
-//   thrust::greater<int> comp;
-//   bool result = thrust::is_sorted(thrust::host, datas, datas + N, comp);
-//   if (result == true) {
-//     printf("test_11 run failed\n");
-//     exit(-1);
-//   }
-//   thrust::sort(datas, datas + N, comp);
-//   result = thrust::is_sorted(thrust::host, datas, datas + N, comp);
-//   if (result == false) {
-//     printf("test_11 run failed\n");
-//     exit(-1);
-//   }
-
-//   printf("test_11 run passed!\n");
-// }
-
-// void test_12() { // raw iterator
-
-//   const int N = 6;
-//   int datas[N] = {1, 4, 2, 8, 5, 7};
-//   thrust::greater<int> comp;
-//   bool result = thrust::is_sorted(datas, datas + N, comp);
-//   if (result == true) {
-//     printf("test_12 run failed\n");
-//     exit(-1);
-//   }
-//   thrust::sort(datas, datas + N, comp);
-//   result = thrust::is_sorted(datas, datas + N, comp);
-//   if (result == false) {
-//     printf("test_12 run failed\n");
-//     exit(-1);
-//   }
-
-//   printf("test_12 run passed!\n");
-// }
-
 int main() {
   test_1();
   test_2();
@@ -277,11 +198,6 @@ int main() {
   test_6();
   test_7();
   test_8();
-
-  // test_9();
-  // test_10();
-  // test_11();
-  // test_12();
 
   return 0;
 }
