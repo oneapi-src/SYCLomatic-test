@@ -34,7 +34,8 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'thrust-unique_by_key', 'cufft_test', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
               'cusolver_test1', 'cusolver_test2', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
               'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',
-              'thrust_set_difference', 'thrust_set_difference_by_key', 'thrust_set_intersection_by_key', 'thrust_stable_sort']
+              'thrust_set_difference', 'thrust_set_difference_by_key', 'thrust_set_intersection_by_key', 'thrust_stable_sort',
+              'thrust_tabulate']
 
 
 
