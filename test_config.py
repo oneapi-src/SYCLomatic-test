@@ -36,7 +36,7 @@ root_path = ""      # The root path of test repo.
 timeout = 300       # The time limit for each test case.
 back_end_device = ""
 
-# The default device for the test. Device can be "CPU", "OpenCL:GPU" and "LEVEL_ZERO:GPU".
+# The default device for the test. Device can be "opencl:cpu", "opencl:gpu" and "level_zero:gpu".
 # For all the devices: https://intel.github.io/llvm-docs/EnvironmentVariables.html#sycl_device_filter
 device_filter = "level_zero:gpu"
 
