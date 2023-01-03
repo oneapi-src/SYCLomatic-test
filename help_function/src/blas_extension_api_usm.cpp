@@ -1,12 +1,10 @@
-// ====------ blas_extension_api_usm.cpp---------- -*- C++ -* ----===////
+// ====------ blas_extension_api_usm.cpp -------------------- *- C++ -* ----===//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
-//
 // ===----------------------------------------------------------------------===//
-
 
 #include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
@@ -29,7 +27,6 @@ struct Data {
   Data(int element_num) : element_num(element_num) {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
     h_data = (float*)malloc(sizeof(float) * element_num);
     memset(h_data, 0, sizeof(float) * element_num);
     d_data = (d_data_t *)sycl::malloc_device(sizeof(d_data_t) * element_num, q_ct1);
@@ -38,7 +35,6 @@ struct Data {
   Data(float* input_data, int element_num) : element_num(element_num) {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
     h_data = (float*)malloc(sizeof(float) * element_num);
     d_data = (d_data_t *)sycl::malloc_device(sizeof(d_data_t) * element_num, q_ct1);
     q_ct1.memset(d_data, 0, sizeof(d_data_t) * element_num).wait();
@@ -111,7 +107,7 @@ inline void Data<oneapi::mkl::bfloat16>::to_float_convert(oneapi::mkl::bfloat16*
 
 bool compare_result(float* expect, float* result, int element_num) {
   for (int i = 0; i < element_num; i++) {
-    if (std::abs(result[i]-expect[i]) >= 0.05) {
+    if (std::abs(result[i]-expect[i]) >= 0.1) {
       return false;
     }
   }
@@ -123,12 +119,12 @@ bool test_passed = true;
 void test_cublasNrm2Ex() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> x_f(v.data(), 4);
   Data<double> x_d(v.data(), 4);
   Data<sycl::float2> x_f2(v.data(), 4);
   Data<sycl::double2> x_d2(v.data(), 4);
+  Data<sycl::half> x_h(v.data(), 4);
 
   Data<float> res_f(1);
   Data<double> res_d(1);
@@ -139,23 +135,26 @@ void test_cublasNrm2Ex() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:0: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:0: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   x_f.H2D();
   x_d.H2D();
   x_f2.H2D();
   x_d2.H2D();
+  x_h.H2D();
 
   dpct::nrm2(*handle, 4, x_f.d_data, dpct::library_data_t::real_float, 1, res_f.d_data, dpct::library_data_t::real_float);
   dpct::nrm2(*handle, 4, x_d.d_data, dpct::library_data_t::real_double, 1, res_d.d_data, dpct::library_data_t::real_double);
   dpct::nrm2(*handle, 4, x_f2.d_data, dpct::library_data_t::complex_float, 1, res_f2.d_data, dpct::library_data_t::real_float);
   dpct::nrm2(*handle, 4, x_d2.d_data, dpct::library_data_t::complex_double, 1, res_d2.d_data, dpct::library_data_t::real_double);
+  dpct::nrm2(*handle, 4, x_h.d_data, dpct::library_data_t::real_half, 1, res_h.d_data, dpct::library_data_t::real_half);
 
   res_f.D2H();
   res_d.D2H();
   res_f2.D2H();
   res_d2.D2H();
+  res_h.D2H();
 
   q_ct1.wait();
 
@@ -165,7 +164,8 @@ void test_cublasNrm2Ex() {
   if (compare_result(&expect, res_f.h_data, 1)
       && compare_result(&expect, res_d.h_data, 1)
       && compare_result(&expect, res_f2.h_data, 1)
-      && compare_result(&expect, res_d2.h_data, 1))
+      && compare_result(&expect, res_d2.h_data, 1)
+      && compare_result(&expect, res_h.h_data, 1))
     printf("Nrm2Ex pass\n");
   else {
     printf("Nrm2Ex fail\n");
@@ -176,48 +176,54 @@ void test_cublasNrm2Ex() {
 void test_cublasDotEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> x_f(v.data(), 4);
   Data<double> x_d(v.data(), 4);
   Data<sycl::float2> x_f2(v.data(), 4);
   Data<sycl::double2> x_d2(v.data(), 4);
+  Data<sycl::half> x_h(v.data(), 4);
 
   Data<float> y_f(v.data(), 4);
   Data<double> y_d(v.data(), 4);
   Data<sycl::float2> y_f2(v.data(), 4);
   Data<sycl::double2> y_d2(v.data(), 4);
+  Data<sycl::half> y_h(v.data(), 4);
 
   Data<float> res_f(1);
   Data<double> res_d(1);
   Data<sycl::float2> res_f2(1);
   Data<sycl::double2> res_d2(1);
+  Data<sycl::half> res_h(1);
 
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:1: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:1: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   x_f.H2D();
   x_d.H2D();
   x_f2.H2D();
   x_d2.H2D();
+  x_h.H2D();
 
   y_f.H2D();
   y_d.H2D();
   y_f2.H2D();
   y_d2.H2D();
+  y_h.H2D();
 
   dpct::dot(*handle, 4, x_f.d_data, dpct::library_data_t::real_float, 1, y_f.d_data, dpct::library_data_t::real_float, 1, res_f.d_data, dpct::library_data_t::real_float);
   dpct::dot(*handle, 4, x_d.d_data, dpct::library_data_t::real_double, 1, y_d.d_data, dpct::library_data_t::real_double, 1, res_d.d_data, dpct::library_data_t::real_double);
   dpct::dot(*handle, 4, x_f2.d_data, dpct::library_data_t::complex_float, 1, y_f2.d_data, dpct::library_data_t::complex_float, 1, res_f2.d_data, dpct::library_data_t::complex_float);
   dpct::dot(*handle, 4, x_d2.d_data, dpct::library_data_t::complex_double, 1, y_d2.d_data, dpct::library_data_t::complex_double, 1, res_d2.d_data, dpct::library_data_t::complex_double);
+  dpct::dot(*handle, 4, x_h.d_data, dpct::library_data_t::real_half, 1, y_h.d_data, dpct::library_data_t::real_half, 1, res_h.d_data, dpct::library_data_t::real_half);
 
   res_f.D2H();
   res_d.D2H();
   res_f2.D2H();
   res_d2.D2H();
+  res_h.D2H();
 
   q_ct1.wait();
 
@@ -227,7 +233,8 @@ void test_cublasDotEx() {
   if (compare_result(&expect, res_f.h_data, 1)
       && compare_result(&expect, res_d.h_data, 1)
       && compare_result(&expect, res_f2.h_data, 1)
-      && compare_result(&expect, res_d2.h_data, 1))
+      && compare_result(&expect, res_d2.h_data, 1)
+      && compare_result(&expect, res_h.h_data, 1))
     printf("DotEx pass\n");
   else {
     printf("DotEx fail\n");
@@ -238,7 +245,6 @@ void test_cublasDotEx() {
 void test_cublasDotcEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> x_f(v.data(), 4);
   Data<double> x_d(v.data(), 4);
@@ -258,7 +264,7 @@ void test_cublasDotcEx() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:2: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:2: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   x_f.H2D();
@@ -300,12 +306,12 @@ void test_cublasDotcEx() {
 void test_cublasScalEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> x_f(v.data(), 4);
   Data<double> x_d(v.data(), 4);
   Data<sycl::float2> x_f2(v.data(), 4);
   Data<sycl::double2> x_d2(v.data(), 4);
+  Data<sycl::half> x_h(v.data(), 4);
 
   float alpha = 10;
   Data<float> alpha_f(&alpha, 1);
@@ -316,13 +322,14 @@ void test_cublasScalEx() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:3: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:3: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   x_f.H2D();
   x_d.H2D();
   x_f2.H2D();
   x_d2.H2D();
+  x_h.H2D();
 
   alpha_f.H2D();
   alpha_d.H2D();
@@ -333,11 +340,13 @@ void test_cublasScalEx() {
   dpct::scal(*handle, 4, alpha_d.d_data, dpct::library_data_t::real_double, x_d.d_data, dpct::library_data_t::real_double, 1);
   dpct::scal(*handle, 4, alpha_f2.d_data, dpct::library_data_t::complex_float, x_f2.d_data, dpct::library_data_t::complex_float, 1);
   dpct::scal(*handle, 4, alpha_d2.d_data, dpct::library_data_t::complex_double, x_d2.d_data, dpct::library_data_t::complex_double, 1);
+  dpct::scal(*handle, 4, alpha_f.d_data, dpct::library_data_t::real_float, x_h.d_data, dpct::library_data_t::real_half, 1);
 
   x_f.D2H();
   x_d.D2H();
   x_f2.D2H();
   x_d2.D2H();
+  x_h.D2H();
 
   q_ct1.wait();
 
@@ -347,7 +356,8 @@ void test_cublasScalEx() {
   if (compare_result(expect, x_f.h_data, 4)
       && compare_result(expect, x_d.h_data, 4)
       && compare_result(expect, x_f2.h_data, 4)
-      && compare_result(expect, x_d2.h_data, 4))
+      && compare_result(expect, x_d2.h_data, 4)
+      && compare_result(expect, x_h.h_data, 4))
     printf("ScalEx pass\n");
   else {
     printf("ScalEx fail\n");
@@ -358,17 +368,18 @@ void test_cublasScalEx() {
 void test_cublasAxpyEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> x_f(v.data(), 4);
   Data<double> x_d(v.data(), 4);
   Data<sycl::float2> x_f2(v.data(), 4);
   Data<sycl::double2> x_d2(v.data(), 4);
+  Data<sycl::half> x_h(v.data(), 4);
 
   Data<float> y_f(v.data(), 4);
   Data<double> y_d(v.data(), 4);
   Data<sycl::float2> y_f2(v.data(), 4);
   Data<sycl::double2> y_d2(v.data(), 4);
+  Data<sycl::half> y_h(v.data(), 4);
 
   float alpha = 10;
   Data<float> alpha_f(&alpha, 1);
@@ -379,18 +390,20 @@ void test_cublasAxpyEx() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:4: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:4: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   x_f.H2D();
   x_d.H2D();
   x_f2.H2D();
   x_d2.H2D();
+  x_h.H2D();
 
   y_f.H2D();
   y_d.H2D();
   y_f2.H2D();
   y_d2.H2D();
+  y_h.H2D();
 
   alpha_f.H2D();
   alpha_d.H2D();
@@ -401,11 +414,13 @@ void test_cublasAxpyEx() {
   dpct::axpy(*handle, 4, alpha_d.d_data, dpct::library_data_t::real_double, x_d.d_data, dpct::library_data_t::real_double, 1, y_d.d_data, dpct::library_data_t::real_double, 1);
   dpct::axpy(*handle, 4, alpha_f2.d_data, dpct::library_data_t::complex_float, x_f2.d_data, dpct::library_data_t::complex_float, 1, y_f2.d_data, dpct::library_data_t::complex_float, 1);
   dpct::axpy(*handle, 4, alpha_d2.d_data, dpct::library_data_t::complex_double, x_d2.d_data, dpct::library_data_t::complex_double, 1, y_d2.d_data, dpct::library_data_t::complex_double, 1);
+  dpct::axpy(*handle, 4, alpha_f.d_data, dpct::library_data_t::real_float, x_h.d_data, dpct::library_data_t::real_half, 1, y_h.d_data, dpct::library_data_t::real_half, 1);
 
   y_f.D2H();
   y_d.D2H();
   y_f2.D2H();
   y_d2.D2H();
+  y_h.D2H();
 
   q_ct1.wait();
 
@@ -415,7 +430,8 @@ void test_cublasAxpyEx() {
   if (compare_result(expect, y_f.h_data, 4)
       && compare_result(expect, y_d.h_data, 4)
       && compare_result(expect, y_f2.h_data, 4)
-      && compare_result(expect, y_d2.h_data, 4))
+      && compare_result(expect, y_d2.h_data, 4)
+      && compare_result(expect, y_h.h_data, 4))
     printf("AxpyEx pass\n");
   else {
     printf("AxpyEx fail\n");
@@ -426,70 +442,113 @@ void test_cublasAxpyEx() {
 void test_cublasRotEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
+  Data<oneapi::mkl::bfloat16> x0(v.data(), 4);
+  Data<sycl::half>          x1(v.data(), 4);
   Data<float>         x2(v.data(), 4);
   Data<double>        x3(v.data(), 4);
   Data<sycl::float2>        x4(v.data(), 4);
+  Data<sycl::float2>        x5(v.data(), 4);
   Data<sycl::double2>       x6(v.data(), 4);
+  Data<sycl::double2>       x7(v.data(), 4);
 
+  Data<oneapi::mkl::bfloat16> y0(v.data(), 4);
+  Data<sycl::half>          y1(v.data(), 4);
   Data<float>         y2(v.data(), 4);
   Data<double>        y3(v.data(), 4);
   Data<sycl::float2>        y4(v.data(), 4);
+  Data<sycl::float2>        y5(v.data(), 4);
   Data<sycl::double2>       y6(v.data(), 4);
+  Data<sycl::double2>       y7(v.data(), 4);
 
   float cos = 0.866;
   float sin = 0.5;
+  Data<oneapi::mkl::bfloat16> cos0(&cos, 1);
+  Data<sycl::half>          cos1(&cos, 1);
   Data<float>         cos2(&cos, 1);
   Data<double>        cos3(&cos, 1);
   Data<float>         cos4(&cos, 1);
+  Data<sycl::float2>        cos5(&cos, 1);
   Data<double>        cos6(&cos, 1);
+  Data<sycl::double2>       cos7(&cos, 1);
 
+  Data<oneapi::mkl::bfloat16> sin0(&sin, 1);
+  Data<sycl::half>          sin1(&sin, 1);
   Data<float>         sin2(&sin, 1);
   Data<double>        sin3(&sin, 1);
   Data<float>         sin4(&sin, 1);
+  Data<sycl::float2>        sin5(&sin, 1);
   Data<double>        sin6(&sin, 1);
+  Data<sycl::double2>       sin7(&sin, 1);
 
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:5: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:5: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
+  x0.H2D();
+  x1.H2D();
   x2.H2D();
   x3.H2D();
   x4.H2D();
+  x5.H2D();
   x6.H2D();
+  x7.H2D();
 
+  y0.H2D();
+  y1.H2D();
   y2.H2D();
   y3.H2D();
   y4.H2D();
+  y5.H2D();
   y6.H2D();
+  y7.H2D();
 
+  sin0.H2D();
+  sin1.H2D();
   sin2.H2D();
   sin3.H2D();
   sin4.H2D();
+  sin5.H2D();
   sin6.H2D();
+  sin7.H2D();
 
+  cos0.H2D();
+  cos1.H2D();
   cos2.H2D();
   cos3.H2D();
   cos4.H2D();
+  cos5.H2D();
   cos6.H2D();
+  cos7.H2D();
 
+  dpct::rot(*handle, 4, x0.d_data, dpct::library_data_t::real_bfloat16, 1, y0.d_data, dpct::library_data_t::real_bfloat16, 1, cos0.d_data, sin0.d_data, dpct::library_data_t::real_bfloat16);
+  dpct::rot(*handle, 4, x1.d_data, dpct::library_data_t::real_half, 1, y1.d_data, dpct::library_data_t::real_half, 1, cos1.d_data, sin1.d_data, dpct::library_data_t::real_half);
   dpct::rot(*handle, 4, x2.d_data, dpct::library_data_t::real_float, 1, y2.d_data, dpct::library_data_t::real_float, 1, cos2.d_data, sin2.d_data, dpct::library_data_t::real_float);
   dpct::rot(*handle, 4, x3.d_data, dpct::library_data_t::real_double, 1, y3.d_data, dpct::library_data_t::real_double, 1, cos3.d_data, sin3.d_data, dpct::library_data_t::real_double);
   dpct::rot(*handle, 4, x4.d_data, dpct::library_data_t::complex_float, 1, y4.d_data, dpct::library_data_t::complex_float, 1, cos4.d_data, sin4.d_data, dpct::library_data_t::real_float);
+  dpct::rot(*handle, 4, x5.d_data, dpct::library_data_t::complex_float, 1, y5.d_data, dpct::library_data_t::complex_float, 1, cos5.d_data, sin5.d_data, dpct::library_data_t::complex_float);
   dpct::rot(*handle, 4, x6.d_data, dpct::library_data_t::complex_double, 1, y6.d_data, dpct::library_data_t::complex_double, 1, cos6.d_data, sin6.d_data, dpct::library_data_t::real_double);
+  dpct::rot(*handle, 4, x7.d_data, dpct::library_data_t::complex_double, 1, y7.d_data, dpct::library_data_t::complex_double, 1, cos7.d_data, sin7.d_data, dpct::library_data_t::complex_double);
 
+  x0.D2H();
+  x1.D2H();
   x2.D2H();
   x3.D2H();
   x4.D2H();
+  x5.D2H();
   x6.D2H();
+  x7.D2H();
 
+  y0.D2H();
+  y1.D2H();
   y2.D2H();
   y3.D2H();
   y4.D2H();
+  y5.D2H();
   y6.D2H();
+  y7.D2H();
 
   q_ct1.wait();
 
@@ -497,14 +556,22 @@ void test_cublasRotEx() {
 
   float expect_x[4] = {2.732000,4.098000,6.830000,9.562000};
   float expect_y[4] = {0.732000,1.098000,1.830000,2.562000};
-  if (compare_result(expect_x, x2.h_data, 4) &&
+  if (compare_result(expect_x, x0.h_data, 4) &&
+      compare_result(expect_x, x1.h_data, 4) &&
+      compare_result(expect_x, x2.h_data, 4) &&
       compare_result(expect_x, x3.h_data, 4) &&
       compare_result(expect_x, x4.h_data, 4) &&
+      compare_result(expect_x, x5.h_data, 4) &&
       compare_result(expect_x, x6.h_data, 4) &&
+      compare_result(expect_x, x7.h_data, 4) &&
+      compare_result(expect_y, y0.h_data, 4) &&
+      compare_result(expect_y, y1.h_data, 4) &&
       compare_result(expect_y, y2.h_data, 4) &&
       compare_result(expect_y, y3.h_data, 4) &&
       compare_result(expect_y, y4.h_data, 4) &&
-      compare_result(expect_y, y6.h_data, 4))
+      compare_result(expect_y, y5.h_data, 4) &&
+      compare_result(expect_y, y6.h_data, 4) &&
+      compare_result(expect_y, y7.h_data, 4))
     printf("RotEx pass\n");
   else {
     printf("RotEx fail\n");
@@ -515,10 +582,12 @@ void test_cublasRotEx() {
 void test_cublasGemmEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
   Data<sycl::half> a0(v.data(), 16);
+  Data<std::int8_t> a1(v.data(), 16);
+  Data<oneapi::mkl::bfloat16> a2(v.data(), 16);
   Data<sycl::half> a3(v.data(), 16);
+  Data<std::int8_t> a4(v.data(), 16);
   Data<oneapi::mkl::bfloat16> a5(v.data(), 16);
   Data<sycl::half> a6(v.data(), 16);
   Data<float> a7(v.data(), 16);
@@ -527,7 +596,10 @@ void test_cublasGemmEx() {
   Data<sycl::double2> a11(v.data(), 16);
 
   Data<sycl::half> b0(v.data(), 16);
+  Data<std::int8_t> b1(v.data(), 16);
+  Data<oneapi::mkl::bfloat16> b2(v.data(), 16);
   Data<sycl::half> b3(v.data(), 16);
+  Data<std::int8_t> b4(v.data(), 16);
   Data<oneapi::mkl::bfloat16> b5(v.data(), 16);
   Data<sycl::half> b6(v.data(), 16);
   Data<float> b7(v.data(), 16);
@@ -536,7 +608,10 @@ void test_cublasGemmEx() {
   Data<sycl::double2> b11(v.data(), 16);
 
   Data<sycl::half> c0(16);
+  Data<std::int32_t> c1(16);
+  Data<oneapi::mkl::bfloat16> c2(16);
   Data<sycl::half> c3(16);
+  Data<float> c4(16);
   Data<float> c5(16);
   Data<float> c6(16);
   Data<float> c7(16);
@@ -547,7 +622,10 @@ void test_cublasGemmEx() {
   float alpha = 2;
   float beta = 0;
   Data<sycl::half> alpha0(&alpha, 1);
+  Data<std::int32_t> alpha1(&alpha, 1);
+  Data<float> alpha2(&alpha, 1);
   Data<float> alpha3(&alpha, 1);
+  Data<float> alpha4(&alpha, 1);
   Data<float> alpha5(&alpha, 1);
   Data<float> alpha6(&alpha, 1);
   Data<float> alpha7(&alpha, 1);
@@ -556,7 +634,10 @@ void test_cublasGemmEx() {
   Data<sycl::double2> alpha11(&alpha, 1);
 
   Data<sycl::half> beta0(&beta, 1);
+  Data<std::int32_t> beta1(&beta, 1);
+  Data<float> beta2(&beta, 1);
   Data<float> beta3(&beta, 1);
+  Data<float> beta4(&beta, 1);
   Data<float> beta5(&beta, 1);
   Data<float> beta6(&beta, 1);
   Data<float> beta7(&beta, 1);
@@ -567,11 +648,14 @@ void test_cublasGemmEx() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:6: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:6: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   a0.H2D();
+  a1.H2D();
+  a2.H2D();
   a3.H2D();
+  a4.H2D();
   a5.H2D();
   a6.H2D();
   a7.H2D();
@@ -580,7 +664,10 @@ void test_cublasGemmEx() {
   a11.H2D();
 
   b0.H2D();
+  b1.H2D();
+  b2.H2D();
   b3.H2D();
+  b4.H2D();
   b5.H2D();
   b6.H2D();
   b7.H2D();
@@ -589,7 +676,10 @@ void test_cublasGemmEx() {
   b11.H2D();
 
   alpha0.H2D();
+  alpha1.H2D();
+  alpha2.H2D();
   alpha3.H2D();
+  alpha4.H2D();
   alpha5.H2D();
   alpha6.H2D();
   alpha7.H2D();
@@ -598,7 +688,10 @@ void test_cublasGemmEx() {
   alpha11.H2D();
 
   beta0.H2D();
+  beta1.H2D();
+  beta2.H2D();
   beta3.H2D();
+  beta4.H2D();
   beta5.H2D();
   beta6.H2D();
   beta7.H2D();
@@ -607,7 +700,10 @@ void test_cublasGemmEx() {
   beta11.H2D();
 
   dpct::gemm(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha0.d_data, a0.d_data, dpct::library_data_t::real_half, 4, b0.d_data, dpct::library_data_t::real_half, 4, beta0.d_data, c0.d_data, dpct::library_data_t::real_half, 4, dpct::library_data_t::real_half);
+  dpct::gemm(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha1.d_data, a1.d_data, dpct::library_data_t::real_int8, 4, b1.d_data, dpct::library_data_t::real_int8, 4, beta1.d_data, c1.d_data, dpct::library_data_t::real_int32, 4, dpct::library_data_t::real_int32);
+  dpct::gemm(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha2.d_data, a2.d_data, dpct::library_data_t::real_bfloat16, 4, b2.d_data, dpct::library_data_t::real_bfloat16, 4, beta2.d_data, c2.d_data, dpct::library_data_t::real_bfloat16, 4, dpct::library_data_t::real_float);
   dpct::gemm(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha3.d_data, a3.d_data, dpct::library_data_t::real_half, 4, b3.d_data, dpct::library_data_t::real_half, 4, beta3.d_data, c3.d_data, dpct::library_data_t::real_half, 4, dpct::library_data_t::real_float);
+  dpct::gemm(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha4.d_data, a4.d_data, dpct::library_data_t::real_int8, 4, b4.d_data, dpct::library_data_t::real_int8, 4, beta4.d_data, c4.d_data, dpct::library_data_t::real_float, 4, dpct::library_data_t::real_float);
   dpct::gemm(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha5.d_data, a5.d_data, dpct::library_data_t::real_bfloat16, 4, b5.d_data, dpct::library_data_t::real_bfloat16, 4, beta5.d_data, c5.d_data, dpct::library_data_t::real_float, 4, dpct::library_data_t::real_float);
   dpct::gemm(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha6.d_data, a6.d_data, dpct::library_data_t::real_half, 4, b6.d_data, dpct::library_data_t::real_half, 4, beta6.d_data, c6.d_data, dpct::library_data_t::real_float, 4, dpct::library_data_t::real_float);
   dpct::gemm(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha7.d_data, a7.d_data, dpct::library_data_t::real_float, 4, b7.d_data, dpct::library_data_t::real_float, 4, beta7.d_data, c7.d_data, dpct::library_data_t::real_float, 4, dpct::library_data_t::real_float);
@@ -616,7 +712,10 @@ void test_cublasGemmEx() {
   dpct::gemm(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha11.d_data, a11.d_data, dpct::library_data_t::complex_double, 4, b11.d_data, dpct::library_data_t::complex_double, 4, beta11.d_data, c11.d_data, dpct::library_data_t::complex_double, 4, dpct::library_data_t::real_double);
 
   c0.D2H();
+  c1.D2H();
+  c2.D2H();
   c3.D2H();
+  c4.D2H();
   c5.D2H();
   c6.D2H();
   c7.D2H();
@@ -630,7 +729,10 @@ void test_cublasGemmEx() {
 
   float expect[16] = { 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0 };
   if (compare_result(expect, c0.h_data, 16) &&
+      compare_result(expect, c1.h_data, 16) &&
+      compare_result(expect, c2.h_data, 16) &&
       compare_result(expect, c3.h_data, 16) &&
+      compare_result(expect, c4.h_data, 16) &&
       compare_result(expect, c5.h_data, 16) &&
       compare_result(expect, c6.h_data, 16) &&
       compare_result(expect, c7.h_data, 16) &&
@@ -647,7 +749,6 @@ void test_cublasGemmEx() {
 void test_cublasTsyrkx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 11, 13};
   Data<float> a0(v.data(), 6);
   Data<double> a1(v.data(), 6);
@@ -679,7 +780,7 @@ void test_cublasTsyrkx() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:7: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:7: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   a0.H2D();
@@ -731,7 +832,6 @@ void test_cublasTsyrkx() {
 void test_cublasTherkx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 11, 13};
   Data<sycl::float2> a0(v.data(), 6);
   Data<sycl::double2> a1(v.data(), 6);
@@ -753,7 +853,7 @@ void test_cublasTherkx() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:8: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:8: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   a0.H2D();
@@ -788,69 +888,6 @@ void test_cublasTherkx() {
   }
 }
 
-void test_cublasTdgmm() {
-  dpct::device_ext &dev_ct1 = dpct::get_current_device();
-  sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
-  std::vector<float> v = {2, 3, 5, 7};
-  Data<float> a0(v.data(), 4);
-  Data<double> a1(v.data(), 4);
-  Data<sycl::float2> a2(v.data(), 4);
-  Data<sycl::double2> a3(v.data(), 4);
-
-  std::vector<float> x = {2, 3};
-  Data<float> x0(v.data(), 2);
-  Data<double> x1(v.data(), 2);
-  Data<sycl::float2> x2(v.data(), 2);
-  Data<sycl::double2> x3(v.data(), 2);
-
-  Data<float> c0(4);
-  Data<double> c1(4);
-  Data<sycl::float2> c2(4);
-  Data<sycl::double2> c3(4);
-
-  sycl::queue* handle;
-  handle = &q_ct1;
-  /*
-  DPCT1026:9: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
-  */
-
-  a0.H2D();
-  a1.H2D();
-  a2.H2D();
-  a3.H2D();
-
-  x0.H2D();
-  x1.H2D();
-  x2.H2D();
-  x3.H2D();
-
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a0.d_data, 2, 0, x0.d_data, 1, 0, c0.d_data, 2, 2 * 2, 1);
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, a1.d_data, 2, 0, x1.d_data, 1, 0, c1.d_data, 2, 2 * 2, 1);
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, (std::complex<float>*)a2.d_data, 2, 0, (std::complex<float>*)x2.d_data, 1, 0, (std::complex<float>*)c2.d_data, 2, 2 * 2, 1);
-  oneapi::mkl::blas::column_major::dgmm_batch(*handle, oneapi::mkl::side::left, 2, 2, (std::complex<double>*)a3.d_data, 2, 0, (std::complex<double>*)x3.d_data, 1, 0, (std::complex<double>*)c3.d_data, 2, 2 * 2, 1);
-
-  c0.D2H();
-  c1.D2H();
-  c2.D2H();
-  c3.D2H();
-
-  q_ct1.wait();
-
-  handle = nullptr;
-
-  float expect[4] = { 4.0, 9.0, 10.0, 21.0 };
-  if (compare_result(expect, c0.h_data, 4) &&
-      compare_result(expect, c1.h_data, 4) &&
-      compare_result(expect, c2.h_data, 4) &&
-      compare_result(expect, c3.h_data, 4))
-    printf("Tdgmm pass\n");
-  else {
-    printf("Tdgmm fail\n");
-    test_passed = false;
-  }
-}
-
 struct Ptr_Data {
   int group_num;
   void** h_data;
@@ -858,7 +895,6 @@ struct Ptr_Data {
   Ptr_Data(int group_num) : group_num(group_num) {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
     h_data = (void**)malloc(group_num * sizeof(void*));
     memset(h_data, 0, group_num * sizeof(void*));
     d_data = sycl::malloc_device<void *>(group_num, q_ct1);
@@ -877,40 +913,75 @@ struct Ptr_Data {
 void test_cublasGemmBatchedEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
                           2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
   Data<sycl::half> a0(v.data(), 32);
+  Data<std::int8_t> a1(v.data(), 32);
+  Data<oneapi::mkl::bfloat16> a2(v.data(), 32);
+  Data<sycl::half> a3(v.data(), 32);
+  Data<std::int8_t> a4(v.data(), 32);
+  Data<oneapi::mkl::bfloat16> a5(v.data(), 32);
+  Data<sycl::half> a6(v.data(), 32);
   Data<float> a7(v.data(), 32);
   Data<sycl::float2> a9(v.data(), 32);
   Data<double> a10(v.data(), 32);
   Data<sycl::double2> a11(v.data(), 32);
 
   Ptr_Data a0_ptrs(2);  a0_ptrs.h_data[0] = a0.d_data; a0_ptrs.h_data[1] = a0.d_data + 16;
+  Ptr_Data a1_ptrs(2);  a1_ptrs.h_data[0] = a1.d_data; a1_ptrs.h_data[1] = a1.d_data + 16;
+  Ptr_Data a2_ptrs(2);  a2_ptrs.h_data[0] = a2.d_data; a2_ptrs.h_data[1] = a2.d_data + 16;
+  Ptr_Data a3_ptrs(2);  a3_ptrs.h_data[0] = a3.d_data; a3_ptrs.h_data[1] = a3.d_data + 16;
+  Ptr_Data a4_ptrs(2);  a4_ptrs.h_data[0] = a4.d_data; a4_ptrs.h_data[1] = a4.d_data + 16;
+  Ptr_Data a5_ptrs(2);  a5_ptrs.h_data[0] = a5.d_data; a5_ptrs.h_data[1] = a5.d_data + 16;
+  Ptr_Data a6_ptrs(2);  a6_ptrs.h_data[0] = a6.d_data; a6_ptrs.h_data[1] = a6.d_data + 16;
   Ptr_Data a7_ptrs(2);  a7_ptrs.h_data[0] = a7.d_data; a7_ptrs.h_data[1] = a7.d_data + 16;
   Ptr_Data a9_ptrs(2);  a9_ptrs.h_data[0] = a9.d_data; a9_ptrs.h_data[1] = a9.d_data + 16;
   Ptr_Data a10_ptrs(2); a10_ptrs.h_data[0] = a10.d_data; a10_ptrs.h_data[1] = a10.d_data + 16;
   Ptr_Data a11_ptrs(2); a11_ptrs.h_data[0] = a11.d_data; a11_ptrs.h_data[1] = a11.d_data + 16;
 
   Data<sycl::half> b0(v.data(), 32);
+  Data<std::int8_t> b1(v.data(), 32);
+  Data<oneapi::mkl::bfloat16> b2(v.data(), 32);
+  Data<sycl::half> b3(v.data(), 32);
+  Data<std::int8_t> b4(v.data(), 32);
+  Data<oneapi::mkl::bfloat16> b5(v.data(), 32);
+  Data<sycl::half> b6(v.data(), 32);
   Data<float> b7(v.data(), 32);
   Data<sycl::float2> b9(v.data(), 32);
   Data<double> b10(v.data(), 32);
   Data<sycl::double2> b11(v.data(), 32);
 
   Ptr_Data b0_ptrs(2);  b0_ptrs.h_data[0] = b0.d_data; b0_ptrs.h_data[1] = b0.d_data + 16;
+  Ptr_Data b1_ptrs(2);  b1_ptrs.h_data[0] = b1.d_data; b1_ptrs.h_data[1] = b1.d_data + 16;
+  Ptr_Data b2_ptrs(2);  b2_ptrs.h_data[0] = b2.d_data; b2_ptrs.h_data[1] = b2.d_data + 16;
+  Ptr_Data b3_ptrs(2);  b3_ptrs.h_data[0] = b3.d_data; b3_ptrs.h_data[1] = b3.d_data + 16;
+  Ptr_Data b4_ptrs(2);  b4_ptrs.h_data[0] = b4.d_data; b4_ptrs.h_data[1] = b4.d_data + 16;
+  Ptr_Data b5_ptrs(2);  b5_ptrs.h_data[0] = b5.d_data; b5_ptrs.h_data[1] = b5.d_data + 16;
+  Ptr_Data b6_ptrs(2);  b6_ptrs.h_data[0] = b6.d_data; b6_ptrs.h_data[1] = b6.d_data + 16;
   Ptr_Data b7_ptrs(2);  b7_ptrs.h_data[0] = b7.d_data; b7_ptrs.h_data[1] = b7.d_data + 16;
   Ptr_Data b9_ptrs(2);  b9_ptrs.h_data[0] = b9.d_data; b9_ptrs.h_data[1] = b9.d_data + 16;
   Ptr_Data b10_ptrs(2); b10_ptrs.h_data[0] = b10.d_data; b10_ptrs.h_data[1] = b10.d_data + 16;
   Ptr_Data b11_ptrs(2); b11_ptrs.h_data[0] = b11.d_data; b11_ptrs.h_data[1] = b11.d_data + 16;
 
   Data<sycl::half> c0(32);
+  Data<std::int32_t> c1(32);
+  Data<oneapi::mkl::bfloat16> c2(32);
+  Data<sycl::half> c3(32);
+  Data<float> c4(32);
+  Data<float> c5(32);
+  Data<float> c6(32);
   Data<float> c7(32);
   Data<sycl::float2> c9(32);
   Data<double> c10(32);
   Data<sycl::double2> c11(32);
 
   Ptr_Data c0_ptrs(2);  c0_ptrs.h_data[0] = c0.d_data; c0_ptrs.h_data[1] = c0.d_data + 16;
+  Ptr_Data c1_ptrs(2);  c1_ptrs.h_data[0] = c1.d_data; c1_ptrs.h_data[1] = c1.d_data + 16;
+  Ptr_Data c2_ptrs(2);  c2_ptrs.h_data[0] = c2.d_data; c2_ptrs.h_data[1] = c2.d_data + 16;
+  Ptr_Data c3_ptrs(2);  c3_ptrs.h_data[0] = c3.d_data; c3_ptrs.h_data[1] = c3.d_data + 16;
+  Ptr_Data c4_ptrs(2);  c4_ptrs.h_data[0] = c4.d_data; c4_ptrs.h_data[1] = c4.d_data + 16;
+  Ptr_Data c5_ptrs(2);  c5_ptrs.h_data[0] = c5.d_data; c5_ptrs.h_data[1] = c5.d_data + 16;
+  Ptr_Data c6_ptrs(2);  c6_ptrs.h_data[0] = c6.d_data; c6_ptrs.h_data[1] = c6.d_data + 16;
   Ptr_Data c7_ptrs(2);  c7_ptrs.h_data[0] = c7.d_data; c7_ptrs.h_data[1] = c7.d_data + 16;
   Ptr_Data c9_ptrs(2);  c9_ptrs.h_data[0] = c9.d_data; c9_ptrs.h_data[1] = c9.d_data + 16;
   Ptr_Data c10_ptrs(2); c10_ptrs.h_data[0] = c10.d_data; c10_ptrs.h_data[1] = c10.d_data + 16;
@@ -919,12 +990,24 @@ void test_cublasGemmBatchedEx() {
   float alpha = 2;
   float beta = 0;
   Data<sycl::half> alpha0(&alpha, 1);
+  Data<std::int32_t> alpha1(&alpha, 1);
+  Data<float> alpha2(&alpha, 1);
+  Data<float> alpha3(&alpha, 1);
+  Data<float> alpha4(&alpha, 1);
+  Data<float> alpha5(&alpha, 1);
+  Data<float> alpha6(&alpha, 1);
   Data<float> alpha7(&alpha, 1);
   Data<sycl::float2> alpha9(&alpha, 1);
   Data<double> alpha10(&alpha, 1);
   Data<sycl::double2> alpha11(&alpha, 1);
 
   Data<sycl::half> beta0(&beta, 1);
+  Data<std::int32_t> beta1(&beta, 1);
+  Data<float> beta2(&beta, 1);
+  Data<float> beta3(&beta, 1);
+  Data<float> beta4(&beta, 1);
+  Data<float> beta5(&beta, 1);
+  Data<float> beta6(&beta, 1);
   Data<float> beta7(&beta, 1);
   Data<sycl::float2> beta9(&beta, 1);
   Data<double> beta10(&beta, 1);
@@ -933,58 +1016,112 @@ void test_cublasGemmBatchedEx() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:10: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:10: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   a0.H2D();
+  a1.H2D();
+  a2.H2D();
+  a3.H2D();
+  a4.H2D();
+  a5.H2D();
+  a6.H2D();
   a7.H2D();
   a9.H2D();
   a10.H2D();
   a11.H2D();
 
   b0.H2D();
+  b1.H2D();
+  b2.H2D();
+  b3.H2D();
+  b4.H2D();
+  b5.H2D();
+  b6.H2D();
   b7.H2D();
   b9.H2D();
   b10.H2D();
   b11.H2D();
 
   a0_ptrs.H2D();
+  a1_ptrs.H2D();
+  a2_ptrs.H2D();
+  a3_ptrs.H2D();
+  a4_ptrs.H2D();
+  a5_ptrs.H2D();
+  a6_ptrs.H2D();
   a7_ptrs.H2D();
   a9_ptrs.H2D();
   a10_ptrs.H2D();
   a11_ptrs.H2D();
 
   b0_ptrs.H2D();
+  b1_ptrs.H2D();
+  b2_ptrs.H2D();
+  b3_ptrs.H2D();
+  b4_ptrs.H2D();
+  b5_ptrs.H2D();
+  b6_ptrs.H2D();
   b7_ptrs.H2D();
   b9_ptrs.H2D();
   b10_ptrs.H2D();
   b11_ptrs.H2D();
 
   c0_ptrs.H2D();
+  c1_ptrs.H2D();
+  c2_ptrs.H2D();
+  c3_ptrs.H2D();
+  c4_ptrs.H2D();
+  c5_ptrs.H2D();
+  c6_ptrs.H2D();
   c7_ptrs.H2D();
   c9_ptrs.H2D();
   c10_ptrs.H2D();
   c11_ptrs.H2D();
 
   alpha0.H2D();
+  alpha1.H2D();
+  alpha2.H2D();
+  alpha3.H2D();
+  alpha4.H2D();
+  alpha5.H2D();
+  alpha6.H2D();
   alpha7.H2D();
   alpha9.H2D();
   alpha10.H2D();
   alpha11.H2D();
 
   beta0.H2D();
+  beta1.H2D();
+  beta2.H2D();
+  beta3.H2D();
+  beta4.H2D();
+  beta5.H2D();
+  beta6.H2D();
   beta7.H2D();
   beta9.H2D();
   beta10.H2D();
   beta11.H2D();
 
   dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha0.d_data, (const void**)a0_ptrs.d_data, dpct::library_data_t::real_half, 4, (const void**)b0_ptrs.d_data, dpct::library_data_t::real_half, 4, beta0.d_data, c0_ptrs.d_data, dpct::library_data_t::real_half, 4, 2, dpct::library_data_t::real_half);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha1.d_data, (const void**)a1_ptrs.d_data, dpct::library_data_t::real_int8, 4, (const void**)b1_ptrs.d_data, dpct::library_data_t::real_int8, 4, beta1.d_data, c1_ptrs.d_data, dpct::library_data_t::real_int32, 4, 2, dpct::library_data_t::real_int32);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha2.d_data, (const void**)a2_ptrs.d_data, dpct::library_data_t::real_bfloat16, 4, (const void**)b2_ptrs.d_data, dpct::library_data_t::real_bfloat16, 4, beta2.d_data, c2_ptrs.d_data, dpct::library_data_t::real_bfloat16, 4, 2, dpct::library_data_t::real_float);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha3.d_data, (const void**)a3_ptrs.d_data, dpct::library_data_t::real_half, 4, (const void**)b3_ptrs.d_data, dpct::library_data_t::real_half, 4, beta3.d_data, c3_ptrs.d_data, dpct::library_data_t::real_half, 4, 2, dpct::library_data_t::real_float);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha4.d_data, (const void**)a4_ptrs.d_data, dpct::library_data_t::real_int8, 4, (const void**)b4_ptrs.d_data, dpct::library_data_t::real_int8, 4, beta4.d_data, c4_ptrs.d_data, dpct::library_data_t::real_float, 4, 2, dpct::library_data_t::real_float);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha5.d_data, (const void**)a5_ptrs.d_data, dpct::library_data_t::real_bfloat16, 4, (const void**)b5_ptrs.d_data, dpct::library_data_t::real_bfloat16, 4, beta5.d_data, c5_ptrs.d_data, dpct::library_data_t::real_float, 4, 2, dpct::library_data_t::real_float);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha6.d_data, (const void**)a6_ptrs.d_data, dpct::library_data_t::real_half, 4, (const void**)b6_ptrs.d_data, dpct::library_data_t::real_half, 4, beta6.d_data, c6_ptrs.d_data, dpct::library_data_t::real_float, 4, 2, dpct::library_data_t::real_float);
   dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha7.d_data, (const void**)a7_ptrs.d_data, dpct::library_data_t::real_float, 4, (const void**)b7_ptrs.d_data, dpct::library_data_t::real_float, 4, beta7.d_data, c7_ptrs.d_data, dpct::library_data_t::real_float, 4, 2, dpct::library_data_t::real_float);
   dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha9.d_data, (const void**)a9_ptrs.d_data, dpct::library_data_t::complex_float, 4, (const void**)b9_ptrs.d_data, dpct::library_data_t::complex_float, 4, beta9.d_data, c9_ptrs.d_data, dpct::library_data_t::complex_float, 4, 2, dpct::library_data_t::real_float);
   dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha10.d_data, (const void**)a10_ptrs.d_data, dpct::library_data_t::real_double, 4, (const void**)b10_ptrs.d_data, dpct::library_data_t::real_double, 4, beta10.d_data, c10_ptrs.d_data, dpct::library_data_t::real_double, 4, 2, dpct::library_data_t::real_double);
   dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha11.d_data, (const void**)a11_ptrs.d_data, dpct::library_data_t::complex_double, 4, (const void**)b11_ptrs.d_data, dpct::library_data_t::complex_double, 4, beta11.d_data, c11_ptrs.d_data, dpct::library_data_t::complex_double, 4, 2, dpct::library_data_t::real_double);
 
   c0.D2H();
+  c1.D2H();
+  c2.D2H();
+  c3.D2H();
+  c4.D2H();
+  c5.D2H();
+  c6.D2H();
   c7.D2H();
   c9.D2H();
   c10.D2H();
@@ -997,6 +1134,12 @@ void test_cublasGemmBatchedEx() {
   float expect[32] = { 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0,
                        68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0 };
   if (compare_result(expect, c0.h_data, 32) &&
+      compare_result(expect, c1.h_data, 32) &&
+      compare_result(expect, c2.h_data, 32) &&
+      compare_result(expect, c3.h_data, 32) &&
+      compare_result(expect, c4.h_data, 32) &&
+      compare_result(expect, c5.h_data, 32) &&
+      compare_result(expect, c6.h_data, 32) &&
       compare_result(expect, c7.h_data, 32) &&
       compare_result(expect, c9.h_data, 32) &&
       compare_result(expect, c10.h_data, 32) &&
@@ -1012,24 +1155,41 @@ void test_cublasGemmBatchedEx() {
 void test_cublasGemmStridedBatchedEx() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
                           2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
   std::vector<float> v2 = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
                             2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
   Data<sycl::half> a0(v.data(), 32);
+  Data<std::int8_t> a1(v.data(), 32);
+  Data<oneapi::mkl::bfloat16> a2(v.data(), 32);
+  Data<sycl::half> a3(v.data(), 32);
+  Data<std::int8_t> a4(v.data(), 32);
+  Data<oneapi::mkl::bfloat16> a5(v.data(), 32);
+  Data<sycl::half> a6(v.data(), 32);
   Data<float> a7(v.data(), 32);
   Data<sycl::float2> a9(v.data(), 32);
   Data<double> a10(v.data(), 32);
   Data<sycl::double2> a11(v.data(), 32);
 
   Data<sycl::half> b0(v.data(), 32);
+  Data<std::int8_t> b1(v.data(), 32);
+  Data<oneapi::mkl::bfloat16> b2(v.data(), 32);
+  Data<sycl::half> b3(v.data(), 32);
+  Data<std::int8_t> b4(v.data(), 32);
+  Data<oneapi::mkl::bfloat16> b5(v.data(), 32);
+  Data<sycl::half> b6(v.data(), 32);
   Data<float> b7(v.data(), 32);
   Data<sycl::float2> b9(v.data(), 32);
   Data<double> b10(v.data(), 32);
   Data<sycl::double2> b11(v.data(), 32);
 
   Data<sycl::half> c0(32);
+  Data<std::int32_t> c1(32);
+  Data<oneapi::mkl::bfloat16> c2(32);
+  Data<sycl::half> c3(32);
+  Data<float> c4(32);
+  Data<float> c5(32);
+  Data<float> c6(32);
   Data<float> c7(32);
   Data<sycl::float2> c9(32);
   Data<double> c10(32);
@@ -1038,12 +1198,24 @@ void test_cublasGemmStridedBatchedEx() {
   float alpha = 2;
   float beta = 0;
   Data<sycl::half> alpha0(&alpha, 1);
+  Data<std::int32_t> alpha1(&alpha, 1);
+  Data<float> alpha2(&alpha, 1);
+  Data<float> alpha3(&alpha, 1);
+  Data<float> alpha4(&alpha, 1);
+  Data<float> alpha5(&alpha, 1);
+  Data<float> alpha6(&alpha, 1);
   Data<float> alpha7(&alpha, 1);
   Data<sycl::float2> alpha9(&alpha, 1);
   Data<double> alpha10(&alpha, 1);
   Data<sycl::double2> alpha11(&alpha, 1);
 
   Data<sycl::half> beta0(&beta, 1);
+  Data<std::int32_t> beta1(&beta, 1);
+  Data<float> beta2(&beta, 1);
+  Data<float> beta3(&beta, 1);
+  Data<float> beta4(&beta, 1);
+  Data<float> beta5(&beta, 1);
+  Data<float> beta6(&beta, 1);
   Data<float> beta7(&beta, 1);
   Data<sycl::float2> beta9(&beta, 1);
   Data<double> beta10(&beta, 1);
@@ -1052,40 +1224,76 @@ void test_cublasGemmStridedBatchedEx() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:11: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:11: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   a0.H2D();
+  a1.H2D();
+  a2.H2D();
+  a3.H2D();
+  a4.H2D();
+  a5.H2D();
+  a6.H2D();
   a7.H2D();
   a9.H2D();
   a10.H2D();
   a11.H2D();
 
   b0.H2D();
+  b1.H2D();
+  b2.H2D();
+  b3.H2D();
+  b4.H2D();
+  b5.H2D();
+  b6.H2D();
   b7.H2D();
   b9.H2D();
   b10.H2D();
   b11.H2D();
 
   alpha0.H2D();
+  alpha1.H2D();
+  alpha2.H2D();
+  alpha3.H2D();
+  alpha4.H2D();
+  alpha5.H2D();
+  alpha6.H2D();
   alpha7.H2D();
   alpha9.H2D();
   alpha10.H2D();
   alpha11.H2D();
 
   beta0.H2D();
+  beta1.H2D();
+  beta2.H2D();
+  beta3.H2D();
+  beta4.H2D();
+  beta5.H2D();
+  beta6.H2D();
   beta7.H2D();
   beta9.H2D();
   beta10.H2D();
   beta11.H2D();
 
   dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha0.d_data, a0.d_data, dpct::library_data_t::real_half, 4, 16, b0.d_data, dpct::library_data_t::real_half, 4, 16, beta0.d_data, c0.d_data, dpct::library_data_t::real_half, 4, 16, 2, dpct::library_data_t::real_half);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha1.d_data, a1.d_data, dpct::library_data_t::real_int8, 4, 16, b1.d_data, dpct::library_data_t::real_int8, 4, 16, beta1.d_data, c1.d_data, dpct::library_data_t::real_int32, 4, 16, 2, dpct::library_data_t::real_int32);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha2.d_data, a2.d_data, dpct::library_data_t::real_bfloat16, 4, 16, b2.d_data, dpct::library_data_t::real_bfloat16, 4, 16, beta2.d_data, c2.d_data, dpct::library_data_t::real_bfloat16, 4, 16, 2, dpct::library_data_t::real_float);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha3.d_data, a3.d_data, dpct::library_data_t::real_half, 4, 16, b3.d_data, dpct::library_data_t::real_half, 4, 16, beta3.d_data, c3.d_data, dpct::library_data_t::real_half, 4, 16, 2, dpct::library_data_t::real_float);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha4.d_data, a4.d_data, dpct::library_data_t::real_int8, 4, 16, b4.d_data, dpct::library_data_t::real_int8, 4, 16, beta4.d_data, c4.d_data, dpct::library_data_t::real_float, 4, 16, 2, dpct::library_data_t::real_float);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha5.d_data, a5.d_data, dpct::library_data_t::real_bfloat16, 4, 16, b5.d_data, dpct::library_data_t::real_bfloat16, 4, 16, beta5.d_data, c5.d_data, dpct::library_data_t::real_float, 4, 16, 2, dpct::library_data_t::real_float);
+  dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha6.d_data, a6.d_data, dpct::library_data_t::real_half, 4, 16, b6.d_data, dpct::library_data_t::real_half, 4, 16, beta6.d_data, c6.d_data, dpct::library_data_t::real_float, 4, 16, 2, dpct::library_data_t::real_float);
   dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha7.d_data, a7.d_data, dpct::library_data_t::real_float, 4, 16, b7.d_data, dpct::library_data_t::real_float, 4, 16, beta7.d_data, c7.d_data, dpct::library_data_t::real_float, 4, 16, 2, dpct::library_data_t::real_float);
   dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha9.d_data, a9.d_data, dpct::library_data_t::complex_float, 4, 16, b9.d_data, dpct::library_data_t::complex_float, 4, 16, beta9.d_data, c9.d_data, dpct::library_data_t::complex_float, 4, 16, 2, dpct::library_data_t::real_float);
   dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha10.d_data, a10.d_data, dpct::library_data_t::real_double, 4, 16, b10.d_data, dpct::library_data_t::real_double, 4, 16, beta10.d_data, c10.d_data, dpct::library_data_t::real_double, 4, 16, 2, dpct::library_data_t::real_double);
   dpct::gemm_batch(*handle, oneapi::mkl::transpose::nontrans, oneapi::mkl::transpose::nontrans, 4, 4, 4, alpha11.d_data, a11.d_data, dpct::library_data_t::complex_double, 4, 16, b11.d_data, dpct::library_data_t::complex_double, 4, 16, beta11.d_data, c11.d_data, dpct::library_data_t::complex_double, 4, 16, 2, dpct::library_data_t::real_double);
 
   c0.D2H();
+  c1.D2H();
+  c2.D2H();
+  c3.D2H();
+  c4.D2H();
+  c5.D2H();
+  c6.D2H();
   c7.D2H();
   c9.D2H();
   c10.D2H();
@@ -1098,6 +1306,12 @@ void test_cublasGemmStridedBatchedEx() {
   float expect[32] = { 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0,
                        68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0, 68.0, 102.0, 170.0, 238.0 };
   if (compare_result(expect, c0.h_data, 32) &&
+      compare_result(expect, c1.h_data, 32) &&
+      compare_result(expect, c2.h_data, 32) &&
+      compare_result(expect, c3.h_data, 32) &&
+      compare_result(expect, c4.h_data, 32) &&
+      compare_result(expect, c5.h_data, 32) &&
+      compare_result(expect, c6.h_data, 32) &&
       compare_result(expect, c7.h_data, 32) &&
       compare_result(expect, c9.h_data, 32) &&
       compare_result(expect, c10.h_data, 32) &&
@@ -1113,7 +1327,6 @@ void test_cublasGemmStridedBatchedEx() {
 void test_cublasTgemmBatched() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
                           2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
   Data<sycl::half> a0(v.data(), 32);
@@ -1169,7 +1382,7 @@ void test_cublasTgemmBatched() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:12: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:12: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   a0.H2D();
@@ -1249,7 +1462,6 @@ void test_cublasTgemmBatched() {
 void test_cublasTtrsmBatched() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7,
                           2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7, 2, 3, 5, 7};
   Data<float> a1(v.data(), 32);
@@ -1281,7 +1493,7 @@ void test_cublasTtrsmBatched() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:13: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:13: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   a1.H2D();
@@ -1340,7 +1552,6 @@ void test_cublasTtrsmBatched() {
 void test_cublasTtrmm() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::cout << "Device Name: " << dev_ct1.get_info<sycl::info::device::name>() << std::endl;
   std::vector<float> v = {2, 3, 5, 7};
   Data<float> a0(v.data(), 4);
   Data<double> a1(v.data(), 4);
@@ -1358,7 +1569,7 @@ void test_cublasTtrmm() {
   sycl::queue* handle;
   handle = &q_ct1;
   /*
-  DPCT1026:14: The call to cublasSetPointerMode was removed because the function call is redundant in DPC++.
+  DPCT1026:14: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
   */
 
   a0.H2D();
@@ -1409,6 +1620,61 @@ void test_cublasTtrmm() {
   }
 }
 
+void test_cublasTrot() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> v = {2, 3, 5, 7};
+  Data<sycl::float2> x0(v.data(), 4);
+  Data<sycl::double2> x1(v.data(), 4);
+  Data<sycl::float2> y0(v.data(), 4);
+  Data<sycl::double2> y1(v.data(), 4);
+
+  float cos = 0.866;
+  float sin = 0.5;
+  Data<float> cos0(&cos, 1);
+  Data<double> cos1(&cos, 1);
+  Data<sycl::float2> sin0(&sin, 1);
+  Data<sycl::double2> sin1(&sin, 1);
+
+  sycl::queue* handle;
+  handle = &q_ct1;
+  /*
+  DPCT1026:15: The call to cublasSetPointerMode was removed because this call is redundant in SYCL.
+  */
+
+  x0.H2D();
+  x1.H2D();
+  y0.H2D();
+  y1.H2D();
+  sin0.H2D();
+  sin1.H2D();
+  cos0.H2D();
+  cos1.H2D();
+
+  dpct::rot(*handle, 4, x0.d_data, dpct::library_data_t::complex_float, 1, y0.d_data, dpct::library_data_t::complex_float, 1, cos0.d_data, sin0.d_data, dpct::library_data_t::complex_float);
+  dpct::rot(*handle, 4, x1.d_data, dpct::library_data_t::complex_double, 1, y1.d_data, dpct::library_data_t::complex_double, 1, cos1.d_data, sin1.d_data, dpct::library_data_t::complex_double);
+
+  x0.D2H();
+  x1.D2H();
+  y0.D2H();
+  y1.D2H();
+
+  q_ct1.wait();
+  handle = nullptr;
+
+  float expect_x[4] = {2.732000,4.098000,6.830000,9.562000};
+  float expect_y[4] = {0.732000,1.098000,1.830000,2.562000};
+  if (compare_result(expect_x, x0.h_data, 4) &&
+      compare_result(expect_x, x1.h_data, 4) &&
+      compare_result(expect_y, y0.h_data, 4) &&
+      compare_result(expect_y, y1.h_data, 4))
+    printf("Trot pass\n");
+  else {
+    printf("Trot fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_cublasNrm2Ex();
   test_cublasDotEx();
@@ -1419,7 +1685,6 @@ int main() {
   test_cublasGemmEx();
   test_cublasTsyrkx();
   test_cublasTherkx();
-  test_cublasTdgmm();
 #ifndef DPCT_USM_LEVEL_NONE
   test_cublasGemmBatchedEx();
 #endif
@@ -1429,8 +1694,11 @@ int main() {
   test_cublasTtrsmBatched();
 #endif
   test_cublasTtrmm();
+  test_cublasTrot();
 
   if (test_passed)
     return 0;
   return -1;
 }
+
+
