@@ -5,5 +5,8 @@
     <files>
         <file path="feature_case/cublas/${testName}.cu" />
     </files>
-    <rules />
+    <rules>
+        <optlevelRule excludeOptlevelNameString="acc" />
+        <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
+    </rules>
 </test>

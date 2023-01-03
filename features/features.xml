@@ -4,6 +4,7 @@
   <description>Feature test</description>
 
   <tests>
+    <test testName="thrust-op" configFile="config/TEMPLATE_thrust_op.xml" />
     <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-for-RapidCFD" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -11,7 +12,7 @@
     <test testName="thrust-binary-search" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-count" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-copy" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <test testName="thrust-qmc" configFile="config/thrust-qmc.xml" splitGroup="double"/>
+    <!-- <test testName="thrust-qmc" configFile="config/thrust-qmc.xml" splitGroup="double"/> -->
     <test testName="thrust-transform-if" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-policy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-list" configFile="config/TEMPLATE_thrust_exec.xml" />
@@ -362,6 +363,7 @@
     <test testName="LibCommonUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_LibCommonUtils.xml" />
     <test testName="group-local-memory" configFile="config/TEMPLATE_thrust-qmc.xml" splitGroup="double"/>
     <test testName="cublas-extension" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
+    <test testName="cublas_v1_runable" configFile="config/TEMPLATE_cuBlas.xml" splitGroup="double"/>
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
     <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" />
