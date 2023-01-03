@@ -54,6 +54,10 @@ int main() {
   // test_feature:get_local_mem_size()
   Info.get_local_mem_size();
 
+  Info.get_memory_clock_rate();
+
+  Info.get_memory_bus_width();
+
   const char* Name = "DEVNAME";
   // test_feature:set_name(Name)
   Info.set_name(Name);

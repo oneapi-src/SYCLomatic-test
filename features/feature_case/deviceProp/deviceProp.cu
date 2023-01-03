@@ -17,6 +17,8 @@ int main() {
   int a5 = deviceProp.textureAlignment;
   int a6 = deviceProp.kernelExecTimeoutEnabled;
   int a7 = deviceProp.ECCEnabled;
+  int freq = deviceProp.memoryClockRate;
+  int buswidth = deviceProp.memoryBusWidth;
   size_t share_multi_proc_mem_size = deviceProp.sharedMemPerMultiprocessor;
   return 0;
 }
