@@ -42,7 +42,6 @@ def setup_test():
     return True
 
 def migrate_test():
-    print("migrate_test:", test_config.current_test)
     src = []
     extra_args = []
     in_root = os.path.join(os.getcwd(), test_config.current_test)
@@ -115,7 +114,6 @@ def build_test():
         else:
             link_opts.append(' dnnl.lib')
     ret = False
-    print("test_config.current_test:", test_config.current_test)
     if test_config.current_test == 'cufft_test':
         ret = compile_and_link([os.path.join(test_config.out_root, 'cufft_test.dp.cpp')], cmp_options, objects, link_opts)
     elif test_config.current_test in exec_tests:
@@ -128,7 +126,6 @@ def build_test():
 
 
 def run_test():
-    print("run_test:", test_config.current_test)
     if test_config.current_test not in exec_tests:
         return True
     os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
