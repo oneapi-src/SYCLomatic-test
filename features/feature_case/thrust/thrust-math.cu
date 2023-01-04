@@ -33,6 +33,8 @@ __global__ void complex_math_kernel(float * res)
   c = thrust::atanh(c);
   c = thrust::log(c);
   c = thrust::exp(c);
+  c = thrust::proj(thrust::norm(c));
+  c = thrust::conj(c);
   *res = thrust::abs(c);  
 }
 
@@ -59,6 +61,8 @@ void complex_math(float * res)
   c = thrust::atanh(c);
   c = thrust::log(c);
   c = thrust::exp(c);
+  c = thrust::proj(thrust::norm(c));
+  c = thrust::conj(c);
   *res = thrust::abs(c);  
 }
 
