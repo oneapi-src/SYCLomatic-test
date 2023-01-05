@@ -237,6 +237,79 @@ bool setup_and_run(int64_t n, VerifyOpT verify, const bool descending,
   return ASSERT_EQUAL(true, ret, test_name.c_str());
 }
 
+template <typename KeyTp, typename ValueTp, typename VerifyOp1T,
+          typename VerifyOp2T>
+bool setup_and_run_pingpong(int64_t n, VerifyOp1T verify1, VerifyOp2T verify2,
+                            int begin_bit = 0,
+                            int end_bit = sizeof(KeyTp) * 8) {
+  ::std::ostringstream test_name_stream;
+  test_name_stream << "sorting " << n << " elements of type "
+                   << typeid(KeyTp).name() << " in "
+                   << "descending followed by ascending order, with bits: ["
+                   << begin_bit << ", " << end_bit << ")" << ::std::endl;
+  ::std::string test_name = std::move(test_name_stream).str();
+
+  ::std::vector<KeyTp> first_keys;
+  GetRandVector<KeyTp>(first_keys, n);
+  ::std::vector<ValueTp> first_values;
+  GetCountingVector<ValueTp>(first_values, n);
+
+  ::std::vector<KeyTp> second_keys(n, KeyTp(0));
+  ::std::vector<ValueTp> second_values(n, ValueTp(0));
+
+  dpct::device_ext &device = dpct::get_current_device();
+  sycl::queue queue = device.default_queue();
+
+  KeyTp *dev_first_keys = sycl::malloc_device<KeyTp>(n, queue);
+
+  ValueTp *dev_first_values = sycl::malloc_device<ValueTp>(n, queue);
+
+  KeyTp *dev_second_keys = sycl::malloc_device<KeyTp>(n, queue);
+
+  ValueTp *dev_second_values = sycl::malloc_device<ValueTp>(n, queue);
+
+  queue.memcpy(dev_first_keys, first_keys.data(), n * sizeof(KeyTp)).wait();
+  queue.memcpy(dev_first_values, first_values.data(), n * sizeof(ValueTp))
+      .wait();
+
+  dpct::io_iterator_pair<decltype(dev_first_keys)> pingpong_keys(
+      dev_first_keys, dev_second_keys);
+  dpct::io_iterator_pair<decltype(dev_first_values)> pingpong_values(
+      dev_first_values, dev_second_values);
+
+  dpct::sort_pairs(oneapi::dpl::execution::make_device_policy(queue),
+                   pingpong_keys, pingpong_values, n, true, begin_bit, end_bit);
+
+  queue.memcpy(second_keys.data(), dev_second_keys, n * sizeof(KeyTp)).wait();
+  queue.memcpy(second_values.data(), dev_second_values, n * sizeof(ValueTp))
+      .wait();
+  bool ret = verify1(first_keys, first_values, second_keys, second_values);
+
+  pingpong_keys.swap();
+  pingpong_values.swap();
+
+  // setup input values of second operation to index values of ordering to
+  // satify requirement of verification
+  GetCountingVector<ValueTp>(second_values, n);
+  queue.memcpy(dev_second_values, second_values.data(), n * sizeof(ValueTp))
+      .wait();
+
+  dpct::sort_pairs(oneapi::dpl::execution::make_device_policy(queue),
+                   pingpong_keys, pingpong_values, n, false, begin_bit,
+                   end_bit);
+
+  queue.memcpy(first_keys.data(), dev_first_keys, n * sizeof(KeyTp)).wait();
+  queue.memcpy(first_values.data(), dev_first_values, n * sizeof(ValueTp))
+      .wait();
+  ret &= verify2(second_keys, second_values, first_keys, first_values);
+
+  sycl::free(dev_first_keys, queue);
+  sycl::free(dev_first_values, queue);
+  sycl::free(dev_second_keys, queue);
+  sycl::free(dev_second_values, queue);
+  return ASSERT_EQUAL(true, ret, test_name.c_str());
+}
+
 int main() {
 
   int test_suites_failed = 0;
@@ -254,6 +327,10 @@ int main() {
         setup_and_run<int, int>(10, verify_int_int_ascending, false);
     tests_failed +=
         setup_and_run<int, int>(1000, verify_int_int_ascending, false);
+    tests_failed +=
+        setup_and_run_pingpong<int, int, decltype(verify_int_int_descending),
+                               decltype(verify_int_int_ascending)>(
+            1000, verify_int_int_descending, verify_int_int_ascending);
     test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
@@ -270,6 +347,11 @@ int main() {
         setup_and_run<float, int>(10, verify_float_int_ascending, false);
     tests_failed +=
         setup_and_run<float, int>(1000, verify_float_int_ascending, false);
+    tests_failed +=
+        setup_and_run_pingpong<float, int,
+                               decltype(verify_float_int_descending),
+                               decltype(verify_float_int_ascending)>(
+            1000, verify_float_int_descending, verify_float_int_ascending);
     test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
@@ -286,6 +368,12 @@ int main() {
         setup_and_run<uint8_t, int>(10, verify_uint8t_int_ascending, false);
     tests_failed +=
         setup_and_run<uint8_t, int>(1000, verify_uint8t_int_ascending, false);
+    tests_failed +=
+        setup_and_run_pingpong<uint8_t, int,
+                               decltype(verify_uint8t_int_descending),
+                               decltype(verify_uint8t_int_ascending)>(
+            1000, verify_uint8t_int_descending, verify_uint8t_int_ascending);
+
     test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
@@ -294,17 +382,25 @@ int main() {
     // partial bits sort
     int begin_bit = 8;
     int end_bit = 24;
-    VerifyOrderedValues<int, int, true> verify_descending(begin_bit, end_bit);
-    tests_failed += setup_and_run<int, int>(10, verify_descending, true,
+    VerifyOrderedValues<int, int, true> verify_int_int_descending(begin_bit,
+                                                                  end_bit);
+    tests_failed += setup_and_run<int, int>(10, verify_int_int_descending, true,
                                             begin_bit, end_bit);
-    tests_failed += setup_and_run<int, int>(1000, verify_descending, true,
-                                            begin_bit, end_bit);
+    tests_failed += setup_and_run<int, int>(1000, verify_int_int_descending,
+                                            true, begin_bit, end_bit);
 
-    VerifyOrderedValues<int, int, false> verify(begin_bit, end_bit);
+    VerifyOrderedValues<int, int, false> verify_int_int_ascending(begin_bit,
+                                                                  end_bit);
+    tests_failed += setup_and_run<int, int>(10, verify_int_int_ascending, false,
+                                            begin_bit, end_bit);
+    tests_failed += setup_and_run<int, int>(1000, verify_int_int_ascending,
+                                            false, begin_bit, end_bit);
     tests_failed +=
-        setup_and_run<int, int>(10, verify, false, begin_bit, end_bit);
-    tests_failed +=
-        setup_and_run<int, int>(1000, verify, false, begin_bit, end_bit);
+        setup_and_run_pingpong<int, int, decltype(verify_int_int_descending),
+                               decltype(verify_int_int_ascending)>(
+            1000, verify_int_int_descending, verify_int_int_ascending,
+            begin_bit, end_bit);
+
     test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
@@ -313,18 +409,26 @@ int main() {
     // partial bits sort
     int begin_bit = 10;
     int end_bit = 17;
-    VerifyOrderedValues<double, int, true> verify_descending(begin_bit,
-                                                             end_bit);
-    tests_failed += setup_and_run<double, int>(10, verify_descending, true,
-                                               begin_bit, end_bit);
-    tests_failed += setup_and_run<double, int>(1000, verify_descending, true,
-                                               begin_bit, end_bit);
+    VerifyOrderedValues<double, int, true> verify_double_int_descending(
+        begin_bit, end_bit);
+    tests_failed += setup_and_run<double, int>(10, verify_double_int_descending,
+                                               true, begin_bit, end_bit);
+    tests_failed += setup_and_run<double, int>(
+        1000, verify_double_int_descending, true, begin_bit, end_bit);
 
-    VerifyOrderedValues<double, int, false> verify(begin_bit, end_bit);
+    VerifyOrderedValues<double, int, false> verify_double_int_ascending(
+        begin_bit, end_bit);
+    tests_failed += setup_and_run<double, int>(10, verify_double_int_ascending,
+                                               false, begin_bit, end_bit);
+    tests_failed += setup_and_run<double, int>(
+        1000, verify_double_int_ascending, false, begin_bit, end_bit);
     tests_failed +=
-        setup_and_run<double, int>(10, verify, false, begin_bit, end_bit);
-    tests_failed +=
-        setup_and_run<double, int>(1000, verify, false, begin_bit, end_bit);
+        setup_and_run_pingpong<double, int,
+                               decltype(verify_double_int_descending),
+                               decltype(verify_double_int_ascending)>(
+            1000, verify_double_int_descending, verify_double_int_ascending,
+            begin_bit, end_bit);
+
     test_suites_failed += test_passed(tests_failed, test_name);
   }
 }

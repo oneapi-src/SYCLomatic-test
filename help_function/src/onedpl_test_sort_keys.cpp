@@ -215,6 +215,54 @@ int setup_and_run(int64_t n, SetupDataOpT setup_data, VerifyOpT verify,
   return ASSERT_EQUAL(true, ret, test_name.c_str());
 }
 
+template <typename KeyTp, typename SetupDataOpT, typename VerifyOp1T,
+          typename VerifyOp2T>
+bool setup_and_run_pingpong(int64_t n, SetupDataOpT setup_data,
+                            VerifyOp1T verify1, VerifyOp2T verify2,
+                            int begin_bit = 0,
+                            int end_bit = sizeof(KeyTp) * 8) {
+  ::std::ostringstream test_name_stream;
+  test_name_stream << "sorting " << n << " elements of type "
+                   << typeid(KeyTp).name() << " in "
+                   << "descending followed by ascending order, with bits: ["
+                   << begin_bit << ", " << end_bit << ")" << ::std::endl;
+  ::std::string test_name = std::move(test_name_stream).str();
+  std::vector<KeyTp> input_keys;
+  setup_data(input_keys, n);
+
+  ::std::vector<KeyTp> output_keys(n, KeyTp(0));
+
+  dpct::device_ext &device = dpct::get_current_device();
+  sycl::queue queue = device.default_queue();
+
+  KeyTp *dev_input_keys = sycl::malloc_device<KeyTp>(n, queue);
+
+  KeyTp *dev_output_keys = sycl::malloc_device<KeyTp>(n, queue);
+
+  queue.memcpy(dev_input_keys, input_keys.data(), n * sizeof(KeyTp)).wait();
+
+  dpct::io_iterator_pair<decltype(dev_input_keys)> pingpong(dev_input_keys,
+                                                            dev_output_keys);
+
+  dpct::sort_keys(oneapi::dpl::execution::make_device_policy(queue), pingpong,
+                  n, true, begin_bit, end_bit);
+
+  queue.memcpy(output_keys.data(), dev_output_keys, n * sizeof(KeyTp)).wait();
+  bool ret = verify1(input_keys, output_keys);
+
+  pingpong.swap();
+
+  dpct::sort_keys(oneapi::dpl::execution::make_device_policy(queue), pingpong,
+                  n, false, begin_bit, end_bit);
+
+  queue.memcpy(input_keys.data(), dev_input_keys, n * sizeof(KeyTp)).wait();
+  ret &= verify2(output_keys, input_keys);
+
+  sycl::free(dev_input_keys, queue);
+  sycl::free(dev_output_keys, queue);
+  return ASSERT_EQUAL(true, ret, test_name.c_str());
+}
+
 int main() {
   int test_suites_failed = 0;
   {
@@ -232,6 +280,10 @@ int main() {
         setup_and_run<int>(10, get_rand_int, verify_int_ascending, false);
     tests_failed +=
         setup_and_run<int>(1000, get_rand_int, verify_int_ascending, false);
+
+    tests_failed += setup_and_run_pingpong<int>(
+        1000, get_rand_int, verify_int_descending, verify_int_ascending);
+
     test_suites_failed += test_passed(tests_failed, test_name);
   }
 
@@ -251,6 +303,10 @@ int main() {
         setup_and_run<float>(10, get_rand_float, verify_float_ascending, false);
     tests_failed += setup_and_run<float>(1000, get_rand_float,
                                          verify_float_ascending, false);
+
+    tests_failed += setup_and_run_pingpong<float>(
+        1000, get_rand_float, verify_float_descending, verify_float_ascending);
+
     test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
@@ -269,6 +325,10 @@ int main() {
                                            verify_uint8t_ascending, false);
     tests_failed += setup_and_run<uint8_t>(1000, get_rand_uint8t,
                                            verify_uint8t_ascending, false);
+    tests_failed += setup_and_run_pingpong<uint8_t>(1000, get_rand_uint8t,
+                                                    verify_uint8t_descending,
+                                                    verify_uint8t_ascending);
+
     test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
@@ -286,6 +346,9 @@ int main() {
                                          verify_float_match, false);
     tests_failed += setup_and_run<float>(1000, get_signed_zeros_float,
                                          verify_float_match, false);
+    tests_failed += setup_and_run_pingpong<float>(
+        1000, get_signed_zeros_float, verify_float_match, verify_float_match);
+
     test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
@@ -301,6 +364,10 @@ int main() {
                                           verify_double_match, false);
     tests_failed += setup_and_run<double>(1000, get_signed_zeros_double,
                                           verify_double_match, false);
+    tests_failed += setup_and_run_pingpong<double>(
+        1000, get_signed_zeros_double, verify_double_match,
+        verify_double_match);
+
     test_suites_failed += test_passed(tests_failed, test_name);
   }
 
@@ -328,6 +395,9 @@ int main() {
     tests_failed +=
         setup_and_run<int>(1000, get_rand_int, verify_int_ascending_subset,
                            false, begin_bit, end_bit);
+    tests_failed += setup_and_run_pingpong<int>(
+        1000, get_rand_int, verify_int_descending_subset,
+        verify_int_ascending_subset, begin_bit, end_bit);
     test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
@@ -356,7 +426,42 @@ int main() {
     tests_failed += setup_and_run<double>(1000, get_rand_double,
                                           verify_double_ascending_subset, false,
                                           begin_bit, end_bit);
+
+    tests_failed += setup_and_run_pingpong<double>(
+        1000, get_rand_double, verify_double_descending_subset,
+        verify_double_ascending_subset, begin_bit, end_bit);
+
     test_suites_failed += test_passed(tests_failed, test_name);
+  }
+
+  // test ping pong buffer
+  {
+    dpct::io_iterator_pair<int *> pp_default;
+
+    oneapi::dpl::zip_iterator<int *, oneapi::dpl::counting_iterator<int>> zip;
+    dpct::io_iterator_pair<decltype(zip)> pp_zip_default;
+
+    auto input = pp_default.input();
+    auto output = pp_zip_default.output();
+
+    pp_zip_default.swap();
+
+    auto swapped_input = pp_zip_default.input();
+
+    ASSERT_EQUAL(true, swapped_input == output, "default ping pong buffer");
+
+    std::vector<int> a_vec(100);
+    std::vector<int> b_vec(100);
+
+    dpct::io_iterator_pair<int *> pp_integer_ptr(a_vec.data(), b_vec.data());
+
+    auto test_input1 = pp_integer_ptr.input();
+    auto test_output1 = pp_integer_ptr.output();
+    pp_integer_ptr.swap();
+    auto test_input2 = pp_integer_ptr.input();
+    auto test_output2 = pp_integer_ptr.output();
+    ASSERT_EQUAL(true, test_input1 == test_output2, "input == swapped output");
+    ASSERT_EQUAL(true, test_input2 == test_output1, "swapped input == output");
   }
 
   std::cout << std::endl
