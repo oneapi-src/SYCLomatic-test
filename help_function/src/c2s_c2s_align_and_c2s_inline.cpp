@@ -7,7 +7,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 
 class __dpct_align__(8) T1 {

@@ -9,7 +9,7 @@
 
 #define DPCT_NAMED_LAMBDA
 #define DPCT_USM_LEVEL_NONE
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 
 class TestStruct {
