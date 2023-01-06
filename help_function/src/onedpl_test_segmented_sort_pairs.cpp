@@ -106,7 +106,13 @@ inline void
 segmented_sort_pairs(sycl::queue queue, int64_t nsegments, int64_t nsort,
                      int64_t n, bool descending, scalar_t *self_ptr,
                      scalar_t *values_ptr, int64_t *indices_ptr, int algorithm,
-                     int begin_bit = 0, int end_bit = sizeof(self_ptr) * 8) {
+                     bool use_io_iterator_pair = false, int begin_bit = 0,
+                     int end_bit = sizeof(self_ptr) * 8) {
+  if (use_io_iterator_pair && algorithm != 3)
+  {
+    //only public API can use io_iterator_pair
+    return;
+  }
   const auto numel = nsort * nsegments;
 
   auto offset_generator = [](auto stride, auto offset) {
@@ -142,10 +148,24 @@ segmented_sort_pairs(sycl::queue queue, int64_t nsegments, int64_t nsort,
   } else if (algorithm == 3) // this will be the one used for the mapping,
                              // others are for timing purposes
   {
-    dpct::segmented_sort_pairs(
-        oneapi::dpl::execution::make_device_policy(queue), self_ptr, values_ptr,
-        reverse_indices_ptr, indices_ptr, n, nsegments, offset_generator_starts,
-        offset_generator_ends, descending, begin_bit, end_bit);
+    if (use_io_iterator_pair)
+    {
+      dpct::io_iterator_pair<scalar_t*> keys(self_ptr, values_ptr);
+      dpct::io_iterator_pair<int64_t*> values(reverse_indices_ptr, indices_ptr);
+
+      dpct::segmented_sort_pairs(
+          oneapi::dpl::execution::make_device_policy(queue), keys, values,
+          n, nsegments, offset_generator_starts, offset_generator_ends,
+          descending, begin_bit, end_bit);
+
+    }
+    else
+    {
+      dpct::segmented_sort_pairs(
+          oneapi::dpl::execution::make_device_policy(queue), self_ptr, values_ptr,
+          reverse_indices_ptr, indices_ptr, n, nsegments, offset_generator_starts,
+          offset_generator_ends, descending, begin_bit, end_bit);
+    }
   }
   sycl::free(reverse_indices_ptr, queue);
 }
@@ -158,13 +178,21 @@ segmented_sort_pairs(sycl::queue queue, int64_t nsegments, int64_t nsort,
 template <typename scalar_t>
 int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
                                 const int64_t n, const bool descending,
-                                int algorithm) {
+                                int algorithm, 
+                                bool use_io_iterator_pair = false) {
   ::std::ostringstream test_name_stream;
   test_name_stream << "testing sorting with " << nsegments
                    << " segments of size " << nsort << " of type "
                    << typeid(scalar_t).name() << " in "
                    << (descending ? "descending" : "ascending") << " order"
                    << std::endl;
+
+  if (use_io_iterator_pair && algorithm != 3)
+  {
+    std::cout<<"io_iterator_pair interface only available with public dpct API"<<std::endl;
+    return 1;
+  }
+
   ::std::string test_name = std::move(test_name_stream).str();
   // setup data
   int64_t numel = nsort * nsegments;
@@ -186,7 +214,8 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
   queue.memcpy(dev_input_keys, input_keys.data(), n * sizeof(scalar_t)).wait();
 
   segmented_sort_pairs(queue, nsegments, nsort, n, descending, dev_input_keys,
-                       dev_output_keys, dev_output_indices, algorithm);
+                       dev_output_keys, dev_output_indices, algorithm,
+                       use_io_iterator_pair);
 
   queue.memcpy(output_keys.data(), dev_output_keys, n * sizeof(scalar_t))
       .wait();
@@ -379,13 +408,14 @@ int main() {
   int alg_start = 0;
   int alg_end = 4;
   int test_suites_failed = 0;
+    int64_t nsegments = 100;
+    int64_t nsort = 100;
+    int64_t n = nsegments * nsort;
+
   for (int alg = alg_start; alg < alg_end; alg++) {
 
     for (int descending = 0; descending < 2; descending++) {
       int tests_failed = 0;
-      int64_t nsegments = 100;
-      int64_t nsort = 100;
-      int64_t n = nsegments * nsort;
 
       tests_failed += test_with_generated_offsets<float>(nsegments, nsort, n,
                                                          descending, alg);
@@ -396,6 +426,15 @@ int main() {
           test_passed(tests_failed, GetAlgorithmName(alg, descending));
     }
   }
+  {
+    //test with io_iterator_pair
+    int tests_failed = 0;
+    tests_failed += test_with_generated_offsets<float>(nsegments, nsort, n, false, 3, true);
+  
+      test_suites_failed +=
+          test_passed(tests_failed, "Test segmented sort with io_iterator_pair");
+  }
+
   std::cout << std::endl
             << test_suites_failed << " failing test(s) detected." << std::endl;
   if (test_suites_failed == 0) {
