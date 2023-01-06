@@ -14,8 +14,6 @@ jobs:
   windows-test:
     name: windows-test-${{ matrix.test_suite }}-cpu
     runs-on: win_ci_test
-    if: |
-      always() 
 
     strategy:
       fail-fast: false
