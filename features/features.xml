@@ -27,6 +27,18 @@
     <test testName="thrust-inner_product" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-reduce_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-pinned-allocator" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust_minmax_element" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_partition" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_is_sorted" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_remove_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_unique_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_transform_exclusive_scan" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_set_difference" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_set_difference_by_key" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_set_intersection_by_key" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_stable_sort" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_tabulate" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_for_each_n" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-math" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="curand" configFile="config/TEMPLATE_cuRand.xml" />
     <test testName="curandEnum" configFile="config/TEMPLATE_cuRand.xml" />
