@@ -78,6 +78,7 @@ jobs:
           echo $PWD
 
       - name: Run testing option_usmnone_cpu
+        if: success() || failure()
         timeout-minutes: 180
         shell: bash
         run: |
