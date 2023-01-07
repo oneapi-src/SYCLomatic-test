@@ -10,10 +10,15 @@
 int main(){
     CUmodule M;
     CUfunction F;
-    std::string Path, FunctionName, Data;
+#ifdef _WIN32
+    std::string Path{"./module-kernel.dll"};
+#else
+    std::string Path{"./module-kernel.so"};
+#endif
+    std::string FunctionName{"foo"}, Data;
     FunctionName = "foo";
     cuModuleLoad(&M, Path.c_str());
-    cuModuleLoadData(&M, Data.c_str());
+//    cuModuleLoadData(&M, Data.c_str());
     cuModuleGetFunction(&F, M, FunctionName.c_str());
     float *param[2] = {0};
     cudaMalloc(&param[0], sizeof(float));
