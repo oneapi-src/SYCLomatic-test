@@ -76,8 +76,10 @@ jobs:
           cd c2s_test_repo
           python run_test.py --suite ${{ matrix.test_suite }} --option option_cpu
           echo $PWD
+          exit -1
 
       - name: Run testing option_usmnone_cpu
+        if: success() || failure()
         timeout-minutes: 180
         shell: bash
         run: |
