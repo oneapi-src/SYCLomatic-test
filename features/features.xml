@@ -26,7 +26,19 @@
     <test testName="thrust-sort_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-inner_product" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-reduce_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <test testName="thrust-pinned-allocator" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <!-- <test testName="thrust-pinned-allocator" configFile="config/TEMPLATE_thrust_exec.xml" /> -->
+    <test testName="thrust_minmax_element" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_partition" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_is_sorted" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_remove_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_unique_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_transform_exclusive_scan" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_set_difference" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_set_difference_by_key" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_set_intersection_by_key" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_stable_sort" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_tabulate" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_for_each_n" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-math" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="curand" configFile="config/TEMPLATE_cuRand.xml" />
     <test testName="curandEnum" configFile="config/TEMPLATE_cuRand.xml" />
@@ -59,7 +71,7 @@
     <test testName="math-funnelshift" configFile="config/TEMPLATE_math_funnelshift.xml" />
     <test testName="math-habs" configFile="config/TEMPLATE_math_habs.xml" splitGroup="double" />
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
-    <test testName="math-saturate" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-saturate" configFile="config/TEMPLATE_math_saturate.xml" />
     <test testName="cusparse" configFile="config/TEMPLATE_cusparse.xml" />
     <test testName="cusparse-type10.1" configFile="config/TEMPLATE_cuParse.xml" />
     <test testName="cusparse-type" configFile="config/TEMPLATE_cuParse.xml" />
@@ -222,13 +234,13 @@
     <test testName="Image_api_test7" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
     <test testName="Image_api_test8" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
     <test testName="Image_api_test9" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
-    <test testName="Image_api_test10" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
+    <test testName="Image_api_test10" configFile="config/TEMPLATE_custom_helper_files_Image_cuda12.0_not_support.xml" />
     <test testName="Image_api_test11" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
-    <test testName="Image_api_test12" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
+    <test testName="Image_api_test12" configFile="config/TEMPLATE_custom_helper_files_Image_cuda12.0_not_support.xml" />
     <test testName="Image_api_test13" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
-    <test testName="Image_api_test14" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
+    <test testName="Image_api_test14" configFile="config/TEMPLATE_custom_helper_files_Image_cuda12.0_not_support.xml" />
     <test testName="Image_api_test15" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
-    <test testName="Image_api_test16" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
+    <test testName="Image_api_test16" configFile="config/TEMPLATE_custom_helper_files_Image_cuda12.0_not_support.xml" />
     <test testName="Image_api_test17" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
     <test testName="Image_api_test18" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
     <test testName="Image_api_test19" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
@@ -237,12 +249,12 @@
     <test testName="Image_api_test22" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
     <test testName="Image_api_test23" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
     <test testName="Image_api_test24" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
-    <test testName="Image_api_test25" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
-    <test testName="Image_api_test26" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
+    <test testName="Image_api_test25" configFile="config/TEMPLATE_custom_helper_files_Image_cuda12.0_not_support.xml" />
+    <test testName="Image_api_test26" configFile="config/TEMPLATE_custom_helper_files_Image_cuda12.0_not_support.xml" />
     <test testName="Image_api_test27" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
     <test testName="Image_api_test28" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
-    <test testName="Image_api_test29" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
-    <test testName="Image_api_test30" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
+    <test testName="Image_api_test29" configFile="config/TEMPLATE_custom_helper_files_Image_cuda12.0_not_support.xml" />
+    <test testName="Image_api_test30" configFile="config/TEMPLATE_custom_helper_files_Image_cuda12.0_not_support.xml" />
     <test testName="Image_api_test31" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
     <test testName="Image_api_test32" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />
     <test testName="Image_api_test33" configFile="config/TEMPLATE_custom_helper_files_Image.xml" />

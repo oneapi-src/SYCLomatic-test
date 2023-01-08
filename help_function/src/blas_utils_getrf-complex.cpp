@@ -10,7 +10,7 @@
 //test_feature:BlasUtils_getrf_batch_wrapper
 
 #define DPCT_USM_LEVEL_NONE
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 #include <oneapi/mkl.hpp>
 #include <dpct/blas_utils.hpp>

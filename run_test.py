@@ -415,9 +415,9 @@ def get_suite_list():
 
 def config_running_device(opt):
     if "cpu" in opt:
-        test_config.device_filter = "CPU"
+        test_config.device_filter = "opencl:cpu"
     if "gpu" in opt:
-        test_config.device_filter = "LEVEL_ZERO:GPU"
+        test_config.device_filter = "level_zero:gpu"
     test_config.migrate_option = test_config.option_map[opt]
 
 def test_suite_with_opt(suite_root_path, suite_name, opt):

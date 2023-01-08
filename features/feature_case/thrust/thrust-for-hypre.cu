@@ -12,6 +12,9 @@
 #include <thrust/functional.h>
 #include <thrust/adjacent_difference.h>
 #include "report.h"
+// for cuda 12.0
+#include <thrust/execution_policy.h>
+#include <thrust/remove.h>
 
 struct greater_than_zero
 {

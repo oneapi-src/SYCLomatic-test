@@ -7,7 +7,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 #include <dpct/lib_common_utils.hpp>
 
