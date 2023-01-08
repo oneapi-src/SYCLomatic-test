@@ -17,6 +17,11 @@
 #include <thrust/host_vector.h>
 #include <thrust/tuple.h>
 #include <thrust/device_ptr.h>
+// for cuda 12.0
+#include <thrust/count.h>
+#include <thrust/iterator/constant_iterator.h>
+#include <thrust/sort.h>
+#include <thrust/unique.h>
 
 
 template <typename T> struct is_even {
@@ -92,6 +97,7 @@ void foo() {
   thrust::transform(t1.begin(), t1.end(), t2.begin(), t3.begin(), thrust::divides<float>());
   thrust::transform(t1.begin(), t1.end(), t2.begin(), t3.begin(), thrust::multiplies<float>());
   thrust::transform(t1.begin(), t1.end(), t2.begin(), t3.begin(), thrust::plus<float>());
+  thrust::transform(t1.begin(), t1.end(), t2.begin(), t3.begin(), thrust::modulus<int>());
  }
 
  {

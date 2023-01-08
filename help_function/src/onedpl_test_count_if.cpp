@@ -16,7 +16,7 @@
 
 #include <iostream>
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 
 template<typename String, typename _T1, typename _T2>
 int ASSERT_EQUAL(String msg, _T1&& X, _T2&& Y) {
