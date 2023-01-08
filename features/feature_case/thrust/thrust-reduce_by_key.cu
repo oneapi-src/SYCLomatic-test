@@ -10,6 +10,7 @@
 #include <thrust/reduce.h>
 #include <thrust/execution_policy.h>
 #include <thrust/functional.h>
+#include <thrust/iterator/constant_iterator.h>
 
 void test_1() {
   int keys_in[7] =   {3,  3,  2,  3,  1,  1,  2};

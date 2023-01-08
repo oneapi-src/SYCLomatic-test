@@ -17,6 +17,11 @@
 #include <thrust/host_vector.h>
 #include <thrust/tuple.h>
 #include <thrust/device_ptr.h>
+// for cuda 12.0
+#include <thrust/count.h>
+#include <thrust/iterator/constant_iterator.h>
+#include <thrust/sort.h>
+#include <thrust/unique.h>
 
 
 template <typename T> struct is_even {
