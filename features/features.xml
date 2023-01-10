@@ -65,11 +65,15 @@
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="math-bfloat16" configFile="config/TEMPLATE_math_bfloat16.xml" />
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-ext-double" configFile="config/TEMPLATE_math_skip_double.xml"  splitGroup="double" />
     <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml"  splitGroup="double" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-exec" configFile="config/TEMPLATE_math_exec.xml" splitGroup="double" />
+    <test testName="math-ext-float" configFile="config/TEMPLATE_math_skip_double.xml"  splitGroup="double" />
     <test testName="math-funnelshift" configFile="config/TEMPLATE_math_funnelshift.xml" />
     <test testName="math-habs" configFile="config/TEMPLATE_math_habs.xml" splitGroup="double" />
+    <test testName="math-ext-half" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-ext-half2" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-saturate" configFile="config/TEMPLATE_math_saturate.xml" />
     <test testName="cusparse" configFile="config/TEMPLATE_cusparse.xml" />
@@ -120,6 +124,8 @@
     <test testName="cub_device_select_unique" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_select_flagged" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_run_length_encode_encode" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_radix_sort_keys" configFile="config/TEMPLATE_cub_device_radix_sort.xml" />
+    <test testName="cub_device_radix_sort_pairs" configFile="config/TEMPLATE_cub_device_radix_sort.xml" />
     <test testName="cub_counting_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
     <test testName="cub_constant_iterator" configFile="config/TEMPLATE_cub_device.xml" />
