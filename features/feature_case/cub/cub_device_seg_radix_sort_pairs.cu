@@ -11,12 +11,6 @@ template <typename T> T *init(std::initializer_list<T> list) {
   return arr;
 }
 
-template <typename T> void print(const std::vector<T> &v) {
-  std::ostream_iterator<T> iter(std::cout, ", ");
-  std::copy(v.begin(), v.end(), iter);
-  std::cout << "\n\n";
-}
-
 bool test() {
   // clang-format off
   // Declare, allocate, and initialize device-accessible pointers for sorting data
