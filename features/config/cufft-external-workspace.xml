@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test driverID="test_feature" name="cufft-external-workspace">
+    <description> cufft-external-workspace test</description>
+    <files>
+        <file path="feature_case/cufft/cufft-external-workspace.cu" />
+    </files>
+    <rules>
+        <optlevelRule excludeOptlevelNameString="acc" />
+        <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
+    </rules>
+</test>

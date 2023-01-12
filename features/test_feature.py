@@ -10,6 +10,7 @@ import os
 import re
 import sys
 from pathlib import Path
+import fileinput
 
 parent = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.append(parent)
@@ -31,7 +32,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'cudnn-sum', 'math-funnelshift', 'ccl', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
               'math-bfloat16', 'math-ext-double', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
               'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5',
-              'thrust-unique_by_key', 'cufft_test', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
+              'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
               'cusolver_test1', 'cusolver_test2', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
               'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',
               'thrust_set_difference', 'thrust_set_difference_by_key', 'thrust_set_intersection_by_key', 'thrust_stable_sort',
@@ -77,6 +78,22 @@ def migrate_test():
 
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
+def manual_fix_for_cufft_external_workspace(migrated_file):
+    lines = []
+    is_first_occur = True
+    with open(migrated_file) as in_f:
+        for line in in_f:
+            if ('&workSize' in line):
+                if (is_first_occur):
+                    line = line.replace('&workSize', '&workSize, std::pair(dpct::fft::fft_direction::forward, true)')
+                    is_first_occur = False
+                else:
+                    line = line.replace('&workSize', '&workSize, std::pair(dpct::fft::fft_direction::backward, true)')
+            lines.append(line)
+    with open(migrated_file, 'w') as out_f:
+        for line in lines:
+            out_f.write(line)
+
 def build_test():
     if (os.path.exists(test_config.current_test)):
         os.chdir(test_config.current_test)
@@ -118,6 +135,10 @@ def build_test():
         else:
             link_opts.append(' dnnl.lib')
     ret = False
+
+    if (test_config.current_test == 'cufft-external-workspace'):
+        manual_fix_for_cufft_external_workspace(srcs[0])
+
     if test_config.current_test == 'cufft_test':
         ret = compile_and_link([os.path.join(test_config.out_root, 'cufft_test.dp.cpp')], cmp_options, objects, link_opts)
     elif test_config.current_test in exec_tests:
