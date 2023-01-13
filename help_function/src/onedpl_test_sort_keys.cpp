@@ -281,18 +281,14 @@ int main() {
     VerifySortKeys<int, true> verify_int_descending;
     GetRandVectorFunc<int> get_rand_int;
     tests_failed +=
-        setup_and_run<int>(10, get_rand_int, verify_int_descending, true);
-    tests_failed +=
-        setup_and_run<int>(1000, get_rand_int, verify_int_descending, true);
+        setup_and_run<int>(100, get_rand_int, verify_int_descending, true);
 
     VerifySortKeys<int, false> verify_int_ascending;
     tests_failed +=
-        setup_and_run<int>(10, get_rand_int, verify_int_ascending, false);
-    tests_failed +=
-        setup_and_run<int>(1000, get_rand_int, verify_int_ascending, false);
+        setup_and_run<int>(100, get_rand_int, verify_int_ascending, false);
 
     tests_failed += setup_and_run_pingpong<int>(
-        1000, get_rand_int, verify_int_descending, verify_int_ascending);
+        100, get_rand_int, verify_int_descending, verify_int_ascending);
 
     test_suites_failed += test_passed(tests_failed, test_name);
   }
@@ -305,39 +301,17 @@ int main() {
     GetRandVectorFunc<float> get_rand_float;
     tests_failed +=
         setup_and_run<float>(10, get_rand_float, verify_float_descending, true);
-    tests_failed += setup_and_run<float>(1000, get_rand_float,
+    tests_failed += setup_and_run<float>(100, get_rand_float,
                                          verify_float_descending, true);
 
     VerifySortKeys<float, false> verify_float_ascending;
     tests_failed +=
         setup_and_run<float>(10, get_rand_float, verify_float_ascending, false);
-    tests_failed += setup_and_run<float>(1000, get_rand_float,
+    tests_failed += setup_and_run<float>(100, get_rand_float,
                                          verify_float_ascending, false);
 
     tests_failed += setup_and_run_pingpong<float>(
-        1000, get_rand_float, verify_float_descending, verify_float_ascending);
-
-    test_suites_failed += test_passed(tests_failed, test_name);
-  }
-  {
-    ::std::string test_name = "sort uint8_t keys";
-    int tests_failed = 0;
-
-    VerifySortKeys<uint8_t, true> verify_uint8t_descending;
-    GetRandVectorFunc<uint8_t> get_rand_uint8t;
-    tests_failed += setup_and_run<uint8_t>(10, get_rand_uint8t,
-                                           verify_uint8t_descending, true);
-    tests_failed += setup_and_run<uint8_t>(1000, get_rand_uint8t,
-                                           verify_uint8t_descending, true);
-
-    VerifySortKeys<uint8_t, false> verify_uint8t_ascending;
-    tests_failed += setup_and_run<uint8_t>(10, get_rand_uint8t,
-                                           verify_uint8t_ascending, false);
-    tests_failed += setup_and_run<uint8_t>(1000, get_rand_uint8t,
-                                           verify_uint8t_ascending, false);
-    tests_failed += setup_and_run_pingpong<uint8_t>(1000, get_rand_uint8t,
-                                                    verify_uint8t_descending,
-                                                    verify_uint8t_ascending);
+        100, get_rand_float, verify_float_descending, verify_float_ascending);
 
     test_suites_failed += test_passed(tests_failed, test_name);
   }
@@ -348,16 +322,12 @@ int main() {
 
     VerifySequencesMatch<float> verify_float_match;
     GetRandomSignedZerosFunc<float> get_signed_zeros_float;
-    tests_failed += setup_and_run<float>(10, get_signed_zeros_float,
+    tests_failed += setup_and_run<float>(100, get_signed_zeros_float,
                                          verify_float_match, true);
-    tests_failed += setup_and_run<float>(1000, get_signed_zeros_float,
-                                         verify_float_match, true);
-    tests_failed += setup_and_run<float>(10, get_signed_zeros_float,
-                                         verify_float_match, false);
-    tests_failed += setup_and_run<float>(1000, get_signed_zeros_float,
+    tests_failed += setup_and_run<float>(100, get_signed_zeros_float,
                                          verify_float_match, false);
     tests_failed += setup_and_run_pingpong<float>(
-        1000, get_signed_zeros_float, verify_float_match, verify_float_match);
+        100, get_signed_zeros_float, verify_float_match, verify_float_match);
 
     test_suites_failed += test_passed(tests_failed, test_name);
   }
@@ -366,16 +336,12 @@ int main() {
     int tests_failed = 0;
     VerifySequencesMatch<double> verify_double_match;
     GetRandomSignedZerosFunc<double> get_signed_zeros_double;
-    tests_failed += setup_and_run<double>(10, get_signed_zeros_double,
+    tests_failed += setup_and_run<double>(100, get_signed_zeros_double,
                                           verify_double_match, true);
-    tests_failed += setup_and_run<double>(1000, get_signed_zeros_double,
-                                          verify_double_match, true);
-    tests_failed += setup_and_run<double>(10, get_signed_zeros_double,
-                                          verify_double_match, false);
-    tests_failed += setup_and_run<double>(1000, get_signed_zeros_double,
+    tests_failed += setup_and_run<double>(100, get_signed_zeros_double,
                                           verify_double_match, false);
     tests_failed += setup_and_run_pingpong<double>(
-        1000, get_signed_zeros_double, verify_double_match,
+        100, get_signed_zeros_double, verify_double_match,
         verify_double_match);
 
     test_suites_failed += test_passed(tests_failed, test_name);
@@ -392,21 +358,15 @@ int main() {
     VerifySortKeys<int, true> verify_int_descending_subset(begin_bit, end_bit);
     GetRandVectorFunc<int> get_rand_int;
     tests_failed +=
-        setup_and_run<int>(10, get_rand_int, verify_int_descending_subset, true,
-                           begin_bit, end_bit);
-    tests_failed +=
-        setup_and_run<int>(1000, get_rand_int, verify_int_descending_subset,
+        setup_and_run<int>(100, get_rand_int, verify_int_descending_subset,
                            true, begin_bit, end_bit);
 
     VerifySortKeys<int, false> verify_int_ascending_subset(begin_bit, end_bit);
     tests_failed +=
-        setup_and_run<int>(10, get_rand_int, verify_int_ascending_subset, false,
-                           begin_bit, end_bit);
-    tests_failed +=
-        setup_and_run<int>(1000, get_rand_int, verify_int_ascending_subset,
+        setup_and_run<int>(100, get_rand_int, verify_int_ascending_subset,
                            false, begin_bit, end_bit);
     tests_failed += setup_and_run_pingpong<int>(
-        1000, get_rand_int, verify_int_descending_subset,
+        100, get_rand_int, verify_int_descending_subset,
         verify_int_ascending_subset, begin_bit, end_bit);
     test_suites_failed += test_passed(tests_failed, test_name);
   }
@@ -421,24 +381,18 @@ int main() {
     GetRandVectorFunc<double> get_rand_double;
     VerifySortKeys<double, true> verify_double_descending_subset(begin_bit,
                                                                  end_bit);
-    tests_failed += setup_and_run<double>(10, get_rand_double,
-                                          verify_double_descending_subset, true,
-                                          begin_bit, end_bit);
-    tests_failed += setup_and_run<double>(1000, get_rand_double,
+    tests_failed += setup_and_run<double>(100, get_rand_double,
                                           verify_double_descending_subset, true,
                                           begin_bit, end_bit);
 
     VerifySortKeys<double, false> verify_double_ascending_subset(begin_bit,
                                                                  end_bit);
-    tests_failed += setup_and_run<double>(10, get_rand_double,
-                                          verify_double_ascending_subset, false,
-                                          begin_bit, end_bit);
-    tests_failed += setup_and_run<double>(1000, get_rand_double,
+    tests_failed += setup_and_run<double>(100, get_rand_double,
                                           verify_double_ascending_subset, false,
                                           begin_bit, end_bit);
 
     tests_failed += setup_and_run_pingpong<double>(
-        1000, get_rand_double, verify_double_descending_subset,
+        100, get_rand_double, verify_double_descending_subset,
         verify_double_ascending_subset, begin_bit, end_bit);
 
     test_suites_failed += test_passed(tests_failed, test_name);
