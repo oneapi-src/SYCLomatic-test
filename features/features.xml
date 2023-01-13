@@ -74,24 +74,25 @@
     <test testName="cublasTtrmmLegacy" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="cublas-usm-legacy" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
-    <test testName="math-bf16-conv" configFile="config/TEMPLATE_math_bfloat16.xml" />
-    <test testName="math-bfloat16" configFile="config/TEMPLATE_math_bfloat16.xml" />
+    <test testName="math-bf16-conv" configFile="config/TEMPLATE_math_after_11.xml" />
+    <test testName="math-bfloat16" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml"  splitGroup="double" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-emu-double" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-emu-float" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
-    <test testName="math-emu-half" configFile="config/TEMPLATE_math_half.xml" />
-    <test testName="math-emu-half2" configFile="config/TEMPLATE_math_half.xml" />
+    <test testName="math-emu-half" configFile="config/TEMPLATE_math_after_9.xml" />
+    <test testName="math-emu-half2" configFile="config/TEMPLATE_math_after_9.xml" />
     <test testName="math-emu-simd" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-exec" configFile="config/TEMPLATE_math_exec.xml" splitGroup="double" />
     <test testName="math-funnelshift" configFile="config/TEMPLATE_math_funnelshift.xml" />
     <test testName="math-habs" configFile="config/TEMPLATE_math_habs.xml" splitGroup="double" />
     <test testName="math-ext-double" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-ext-float" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
-    <test testName="math-ext-half" configFile="config/TEMPLATE_math_half.xml" />
-    <test testName="math-ext-half2" configFile="config/TEMPLATE_math_half.xml" />
+    <test testName="math-ext-half" configFile="config/TEMPLATE_math_after_9.xml" />
+    <test testName="math-ext-half2" configFile="config/TEMPLATE_math_after_9.xml" />
     <test testName="math-ext-simd" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-half-conv" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-saturate" configFile="config/TEMPLATE_math_saturate.xml" />
     <test testName="cusparse" configFile="config/TEMPLATE_cusparse_before_11.xml" />
