@@ -74,6 +74,8 @@ def migrate_test():
         src.append(' --use-experimental-features=logical-group ')
     if test_config.current_test == 'math_intel_specific':
         src.append(' --rule-file=./math_intel_specific/intel_specific_math.yaml')
+    if test_config.current_test in math_extension_tests:
+        src.append(' --use-dpcpp-extensions=intel_device_math')
     if test_config.current_test == 'feature_profiling':
         src.append(' --enable-profiling ')
 
