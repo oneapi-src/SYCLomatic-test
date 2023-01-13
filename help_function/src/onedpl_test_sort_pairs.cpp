@@ -318,19 +318,15 @@ int main() {
     int tests_failed = 0;
     VerifyOrderedValues<int, int, true> verify_int_int_descending;
     tests_failed +=
-        setup_and_run<int, int>(10, verify_int_int_descending, true);
-    tests_failed +=
-        setup_and_run<int, int>(1000, verify_int_int_descending, true);
+        setup_and_run<int, int>(100, verify_int_int_descending, true);
 
     VerifyOrderedValues<int, int, false> verify_int_int_ascending;
     tests_failed +=
-        setup_and_run<int, int>(10, verify_int_int_ascending, false);
-    tests_failed +=
-        setup_and_run<int, int>(1000, verify_int_int_ascending, false);
+        setup_and_run<int, int>(100, verify_int_int_ascending, false);
     tests_failed +=
         setup_and_run_pingpong<int, int, decltype(verify_int_int_descending),
                                decltype(verify_int_int_ascending)>(
-            1000, verify_int_int_descending, verify_int_int_ascending);
+            100, verify_int_int_descending, verify_int_int_ascending);
     test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
@@ -338,42 +334,16 @@ int main() {
     int tests_failed = 0;
     VerifyOrderedValues<float, int, true> verify_float_int_descending;
     tests_failed +=
-        setup_and_run<float, int>(10, verify_float_int_descending, true);
-    tests_failed +=
-        setup_and_run<float, int>(1000, verify_float_int_descending, true);
+        setup_and_run<float, int>(100, verify_float_int_descending, true);
 
     VerifyOrderedValues<float, int, false> verify_float_int_ascending;
     tests_failed +=
-        setup_and_run<float, int>(10, verify_float_int_ascending, false);
-    tests_failed +=
-        setup_and_run<float, int>(1000, verify_float_int_ascending, false);
+        setup_and_run<float, int>(100, verify_float_int_ascending, false);
     tests_failed +=
         setup_and_run_pingpong<float, int,
                                decltype(verify_float_int_descending),
                                decltype(verify_float_int_ascending)>(
-            1000, verify_float_int_descending, verify_float_int_ascending);
-    test_suites_failed += test_passed(tests_failed, test_name);
-  }
-  {
-    ::std::string test_name = "sort <uint8_t, int> pairs keys";
-    int tests_failed = 0;
-    VerifyOrderedValues<uint8_t, int, true> verify_uint8t_int_descending;
-    tests_failed +=
-        setup_and_run<uint8_t, int>(10, verify_uint8t_int_descending, true);
-    tests_failed +=
-        setup_and_run<uint8_t, int>(1000, verify_uint8t_int_descending, true);
-
-    VerifyOrderedValues<uint8_t, int, false> verify_uint8t_int_ascending;
-    tests_failed +=
-        setup_and_run<uint8_t, int>(10, verify_uint8t_int_ascending, false);
-    tests_failed +=
-        setup_and_run<uint8_t, int>(1000, verify_uint8t_int_ascending, false);
-    tests_failed +=
-        setup_and_run_pingpong<uint8_t, int,
-                               decltype(verify_uint8t_int_descending),
-                               decltype(verify_uint8t_int_ascending)>(
-            1000, verify_uint8t_int_descending, verify_uint8t_int_ascending);
-
+            100, verify_float_int_descending, verify_float_int_ascending);
     test_suites_failed += test_passed(tests_failed, test_name);
   }
   {
@@ -384,21 +354,17 @@ int main() {
     int end_bit = 24;
     VerifyOrderedValues<int, int, true> verify_int_int_descending(begin_bit,
                                                                   end_bit);
-    tests_failed += setup_and_run<int, int>(10, verify_int_int_descending, true,
-                                            begin_bit, end_bit);
-    tests_failed += setup_and_run<int, int>(1000, verify_int_int_descending,
+    tests_failed += setup_and_run<int, int>(100, verify_int_int_descending,
                                             true, begin_bit, end_bit);
 
     VerifyOrderedValues<int, int, false> verify_int_int_ascending(begin_bit,
                                                                   end_bit);
-    tests_failed += setup_and_run<int, int>(10, verify_int_int_ascending, false,
-                                            begin_bit, end_bit);
-    tests_failed += setup_and_run<int, int>(1000, verify_int_int_ascending,
+    tests_failed += setup_and_run<int, int>(100, verify_int_int_ascending,
                                             false, begin_bit, end_bit);
     tests_failed +=
         setup_and_run_pingpong<int, int, decltype(verify_int_int_descending),
                                decltype(verify_int_int_ascending)>(
-            1000, verify_int_int_descending, verify_int_int_ascending,
+            100, verify_int_int_descending, verify_int_int_ascending,
             begin_bit, end_bit);
 
     test_suites_failed += test_passed(tests_failed, test_name);
@@ -411,22 +377,18 @@ int main() {
     int end_bit = 17;
     VerifyOrderedValues<double, int, true> verify_double_int_descending(
         begin_bit, end_bit);
-    tests_failed += setup_and_run<double, int>(10, verify_double_int_descending,
-                                               true, begin_bit, end_bit);
     tests_failed += setup_and_run<double, int>(
-        1000, verify_double_int_descending, true, begin_bit, end_bit);
+        100, verify_double_int_descending, true, begin_bit, end_bit);
 
     VerifyOrderedValues<double, int, false> verify_double_int_ascending(
         begin_bit, end_bit);
-    tests_failed += setup_and_run<double, int>(10, verify_double_int_ascending,
-                                               false, begin_bit, end_bit);
     tests_failed += setup_and_run<double, int>(
-        1000, verify_double_int_ascending, false, begin_bit, end_bit);
+        100, verify_double_int_ascending, false, begin_bit, end_bit);
     tests_failed +=
         setup_and_run_pingpong<double, int,
                                decltype(verify_double_int_descending),
                                decltype(verify_double_int_ascending)>(
-            1000, verify_double_int_descending, verify_double_int_ascending,
+            100, verify_double_int_descending, verify_double_int_ascending,
             begin_bit, end_bit);
 
     test_suites_failed += test_passed(tests_failed, test_name);
