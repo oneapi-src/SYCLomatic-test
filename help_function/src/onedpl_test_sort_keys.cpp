@@ -244,8 +244,18 @@ bool setup_and_run_pingpong(int64_t n, SetupDataOpT setup_data,
   dpct::io_iterator_pair<decltype(dev_input_keys)> pingpong(dev_input_keys,
                                                             dev_output_keys);
 
-  dpct::sort_keys(oneapi::dpl::execution::make_device_policy(queue), pingpong,
-                  n, true, begin_bit, end_bit);
+  if (begin_bit == 0 && end_bit == sizeof(KeyTp) * 8)
+  {
+    // testing defaults for bit range
+    dpct::sort_keys(oneapi::dpl::execution::make_device_policy(queue), pingpong,
+                  n, true);
+  }
+  else
+  {
+    dpct::sort_keys(oneapi::dpl::execution::make_device_policy(queue), pingpong,
+                    n, true, begin_bit, end_bit);
+  }
+
 
   queue.memcpy(output_keys.data(), dev_output_keys, n * sizeof(KeyTp)).wait();
   bool ret = verify1(input_keys, output_keys);
