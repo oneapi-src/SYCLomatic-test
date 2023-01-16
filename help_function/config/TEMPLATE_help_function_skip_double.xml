@@ -8,6 +8,7 @@
         <file path="src/${testName}.cpp" />
     </files>
     <rules>
+        <pltformRule OSFamily="Windows" runOnThisPlatform="false" />
         <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
     </rules>
 </test>

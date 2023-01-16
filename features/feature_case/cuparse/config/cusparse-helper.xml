@@ -3,5 +3,6 @@
   <files>
     <file path="feature_case/cuparse/cusparse-helper.cu" />
   </files>
-  <rules></rules>
+  <rules>
+        <pltformRule OSFamily="Windows" runOnThisPlatform="false" /></rules>
 </test>

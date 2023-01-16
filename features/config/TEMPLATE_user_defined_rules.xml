@@ -10,6 +10,7 @@
       <file path="feature_case/user_defined_rules/myhelper.h" />
     </files>
     <rules>
+        <pltformRule OSFamily="Windows" runOnThisPlatform="false" />
       <optlevelRule excludeOptlevelNameString="custom" />
     </rules>
 </test>

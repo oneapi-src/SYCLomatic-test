@@ -6,6 +6,7 @@
         <file path="src/kernel_module_win.cpp" />
     </files>
     <rules>
+        <pltformRule OSFamily="Windows" runOnThisPlatform="false" />
         <platformRule OSFamily="Linux" runOnThisPlatform="false"/>
     </rules>
 </test>

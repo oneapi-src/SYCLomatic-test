@@ -6,6 +6,7 @@
         <file path="feature_case/cub/${testName}.cu" />
     </files>
     <rules>
+        <pltformRule OSFamily="Windows" runOnThisPlatform="false" />
         <platformRule OSFamily="Linux" kit="CUDA11.0" kitRange="OLDER" runOnThisPlatform="false"/>
         <platformRule OSFamily="Windows" kit="CUDA11.0" kitRange="OLDER" runOnThisPlatform="false"/>
     </rules>

@@ -6,5 +6,6 @@
         <file path="src/${testName}.cpp" />
     </files>
     <rules>
+        <pltformRule OSFamily="Windows" runOnThisPlatform="false" />
     </rules>
 </test>

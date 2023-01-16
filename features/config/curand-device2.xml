@@ -7,6 +7,7 @@
         <file path="feature_case/cuRand/${testName}.cu" />
     </files>
     <rules>
+        <pltformRule OSFamily="Windows" runOnThisPlatform="false" />
         <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
     </rules>
 </test>

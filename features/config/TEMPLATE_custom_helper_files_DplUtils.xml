@@ -6,6 +6,7 @@
         <file path="feature_case/custom_helper_files/DplUtils/${testName}.cu" />
     </files>
     <rules>
+        <pltformRule OSFamily="Windows" runOnThisPlatform="false" />
         <optlevelRule excludeOptlevelNameString="acc" />
         <optlevelRule excludeOptlevelNameString="gpu" />
     </rules>

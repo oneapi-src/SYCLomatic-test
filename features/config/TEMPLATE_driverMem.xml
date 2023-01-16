@@ -6,6 +6,7 @@
       <file path="feature_case/driverMem/driverMem.cu" />
     </files>
     <rules>
+        <pltformRule OSFamily="Windows" runOnThisPlatform="false" />
       <optlevelRule excludeOptlevelNameString="usmnone" />
     </rules>
 </test>

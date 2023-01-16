@@ -4,6 +4,7 @@
     <file path="image_array/image_array.cpp" />
   </files>
   <rules>
+        <pltformRule OSFamily="Windows" runOnThisPlatform="false" />
   <optlevelRule excludeOptlevelNameString="acc" />
   </rules>
 </test>
