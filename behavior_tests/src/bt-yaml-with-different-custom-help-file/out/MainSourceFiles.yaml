@@ -4,7 +4,7 @@ Replacements:
   - FilePath:        '/home/testfolder/test.cu'
     Offset:          0
     Length:          27
-    ReplacementText: "#include <CL/sycl.hpp>\n#include <my_proj1/my_proj1.hpp>\n"
+    ReplacementText: "#include <sycl/sycl.hpp>\n#include <my_proj1/my_proj1.hpp>\n"
     ConstantFlag:    ''
     ConstantOffset:  0
     InitStr:         ''

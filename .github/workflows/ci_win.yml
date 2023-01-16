@@ -14,8 +14,6 @@ jobs:
   windows-test:
     name: windows-test-${{ matrix.test_suite }}-cpu
     runs-on: win_ci_test
-    if: |
-      always() 
 
     strategy:
       fail-fast: false
@@ -80,6 +78,7 @@ jobs:
           echo $PWD
 
       - name: Run testing option_usmnone_cpu
+        if: success() || failure()
         timeout-minutes: 180
         shell: bash
         run: |

@@ -27,7 +27,7 @@ Passed
 
 #include <cstdio>
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 #include <dpct/dpl_utils.hpp>
 

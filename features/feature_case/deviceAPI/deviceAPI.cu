@@ -13,5 +13,9 @@ int main() {
   cudaStream_t stream;
   //unsupported API
   //cudaMemcpyPeerAsync(d_dst, 1, d_dst, 1, 111, stream);
+
+  int concurrentManagedAccess = 0;
+  int p_gpuDevice = 0;
+  int error = cudaDeviceGetAttribute(&concurrentManagedAccess,  cudaDevAttrConcurrentManagedAccess,  p_gpuDevice);
   return 0;
 }

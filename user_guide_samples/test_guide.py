@@ -28,7 +28,7 @@ def run_test():
     change_dir(test_config.current_test)
     test_driver = test_config.current_test + ".py"
     options = " \" \""
-    os.environ['SYCL_DEVICE_FILTER'] = test_config.device_filter
+    os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
     call_subprocess("python " + test_driver + options)
     if "case pass" in test_config.command_output:
         return True

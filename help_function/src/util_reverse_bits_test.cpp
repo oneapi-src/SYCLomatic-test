@@ -7,7 +7,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 
 void reverse_bits_test() {

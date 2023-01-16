@@ -6,7 +6,7 @@
 //
 // ===---------------------------------------------------------------------===//
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 #include "c2c_1d_inplace.dp.cpp"
 #include "c2c_1d_inplace_make_plan.dp.cpp"

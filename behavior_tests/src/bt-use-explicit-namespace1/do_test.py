@@ -27,6 +27,6 @@ def build_test():
     
 
 def run_test():
-    os.environ["SYCL_DEVICE_FILTER"] = test_config.device_filter
+    os.environ["ONEAPI_DEVICE_SELECTOR"] = test_config.device_filter
     return run_binary_with_args()
     

@@ -10,6 +10,7 @@ import os
 import re
 import sys
 from pathlib import Path
+import fileinput
 
 parent = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.append(parent)
@@ -21,19 +22,22 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'kernel-launch', 'thrust-gather', 'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre',
               'thrust-rawptr-noneusm', 'driverStreamAndEvent', 'grid_sync', 'deviceProp', 'gridThreads', 'cub_block_p2',
               'cub_constant_iterator',
+              'cub_discard_iterator',
               'cub_device', 'cub_device_reduce_sum', 'cub_device_reduce', 'cub_device_reduce_by_key',
-              'cub_device_scan_inclusive_scan', 'cub_device_scan_exclusive_scan',
-              'cub_device_scan_inclusive_sum', 'cub_device_scan_exclusive_sum', 'cub_device_select_unique',
-              'cub_device_select_flagged', 'cub_device_run_length_encide_encode', 'cub_counting_iterator',
+              'cub_device_scan_inclusive_scan', 'cub_device_scan_exclusive_scan', 'cub_device_seg_radix_sort_pairs',
+              'cub_device_scan_inclusive_sum', 'cub_device_scan_exclusive_sum', 'cub_device_select_unique', 'cub_device_radix_sort_keys', 'cub_device_radix_sort_pairs',
+              'cub_device_select_flagged', 'cub_device_run_length_encide_encode', 'cub_counting_iterator', 'cub_arg_index_input_iterator',
               'cub_transform_iterator', 'activemask', 'complex', 'thrust-math'
-              'user_defined_rules', 'math-exec', 'math-habs', 'cudnn-activation',
+              'user_defined_rules', 'math-exec', 'math-ext-float', 'math-habs', 'math-ext-half', 'math-ext-half2', 'cudnn-activation',
               'cudnn-fill', 'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax',
               'cudnn-sum', 'math-funnelshift', 'ccl', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
-              'math-bfloat16', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
+              'math-bfloat16', 'math-ext-double', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
               'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5',
-              'thrust-unique_by_key', 'cufft_test', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
-              'cusolver_test1', 'cusolver_test2', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'cudnn-rnn']
-
+              'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
+              'cusolver_test1', 'cusolver_test2', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
+              'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',
+              'thrust_set_difference', 'thrust_set_difference_by_key', 'thrust_set_intersection_by_key', 'thrust_stable_sort',
+              'thrust_tabulate', 'thrust_for_each_n', 'device_info', 'cudnn-rnn']
 
 def setup_test():
     return True
@@ -57,6 +61,8 @@ def migrate_test():
     nd_range_bar_exper = ['grid_sync', 'Util_api_test12']
     logical_group_exper = ['cooperative_groups', 'Util_api_test23', 'Util_api_test24', 'Util_api_test25']
 
+    math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2']
+
     if test_config.current_test in size_deallocation:
         extra_args.append(' -fsized-deallocation ')
     if test_config.current_test in nd_range_bar_exper:
@@ -67,8 +73,26 @@ def migrate_test():
         src.append(' --use-experimental-features=logical-group ')
     if test_config.current_test == 'math_intel_specific':
         src.append(' --rule-file=./math_intel_specific/intel_specific_math.yaml')
+    if test_config.current_test in math_extension_tests:
+        src.append(' --use-dpcpp-extensions=intel_device_math')
 
     return do_migrate(src, in_root, test_config.out_root, extra_args)
+
+def manual_fix_for_cufft_external_workspace(migrated_file):
+    lines = []
+    is_first_occur = True
+    with open(migrated_file) as in_f:
+        for line in in_f:
+            if ('&workSize' in line):
+                if (is_first_occur):
+                    line = line.replace('&workSize', '&workSize, std::pair(dpct::fft::fft_direction::forward, true)')
+                    is_first_occur = False
+                else:
+                    line = line.replace('&workSize', '&workSize, std::pair(dpct::fft::fft_direction::backward, true)')
+            lines.append(line)
+    with open(migrated_file, 'w') as out_f:
+        for line in lines:
+            out_f.write(line)
 
 def build_test():
     if (os.path.exists(test_config.current_test)):
@@ -111,6 +135,10 @@ def build_test():
         else:
             link_opts.append(' dnnl.lib')
     ret = False
+
+    if (test_config.current_test == 'cufft-external-workspace'):
+        manual_fix_for_cufft_external_workspace(srcs[0])
+
     if test_config.current_test == 'cufft_test':
         ret = compile_and_link([os.path.join(test_config.out_root, 'cufft_test.dp.cpp')], cmp_options, objects, link_opts)
     elif test_config.current_test in exec_tests:
@@ -125,7 +153,7 @@ def build_test():
 def run_test():
     if test_config.current_test not in exec_tests:
         return True
-    os.environ['SYCL_DEVICE_FILTER'] = test_config.device_filter
+    os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
     os.environ['CL_CONFIG_CPU_EXPERIMENTAL_FP16']="1"
     if test_config.current_test == 'ccl':
         return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '))
