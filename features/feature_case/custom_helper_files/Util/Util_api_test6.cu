@@ -19,6 +19,7 @@
 __device__ void foo() {
   unsigned u, u2;
   u = __vcmpgtu2(u, u2);
+  u = __vcmpgtu4(u, u2);
 }
 
 int main() {
