@@ -404,6 +404,7 @@
     <test testName="libcu_array" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="libcu_complex" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="libcu_tuple" configFile="config/TEMPLATE_libcu.xml" />
+    <test testName="constant_attr" configFile="config/TEMPLATE_constant_attr.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
     <test testName="defaultStream" configFile="config/TEMPLATE_defaultStream.xml" />
