@@ -18,7 +18,6 @@ int main(){
     std::string FunctionName{"foo"}, Data;
     FunctionName = "foo";
     cuModuleLoad(&M, Path.c_str());
-//    cuModuleLoadData(&M, Data.c_str());
     cuModuleGetFunction(&F, M, FunctionName.c_str());
     float *param[2] = {0};
     cudaMalloc(&param[0], sizeof(float));
