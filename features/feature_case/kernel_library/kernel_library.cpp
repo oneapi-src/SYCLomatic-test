@@ -4,15 +4,11 @@
 #include <string>
 #include <cuda_runtime_api.h>
 #include <cuda.h>
-#include "init.hpp"
+#include "shared.hpp"
 
-#define VEC_LENGTH 128
-#define SEED      59
+#define PTXFILE    "premade.ptx"
 
-static int load_type;
-static int invoke_type;
-
-static void loadModule(CUmodule &module, const char *ptxfile) {
+static void loadModule(CUmodule &module, const char *ptxfile, int load_type) {
 if (load_type==0) {
   checkErrors( cuModuleLoad(&module,ptxfile) );
 } else if (load_type==1 || load_type==2) {
@@ -27,26 +23,28 @@ if (load_type==0) {
   if (load_type==1) {
     checkErrors( cuModuleLoadData(&module,content.c_str()) );
   } else {
-    /*
+#ifdef TODO_LOADDATAEX_OPTIONS
     const unsigned int jitNumOptions = 1;
     CUjit_option  jitOptions[jitNumOptions];
     void         *jitOptVals[jitNumOptions];
   
     // set up wall clock time
     jitOptions[0] = CU_JIT_WALL_TIME;
-    */
+#endif
 
     checkErrors( cuModuleLoadDataEx(&module,content.c_str(),
-                                    // jitNumOptions, jitOptions, (void **)jitOptVals)
+#ifdef TODO_LOADDATAEX_OPTIONS
+                                    jitNumOptions, jitOptions, (void **)jitOptVals)
+#endif
                                     0, NULL, NULL)
                 );
 
-    /*
+#ifdef TODO_LOADDATAEX_OPTIONS
     unsigned long long opt_int = (unsigned long long) jitOptVals[0];
     float jitTime = *((float *) &opt_int);
       
     std::cout << "\tcompile-time: " << jitTime << "ms\n";
-    */
+#endif
   }
 }
  
@@ -54,13 +52,12 @@ if (load_type==0) {
 
 int run_tests() {
   static int cnt;
+  int load_type;
+  int invoke_type;
 
   for (load_type=0; load_type<3; load_type++) {
     for (invoke_type=0; invoke_type<2; invoke_type++) {
       int seed = SEED;
-
-      // initialize
-      init_CUDA();
 
       // allocate memory
       int *a;
@@ -83,10 +80,8 @@ int run_tests() {
       // load_type==2 use cuModuleLoadDataEx 
 
       // load pre-made ptx
-#define PTXFILE "premade.ptx"
-
       CUmodule   module;
-      loadModule(module,PTXFILE);
+      loadModule(module,PTXFILE,load_type);
 
       if (module==NULL) {
         std::cout << "No module\n";
@@ -103,11 +98,13 @@ int run_tests() {
       }
     
       // test cuFuncGetAttribute
-      int size;
-      CUresult result = cuFuncGetAttribute(&size, CU_FUNC_ATTRIBUTE_MAX_THREADS_PER_BLOCK, function);
-      if (result != CUDA_SUCCESS) {
-        std::cout << "cuFuncGetAttribute failed\n";
-        return 1;
+      {
+        int size;
+        CUresult result = cuFuncGetAttribute(&size, CU_FUNC_ATTRIBUTE_MAX_THREADS_PER_BLOCK, function);
+        if (result != CUDA_SUCCESS) {
+          std::cout << "cuFuncGetAttribute failed\n";
+          return 1;
+        }
       }
     
       // invoke kernel function
@@ -121,14 +118,15 @@ int run_tests() {
         int    *argBuffer[3] = { a, b, c };
         size_t  argBufferSize = sizeof(argBuffer);
         void   *extra[] = {
-          /*
+#ifdef TODO_EXTRA_BUFFER_ANNOTATIONS
           CU_LAUNCH_PARAM_BUFFER_SIZE,    &argBufferSize,        
           CU_LAUNCH_PARAM_BUFFER_POINTER, argBuffer,
           CU_LAUNCH_PARAM_END   
-          */
+#else
           ((void *) 2), &argBufferSize,        
           ((void *) 1),  argBuffer,
-          ((void *) 0)             
+          ((void *) 0)
+#endif
         };
         
         checkErrors( cuLaunchKernel(function,
@@ -151,9 +149,10 @@ int run_tests() {
         }
       }
       ++cnt;
-      if (cnt&0x3)
+      if (cnt&0x3) {
         // Do not unload every time, so that we exercise automatic unloading on program exit with Windows
         cuModuleUnload(module);
+      }
     }
   }
   return 0;

@@ -7,6 +7,5 @@ inline void privCheckErrors(CUresult result, const char *file, const int line) {
   }
 }
 
-void init_CUDA();
-
-
+#define VEC_LENGTH 128
+#define SEED       59

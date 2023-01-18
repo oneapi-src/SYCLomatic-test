@@ -22,8 +22,8 @@ def migrate_test():
     # clean previous migration output
     if (os.path.exists("dpct_output")):
         shutil.rmtree("dpct_output")    
-    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " init.cpp kernel_library.cpp jit.cu --extra-arg=--ptx")
-    return os.path.exists(os.path.join("dpct_output", "init.cpp.dp.cpp"))
+    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " kernel_library.cpp jit.cu --extra-arg=--ptx")
+    return os.path.exists(os.path.join("dpct_output", "kernel_library.cpp.dp.cpp"))
 def build_test():
     # make shared library
     if (platform.system() == 'Windows'):
@@ -35,7 +35,6 @@ def build_test():
         return False
 
     srcs = []
-    srcs.append(os.path.join("dpct_output", "init.cpp.dp.cpp"))
     srcs.append(os.path.join("dpct_output", "kernel_library.cpp.dp.cpp"))
     return compile_and_link(srcs)
 def run_test():
