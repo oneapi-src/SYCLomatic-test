@@ -438,6 +438,655 @@ void test_helper() {
   handle = stream;
 }
 
+void test_cusolverDnXgetrf() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {1, 2, 3, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  Data<int64_t> ipiv_s(2);
+  Data<int64_t> ipiv_d(2);
+  Data<int64_t> ipiv_c(2);
+  Data<int64_t> ipiv_z(2);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+  ipiv_s.H2D();
+  ipiv_d.H2D();
+  ipiv_c.H2D();
+  ipiv_z.H2D();
+
+  size_t device_ws_size_s;
+  size_t device_ws_size_d;
+  size_t device_ws_size_c;
+  size_t device_ws_size_z;
+  size_t host_ws_size_s;
+  size_t host_ws_size_d;
+  size_t host_ws_size_c;
+  size_t host_ws_size_z;
+
+  int params;
+  /*
+  DPCT1026:0: The call to cusolverDnCreateParams was removed because this call
+  is redundant in SYCL.
+  */
+
+  dpct::lapack::getrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::real_float, 2, &device_ws_size_s);
+  dpct::lapack::getrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::real_double, 2, &device_ws_size_d);
+  dpct::lapack::getrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::complex_float, 2, &device_ws_size_c);
+  dpct::lapack::getrf_scratchpad_size(*handle, 2, 2,
+                                      dpct::library_data_t::complex_double, 2,
+                                      &device_ws_size_z);
+
+  void* device_ws_s;
+  void* device_ws_d;
+  void* device_ws_c;
+  void* device_ws_z;
+  void* host_ws_s;
+  void* host_ws_d;
+  void* host_ws_c;
+  void* host_ws_z;
+  device_ws_s = dpct::dpct_malloc(device_ws_size_s);
+  device_ws_d = dpct::dpct_malloc(device_ws_size_d);
+  device_ws_c = dpct::dpct_malloc(device_ws_size_c);
+  device_ws_z = dpct::dpct_malloc(device_ws_size_z);
+  host_ws_s = dpct::dpct_malloc(host_ws_size_s);
+  host_ws_d = dpct::dpct_malloc(host_ws_size_d);
+  host_ws_c = dpct::dpct_malloc(host_ws_size_c);
+  host_ws_z = dpct::dpct_malloc(host_ws_size_z);
+
+  int *info;
+  info = (int *)dpct::dpct_malloc(sizeof(int));
+
+  dpct::lapack::getrf(*handle, 2, 2, dpct::library_data_t::real_float,
+                      a_s.d_data, 2, ipiv_s.d_data, device_ws_s,
+                      device_ws_size_s, info);
+  dpct::lapack::getrf(*handle, 2, 2, dpct::library_data_t::real_double,
+                      a_d.d_data, 2, ipiv_d.d_data, device_ws_d,
+                      device_ws_size_d, info);
+  dpct::lapack::getrf(*handle, 2, 2, dpct::library_data_t::complex_float,
+                      a_c.d_data, 2, ipiv_c.d_data, device_ws_c,
+                      device_ws_size_c, info);
+  dpct::lapack::getrf(*handle, 2, 2, dpct::library_data_t::complex_double,
+                      a_z.d_data, 2, ipiv_z.d_data, device_ws_z,
+                      device_ws_size_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  ipiv_s.D2H();
+  ipiv_d.D2H();
+  ipiv_c.D2H();
+  ipiv_z.D2H();
+
+  q_ct1.wait();
+
+  /*
+  DPCT1026:1: The call to cusolverDnDestroyParams was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+  dpct::dpct_free(device_ws_s);
+  dpct::dpct_free(device_ws_d);
+  dpct::dpct_free(device_ws_c);
+  dpct::dpct_free(device_ws_z);
+  dpct::dpct_free(host_ws_s);
+  dpct::dpct_free(host_ws_d);
+  dpct::dpct_free(host_ws_c);
+  dpct::dpct_free(host_ws_z);
+  dpct::dpct_free(info);
+
+  float expect_a[4] = {2, 0.5, 4, 1};
+  float expect_ipiv[2] = {2, 2};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(expect_ipiv, ipiv_s.h_data, 2) &&
+      compare_result(expect_ipiv, ipiv_d.h_data, 2) &&
+      compare_result(expect_ipiv, ipiv_c.h_data, 2) &&
+      compare_result(expect_ipiv, ipiv_z.h_data, 2))
+    printf("DnXgetrf pass\n");
+  else {
+    printf("DnXgetrf fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusolverDnGetrf() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {1, 2, 3, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  Data<int64_t> ipiv_s(2);
+  Data<int64_t> ipiv_d(2);
+  Data<int64_t> ipiv_c(2);
+  Data<int64_t> ipiv_z(2);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+  ipiv_s.H2D();
+  ipiv_d.H2D();
+  ipiv_c.H2D();
+  ipiv_z.H2D();
+
+  size_t device_ws_size_s;
+  size_t device_ws_size_d;
+  size_t device_ws_size_c;
+  size_t device_ws_size_z;
+
+  int params;
+  /*
+  DPCT1026:2: The call to cusolverDnCreateParams was removed because this call
+  is redundant in SYCL.
+  */
+
+  dpct::lapack::getrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::real_float, 2, &device_ws_size_s);
+  dpct::lapack::getrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::real_double, 2, &device_ws_size_d);
+  dpct::lapack::getrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::complex_float, 2, &device_ws_size_c);
+  dpct::lapack::getrf_scratchpad_size(*handle, 2, 2,
+                                      dpct::library_data_t::complex_double, 2,
+                                      &device_ws_size_z);
+
+  void* device_ws_s;
+  void* device_ws_d;
+  void* device_ws_c;
+  void* device_ws_z;
+
+  device_ws_s = dpct::dpct_malloc(device_ws_size_s);
+  device_ws_d = dpct::dpct_malloc(device_ws_size_d);
+  device_ws_c = dpct::dpct_malloc(device_ws_size_c);
+  device_ws_z = dpct::dpct_malloc(device_ws_size_z);
+
+  int *info;
+  info = (int *)dpct::dpct_malloc(sizeof(int));
+
+  dpct::lapack::getrf(*handle, 2, 2, dpct::library_data_t::real_float,
+                      a_s.d_data, 2, ipiv_s.d_data, device_ws_s,
+                      device_ws_size_s, info);
+  dpct::lapack::getrf(*handle, 2, 2, dpct::library_data_t::real_double,
+                      a_d.d_data, 2, ipiv_d.d_data, device_ws_d,
+                      device_ws_size_d, info);
+  dpct::lapack::getrf(*handle, 2, 2, dpct::library_data_t::complex_float,
+                      a_c.d_data, 2, ipiv_c.d_data, device_ws_c,
+                      device_ws_size_c, info);
+  dpct::lapack::getrf(*handle, 2, 2, dpct::library_data_t::complex_double,
+                      a_z.d_data, 2, ipiv_z.d_data, device_ws_z,
+                      device_ws_size_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  ipiv_s.D2H();
+  ipiv_d.D2H();
+  ipiv_c.D2H();
+  ipiv_z.D2H();
+
+  q_ct1.wait();
+
+  /*
+  DPCT1026:3: The call to cusolverDnDestroyParams was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+  dpct::dpct_free(device_ws_s);
+  dpct::dpct_free(device_ws_d);
+  dpct::dpct_free(device_ws_c);
+  dpct::dpct_free(device_ws_z);
+  dpct::dpct_free(info);
+
+  float expect_a[4] = {2, 0.5, 4, 1};
+  float expect_ipiv[2] = {2, 2};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(expect_ipiv, ipiv_s.h_data, 2) &&
+      compare_result(expect_ipiv, ipiv_d.h_data, 2) &&
+      compare_result(expect_ipiv, ipiv_c.h_data, 2) &&
+      compare_result(expect_ipiv, ipiv_z.h_data, 2))
+    printf("DnGetrf pass\n");
+  else {
+    printf("DnGetrf fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusolverDnXgetrs() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {2, 0.5, 4, 1};
+  std::vector<float> ipiv = {2, 2};
+  std::vector<float> b = {23, 34, 31, 46, 39, 58};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  Data<int64_t> ipiv_s(ipiv.data(), 2);
+  Data<int64_t> ipiv_d(ipiv.data(), 2);
+  Data<int64_t> ipiv_c(ipiv.data(), 2);
+  Data<int64_t> ipiv_z(ipiv.data(), 2);
+  Data<float> b_s(b.data(), 6);
+  Data<double> b_d(b.data(), 6);
+  Data<sycl::float2> b_c(b.data(), 6);
+  Data<sycl::double2> b_z(b.data(), 6);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+  ipiv_s.H2D();
+  ipiv_d.H2D();
+  ipiv_c.H2D();
+  ipiv_z.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+
+  int params;
+  /*
+  DPCT1026:4: The call to cusolverDnCreateParams was removed because this call
+  is redundant in SYCL.
+  */
+
+  int *info;
+  info = (int *)dpct::dpct_malloc(sizeof(int));
+
+  dpct::lapack::getrs(*handle, oneapi::mkl::transpose::nontrans, 2, 3,
+                      dpct::library_data_t::real_float, a_s.d_data, 2,
+                      ipiv_s.d_data, dpct::library_data_t::real_float,
+                      b_s.d_data, 2, info);
+  dpct::lapack::getrs(*handle, oneapi::mkl::transpose::nontrans, 2, 3,
+                      dpct::library_data_t::real_double, a_d.d_data, 2,
+                      ipiv_d.d_data, dpct::library_data_t::real_double,
+                      b_d.d_data, 2, info);
+  dpct::lapack::getrs(*handle, oneapi::mkl::transpose::nontrans, 2, 3,
+                      dpct::library_data_t::complex_float, a_c.d_data, 2,
+                      ipiv_c.d_data, dpct::library_data_t::complex_float,
+                      b_c.d_data, 2, info);
+  dpct::lapack::getrs(*handle, oneapi::mkl::transpose::nontrans, 2, 3,
+                      dpct::library_data_t::complex_double, a_z.d_data, 2,
+                      ipiv_z.d_data, dpct::library_data_t::complex_double,
+                      b_z.d_data, 2, info);
+
+  b_s.D2H();
+  b_d.D2H();
+  b_c.D2H();
+  b_z.D2H();
+
+  q_ct1.wait();
+
+  /*
+  DPCT1026:5: The call to cusolverDnDestroyParams was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+  dpct::dpct_free(info);
+
+  float expect_b[6] = {5, 6, 7, 8, 9, 10};
+  if (compare_result(expect_b, b_s.h_data, 6) &&
+      compare_result(expect_b, b_d.h_data, 6) &&
+      compare_result(expect_b, b_c.h_data, 6) &&
+      compare_result(expect_b, b_z.h_data, 6))
+    printf("DnXgetrs pass\n");
+  else {
+    printf("DnXgetrs fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusolverDnGetrs() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {2, 0.5, 4, 1};
+  std::vector<float> ipiv = {2, 2};
+  std::vector<float> b = {23, 34, 31, 46, 39, 58};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  Data<int64_t> ipiv_s(ipiv.data(), 2);
+  Data<int64_t> ipiv_d(ipiv.data(), 2);
+  Data<int64_t> ipiv_c(ipiv.data(), 2);
+  Data<int64_t> ipiv_z(ipiv.data(), 2);
+  Data<float> b_s(b.data(), 6);
+  Data<double> b_d(b.data(), 6);
+  Data<sycl::float2> b_c(b.data(), 6);
+  Data<sycl::double2> b_z(b.data(), 6);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+  ipiv_s.H2D();
+  ipiv_d.H2D();
+  ipiv_c.H2D();
+  ipiv_z.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+
+  int params;
+  /*
+  DPCT1026:6: The call to cusolverDnCreateParams was removed because this call
+  is redundant in SYCL.
+  */
+
+  int *info;
+  info = (int *)dpct::dpct_malloc(sizeof(int));
+
+  dpct::lapack::getrs(*handle, oneapi::mkl::transpose::nontrans, 2, 3,
+                      dpct::library_data_t::real_float, a_s.d_data, 2,
+                      ipiv_s.d_data, dpct::library_data_t::real_float,
+                      b_s.d_data, 2, info);
+  dpct::lapack::getrs(*handle, oneapi::mkl::transpose::nontrans, 2, 3,
+                      dpct::library_data_t::real_double, a_d.d_data, 2,
+                      ipiv_d.d_data, dpct::library_data_t::real_double,
+                      b_d.d_data, 2, info);
+  dpct::lapack::getrs(*handle, oneapi::mkl::transpose::nontrans, 2, 3,
+                      dpct::library_data_t::complex_float, a_c.d_data, 2,
+                      ipiv_c.d_data, dpct::library_data_t::complex_float,
+                      b_c.d_data, 2, info);
+  dpct::lapack::getrs(*handle, oneapi::mkl::transpose::nontrans, 2, 3,
+                      dpct::library_data_t::complex_double, a_z.d_data, 2,
+                      ipiv_z.d_data, dpct::library_data_t::complex_double,
+                      b_z.d_data, 2, info);
+
+  b_s.D2H();
+  b_d.D2H();
+  b_c.D2H();
+  b_z.D2H();
+
+  q_ct1.wait();
+
+  /*
+  DPCT1026:7: The call to cusolverDnDestroyParams was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+  dpct::dpct_free(info);
+
+  float expect_b[6] = {5, 6, 7, 8, 9, 10};
+  if (compare_result(expect_b, b_s.h_data, 6) &&
+      compare_result(expect_b, b_d.h_data, 6) &&
+      compare_result(expect_b, b_c.h_data, 6) &&
+      compare_result(expect_b, b_z.h_data, 6))
+    printf("DnGetrs pass\n");
+  else {
+    printf("DnGetrs fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusolverDnXgeqrf() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {1, 2, 3, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  Data<float> tau_s(2);
+  Data<double> tau_d(2);
+  Data<sycl::float2> tau_c(2);
+  Data<sycl::double2> tau_z(2);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+  tau_s.H2D();
+  tau_d.H2D();
+  tau_c.H2D();
+  tau_z.H2D();
+
+  size_t device_ws_size_s;
+  size_t device_ws_size_d;
+  size_t device_ws_size_c;
+  size_t device_ws_size_z;
+  size_t host_ws_size_s;
+  size_t host_ws_size_d;
+  size_t host_ws_size_c;
+  size_t host_ws_size_z;
+
+  int params;
+  /*
+  DPCT1026:8: The call to cusolverDnCreateParams was removed because this call
+  is redundant in SYCL.
+  */
+
+  dpct::lapack::geqrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::real_float, 2, &device_ws_size_s);
+  dpct::lapack::geqrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::real_double, 2, &device_ws_size_d);
+  dpct::lapack::geqrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::complex_float, 2, &device_ws_size_c);
+  dpct::lapack::geqrf_scratchpad_size(*handle, 2, 2,
+                                      dpct::library_data_t::complex_double, 2,
+                                      &device_ws_size_z);
+
+  void* device_ws_s;
+  void* device_ws_d;
+  void* device_ws_c;
+  void* device_ws_z;
+  void* host_ws_s;
+  void* host_ws_d;
+  void* host_ws_c;
+  void* host_ws_z;
+  device_ws_s = dpct::dpct_malloc(device_ws_size_s);
+  device_ws_d = dpct::dpct_malloc(device_ws_size_d);
+  device_ws_c = dpct::dpct_malloc(device_ws_size_c);
+  device_ws_z = dpct::dpct_malloc(device_ws_size_z);
+  host_ws_s = dpct::dpct_malloc(host_ws_size_s);
+  host_ws_d = dpct::dpct_malloc(host_ws_size_d);
+  host_ws_c = dpct::dpct_malloc(host_ws_size_c);
+  host_ws_z = dpct::dpct_malloc(host_ws_size_z);
+
+  int *info;
+  info = (int *)dpct::dpct_malloc(sizeof(int));
+
+  dpct::lapack::geqrf(*handle, 2, 2, dpct::library_data_t::real_float,
+                      a_s.d_data, 2, dpct::library_data_t::real_float,
+                      tau_s.d_data, device_ws_s, device_ws_size_s, info);
+  dpct::lapack::geqrf(*handle, 2, 2, dpct::library_data_t::real_double,
+                      a_d.d_data, 2, dpct::library_data_t::real_double,
+                      tau_d.d_data, device_ws_d, device_ws_size_d, info);
+  dpct::lapack::geqrf(*handle, 2, 2, dpct::library_data_t::complex_float,
+                      a_c.d_data, 2, dpct::library_data_t::complex_float,
+                      tau_c.d_data, device_ws_c, device_ws_size_c, info);
+  dpct::lapack::geqrf(*handle, 2, 2, dpct::library_data_t::complex_double,
+                      a_z.d_data, 2, dpct::library_data_t::complex_double,
+                      tau_z.d_data, device_ws_z, device_ws_size_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  tau_s.D2H();
+  tau_d.D2H();
+  tau_c.D2H();
+  tau_z.D2H();
+
+  q_ct1.wait();
+
+  /*
+  DPCT1026:9: The call to cusolverDnDestroyParams was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+  dpct::dpct_free(device_ws_s);
+  dpct::dpct_free(device_ws_d);
+  dpct::dpct_free(device_ws_c);
+  dpct::dpct_free(device_ws_z);
+  dpct::dpct_free(host_ws_s);
+  dpct::dpct_free(host_ws_d);
+  dpct::dpct_free(host_ws_c);
+  dpct::dpct_free(host_ws_z);
+  dpct::dpct_free(info);
+
+  float expect_a[4] = {-2.236068, 0.618034, -4.919349, -0.894427};
+  float expect_tau[2] = {1.447214, 0};
+
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(expect_tau, tau_s.h_data, 2) &&
+      compare_result(expect_tau, tau_d.h_data, 2) &&
+      compare_result(expect_tau, tau_c.h_data, 2) &&
+      compare_result(expect_tau, tau_z.h_data, 2))
+    printf("DnXgeqrf pass\n");
+  else {
+    printf("DnXgeqrf fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusolverDnGeqrf() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {1, 2, 3, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  Data<float> tau_s(2);
+  Data<double> tau_d(2);
+  Data<sycl::float2> tau_c(2);
+  Data<sycl::double2> tau_z(2);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+  tau_s.H2D();
+  tau_d.H2D();
+  tau_c.H2D();
+  tau_z.H2D();
+
+  size_t device_ws_size_s;
+  size_t device_ws_size_d;
+  size_t device_ws_size_c;
+  size_t device_ws_size_z;
+
+  int params;
+  /*
+  DPCT1026:10: The call to cusolverDnCreateParams was removed because this call
+  is redundant in SYCL.
+  */
+
+  dpct::lapack::geqrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::real_float, 2, &device_ws_size_s);
+  dpct::lapack::geqrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::real_double, 2, &device_ws_size_d);
+  dpct::lapack::geqrf_scratchpad_size(
+      *handle, 2, 2, dpct::library_data_t::complex_float, 2, &device_ws_size_c);
+  dpct::lapack::geqrf_scratchpad_size(*handle, 2, 2,
+                                      dpct::library_data_t::complex_double, 2,
+                                      &device_ws_size_z);
+
+  void* device_ws_s;
+  void* device_ws_d;
+  void* device_ws_c;
+  void* device_ws_z;
+  device_ws_s = dpct::dpct_malloc(device_ws_size_s);
+  device_ws_d = dpct::dpct_malloc(device_ws_size_d);
+  device_ws_c = dpct::dpct_malloc(device_ws_size_c);
+  device_ws_z = dpct::dpct_malloc(device_ws_size_z);
+
+  int *info;
+  info = (int *)dpct::dpct_malloc(sizeof(int));
+
+  dpct::lapack::geqrf(*handle, 2, 2, dpct::library_data_t::real_float,
+                      a_s.d_data, 2, dpct::library_data_t::real_float,
+                      tau_s.d_data, device_ws_s, device_ws_size_s, info);
+  dpct::lapack::geqrf(*handle, 2, 2, dpct::library_data_t::real_double,
+                      a_d.d_data, 2, dpct::library_data_t::real_double,
+                      tau_d.d_data, device_ws_d, device_ws_size_d, info);
+  dpct::lapack::geqrf(*handle, 2, 2, dpct::library_data_t::complex_float,
+                      a_c.d_data, 2, dpct::library_data_t::complex_float,
+                      tau_c.d_data, device_ws_c, device_ws_size_c, info);
+  dpct::lapack::geqrf(*handle, 2, 2, dpct::library_data_t::complex_double,
+                      a_z.d_data, 2, dpct::library_data_t::complex_double,
+                      tau_z.d_data, device_ws_z, device_ws_size_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  tau_s.D2H();
+  tau_d.D2H();
+  tau_c.D2H();
+  tau_z.D2H();
+
+  q_ct1.wait();
+
+  /*
+  DPCT1026:11: The call to cusolverDnDestroyParams was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+  dpct::dpct_free(device_ws_s);
+  dpct::dpct_free(device_ws_d);
+  dpct::dpct_free(device_ws_c);
+  dpct::dpct_free(device_ws_z);
+  dpct::dpct_free(info);
+
+  float expect_a[4] = {-2.236068, 0.618034, -4.919349, -0.894427};
+  float expect_tau[2] = {1.447214, 0};
+
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(expect_tau, tau_s.h_data, 2) &&
+      compare_result(expect_tau, tau_d.h_data, 2) &&
+      compare_result(expect_tau, tau_c.h_data, 2) &&
+      compare_result(expect_tau, tau_z.h_data, 2))
+    printf("DnGeqrf pass\n");
+  else {
+    printf("DnGeqrf fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_helper();
   test_cusolverDnTsygvd();
@@ -446,6 +1095,12 @@ int main() {
   test_cusolverDnTpotrfBatched();
   test_cusolverDnTpotrsBatched();
 #endif
+  test_cusolverDnXgetrf();
+  test_cusolverDnGetrf();
+  test_cusolverDnXgetrs();
+  test_cusolverDnGetrs();
+  test_cusolverDnXgeqrf();
+  test_cusolverDnGeqrf();
 
   if (test_passed)
     return 0;
