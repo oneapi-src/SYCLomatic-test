@@ -597,10 +597,10 @@ void test_cusolverDnXgeqrf() {
   Data<double> a_d(a.data(), 4);
   Data<float2> a_c(a.data(), 4);
   Data<double2> a_z(a.data(), 4);
-  Data<int64_t> tau_s(2);
-  Data<int64_t> tau_d(2);
-  Data<int64_t> tau_c(2);
-  Data<int64_t> tau_z(2);
+  Data<float> tau_s(2);
+  Data<double> tau_d(2);
+  Data<float2> tau_c(2);
+  Data<double2> tau_z(2);
 
   cusolverDnHandle_t handle;
   cusolverDnCreate(&handle);
@@ -626,8 +626,7 @@ void test_cusolverDnXgeqrf() {
   cusolverDnParams_t params;
   cusolverDnCreateParams(&params);
 
-  int status = cusolverDnXgeqrf_bufferSize(handle, params, 2, 2, CUDA_R_32F, a_s.d_data, 2, CUDA_R_32F, tau_s.d_data, CUDA_R_32F, &device_ws_size_s, &host_ws_size_s);
-  printf("status=%d\n", status);
+  cusolverDnXgeqrf_bufferSize(handle, params, 2, 2, CUDA_R_32F, a_s.d_data, 2, CUDA_R_32F, tau_s.d_data, CUDA_R_32F, &device_ws_size_s, &host_ws_size_s);
   cusolverDnXgeqrf_bufferSize(handle, params, 2, 2, CUDA_R_64F, a_d.d_data, 2, CUDA_R_64F, tau_d.d_data, CUDA_R_64F, &device_ws_size_d, &host_ws_size_d);
   cusolverDnXgeqrf_bufferSize(handle, params, 2, 2, CUDA_C_32F, a_c.d_data, 2, CUDA_C_32F, tau_c.d_data, CUDA_C_32F, &device_ws_size_c, &host_ws_size_c);
   cusolverDnXgeqrf_bufferSize(handle, params, 2, 2, CUDA_C_64F, a_z.d_data, 2, CUDA_C_64F, tau_z.d_data, CUDA_C_64F, &device_ws_size_z, &host_ws_size_z);
@@ -652,8 +651,7 @@ void test_cusolverDnXgeqrf() {
   int *info;
   cudaMalloc(&info, sizeof(int));
 
-  status = cusolverDnXgeqrf(handle, params, 2, 2, CUDA_R_32F, a_s.d_data, 2, CUDA_R_32F, tau_s.d_data, CUDA_R_32F, device_ws_s, device_ws_size_s, host_ws_s, host_ws_size_s, info);
-  printf("status=%d\n", status);
+  cusolverDnXgeqrf(handle, params, 2, 2, CUDA_R_32F, a_s.d_data, 2, CUDA_R_32F, tau_s.d_data, CUDA_R_32F, device_ws_s, device_ws_size_s, host_ws_s, host_ws_size_s, info);
   cusolverDnXgeqrf(handle, params, 2, 2, CUDA_R_64F, a_d.d_data, 2, CUDA_R_64F, tau_d.d_data, CUDA_R_64F, device_ws_d, device_ws_size_d, host_ws_d, host_ws_size_d, info);
   cusolverDnXgeqrf(handle, params, 2, 2, CUDA_C_32F, a_c.d_data, 2, CUDA_C_32F, tau_c.d_data, CUDA_C_32F, device_ws_c, device_ws_size_c, host_ws_c, host_ws_size_c, info);
   cusolverDnXgeqrf(handle, params, 2, 2, CUDA_C_64F, a_z.d_data, 2, CUDA_C_64F, tau_z.d_data, CUDA_C_64F, device_ws_z, device_ws_size_z, host_ws_z, host_ws_size_z, info);
@@ -684,15 +682,6 @@ void test_cusolverDnXgeqrf() {
   float expect_a[4] = {-2.236068, 0.618034, -4.919349, -0.894427};
   float expect_tau[2] = {1.447214, 0};
 
-  printf("%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
-  printf("%f,%f,%f,%f\n", a_d.h_data[0], a_d.h_data[1], a_d.h_data[2], a_d.h_data[3]);
-  printf("%f,%f,%f,%f\n", a_c.h_data[0], a_c.h_data[1], a_c.h_data[2], a_c.h_data[3]);
-  printf("%f,%f,%f,%f\n", a_z.h_data[0], a_z.h_data[1], a_z.h_data[2], a_z.h_data[3]);
-  printf("%f,%f\n", tau_s.h_data[0], tau_s.h_data[1]);
-  printf("%f,%f\n", tau_d.h_data[0], tau_d.h_data[1]);
-  printf("%f,%f\n", tau_c.h_data[0], tau_c.h_data[1]);
-  printf("%f,%f\n", tau_z.h_data[0], tau_z.h_data[1]);
-
   if (compare_result(expect_a, a_s.h_data, 4) &&
       compare_result(expect_a, a_d.h_data, 4) &&
       compare_result(expect_a, a_c.h_data, 4) &&
@@ -714,10 +703,10 @@ void test_cusolverDnGeqrf() {
   Data<double> a_d(a.data(), 4);
   Data<float2> a_c(a.data(), 4);
   Data<double2> a_z(a.data(), 4);
-  Data<int64_t> tau_s(2);
-  Data<int64_t> tau_d(2);
-  Data<int64_t> tau_c(2);
-  Data<int64_t> tau_z(2);
+  Data<float> tau_s(2);
+  Data<double> tau_d(2);
+  Data<float2> tau_c(2);
+  Data<double2> tau_z(2);
 
   cusolverDnHandle_t handle;
   cusolverDnCreate(&handle);
@@ -782,15 +771,6 @@ void test_cusolverDnGeqrf() {
 
   float expect_a[4] = {-2.236068, 0.618034, -4.919349, -0.894427};
   float expect_tau[2] = {1.447214, 0};
-
-  printf("%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
-  printf("%f,%f,%f,%f\n", a_d.h_data[0], a_d.h_data[1], a_d.h_data[2], a_d.h_data[3]);
-  printf("%f,%f,%f,%f\n", a_c.h_data[0], a_c.h_data[1], a_c.h_data[2], a_c.h_data[3]);
-  printf("%f,%f,%f,%f\n", a_z.h_data[0], a_z.h_data[1], a_z.h_data[2], a_z.h_data[3]);
-  printf("%f,%f\n", tau_s.h_data[0], tau_s.h_data[1]);
-  printf("%f,%f\n", tau_d.h_data[0], tau_d.h_data[1]);
-  printf("%f,%f\n", tau_c.h_data[0], tau_c.h_data[1]);
-  printf("%f,%f\n", tau_z.h_data[0], tau_z.h_data[1]);
 
   if (compare_result(expect_a, a_s.h_data, 4) &&
       compare_result(expect_a, a_d.h_data, 4) &&
