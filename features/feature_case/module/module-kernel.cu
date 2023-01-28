@@ -8,9 +8,9 @@
 // ===----------------------------------------------------------------------===//
 static texture<int, 3> tex;
 
-__global__ void foo(float* k, float* y);
+extern "C" __global__ void foo(float* k, float* y);
 
-__global__ void foo(float* k, float* y){
+extern "C" __global__ void foo(float* k, float* y){
     extern __shared__ int s[];
     int a = threadIdx.x;
 }

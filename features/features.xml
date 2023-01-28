@@ -65,15 +65,13 @@
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="math-bfloat16" configFile="config/TEMPLATE_math_bfloat16.xml" />
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
-    <test testName="math-ext-double" configFile="config/TEMPLATE_math_skip_double.xml"  splitGroup="double" />
     <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml"  splitGroup="double" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-exec" configFile="config/TEMPLATE_math_exec.xml" splitGroup="double" />
-    <test testName="math-ext-float" configFile="config/TEMPLATE_math_skip_double.xml"  splitGroup="double" />
     <test testName="math-funnelshift" configFile="config/TEMPLATE_math_funnelshift.xml" />
     <test testName="math-habs" configFile="config/TEMPLATE_math_habs.xml" splitGroup="double" />
-    <test testName="math-ext-half" configFile="config/TEMPLATE_math.xml" />
-    <test testName="math-ext-half2" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-ext-half" configFile="config/TEMPLATE_math_half.xml" />
+    <test testName="math-ext-half2" configFile="config/TEMPLATE_math_half.xml" />
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-saturate" configFile="config/TEMPLATE_math_saturate.xml" />
     <test testName="cusparse" configFile="config/TEMPLATE_cusparse.xml" />
@@ -104,7 +102,7 @@
     <test testName="cufft-func-ptr" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft-others" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft-external-workspace" configFile="config/cufft-external-workspace.xml" splitGroup="double"/>
-    <!-- <test testName="module-kernel" configFile="config/TEMPLATE_module.xml" /> -->
+    <test testName="module-kernel" configFile="config/TEMPLATE_module.xml" />
     <test testName="macro" configFile="config/TEMPLATE_macro.xml" />
     <test testName="driverMem" configFile="config/TEMPLATE_driverMem.xml" />
     <test testName="driverCtx" configFile="config/TEMPLATE_driverCtx.xml" />
@@ -342,6 +340,7 @@
     <test testName="free-queries" configFile="config/TEMPLATE_freeQueries.xml" />
     <test testName="deviceProp" configFile="config/TEMPLATE_deviceProp.xml" />
     <test testName="gridThreads" configFile="config/TEMPLATE_gridThreads.xml" />
+    <test testName="kernel_library" configFile="config/TEMPLATE_kernel_library.xml" />
     <test testName="BlasUtils_api_test11" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
     <test testName="BlasUtils_api_test12" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
     <test testName="BlasUtils_api_test13" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
@@ -394,6 +393,7 @@
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
+    <test testName="defaultStream" configFile="config/TEMPLATE_defaultStream.xml" />
     <!-- <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" splitGroup="double" /> -->
   </tests>
 </suite>
