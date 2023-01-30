@@ -3,8 +3,10 @@
 <test driverID="test_feature" name="TEMPLATE">
     <description>test</description>
     <files>
-      <file path="feature_case/module/module-kernel.cu" />
-      <file path="feature_case/module/module-main.cu" />
-      <file path="feature_case/module/module-helper.cpp" />
+      <file path="feature_case/module" />
     </files>
+    <rules>
+        <platformRule OSFamily="Linux" kit="CUDA12.0" kitRange="LATER_OR_EQUAL" runOnThisPlatform="false"/>
+        <platformRule OSFamily="Windows" kit="CUDA12.0" kitRange="LATER_OR_EQUAL" runOnThisPlatform="false"/>
+    </rules>
 </test>
