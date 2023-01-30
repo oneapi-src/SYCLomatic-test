@@ -92,7 +92,7 @@
     <test testName="cublas-only-usm" configFile="config/TEMPLATE_cuBlas_usm.xml" />
     <test testName="cusparse-helper" configFile="feature_case/cuparse/config/cusparse-helper.xml" />
     <test testName="backprop" configFile="config/TEMPLATE_backprop.xml" />
-	<test testName="device_info" configFile="config/TEMPLATE_device_info.xml" />
+    <test testName="device_info" configFile="config/TEMPLATE_device_info.xml" />
     <!-- <test testName="autoGenMakefile" configFile="config/TEMPLATE_autoGenMakefile.xml" /> -->
     <test testName="cufft-deduce" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft-different-locations-usm" configFile="config/TEMPLATE_cuFFT.xml" />

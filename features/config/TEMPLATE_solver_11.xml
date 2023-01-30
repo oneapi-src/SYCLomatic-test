@@ -6,8 +6,8 @@
       <file path="feature_case/cusolver/${testName}.cu" />
     </files>
     <rules>
-      <platformRule OSFamily="Linux" kit="CUDA10.2" kitRange="OLDER" runOnThisPlatform="false"/>
-      <platformRule OSFamily="Windows" kit="CUDA10.2" kitRange="OLDER" runOnThisPlatform="false"/>
+      <platformRule OSFamily="Linux" kit="CUDA11.0" kitRange="OLDER" runOnThisPlatform="false"/>
+      <platformRule OSFamily="Windows" kit="CUDA11.0" kitRange="OLDER" runOnThisPlatform="false"/>
       <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
     </rules>
 </test>
