@@ -12,12 +12,12 @@
 
 __global__ void complex_math_kernel(float * res)
 {
-  auto c = thrust::polar(11.48569, 1.33698);
+  auto c = thrust::polar(11.48569f, 1.33698f);
 
   c = thrust::log10(c);
   c = thrust::sqrt(c);
-  c = thrust::pow(1.0, c);
-  c = thrust::pow(c, 1.0);
+  c = thrust::pow(1.0f, c);
+  c = thrust::pow(c, 1.0f);
   c = thrust::pow(c, c);
   c = thrust::sin(c);
   c = thrust::cos(c);
@@ -40,12 +40,12 @@ __global__ void complex_math_kernel(float * res)
 
 void complex_math(float * res)
 {
-  auto c = thrust::polar(11.48569, 1.33698);
+  auto c = thrust::polar(11.48569f, 1.33698f);
 
   c = thrust::log10(c);
   c = thrust::sqrt(c);
-  c = thrust::pow(1.0, c);
-  c = thrust::pow(c, 1.0);
+  c = thrust::pow(1.0f, c);
+  c = thrust::pow(c, 1.0f);
   c = thrust::pow(c, c);
   c = thrust::sin(c);
   c = thrust::cos(c);
