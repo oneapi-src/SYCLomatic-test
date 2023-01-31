@@ -9,7 +9,7 @@
 
 
 #include "dpct/atomic.hpp"
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <assert.h>
 #include <stdio.h>
 #define loop_num 50

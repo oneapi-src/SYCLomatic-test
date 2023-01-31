@@ -6,7 +6,7 @@
 //
 //
 // ===----------------------------------------------------------------------===//
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 
 void find_first_set_test(int *test_result) {

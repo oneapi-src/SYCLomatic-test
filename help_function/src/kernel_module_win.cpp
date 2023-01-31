@@ -6,7 +6,7 @@
 //
 //
 // ===----------------------------------------------------------------------===//
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 
 void foo(int* k, sycl::nd_item<3> item_ct1, uint8_t *dpct_local){
