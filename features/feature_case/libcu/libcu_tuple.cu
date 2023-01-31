@@ -13,7 +13,7 @@ template <class T>
 __host__ __device__ void
 test(T *res)
 {
-  cuda::std::tuple<T, T, T> t = cuda::std::make_tuple(2.0, 3.0, 4.0);
+  cuda::std::tuple<T, T, T> t = cuda::std::make_tuple(2.0f, 3.0f, 4.0f);
   *(res) = cuda::std::get<0>(t);
   *(res+1) = cuda::std::get<1>(t);
   *(res+2) = cuda::std::get<2>(t);
@@ -29,7 +29,6 @@ int main(int, char **)
   
   float *floatRes = (float *)malloc(3 * sizeof(float));
   test<float>(floatRes);
-  //test<double>(doubleRes);
   float *hostRes = (float *)malloc(3 * sizeof(float));
   float *deviceRes;
   cudaMalloc((float **)&deviceRes, 3 * sizeof(float));
