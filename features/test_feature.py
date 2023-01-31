@@ -27,7 +27,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'cub_device_scan_inclusive_scan', 'cub_device_scan_exclusive_scan', 'cub_device_seg_radix_sort_pairs',
               'cub_device_scan_inclusive_sum', 'cub_device_scan_exclusive_sum', 'cub_device_select_unique', 'cub_device_radix_sort_keys', 'cub_device_radix_sort_pairs',
               'cub_device_select_flagged', 'cub_device_run_length_encide_encode', 'cub_counting_iterator', 'cub_arg_index_input_iterator',
-              'cub_transform_iterator', 'activemask', 'complex', 'thrust-math'
+              'cub_transform_iterator', 'activemask', 'complex', 'thrust-math', 'libcu_array', 'libcu_complex', 'libcu_tuple',
               'user_defined_rules', 'math-exec', 'math-habs', 'math-ext-half', 'math-ext-half2', 'cudnn-activation',
               'cudnn-fill', 'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax',
               'cudnn-sum', 'math-funnelshift', 'ccl', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
