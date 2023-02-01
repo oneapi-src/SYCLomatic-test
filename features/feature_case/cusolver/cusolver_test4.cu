@@ -201,7 +201,7 @@ void test_cusolverDnXgesvd() {
   cudaFree(host_ws_z);
   cudaFree(info);
 
-  float expect_s[4] = {5.464985,0.365966};
+  float expect_s[2] = {5.464985,0.365966};
   float expect_u[4] = {0.576048,0.817416,-0.817416,0.576048};
   float expect_vt[4] = {0.404554,0.914514,0.914514,-0.404554};
 
@@ -309,7 +309,7 @@ void test_cusolverDnGesvd() {
   cudaFree(device_ws_z);
   cudaFree(info);
 
-  float expect_s[4] = {5.464985,0.365966};
+  float expect_s[2] = {5.464985,0.365966};
   float expect_u[4] = {0.576048,0.817416,-0.817416,0.576048};
   float expect_vt[4] = {0.404554,0.914514,0.914514,-0.404554};
 
@@ -332,8 +332,7 @@ void test_cusolverDnGesvd() {
   }
 }
 
-#if 0
-void test_cusolverDnTgesvd() {
+void test_cusolverDnTgesvdj() {
   std::vector<float> a = {1, 2, 3, 4};
   Data<float> a_s(a.data(), 4);
   Data<double> a_d(a.data(), 4);
@@ -373,13 +372,13 @@ void test_cusolverDnTgesvd() {
   int device_ws_size_c;
   int device_ws_size_z;
 
-  cusolverDnParams_t params;
-  cusolverDnCreateParams(&params);
+  gesvdjInfo_t gesvdjinfo;
+  cusolverDnCreateGesvdjInfo(&gesvdjinfo);
 
-  cusolverDnSgesvd_bufferSize(handle, 2, 2, &device_ws_size_s);
-  cusolverDnDgesvd_bufferSize(handle, 2, 2, &device_ws_size_d);
-  cusolverDnCgesvd_bufferSize(handle, 2, 2, &device_ws_size_c);
-  cusolverDnZgesvd_bufferSize(handle, 2, 2, &device_ws_size_z);
+  cusolverDnSgesvdj_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, 0, 2, 2, (float*)a_s.d_data, 2, (float*)s_s.d_data, (float*)u_s.d_data, 2, (float*)vt_s.d_data, 2, &device_ws_size_s, gesvdjinfo);
+  cusolverDnDgesvdj_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, 0, 2, 2, (double*)a_d.d_data, 2, (double*)s_d.d_data, (double*)u_d.d_data, 2, (double*)vt_d.d_data, 2, &device_ws_size_d, gesvdjinfo);
+  cusolverDnCgesvdj_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, 0, 2, 2, (float2*)a_c.d_data, 2, (float*)s_c.d_data, (float2*)u_c.d_data, 2, (float2*)vt_c.d_data, 2, &device_ws_size_c, gesvdjinfo);
+  cusolverDnZgesvdj_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, 0, 2, 2, (double2*)a_z.d_data, 2, (double*)s_z.d_data, (double2*)u_z.d_data, 2, (double2*)vt_z.d_data, 2, &device_ws_size_z, gesvdjinfo);
 
   void* device_ws_s;
   void* device_ws_d;
@@ -393,15 +392,10 @@ void test_cusolverDnTgesvd() {
   int *info;
   cudaMalloc(&info, sizeof(int));
 
-  cusolverDnSgesvd(handle, 'A', 'A', 2, 2, (float*)a_s.d_data, 2, (float*)s_s.d_data, (float*)u_s.d_data, 2, (float*)vt_s.d_data, 2, (float*)device_ws_s, device_ws_size_s, (float*)rwork_s.d_data, info);
-  cusolverDnDgesvd(handle, 'A', 'A', 2, 2, (double*)a_d.d_data, 2, (double*)s_d.d_data, (double*)u_d.d_data, 2, (double*)vt_d.d_data, 2, (double*)device_ws_d, device_ws_size_d, (double*)rwork_d.d_data, info);
-  cusolverDnCgesvd(handle, 'A', 'A', 2, 2, (float2*)a_c.d_data, 2, (float*)s_c.d_data, (float2*)u_c.d_data, 2, (float2*)vt_c.d_data, 2, (float2*)device_ws_c, device_ws_size_c, (float*)rwork_c.d_data, info);
-  cusolverDnZgesvd(handle, 'A', 'A', 2, 2, (double2*)a_z.d_data, 2, (double*)s_z.d_data, (double2*)u_z.d_data, 2, (double2*)vt_z.d_data, 2, (double2*)device_ws_z, device_ws_size_z, (double*)rwork_z.d_data, info);
-
-  a_s.D2H();
-  a_d.D2H();
-  a_c.D2H();
-  a_z.D2H();
+  cusolverDnSgesvdj(handle, CUSOLVER_EIG_MODE_VECTOR, 0, 2, 2, (float*)a_s.d_data, 2, (float*)s_s.d_data, (float*)u_s.d_data, 2, (float*)vt_s.d_data, 2, (float*)device_ws_s, device_ws_size_s, info, gesvdjinfo);
+  cusolverDnDgesvdj(handle, CUSOLVER_EIG_MODE_VECTOR, 0, 2, 2, (double*)a_d.d_data, 2, (double*)s_d.d_data, (double*)u_d.d_data, 2, (double*)vt_d.d_data, 2, (double*)device_ws_d, device_ws_size_d, info, gesvdjinfo);
+  cusolverDnCgesvdj(handle, CUSOLVER_EIG_MODE_VECTOR, 0, 2, 2, (float2*)a_c.d_data, 2, (float*)s_c.d_data, (float2*)u_c.d_data, 2, (float2*)vt_c.d_data, 2, (float2*)device_ws_c, device_ws_size_c, info, gesvdjinfo);
+  cusolverDnZgesvdj(handle, CUSOLVER_EIG_MODE_VECTOR, 0, 2, 2, (double2*)a_z.d_data, 2, (double*)s_z.d_data, (double2*)u_z.d_data, 2, (double2*)vt_z.d_data, 2, (double2*)device_ws_z, device_ws_size_z, info, gesvdjinfo);
 
   s_s.D2H();
   s_d.D2H();
@@ -420,7 +414,7 @@ void test_cusolverDnTgesvd() {
 
   cudaStreamSynchronize(0);
 
-  cusolverDnDestroyParams(params);
+  cusolverDnDestroyGesvdjInfo(gesvdjinfo);
   cusolverDnDestroy(handle);
   cudaFree(device_ws_s);
   cudaFree(device_ws_d);
@@ -428,16 +422,11 @@ void test_cusolverDnTgesvd() {
   cudaFree(device_ws_z);
   cudaFree(info);
 
-  float expect_a[4] = {-2.236068,0.618034,-4.919349,-0.894427};
-  float expect_s[4] = {5.464985,0.365966};
-  float expect_u[4] = {-0.576048,-0.817416,-0.817416,0.576048};
-  float expect_vt[4] = {-0.404554,0.914514,-0.914514,-0.404554};
+  float expect_s[2] = {5.464985,0.365966};
+  float expect_u[4] = {0.576048,0.817416,-0.817416,0.576048};
+  float expect_vt[4] = {0.404554,0.914514,0.914514,-0.404554};
 
-  if (compare_result(expect_a, a_s.h_data, 4) &&
-      compare_result(expect_a, a_d.h_data, 4) &&
-      compare_result(expect_a, a_c.h_data, 4) &&
-      compare_result(expect_a, a_z.h_data, 4) &&
-      compare_result(expect_s, s_s.h_data, 2) &&
+  if (compare_result(expect_s, s_s.h_data, 2) &&
       compare_result(expect_s, s_d.h_data, 2) &&
       compare_result(expect_s, s_c.h_data, 2) &&
       compare_result(expect_s, s_z.h_data, 2) &&
@@ -449,13 +438,12 @@ void test_cusolverDnTgesvd() {
       compare_result(expect_vt, vt_d.h_data, 4) &&
       compare_result(expect_vt, vt_c.h_data, 4) &&
       compare_result(expect_vt, vt_z.h_data, 4))
-    printf("DnTgesvd pass\n");
+    printf("DnTgesvdj pass\n");
   else {
-    printf("DnTgesvd fail\n");
+    printf("DnTgesvdj fail\n");
     test_passed = false;
   }
 }
-#endif
 
 void test_cusolverDnXpotrf() {
   std::vector<float> a = {2, -1, 0, -1, 2, -1, 0, -1, 2};
@@ -736,9 +724,7 @@ void test_cusolverDnPotrs() {
 int main() {
   test_cusolverDnXgesvd();
   test_cusolverDnGesvd();
-#if 0
-  test_cusolverDnTgesvd();
-#endif
+  test_cusolverDnTgesvdj();
   test_cusolverDnXpotrf();
   test_cusolverDnPotrf();
   test_cusolverDnXpotrs();
