@@ -79,6 +79,7 @@
     <test testName="cusparse-type" configFile="config/TEMPLATE_cuParse.xml" />
     <test testName="cusparse-usm" configFile="config/TEMPLATE_cusparse.xml" />
     <test testName="perm_byte" configFile="config/TEMPLATE_perm_byte.xml" />
+    <test testName="feature_profiling" configFile="config/TEMPLATE_feature_profiling.xml" />
     <test testName="grid_sync" configFile="config/TEMPLATE_grid_sync.xml" />
     <test testName="kernel-launch" configFile="config/TEMPLATE_runtimeAPI.xml" />
     <test testName="cusolverDnEi" configFile="config/TEMPLATE_cusolver.xml" />
