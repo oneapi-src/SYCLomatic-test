@@ -36,6 +36,6 @@ def build_test():
 
     srcs = []
     srcs.append(os.path.join("dpct_output", "kernel_library.cpp.dp.cpp"))
-    return compile_and_link(srcs)
+    return compile_and_link(srcs, linkopt=["-lstdc++fs"])
 def run_test():
     return call_subprocess(os.path.join(os.path.curdir, test_config.current_test + '.run '))
