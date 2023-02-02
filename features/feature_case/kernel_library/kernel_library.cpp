@@ -109,7 +109,7 @@ int run_tests() {
     
       // invoke kernel function
       if (invoke_type==0) {
-        int **args[3] = { &a, &b, &c };
+        int *args[3] = { &a, &b, &c };
         checkErrors( cuLaunchKernel(function,
                                     VEC_LENGTH, 1, 1,  // 1x1x1 blocks
                                     1,          1, 1,  // 1x1x1 threads
