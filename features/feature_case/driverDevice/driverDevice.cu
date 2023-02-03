@@ -30,6 +30,13 @@ int main(){
   cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, device);
   cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_HOST_NATIVE_ATOMIC_SUPPORTED, device);
   CUDA_SAFE_CALL(cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, device));
+
+  cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY, device);
+  cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_WARP_SIZE, device);
+  cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK, device);
+  cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT, device);
+  cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_BLOCK, device);
+
   cuDeviceComputeCapability(&result1, &result2, device);
   CUDA_SAFE_CALL(cuDeviceComputeCapability(&result1, &result2, device));
   CUDA_SAFE_CALL(cuDeviceGetCount(&result1));
