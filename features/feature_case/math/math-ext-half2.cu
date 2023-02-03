@@ -14,6 +14,9 @@
 
 using namespace std;
 
+typedef pair<__half2, __half2> half2_pair;
+typedef vector<__half2> half2_vector;
+
 int ret = 0;
 
 void check(bool IsPassed) {
@@ -25,7 +28,7 @@ void check(bool IsPassed) {
   }
 }
 
-void printResultHalf2(const string &FuncName, const vector<__half2> &Inputs,
+void printResultHalf2(const string &FuncName, const half2_vector &Inputs,
                       const __half2 &Expect,
                       const vector<float> &DeviceResult) {
   const float Precision = 0.001;
@@ -58,8 +61,7 @@ void testHadd2_sat(float *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHadd2_satCases(
-    const vector<pair<pair<__half2, __half2>, __half2>> &TestCases) {
+void testHadd2_satCases(const vector<pair<half2_pair, __half2>> &TestCases) {
   float *DeviceResult;
   cudaMallocManaged(&DeviceResult, 2 * sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -83,8 +85,7 @@ void testHfma2_sat(float *const DeviceResult, __half2 Input1, __half2 Input2,
   cudaDeviceSynchronize();
 }
 
-void testHfma2_satCases(
-    const vector<pair<vector<__half2>, __half2>> &TestCases) {
+void testHfma2_satCases(const vector<pair<half2_vector, __half2>> &TestCases) {
   float *DeviceResult;
   cudaMallocManaged(&DeviceResult, 2 * sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -111,8 +112,7 @@ void testHmul2_sat(float *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHmul2_satCases(
-    const vector<pair<pair<__half2, __half2>, __half2>> &TestCases) {
+void testHmul2_satCases(const vector<pair<half2_pair, __half2>> &TestCases) {
   float *DeviceResult;
   cudaMallocManaged(&DeviceResult, 2 * sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -135,8 +135,7 @@ void testHsub2_sat(float *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHsub2_satCases(
-    const vector<pair<pair<__half2, __half2>, __half2>> &TestCases) {
+void testHsub2_satCases(const vector<pair<half2_pair, __half2>> &TestCases) {
   float *DeviceResult;
   cudaMallocManaged(&DeviceResult, 2 * sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -147,7 +146,7 @@ void testHsub2_satCases(
   }
 }
 
-void printResultBool(const string &FuncName, const vector<__half2> &Inputs,
+void printResultBool(const string &FuncName, const half2_vector &Inputs,
                      const bool &Expect, const bool &DeviceResult) {
   std::cout << FuncName << "({" << __low2float(Inputs[0]) << ", "
             << __high2float(Inputs[0]) << "}";
@@ -169,8 +168,7 @@ void testHbeq2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHbeq2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHbeq2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -190,8 +188,7 @@ void testHbequ2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHbequ2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHbequ2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -211,8 +208,7 @@ void testHbge2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHbge2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHbge2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -232,8 +228,7 @@ void testHbgeu2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHbgeu2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHbgeu2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -253,8 +248,7 @@ void testHbgt2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHbgt2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHbgt2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -274,8 +268,7 @@ void testHbgtu2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHbgtu2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHbgtu2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -295,8 +288,7 @@ void testHble2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHble2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHble2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -316,8 +308,7 @@ void testHbleu2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHbleu2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHbleu2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -337,8 +328,7 @@ void testHblt2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHblt2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHblt2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -358,8 +348,7 @@ void testHbltu2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHbltu2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHbltu2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -379,8 +368,7 @@ void testHbne2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHbne2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHbne2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -400,8 +388,7 @@ void testHbneu2(bool *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHbneu2Cases(
-    const vector<pair<pair<__half2, __half2>, bool>> &TestCases) {
+void testHbneu2Cases(const vector<pair<half2_pair, bool>> &TestCases) {
   bool *DeviceResult;
   cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -423,8 +410,7 @@ void testHeq2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHeq2Cases(
-    const vector<pair<pair<__half2, __half2>, __half2>> &TestCases) {
+void testHeq2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
   float *DeviceResult;
   cudaMallocManaged(&DeviceResult, 2 * sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -446,8 +432,7 @@ void testHequ2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHequ2Cases(
-    const vector<pair<pair<__half2, __half2>, __half2>> &TestCases) {
+void testHequ2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
   float *DeviceResult;
   cudaMallocManaged(&DeviceResult, 2 * sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -469,8 +454,7 @@ void testHge2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHge2Cases(
-    const vector<pair<pair<__half2, __half2>, __half2>> &TestCases) {
+void testHge2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
   float *DeviceResult;
   cudaMallocManaged(&DeviceResult, 2 * sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -492,8 +476,7 @@ void testHgeu2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHgeu2Cases(
-    const vector<pair<pair<__half2, __half2>, __half2>> &TestCases) {
+void testHgeu2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
   float *DeviceResult;
   cudaMallocManaged(&DeviceResult, 2 * sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -515,8 +498,7 @@ void testHgt2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHgt2Cases(
-    const vector<pair<pair<__half2, __half2>, __half2>> &TestCases) {
+void testHgt2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
   float *DeviceResult;
   cudaMallocManaged(&DeviceResult, 2 * sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
@@ -538,13 +520,165 @@ void testHgtu2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
   cudaDeviceSynchronize();
 }
 
-void testHgtu2Cases(
-    const vector<pair<pair<__half2, __half2>, __half2>> &TestCases) {
+void testHgtu2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
   float *DeviceResult;
   cudaMallocManaged(&DeviceResult, 2 * sizeof(*DeviceResult));
   for (const auto &TestCase : TestCases) {
     testHgtu2(DeviceResult, TestCase.first.first, TestCase.first.second);
     printResultHalf2("__hgtu2", {TestCase.first.first, TestCase.first.second},
+                     TestCase.second, {DeviceResult[0], DeviceResult[1]});
+  }
+}
+
+__global__ void hisnan2(float *const DeviceResult, __half2 Input1) {
+  auto ret = __hisnan2(Input1);
+  DeviceResult[0] = __low2float(ret);
+  DeviceResult[1] = __high2float(ret);
+}
+
+void testHisnan2(float *const DeviceResult, __half2 Input1) {
+  hisnan2<<<1, 1>>>(DeviceResult, Input1);
+  cudaDeviceSynchronize();
+}
+
+void testHisnan2Cases(const vector<half2_pair> &TestCases) {
+  float *DeviceResult;
+  cudaMallocManaged(&DeviceResult, 2 * sizeof(*DeviceResult));
+  for (const auto &TestCase : TestCases) {
+    testHisnan2(DeviceResult, TestCase.first);
+    printResultHalf2("__hisnan2", {TestCase.first}, TestCase.second,
+                     {DeviceResult[0], DeviceResult[1]});
+  }
+}
+
+__global__ void hle2(float *const DeviceResult, __half2 Input1,
+                     __half2 Input2) {
+  auto ret = __hle2(Input1, Input2);
+  DeviceResult[0] = __low2float(ret);
+  DeviceResult[1] = __high2float(ret);
+}
+
+void testHle2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
+  hle2<<<1, 1>>>(DeviceResult, Input1, Input2);
+  cudaDeviceSynchronize();
+}
+
+void testHle2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
+  float *DeviceResult;
+  cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
+  for (const auto &TestCase : TestCases) {
+    testHle2(DeviceResult, TestCase.first.first, TestCase.first.second);
+    printResultHalf2("__hle2", {TestCase.first.first, TestCase.first.second},
+                     TestCase.second, {DeviceResult[0], DeviceResult[1]});
+  }
+}
+
+__global__ void hleu2(float *const DeviceResult, __half2 Input1,
+                     __half2 Input2) {
+  auto ret = __hleu2(Input1, Input2);
+  DeviceResult[0] = __low2float(ret);
+  DeviceResult[1] = __high2float(ret);
+}
+
+void testHleu2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
+  hleu2<<<1, 1>>>(DeviceResult, Input1, Input2);
+  cudaDeviceSynchronize();
+}
+
+void testHleu2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
+  float *DeviceResult;
+  cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
+  for (const auto &TestCase : TestCases) {
+    testHleu2(DeviceResult, TestCase.first.first, TestCase.first.second);
+    printResultHalf2("__hleu2", {TestCase.first.first, TestCase.first.second},
+                     TestCase.second, {DeviceResult[0], DeviceResult[1]});
+  }
+}
+
+__global__ void hlt2(float *const DeviceResult, __half2 Input1,
+                     __half2 Input2) {
+  auto ret = __hlt2(Input1, Input2);
+  DeviceResult[0] = __low2float(ret);
+  DeviceResult[1] = __high2float(ret);
+}
+
+void testHlt2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
+  hlt2<<<1, 1>>>(DeviceResult, Input1, Input2);
+  cudaDeviceSynchronize();
+}
+
+void testHlt2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
+  float *DeviceResult;
+  cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
+  for (const auto &TestCase : TestCases) {
+    testHlt2(DeviceResult, TestCase.first.first, TestCase.first.second);
+    printResultHalf2("__hlt2", {TestCase.first.first, TestCase.first.second},
+                     TestCase.second, {DeviceResult[0], DeviceResult[1]});
+  }
+}
+
+__global__ void hltu2(float *const DeviceResult, __half2 Input1,
+                      __half2 Input2) {
+  auto ret = __hltu2(Input1, Input2);
+  DeviceResult[0] = __low2float(ret);
+  DeviceResult[1] = __high2float(ret);
+}
+
+void testHltu2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
+  hltu2<<<1, 1>>>(DeviceResult, Input1, Input2);
+  cudaDeviceSynchronize();
+}
+
+void testHltu2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
+  float *DeviceResult;
+  cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
+  for (const auto &TestCase : TestCases) {
+    testHltu2(DeviceResult, TestCase.first.first, TestCase.first.second);
+    printResultHalf2("__hltu2", {TestCase.first.first, TestCase.first.second},
+                     TestCase.second, {DeviceResult[0], DeviceResult[1]});
+  }
+}
+
+__global__ void hne2(float *const DeviceResult, __half2 Input1,
+                     __half2 Input2) {
+  auto ret = __hne2(Input1, Input2);
+  DeviceResult[0] = __low2float(ret);
+  DeviceResult[1] = __high2float(ret);
+}
+
+void testHne2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
+  hne2<<<1, 1>>>(DeviceResult, Input1, Input2);
+  cudaDeviceSynchronize();
+}
+
+void testHne2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
+  float *DeviceResult;
+  cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
+  for (const auto &TestCase : TestCases) {
+    testHne2(DeviceResult, TestCase.first.first, TestCase.first.second);
+    printResultHalf2("__hne2", {TestCase.first.first, TestCase.first.second},
+                     TestCase.second, {DeviceResult[0], DeviceResult[1]});
+  }
+}
+
+__global__ void hneu2(float *const DeviceResult, __half2 Input1,
+                      __half2 Input2) {
+  auto ret = __hneu2(Input1, Input2);
+  DeviceResult[0] = __low2float(ret);
+  DeviceResult[1] = __high2float(ret);
+}
+
+void testHneu2(float *const DeviceResult, __half2 Input1, __half2 Input2) {
+  hneu2<<<1, 1>>>(DeviceResult, Input1, Input2);
+  cudaDeviceSynchronize();
+}
+
+void testHneu2Cases(const vector<pair<half2_pair, __half2>> &TestCases) {
+  float *DeviceResult;
+  cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
+  for (const auto &TestCase : TestCases) {
+    testHneu2(DeviceResult, TestCase.first.first, TestCase.first.second);
+    printResultHalf2("__hneu2", {TestCase.first.first, TestCase.first.second},
                      TestCase.second, {DeviceResult[0], DeviceResult[1]});
   }
 }
@@ -702,6 +836,55 @@ int main() {
       {{{0.7, 0.7}, {0.4, 0.7}}, {1, 0}},
       {{{0.7, 2}, {0.7, 2}}, {0, 0}},
       {{{1, 1}, {4, 6}}, {0, 0}},
+      {{{NAN, 1}, {1, 1}}, {1, 0}},
+  });
+  testHisnan2Cases({
+      {{0, 0}, {0, 0}},
+      {{0.7, 2}, {0, 0}},
+      {{NAN, 1}, {1, 0}},
+      {{NAN, NAN}, {1, 1}},
+      {{0, NAN}, {0, 1}},
+  });
+  testHle2Cases({
+      {{{0, 0}, {-0.4, -0.6}}, {0, 0}},
+      {{{0.7, 0.7}, {0.4, 0.7}}, {0, 1}},
+      {{{0.7, 2}, {0.7, 2}}, {1, 1}},
+      {{{1, 1}, {4, 6}}, {1, 1}},
+      {{{NAN, 1}, {1, 1}}, {0, 1}},
+  });
+  testHleu2Cases({
+      {{{0, 0}, {-0.4, -0.6}}, {0, 0}},
+      {{{0.7, 0.7}, {0.4, 0.7}}, {0, 1}},
+      {{{0.7, 2}, {0.7, 2}}, {1, 1}},
+      {{{1, 1}, {4, 6}}, {1, 1}},
+      {{{NAN, 1}, {1, 1}}, {1, 1}},
+  });
+  testHlt2Cases({
+      {{{0, 0}, {-0.4, -0.6}}, {0, 0}},
+      {{{0.7, 0.7}, {0.4, 0.7}}, {0, 0}},
+      {{{0.7, 2}, {0.7, 2}}, {0, 0}},
+      {{{1, 1}, {4, 6}}, {1, 1}},
+      {{{NAN, 1}, {1, 1}}, {0, 0}},
+  });
+  testHltu2Cases({
+      {{{0, 0}, {-0.4, -0.6}}, {0, 0}},
+      {{{0.7, 0.7}, {0.4, 0.7}}, {0, 0}},
+      {{{0.7, 2}, {0.7, 2}}, {0, 0}},
+      {{{1, 1}, {4, 6}}, {1, 1}},
+      {{{NAN, 1}, {1, 1}}, {1, 0}},
+  });
+  testHne2Cases({
+      {{{0, 0}, {-0.4, -0.6}}, {1, 1}},
+      {{{0.7, 0.7}, {0.4, 0.7}}, {1, 0}},
+      {{{0.7, 2}, {0.7, 2}}, {0, 0}},
+      {{{1, 1}, {4, 6}}, {1, 1}},
+      {{{NAN, 1}, {1, 1}}, {0, 0}},
+  });
+  testHneu2Cases({
+      {{{0, 0}, {-0.4, -0.6}}, {1, 1}},
+      {{{0.7, 0.7}, {0.4, 0.7}}, {1, 0}},
+      {{{0.7, 2}, {0.7, 2}}, {0, 0}},
+      {{{1, 1}, {4, 6}}, {1, 1}},
       {{{NAN, 1}, {1, 1}}, {1, 0}},
   });
   std::cout << "ret = " << ret << std::endl;
