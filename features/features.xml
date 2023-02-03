@@ -397,6 +397,9 @@
     <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" />
     <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
+    <test testName="libcu_array" configFile="config/TEMPLATE_libcu.xml" />
+    <test testName="libcu_complex" configFile="config/TEMPLATE_libcu.xml" />
+    <test testName="libcu_tuple" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
     <test testName="defaultStream" configFile="config/TEMPLATE_defaultStream.xml" />
