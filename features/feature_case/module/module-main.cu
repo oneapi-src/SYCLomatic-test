@@ -19,9 +19,12 @@ int main(){
     FunctionName = "foo";
     cuModuleLoad(&M, Path.c_str());
     cuModuleGetFunction(&F, M, FunctionName.c_str());
-    float *param[2] = {0};
-    cudaMalloc(&param[0], sizeof(float));
-    cudaMalloc(&param[1], sizeof(float));
+    float **param[2] = {0};
+    float *p0, *p1;
+    cudaMalloc(&p0, sizeof(float));
+    cudaMalloc(&p1, sizeof(float));
+    param[0] = &p0;
+    param[1] = &p1;
     cuLaunchKernel(F, 1, 1, 1, 1, 1, 1, 10, 0, (void**)param, nullptr);
     CUtexref tex;
     cuModuleGetTexRef(&tex, M, "tex");
