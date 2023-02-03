@@ -5,5 +5,7 @@
     <files>
         <file path="feature_case/kernel_library" />
     </files>
-    <rules />
+    <rules>
+        <platformRule OSFamily="Windows" runOnThisPlatform="false" />
+    </rules>
 </test>
