@@ -248,15 +248,15 @@ int main() {
         input[9] = 1;
         auto queue = dpct::get_default_queue();
         uint64_t* dev_input = sycl::malloc_device<uint64_t>(10, queue);
-        dpct::key_value_pair<uint64_t, uint64_t> output(0,0);
-        dpct::key_value_pair<uint64_t, uint64_t>* dev_output = sycl::malloc_device<dpct::key_value_pair<uint64_t, uint64_t>>(1, queue);
+        dpct::key_value_pair<ptrdiff_t, uint64_t> output(0,0);
+        dpct::key_value_pair<ptrdiff_t, uint64_t>* dev_output = sycl::malloc_device<dpct::key_value_pair<ptrdiff_t, uint64_t>>(1, queue);
 
         queue.memcpy(dev_input, input.data(), 10 * sizeof(uint64_t)).wait();
 
         // call algorithm
         dpct::reduce_argmax(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 10);
 
-        queue.memcpy(&output, dev_output, 1 * sizeof(dpct::key_value_pair<uint64_t, uint64_t>)).wait();
+        queue.memcpy(&output, dev_output, 1 * sizeof(dpct::key_value_pair<ptrdiff_t, uint64_t>)).wait();
 
         test_name = "dpct::reduce_argmax with uint64_t";
         failed_tests += ASSERT_EQUAL(test_name, output.key, 3) || ASSERT_EQUAL(test_name, output.value, 9);
@@ -264,7 +264,7 @@ int main() {
         // call algorithm
         dpct::reduce_argmin(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 10);
 
-        queue.memcpy(&output, dev_output, 1 * sizeof(dpct::key_value_pair<uint64_t, uint64_t>)).wait();
+        queue.memcpy(&output, dev_output, 1 * sizeof(dpct::key_value_pair<ptrdiff_t, uint64_t>)).wait();
 
         test_name = "dpct::reduce_argmin with uint64_t";
         failed_tests += ASSERT_EQUAL(test_name, output.key, 4) || ASSERT_EQUAL(test_name, output.value, 0);
