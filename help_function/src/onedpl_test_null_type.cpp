@@ -16,53 +16,47 @@
 
 #include <iostream>
 
-template<typename String, typename _T1, typename _T2>
-int ASSERT_EQUAL(String msg, _T1&& X, _T2&& Y) {
-    if(X!=Y) {
+template <typename String, typename _T1, typename _T2>
+int ASSERT_EQUAL(String msg, _T1 &&X, _T2 &&Y) {
+    if (X != Y) {
         std::cout << "FAIL: " << msg << " - (" << X << "," << Y << ")" << std::endl;
         return 1;
-    }
-    else {
+    } else {
         std::cout << "PASS: " << msg << std::endl;
         return 0;
     }
 }
 
-template <typename KeyT>
-int reorder_key(KeyT& a, KeyT& b)
-{
-	if (b < a)
-	{
-		::std::swap(a, b);
-	}
-	// returns 1 if reorder key is used
-	return 1;
+template <typename KeyT> int reorder_key(KeyT &a, KeyT &b) {
+    if (b < a) {
+        ::std::swap(a, b);
+    }
+    // returns 1 if reorder key is used
+    return 1;
 }
 
-//shows example usage of dpct::null_type, this has actual ValueT arguments
+// shows example usage of dpct::null_type, this has actual ValueT arguments
 template <typename KeyT, typename ValueT>
-typename ::std::enable_if<!::std::is_same<ValueT,dpct::null_type>::value, int>::type 
-reorder_pair(KeyT& a_key, KeyT& b_key, ValueT& a_val, ValueT& b_val)
-{
-	if (b_key < a_key)
-	{
-		::std::swap(a_key,b_key);
-		::std::swap(a_val,b_val);
-	}
-	//returns 2 if reorder_pair is used
-	return 2;
+typename ::std::enable_if<!::std::is_same<ValueT, dpct::null_type>::value,
+                          int>::type
+reorder_pair(KeyT &a_key, KeyT &b_key, ValueT &a_val, ValueT &b_val) {
+    if (b_key < a_key) {
+        ::std::swap(a_key, b_key);
+        ::std::swap(a_val, b_val);
+    }
+    // returns 2 if reorder_pair is used
+    return 2;
 }
 
-//shows example usage of dpct::null_typeas an indicator to convert to key only
+// shows example usage of dpct::null_typeas an indicator to convert to key only
 template <typename KeyT, typename ValueT>
-typename ::std::enable_if<::std::is_same<ValueT,dpct::null_type>::value, int>::type 
-reorder_pair(KeyT& a_key, KeyT& b_key, ValueT, ValueT)
-{
-	return reorder_key(a_key, b_key);
+typename ::std::enable_if<::std::is_same<ValueT, dpct::null_type>::value,
+                          int>::type
+reorder_pair(KeyT &a_key, KeyT &b_key, ValueT, ValueT) {
+    return reorder_key(a_key, b_key);
 }
 
 int main() {
-
     // used to detect failures
     int failed_tests = 0;
     int num_failing = 0;
@@ -97,11 +91,10 @@ int main() {
         result = (ret == 1) && a == 3 && b == 5 && a_val == -5 && b_val == -3;
         test_name = "Testing null_type redirect";
         failed_tests += ASSERT_EQUAL(test_name, result, true);
-
     }
 
-
-    std::cout << std::endl << failed_tests << " failing test(s) detected." << std::endl;
+    std::cout << std::endl
+                << failed_tests << " failing test(s) detected." << std::endl;
     if (failed_tests == 0) {
         return 0;
     }
