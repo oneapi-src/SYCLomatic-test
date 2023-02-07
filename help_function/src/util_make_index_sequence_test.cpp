@@ -7,7 +7,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 
 const int ref_range[3] = {1, 2, 3};

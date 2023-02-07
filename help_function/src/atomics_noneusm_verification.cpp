@@ -8,7 +8,7 @@
 // ===----------------------------------------------------------------------===//
 
 #define DPCT_USM_LEVEL_NONE
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <cstdio>
 #include <ctime>
 #include <dpct/dpct.hpp>

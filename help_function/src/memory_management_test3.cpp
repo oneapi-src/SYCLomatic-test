@@ -9,7 +9,7 @@
 
 
 #define DPCT_USM_LEVEL_NONE
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/memory.hpp>
 
 void check(float *h_data, float *h_ref, size_t width, size_t height,

@@ -10,14 +10,21 @@
 int main(){
     CUmodule M;
     CUfunction F;
-    std::string Path, FunctionName, Data;
+#ifdef _WIN32
+    std::string Path{"./module-kernel.dll"};
+#else
+    std::string Path{"./module-kernel.so"};
+#endif
+    std::string FunctionName{"foo"}, Data;
     FunctionName = "foo";
     cuModuleLoad(&M, Path.c_str());
-    cuModuleLoadData(&M, Data.c_str());
     cuModuleGetFunction(&F, M, FunctionName.c_str());
-    float *param[2] = {0};
-    cudaMalloc(&param[0], sizeof(float));
-    cudaMalloc(&param[1], sizeof(float));
+    float **param[2] = {0};
+    float *p0, *p1;
+    cudaMalloc(&p0, sizeof(float));
+    cudaMalloc(&p1, sizeof(float));
+    param[0] = &p0;
+    param[1] = &p1;
     cuLaunchKernel(F, 1, 1, 1, 1, 1, 1, 10, 0, (void**)param, nullptr);
     CUtexref tex;
     cuModuleGetTexRef(&tex, M, "tex");

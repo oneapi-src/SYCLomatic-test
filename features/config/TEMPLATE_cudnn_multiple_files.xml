@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test driverID="test_feature" name="TEMPLATE">
+   <description>test</description>
+    <files>
+      <file path="feature_case/dnn/cudnn-scale.cu" />
+      <file path="feature_case/dnn/cudnn-sum.cu" />      
+      <file path="feature_case/cudnn_multiple_files" />
+    </files>
+    <rules />
+</test>

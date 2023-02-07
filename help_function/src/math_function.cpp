@@ -6,7 +6,7 @@
 //
 //
 // ===----------------------------------------------------------------------===//
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 #include <stdio.h>
 void kernel(unsigned int *input, unsigned int *result,

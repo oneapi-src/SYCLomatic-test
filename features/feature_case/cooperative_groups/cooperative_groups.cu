@@ -36,24 +36,25 @@ __global__ void kernel(unsigned int *data, unsigned int *result) {
   if (threadIdx.x == 50) {
     result[0] = tbt8.size();
     result[1] = tbt8.thread_rank();
+    result[2] = ttb.size();
   }
 }
 
 int main() {
-  unsigned int result_host[2];
+  unsigned int result_host[3];
   unsigned int data_host[56];
-
+  result_host[2] = 0;
   for (int i = 0; i < 56; i++) {
     data_host[i] = i;
   }
 
   unsigned int *result_device, *data_device;
-  cudaMalloc(&result_device, sizeof(unsigned int) * 2);
+  cudaMalloc(&result_device, sizeof(unsigned int) * 3);
   cudaMalloc(&data_device, sizeof(unsigned int) * 56);
 
   cudaMemcpy(data_device, &data_host, sizeof(unsigned int) * 56, cudaMemcpyHostToDevice);
   kernel<<<1, 56>>>(data_device, result_device);
-  cudaMemcpy(result_host, result_device, sizeof(unsigned int) * 2, cudaMemcpyDeviceToHost);
+  cudaMemcpy(result_host, result_device, sizeof(unsigned int) * 3, cudaMemcpyDeviceToHost);
   cudaMemcpy(&data_host, data_device, sizeof(unsigned int) * 56, cudaMemcpyDeviceToHost);
   cudaFree(result_device);
   cudaFree(data_device);
@@ -83,7 +84,8 @@ int main() {
 
   bool checker2 = false;
   if (result_host[0] == 8 &&
-      result_host[1] == 2) {
+      result_host[1] == 2 &&
+      result_host[2] != 0) {
     checker2 = true;
   } else {
     printf("checker2 failed\n");

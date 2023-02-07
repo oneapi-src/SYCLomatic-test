@@ -14,6 +14,10 @@
 #include <thrust/gather.h>
 #include <thrust/scatter.h>
 #include "report.h"
+// for cuda 12.0
+#include <thrust/partition.h>
+#include <thrust/unique.h>
+
 
 struct greater_than_zero
 {

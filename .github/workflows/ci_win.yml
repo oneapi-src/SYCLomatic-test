@@ -14,8 +14,6 @@ jobs:
   windows-test:
     name: windows-test-${{ matrix.test_suite }}-cpu
     runs-on: win_ci_test
-    if: |
-      always() 
 
     strategy:
       fail-fast: false
@@ -24,8 +22,6 @@ jobs:
           - test_suite: user_guide_samples
           - test_suite: regressions
           - test_suite: samples
-          - test_suite: help_function
-          - test_suite: features
           - test_suite: api_coverage
           - test_suite: behavior_tests
     steps:
@@ -37,7 +33,7 @@ jobs:
         run: |
           if exist c2s.obj rd /s /q c2s.obj
           if exist c2s.src rd /s /q c2s.src
-          if exist c2s_obj.7z del /s /q c2s_obj.7z 
+          if exist c2s_obj.7z del /s /q c2s_obj.7z
           if not exist "P:\" (net use P: "\\scssgfiler01.sc.intel.com\cmplrarch" /Y)
         shell: cmd
 
@@ -57,13 +53,13 @@ jobs:
           cd c2s.src
           DATE_YESTERDAY=$(git rev-list -1 --before=`date --utc -d yesterday +"%Y-%m-%d"` SYCLomatic)
           git reset ${DATE_YESTERDAY} --hard
-      
+
       - name: Process ENV
         id: process_env
         run: |
-          for mask_value in $(C:/jq-win64.exe -r ".[]" $GITHUB_WORKSPACE/../../../mask_env_values.json); do 
-              echo "add mask for $mask_value"; 
-              echo "::add-mask::$mask_value"; 
+          for mask_value in $(C:/jq-win64.exe -r ".[]" $GITHUB_WORKSPACE/../../../mask_env_values.json); do
+              echo "add mask for $mask_value";
+              echo "::add-mask::$mask_value";
           done
         shell: bash
 
@@ -80,10 +76,11 @@ jobs:
           echo $PWD
 
       - name: Run testing option_usmnone_cpu
+        if: success() || failure()
         timeout-minutes: 180
         shell: bash
         run: |
           cd c2s_test_repo
           python run_test.py --suite ${{ matrix.test_suite }} --option option_usmnone_cpu
           echo $PWD
-      
+

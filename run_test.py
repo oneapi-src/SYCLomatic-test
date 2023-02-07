@@ -272,7 +272,7 @@ def is_platform_supported(platform_rule_list):
 
 def is_option_supported(option_rule_list):
     for option_rule in option_rule_list:
-        if option_rule.exclude_option in test_config.test_option and not option_rule.not_double_type_feature:
+        if option_rule.exclude_option != "" and  option_rule.exclude_option in test_config.test_option and not option_rule.not_double_type_feature:
             return False
         elif option_rule.only_option not in test_config.test_option:
             return False
@@ -415,9 +415,9 @@ def get_suite_list():
 
 def config_running_device(opt):
     if "cpu" in opt:
-        test_config.device_filter = "CPU"
+        test_config.device_filter = "opencl:cpu"
     if "gpu" in opt:
-        test_config.device_filter = "LEVEL_ZERO:GPU"
+        test_config.device_filter = "level_zero:gpu"
     test_config.migrate_option = test_config.option_map[opt]
 
 def test_suite_with_opt(suite_root_path, suite_name, opt):
