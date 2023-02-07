@@ -272,7 +272,7 @@ def is_platform_supported(platform_rule_list):
 
 def is_option_supported(option_rule_list):
     for option_rule in option_rule_list:
-        if option_rule.exclude_option in test_config.test_option and not option_rule.not_double_type_feature:
+        if option_rule.exclude_option != "" and  option_rule.exclude_option in test_config.test_option and not option_rule.not_double_type_feature:
             return False
         elif option_rule.only_option not in test_config.test_option:
             return False
