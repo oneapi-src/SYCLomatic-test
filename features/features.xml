@@ -76,8 +76,8 @@
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-saturate" configFile="config/TEMPLATE_math_saturate.xml" />
     <test testName="cusparse" configFile="config/TEMPLATE_cusparse_before_11.xml" />
-    <test testName="cusparse-type10.1" configFile="config/TEMPLATE_cuSparse.xml" />
-    <test testName="cusparse-type" configFile="config/TEMPLATE_cuSparse.xml" />
+    <test testName="cusparse-type10.1" configFile="config/TEMPLATE_cusparse.xml" />
+    <test testName="cusparse-type" configFile="config/TEMPLATE_cusparse.xml" />
     <test testName="cusparse-usm" configFile="config/TEMPLATE_cusparse_before_11.xml" />
     <test testName="perm_byte" configFile="config/TEMPLATE_perm_byte.xml" />
     <test testName="feature_profiling" configFile="config/TEMPLATE_feature_profiling.xml" />
