@@ -21,7 +21,7 @@ def setup_test():
 
 def migrate_test():
     call_subprocess(
-        test_config.CT_TOOL + " -p=. --change-filename-extension=.cu --out-root=out --cuda-include-path=" + test_config.include_path)
+        test_config.CT_TOOL + " -p=. --change-cuda-files-extension-only --out-root=out --cuda-include-path=" + test_config.include_path)
     print(test_config.command_output)
 
     reference = 'main.dp.cpp'
@@ -37,7 +37,7 @@ def migrate_test():
         res = False
         print("there should be a file: " + reference)
 
-    reference = 'test.cuh'
+    reference = 'test.dp.hpp'
     call_subprocess("ls out | grep " + reference)
     if reference not in test_config.command_output:
         res = False
