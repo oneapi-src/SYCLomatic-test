@@ -248,24 +248,22 @@ bool setup_and_run_pingpong(int64_t n, SetupDataOpT setup_data,
   {
     // testing defaults for bit range
     dpct::sort_keys(oneapi::dpl::execution::make_device_policy(queue), pingpong,
-                  n, true);
+                  n, true, true);
   }
   else
   {
     dpct::sort_keys(oneapi::dpl::execution::make_device_policy(queue), pingpong,
-                    n, true, begin_bit, end_bit);
+                    n, true, true, begin_bit, end_bit);
   }
 
 
-  queue.memcpy(output_keys.data(), dev_output_keys, n * sizeof(KeyTp)).wait();
+  queue.memcpy(output_keys.data(), pingpong.first(), n * sizeof(KeyTp)).wait();
   bool ret = verify1(input_keys, output_keys);
 
-  pingpong.swap();
-
   dpct::sort_keys(oneapi::dpl::execution::make_device_policy(queue), pingpong,
-                  n, false, begin_bit, end_bit);
+                  n, false, true, begin_bit, end_bit);
 
-  queue.memcpy(input_keys.data(), dev_input_keys, n * sizeof(KeyTp)).wait();
+  queue.memcpy(input_keys.data(), pingpong.first(), n * sizeof(KeyTp)).wait();
   ret &= verify2(output_keys, input_keys);
 
   sycl::free(dev_input_keys, queue);
@@ -405,12 +403,12 @@ int main() {
     oneapi::dpl::zip_iterator<int *, oneapi::dpl::counting_iterator<int>> zip;
     dpct::io_iterator_pair<decltype(zip)> pp_zip_default;
 
-    auto input = pp_default.input();
-    auto output = pp_zip_default.output();
+    auto input = pp_default.first();
+    auto output = pp_zip_default.second();
 
     pp_zip_default.swap();
 
-    auto swapped_input = pp_zip_default.input();
+    auto swapped_input = pp_zip_default.first();
 
     ASSERT_EQUAL(true, swapped_input == output, "default ping pong buffer");
 
@@ -419,11 +417,11 @@ int main() {
 
     dpct::io_iterator_pair<int *> pp_integer_ptr(a_vec.data(), b_vec.data());
 
-    auto test_input1 = pp_integer_ptr.input();
-    auto test_output1 = pp_integer_ptr.output();
+    auto test_input1 = pp_integer_ptr.first();
+    auto test_output1 = pp_integer_ptr.second();
     pp_integer_ptr.swap();
-    auto test_input2 = pp_integer_ptr.input();
-    auto test_output2 = pp_integer_ptr.output();
+    auto test_input2 = pp_integer_ptr.first();
+    auto test_output2 = pp_integer_ptr.second();
     ASSERT_EQUAL(true, test_input1 == test_output2, "input == swapped output");
     ASSERT_EQUAL(true, test_input2 == test_output1, "swapped input == output");
   }

@@ -278,28 +278,25 @@ bool setup_and_run_pingpong(int64_t n, VerifyOp1T verify1, VerifyOp2T verify2,
       dev_first_values, dev_second_values);
 
   dpct::sort_pairs(oneapi::dpl::execution::make_device_policy(queue),
-                   pingpong_keys, pingpong_values, n, true, begin_bit, end_bit);
+                   pingpong_keys, pingpong_values, n, true, true, begin_bit, end_bit);
 
-  queue.memcpy(second_keys.data(), dev_second_keys, n * sizeof(KeyTp)).wait();
-  queue.memcpy(second_values.data(), dev_second_values, n * sizeof(ValueTp))
+  queue.memcpy(second_keys.data(), pingpong_keys.first(), n * sizeof(KeyTp)).wait();
+  queue.memcpy(second_values.data(), pingpong_values.first(), n * sizeof(ValueTp))
       .wait();
   bool ret = verify1(first_keys, first_values, second_keys, second_values);
-
-  pingpong_keys.swap();
-  pingpong_values.swap();
 
   // setup input values of second operation to index values of ordering to
   // satify requirement of verification
   GetCountingVector<ValueTp>(second_values, n);
-  queue.memcpy(dev_second_values, second_values.data(), n * sizeof(ValueTp))
+  queue.memcpy(pingpong_values.first(), second_values.data(), n * sizeof(ValueTp))
       .wait();
 
   dpct::sort_pairs(oneapi::dpl::execution::make_device_policy(queue),
-                   pingpong_keys, pingpong_values, n, false, begin_bit,
+                   pingpong_keys, pingpong_values, n, false, true, begin_bit,
                    end_bit);
 
-  queue.memcpy(first_keys.data(), dev_first_keys, n * sizeof(KeyTp)).wait();
-  queue.memcpy(first_values.data(), dev_first_values, n * sizeof(ValueTp))
+  queue.memcpy(first_keys.data(), pingpong_keys.first(), n * sizeof(KeyTp)).wait();
+  queue.memcpy(first_values.data(), pingpong_values.first(), n * sizeof(ValueTp))
       .wait();
   ret &= verify2(second_keys, second_values, first_keys, first_values);
 
