@@ -156,7 +156,7 @@ segmented_sort_pairs(sycl::queue queue, int64_t nsegments, int64_t nsort,
       dpct::segmented_sort_pairs(
           oneapi::dpl::execution::make_device_policy(queue), keys, values,
           n, nsegments, offset_generator_starts, offset_generator_ends,
-          descending, begin_bit, end_bit);
+          descending, true, begin_bit, end_bit);
 
     }
     else
