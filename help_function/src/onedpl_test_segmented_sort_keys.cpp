@@ -141,17 +141,17 @@ segmented_sort_keys(sycl::queue queue, int64_t nsegments, int64_t nsort,
   } else if (algorithm == 3) // this will be the one used for the mapping,
                              // others are for timing purposes
   {
-    // if (use_io_iterator_pair)
-    // {
-    //   dpct::io_iterator_pair<scalar_t*> keys(self_ptr, values_ptr);
+    if (use_io_iterator_pair)
+    {
+      dpct::io_iterator_pair<scalar_t*> keys(self_ptr, values_ptr);
 
-    //   dpct::segmented_sort_pairs(
-    //       oneapi::dpl::execution::make_device_policy(queue), keys, n, 
-    //       nsegments, offset_generator_starts, offset_generator_ends,
-    //       descending, begin_bit, end_bit);
+      dpct::segmented_sort_keys(
+          oneapi::dpl::execution::make_device_policy(queue), keys, n, 
+          nsegments, offset_generator_starts, offset_generator_ends,
+          descending, begin_bit, end_bit);
 
-    // }
-    // else
+    }
+    else
     {
       dpct::segmented_sort_keys(
           oneapi::dpl::execution::make_device_policy(queue), self_ptr,
@@ -366,12 +366,12 @@ int main() {
     }
   }
   {
-    // //test with io_iterator_pair
-    // int tests_failed = 0;
-    // tests_failed += test_with_generated_offsets<float>(nsegments, nsort, n, false, 3, true);
+    //test with io_iterator_pair
+    int tests_failed = 0;
+    tests_failed += test_with_generated_offsets<float>(nsegments, nsort, n, false, 3, true);
   
-      // test_suites_failed +=
-      //     test_passed(tests_failed, "Test segmented sort with io_iterator_pair");
+      test_suites_failed +=
+          test_passed(tests_failed, "Test segmented sort with io_iterator_pair");
   }
 
   std::cout << std::endl
