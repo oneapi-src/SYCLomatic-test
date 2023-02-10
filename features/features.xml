@@ -92,7 +92,7 @@
     <test testName="cublas-only-usm" configFile="config/TEMPLATE_cuBlas_usm.xml" />
     <test testName="cusparse-helper" configFile="feature_case/cusparse/config/cusparse-helper.xml" />
     <test testName="backprop" configFile="config/TEMPLATE_backprop.xml" />
-	<test testName="device_info" configFile="config/TEMPLATE_device_info.xml" />
+	  <test testName="device_info" configFile="config/TEMPLATE_device_info.xml" />
     <!-- <test testName="autoGenMakefile" configFile="config/TEMPLATE_autoGenMakefile.xml" /> -->
     <test testName="cufft-deduce" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft-different-locations-usm" configFile="config/TEMPLATE_cuFFT.xml" />
@@ -380,6 +380,8 @@
     <test testName="LapackUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_LapackUtils.xml" />
     <test testName="LapackUtils_api_test3" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_skip80.xml" />
     <test testName="LapackUtils_api_test4" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_skip80.xml" />
+    <test testName="SparseUtils_api_test1" configFile="config/TEMPLATE_custom_helper_files_SparseUtils.xml" />
+    <test testName="cusparse_1" configFile="config/TEMPLATE_cusparse.xml" />
     <test testName="cusolver_test1" configFile="config/TEMPLATE_solver.xml"  splitGroup="double"/>
     <test testName="cusolver_test2" configFile="config/TEMPLATE_solver_skip80.xml"  splitGroup="double"/>
     <test testName="curand-device2" configFile="config/curand-device2.xml" splitGroup="double"/>
