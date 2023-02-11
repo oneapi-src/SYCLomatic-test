@@ -5,6 +5,7 @@
   <tests>
     <test testName="array_copy" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="assign_device_vector" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="move_device_vector" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="atomic_add_float" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="atomic_fetch_compare_inc" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="async_exception" configFile="config/TEMPLATE_help_function.xml" />
@@ -132,6 +133,7 @@
     <test testName="rng_generator_vec_size_1" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="blas_extension_api_buffer" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
+    <test testName="dnnl_utils_rnn" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_activation" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_fill" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_lrn" configFile="config/TEMPLATE_help_function_usmnone.xml" />
@@ -163,5 +165,6 @@
     <test testName="lapack_utils_buffer" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double" />
     <test testName="lapack_utils_usm" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="util_cast_double_from_to_int_test" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
+    <test testName="sparse_utils_1" configFile="config/TEMPLATE_help_function.xml" />
   </tests>
 </suite>
