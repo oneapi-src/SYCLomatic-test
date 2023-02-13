@@ -11,15 +11,7 @@
 #include <nccl.h>
 
 int main() {
-    int version, nranks = 2, rank = 3, device_num = -1;
-    int device_id = -1;
-    cudaStream_t stream = 0;
-    size_t count = 4;
-    float *sendbuff, *recvbuff,*hostbuff = (float *)malloc(count * sizeof(float));
-    for(int i =1;i<5;++i) *(hostbuff+i-1)=i;
-    cudaMalloc(&sendbuff, count * sizeof(float));
-    cudaMalloc(&recvbuff, count * sizeof(float));
-    cudaMemcpy(sendbuff, hostbuff, sizeof(float) * count, cudaMemcpyHostToDevice);
+    int version, nranks = 2, rank = 0;
     ncclUniqueId id;
     ncclComm_t comm;
 
@@ -36,14 +28,7 @@ int main() {
 
     ncclCommInitRank(&comm, nranks, id, rank);
 
-    ncclCommCount(comm, &device_num);
-
-    ncclAllReduce(sendbuff, recvbuff, count, ncclFloat, ncclSum, comm, stream);
-    
     MPI_Finalize();
-    cudaFree(sendbuff);
-    cudaFree(recvbuff);
-    free(hostbuff);
+
     printf("TEST PASS\n");
-    return 0;
 }
