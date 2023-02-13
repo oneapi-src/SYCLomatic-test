@@ -27,8 +27,10 @@ int main() {
   float *d_x;
   cudnnHandle_t handle;
 
+  cudaError_t r0;
   const cudaError_t r1 = cudaMalloc(&d_x, 5 * sizeof(*d_x));
   const cudnnStatus_t r2 = cudnnCreate(&handle);
+  const int r3 = r1;
   const bool a1 = printResult(r1) == 5;
   const bool a2 = printResult(r2) == 10;
   return (a1 && a2 ? EXIT_SUCCESS : EXIT_FAILURE);
