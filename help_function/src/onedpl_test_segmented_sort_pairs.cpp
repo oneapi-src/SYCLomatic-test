@@ -102,16 +102,17 @@ template <typename T> struct GetRandVectorFunc {
 };
 
 template <typename scalar_t>
-inline void
+inline bool
 segmented_sort_pairs(sycl::queue queue, int64_t nsegments, int64_t nsort,
                      int64_t n, bool descending, scalar_t *self_ptr,
                      scalar_t *values_ptr, int64_t *indices_ptr, int algorithm,
                      bool use_io_iterator_pair = false, int begin_bit = 0,
                      int end_bit = sizeof(self_ptr) * 8) {
+  bool ret = true;
   if (use_io_iterator_pair && algorithm != 3)
   {
     //only public API can use io_iterator_pair
-    return;
+    return ret;
   }
   const auto numel = nsort * nsegments;
 
@@ -156,7 +157,13 @@ segmented_sort_pairs(sycl::queue queue, int64_t nsegments, int64_t nsort,
       dpct::segmented_sort_pairs(
           oneapi::dpl::execution::make_device_policy(queue), keys, values,
           n, nsegments, offset_generator_starts, offset_generator_ends,
-          descending, true, begin_bit, end_bit);
+          descending, /*do_swap_iters=*/true , begin_bit, end_bit);
+
+      //check that segmented_sort_pairs sets the appropriate iterator to first()
+      // in io_iterator_pair.  We will test the second input for correctness
+      // in the function scoped above, so lets confirm that the
+      // io_iterator_pair's first() targets the correct iterator after return.
+      ret = (keys.first() == values_ptr) && (values.first() == indices_ptr);
 
     }
     else
@@ -168,6 +175,7 @@ segmented_sort_pairs(sycl::queue queue, int64_t nsegments, int64_t nsort,
     }
   }
   sycl::free(reverse_indices_ptr, queue);
+  return ret;
 }
 
 // Algorithm:
@@ -213,9 +221,14 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
 
   queue.memcpy(dev_input_keys, input_keys.data(), n * sizeof(scalar_t)).wait();
 
-  segmented_sort_pairs(queue, nsegments, nsort, n, descending, dev_input_keys,
-                       dev_output_keys, dev_output_indices, algorithm,
-                       use_io_iterator_pair);
+  bool success = segmented_sort_pairs(queue, nsegments, nsort, n, descending,
+                       dev_input_keys, dev_output_keys, dev_output_indices,
+                       algorithm, use_io_iterator_pair);
+  if (!success)
+  {
+    std::cout << "dpct::io_iterator_pair iterators were not swapped"
+              << std::endl;
+  }
 
   queue.memcpy(output_keys.data(), dev_output_keys, n * sizeof(scalar_t))
       .wait();
@@ -275,7 +288,7 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
   sycl::free(dev_output_keys, queue);
   sycl::free(dev_output_indices, queue);
   sycl::free(dev_output_keys_indiv, queue);
-  return ASSERT_EQUAL(true, ret, test_name.c_str());
+  return ASSERT_EQUAL(true, success && ret, test_name.c_str());
 }
 
 //   0: parallel_for of serial sorts
