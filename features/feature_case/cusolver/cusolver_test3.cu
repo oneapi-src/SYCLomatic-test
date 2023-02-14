@@ -205,6 +205,94 @@ void test_cusolverDnXgetrf() {
   }
 }
 
+void test_cusolverDnXgetrfnp() {
+  std::vector<float> a = {1, 2, 3, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<float2> a_c(a.data(), 4);
+  Data<double2> a_z(a.data(), 4);
+
+  cusolverDnHandle_t handle;
+  cusolverDnCreate(&handle);
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+
+  size_t device_ws_size_s;
+  size_t device_ws_size_d;
+  size_t device_ws_size_c;
+  size_t device_ws_size_z;
+  size_t host_ws_size_s;
+  size_t host_ws_size_d;
+  size_t host_ws_size_c;
+  size_t host_ws_size_z;
+
+  cusolverDnParams_t params;
+  cusolverDnCreateParams(&params);
+
+  cusolverDnXgetrf_bufferSize(handle, params, 2, 2, CUDA_R_32F, a_s.d_data, 2, CUDA_R_32F, &device_ws_size_s, &host_ws_size_s);
+  cusolverDnXgetrf_bufferSize(handle, params, 2, 2, CUDA_R_64F, a_d.d_data, 2, CUDA_R_64F, &device_ws_size_d, &host_ws_size_d);
+  cusolverDnXgetrf_bufferSize(handle, params, 2, 2, CUDA_C_32F, a_c.d_data, 2, CUDA_C_32F, &device_ws_size_c, &host_ws_size_c);
+  cusolverDnXgetrf_bufferSize(handle, params, 2, 2, CUDA_C_64F, a_z.d_data, 2, CUDA_C_64F, &device_ws_size_z, &host_ws_size_z);
+
+  void* device_ws_s;
+  void* device_ws_d;
+  void* device_ws_c;
+  void* device_ws_z;
+  void* host_ws_s;
+  void* host_ws_d;
+  void* host_ws_c;
+  void* host_ws_z;
+  cudaMalloc(&device_ws_s, device_ws_size_s);
+  cudaMalloc(&device_ws_d, device_ws_size_d);
+  cudaMalloc(&device_ws_c, device_ws_size_c);
+  cudaMalloc(&device_ws_z, device_ws_size_z);
+  cudaMalloc(&host_ws_s, host_ws_size_s);
+  cudaMalloc(&host_ws_d, host_ws_size_d);
+  cudaMalloc(&host_ws_c, host_ws_size_c);
+  cudaMalloc(&host_ws_z, host_ws_size_z);
+
+  int *info;
+  cudaMalloc(&info, sizeof(int));
+
+  cusolverDnXgetrf(handle, params, 2, 2, CUDA_R_32F, a_s.d_data, 2, nullptr, CUDA_R_32F, device_ws_s, device_ws_size_s, host_ws_s, host_ws_size_s, info);
+  cusolverDnXgetrf(handle, params, 2, 2, CUDA_R_64F, a_d.d_data, 2, nullptr, CUDA_R_64F, device_ws_d, device_ws_size_d, host_ws_d, host_ws_size_d, info);
+  cusolverDnXgetrf(handle, params, 2, 2, CUDA_C_32F, a_c.d_data, 2, nullptr, CUDA_C_32F, device_ws_c, device_ws_size_c, host_ws_c, host_ws_size_c, info);
+  cusolverDnXgetrf(handle, params, 2, 2, CUDA_C_64F, a_z.d_data, 2, nullptr, CUDA_C_64F, device_ws_z, device_ws_size_z, host_ws_z, host_ws_size_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+
+  cudaStreamSynchronize(0);
+
+  cusolverDnDestroyParams(params);
+  cusolverDnDestroy(handle);
+  cudaFree(device_ws_s);
+  cudaFree(device_ws_d);
+  cudaFree(device_ws_c);
+  cudaFree(device_ws_z);
+  cudaFree(host_ws_s);
+  cudaFree(host_ws_d);
+  cudaFree(host_ws_c);
+  cudaFree(host_ws_z);
+  cudaFree(info);
+
+  float expect_a[4] = {1, 2, 3, -2};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4))
+    printf("DnXgetrfnp pass\n");
+  else {
+    printf("DnXgetrfnp fail\n");
+    test_passed = false;
+  }
+}
+
 void test_cusolverDnGetrf() {
   std::vector<float> a = {1, 2, 3, 4};
   Data<float> a_s(a.data(), 4);
@@ -1248,6 +1336,7 @@ void test_cusolverDnPotrs() {
 
 int main() {
   test_cusolverDnXgetrf();
+  test_cusolverDnXgetrfnp();
   test_cusolverDnGetrf();
   test_cusolverDnXgetrs();
   test_cusolverDnGetrs();
