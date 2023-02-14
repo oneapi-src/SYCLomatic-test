@@ -12,6 +12,7 @@ int main(int argc,char**argv){
     ncclUniqueId id;
     ncclComm_t comm;
     int size=32;
+    ncclCommInitRank(&comm, nranks, id, rank);
     ncclCommCount(comm, &device_num);
     //allocating and initializing device buffers
     float ** sendbuff=(float**)malloc(1*sizeof(float*));
@@ -27,7 +28,7 @@ int main(int argc,char**argv){
       hostbuff[i] = i;
     cudaMemcpy(sendbuff[0], hostbuff, size*sizeof(float), cudaMemcpyHostToDevice);
 
-
+    ncclAllReduce(sendbuff, recvbuff, size, ncclFloat, ncclSum, comm, stream);
     cudaFree(sendbuff);
     cudaFree(recvbuff);
     free(hostbuff);
