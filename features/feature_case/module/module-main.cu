@@ -28,9 +28,9 @@ int main(){
     cuLaunchKernel(F, 1, 1, 1, 1, 1, 1, 10, 0, (void**)param, nullptr);
     CUtexref tex;
     cuModuleGetTexRef(&tex, M, "tex");
-    cuModuleUnload(M);
     cudaDeviceSynchronize();
-    cudaFree(param[0]);
-    cudaFree(param[1]);
+    cuModuleUnload(M);
+    cudaFree(p0);
+    cudaFree(p1);
     return 0;
 }

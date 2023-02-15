@@ -232,13 +232,6 @@ def run_test_driver(module):
     print_result(test_config.current_test, test_config.test_status, test_config.command_output)
     return ret_val
 
-def is_true(status):
-    if status.upper() == "TRUE":
-        return True
-    elif status.upper() == "FALSE":
-        return False
-    return True
-
 # To do: if the API was enabled in CUDA 9.2 version but deprecated in the CUDA 11.4 version,
 # This change has not been covered yet. Currently, only cover the skip the older version run or
 # skip the latest deprecated case running.
@@ -255,19 +248,18 @@ def is_platform_supported(platform_rule_list):
             print_debug_log("CUDA version is ", version)
             print_debug_log("default CUDA version is ", test_config.cuda_ver)
             print_debug_log("default CUDA range is ", platform_rule.cuda_range)
-            if platform_rule.cuda_range == "LATER_OR_EQUAL" and test_config.cuda_ver >= version:
-                return is_true(platform_rule.run_on_this_platform)
-            elif platform_rule.cuda_range == "OLDER" and test_config.cuda_ver < version:
-                return is_true(platform_rule.run_on_this_platform)
-            elif platform_rule.cuda_range == "LATER" and test_config.cuda_ver > version:
-                return is_true(platform_rule.run_on_this_platform)
-            elif platform_rule.cuda_range == "OLDER_OR_EQUAL" and test_config.cuda_ver <= version:
-                return is_true(platform_rule.run_on_this_platform)
-            elif platform_rule.cuda_range == "EQUAL" and test_config.cuda_ver == version:
-                return is_true(platform_rule.run_on_this_platform)
-            return True    # If CUDA version & range is defined, the case will default run on the platform.
+            if platform_rule.cuda_range == "LATER_OR_EQUAL" and test_config.cuda_ver >= version and platform_rule.run_on_this_platform.upper() == "FALSE":
+                return False
+            elif platform_rule.cuda_range == "OLDER" and test_config.cuda_ver < version and platform_rule.run_on_this_platform.upper() == "FALSE":
+                return False
+            elif platform_rule.cuda_range == "LATER" and test_config.cuda_ver > version and platform_rule.run_on_this_platform.upper() == "FALSE":
+                return False
+            elif platform_rule.cuda_range == "OLDER_OR_EQUAL" and test_config.cuda_ver <= version and platform_rule.run_on_this_platform.upper() == "FALSE":
+                return False
+            elif platform_rule.cuda_range == "EQUAL" and test_config.cuda_ver == version and platform_rule.run_on_this_platform.upper() == "FALSE":
+                return False
         else:
-            return is_true(platform_rule.run_on_this_platform)
+            return platform_rule.run_on_this_platform.upper() == "TRUE"
     return True
 
 def is_option_supported(option_rule_list):
