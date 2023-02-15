@@ -23,15 +23,15 @@
 template <typename _T1, typename _T2, typename String>
 int ASSERT_EQUAL(_T1 &&X, _T2 &&Y, String msg) {
   if (X != Y) {
-    std::cout << "FAIL: " << msg << " - (" << X << "," << Y << ")" << std::endl;
+    ::std::cout << "FAIL: " << msg << " - (" << X << "," << Y << ")" << ::std::endl;
     return 1;
   }
   return 0;
 }
 
-int test_passed(int failing_elems, std::string test_name) {
+int test_passed(int failing_elems, ::std::string test_name) {
   if (failing_elems == 0) {
-    std::cout << "PASS: " << test_name << std::endl;
+    ::std::cout << "PASS: " << test_name << ::std::endl;
     return 0;
   }
   return 1;
@@ -176,25 +176,25 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
                    << " segments of size " << nsort << " of type "
                    << typeid(scalar_t).name() << " in "
                    << (descending ? "descending" : "ascending") << " order"
-                   << std::endl;
+                   << ::std::endl;
 
   if (use_io_iterator_pair && algorithm != 3)
   {
-    std::cout<<"io_iterator_pair interface only available with public dpct API"<<std::endl;
+    ::std::cout<<"io_iterator_pair interface only available with public dpct API"<<::std::endl;
     return 1;
   }
 
-  ::std::string test_name = std::move(test_name_stream).str();
+  ::std::string test_name = ::std::move(test_name_stream).str();
   // setup data
   int64_t numel = nsort * nsegments;
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue queue = dev_ct1.default_queue();
 
-  std::vector<scalar_t> input_keys;
+  ::std::vector<scalar_t> input_keys;
   GetRandVectorFunc<scalar_t> setup_data;
   setup_data(input_keys, n);
 
-  std::vector<scalar_t> output_keys(n, scalar_t(0));
+  ::std::vector<scalar_t> output_keys(n, scalar_t(0));
 
   scalar_t *dev_input_keys = sycl::malloc_device<scalar_t>(numel, queue);
 
@@ -210,7 +210,7 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
 
   // sort each segment individually
 
-  std::vector<scalar_t> output_keys_indiv(n, scalar_t(0));
+  ::std::vector<scalar_t> output_keys_indiv(n, scalar_t(0));
 
   scalar_t *dev_output_keys_indiv = sycl::malloc_device<scalar_t>(n, queue);
 
@@ -220,7 +220,7 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
       .wait();
 
   for (int seg = 0; seg < nsegments; seg++) {
-    int64_t sort_n = std::min(nsort, n - seg * nsort);
+    int64_t sort_n = ::std::min(nsort, n - seg * nsort);
     dpct::sort_keys(oneapi::dpl::execution::make_device_policy(queue),
                     dev_input_keys + (seg * nsort),
                     dev_output_keys_indiv + (seg * nsort), sort_n, descending);
@@ -234,8 +234,8 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
   VerifySequencesMatch<scalar_t> verify(n);
   bool ret = verify(output_keys, output_keys_indiv);
   if (!ret) {
-    std::cout << "Individually sorted segments dont match segmented_sort"
-              << std::endl;
+    ::std::cout << "Individually sorted segments dont match segmented_sort"
+              << ::std::endl;
   }
 
   sycl::free(dev_input_keys, queue);
@@ -263,7 +263,7 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
     test_name_stream << "algorithm based on device and data.";
   }
 
-  ::std::string test_name = std::move(test_name_stream).str();
+  ::std::string test_name = ::std::move(test_name_stream).str();
   return test_name;
 }
 
@@ -374,8 +374,8 @@ int main() {
           test_passed(tests_failed, "Test segmented sort with io_iterator_pair");
   }
 
-  std::cout << std::endl
-            << test_suites_failed << " failing test(s) detected." << std::endl;
+  ::std::cout << ::std::endl
+            << test_suites_failed << " failing test(s) detected." << ::std::endl;
   if (test_suites_failed == 0) {
     return 0;
   }
