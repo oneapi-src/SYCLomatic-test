@@ -1,4 +1,4 @@
-// ====------ onedpl_test_segmented_sort_pairs.cpp---------- -*- C++ -*
+// ====------ onedpl_test_segmented_sort_keys.cpp---------- -*- C++ -*
 // ----===////
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
