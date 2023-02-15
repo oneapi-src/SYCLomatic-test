@@ -8,7 +8,7 @@
     <rules>
         <optlevelRule excludeOptlevelNameString="acc" />
         <optlevelRule excludeOptlevelNameString="gpu" />
-        <platformRule OSFamily="Linux" kit="CUDA10.2" kitRange="OLDER" runOnThisPlatform="false"/>
-        <platformRule OSFamily="Windows" kit="CUDA10.2" kitRange="OLDER" runOnThisPlatform="false"/>
+        <platformRule OSFamily="Linux" kit="CUDA11.0" kitRange="OLDER" runOnThisPlatform="false"/>
+        <platformRule OSFamily="Windows" kit="CUDA11.0" kitRange="OLDER" runOnThisPlatform="false"/>
     </rules>
 </test>

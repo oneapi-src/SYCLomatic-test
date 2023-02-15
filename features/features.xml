@@ -386,6 +386,11 @@
     <test testName="LapackUtils_api_test7" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
     <test testName="LapackUtils_api_test8" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
     <test testName="LapackUtils_api_test9" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test10" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test11" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test12" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test13" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test14" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
     <test testName="SparseUtils_api_test1" configFile="config/TEMPLATE_custom_helper_files_SparseUtils.xml" />
     <test testName="cusparse_1" configFile="config/TEMPLATE_cusparse.xml" />
     <test testName="cusolver_test1" configFile="config/TEMPLATE_solver.xml"  splitGroup="double"/>
