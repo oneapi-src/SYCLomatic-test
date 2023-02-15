@@ -1,3 +1,12 @@
+// ====------ ccl-test2.cu-------------------- *- CUDA -* --////////////--===////
+//
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+//
+//
+// ===----------------------------------------------------------------------===//
+
 #include<stdio.h>
 #include <malloc.h>
 #include<stdlib.h>
@@ -15,18 +24,17 @@ int main(int argc,char**argv){
     ncclCommInitRank(&comm, nranks, id, rank);
     ncclCommCount(comm, &device_num);
     //allocating and initializing device buffers
-    float ** sendbuff=(float**)malloc(1*sizeof(float*));
-    float ** recvbuff=(float**)malloc(1*sizeof(float*));
+    float * sendbuff, * recvbuff;
     cudaStream_t stream = 0;
-    cudaMalloc(sendbuff,size*sizeof(float));
-    cudaMalloc(recvbuff,size*sizeof(float));
-    cudaMemset(sendbuff[0],1,size*sizeof(float));
-    cudaMemset(recvbuff[0],0,size*sizeof(float));
+    cudaMalloc(&sendbuff,size*sizeof(float));
+    cudaMalloc(&recvbuff,size*sizeof(float));
+    cudaMemset(sendbuff,1,size*sizeof(float));
+    cudaMemset(recvbuff,0,size*sizeof(float));
     float *hostbuff;
     hostbuff = (float *)malloc(size*sizeof(float));
     for (int i=0; i<size; ++i)
       hostbuff[i] = i;
-    cudaMemcpy(sendbuff[0], hostbuff, size*sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(sendbuff, hostbuff, size*sizeof(float), cudaMemcpyHostToDevice);
 
     ncclAllReduce(sendbuff, recvbuff, size, ncclFloat, ncclSum, comm, stream);
     cudaFree(sendbuff);
