@@ -1473,23 +1473,19 @@ void test_cusolverDnXgesvd() {
   */
 
   dpct::lapack::gesvd_scratchpad_size(
-      *handle, dpct::lapack::char2jobsvd('A'), dpct::lapack::char2jobsvd('A'),
-      2, 2, dpct::library_data_t::real_float, 2,
+      *handle, 'A', 'A', 2, 2, dpct::library_data_t::real_float, 2,
       dpct::library_data_t::real_float, 2, dpct::library_data_t::real_float, 2,
       &device_ws_size_s, &host_ws_size_s);
   dpct::lapack::gesvd_scratchpad_size(
-      *handle, dpct::lapack::char2jobsvd('A'), dpct::lapack::char2jobsvd('A'),
-      2, 2, dpct::library_data_t::real_double, 2,
+      *handle, 'A', 'A', 2, 2, dpct::library_data_t::real_double, 2,
       dpct::library_data_t::real_double, 2, dpct::library_data_t::real_double,
       2, &device_ws_size_d, &host_ws_size_d);
-  dpct::lapack::gesvd_scratchpad_size(*handle, dpct::lapack::char2jobsvd('A'),
-                                      dpct::lapack::char2jobsvd('A'), 2, 2,
+  dpct::lapack::gesvd_scratchpad_size(*handle, 'A', 'A', 2, 2,
                                       dpct::library_data_t::complex_float, 2,
                                       dpct::library_data_t::complex_float, 2,
                                       dpct::library_data_t::complex_float, 2,
                                       &device_ws_size_c, &host_ws_size_c);
-  dpct::lapack::gesvd_scratchpad_size(*handle, dpct::lapack::char2jobsvd('A'),
-                                      dpct::lapack::char2jobsvd('A'), 2, 2,
+  dpct::lapack::gesvd_scratchpad_size(*handle, 'A', 'A', 2, 2,
                                       dpct::library_data_t::complex_double, 2,
                                       dpct::library_data_t::complex_double, 2,
                                       dpct::library_data_t::complex_double, 2,
@@ -1515,29 +1511,24 @@ void test_cusolverDnXgesvd() {
   int *info;
   info = sycl::malloc_device<int>(1, q_ct1);
 
-  dpct::lapack::gesvd(*handle, dpct::lapack::char2jobsvd('A'),
-                      dpct::lapack::char2jobsvd('A'), 2, 2,
-                      dpct::library_data_t::real_float, a_s.d_data, 2,
-                      dpct::library_data_t::real_float, s_s.d_data,
-                      dpct::library_data_t::real_float, u_s.d_data, 2,
-                      dpct::library_data_t::real_float, vt_s.d_data, 2,
+  dpct::lapack::gesvd(*handle, 'A', 'A', 2, 2, dpct::library_data_t::real_float,
+                      a_s.d_data, 2, dpct::library_data_t::real_float,
+                      s_s.d_data, dpct::library_data_t::real_float, u_s.d_data,
+                      2, dpct::library_data_t::real_float, vt_s.d_data, 2,
                       device_ws_s, device_ws_size_s, info);
-  dpct::lapack::gesvd(*handle, dpct::lapack::char2jobsvd('A'),
-                      dpct::lapack::char2jobsvd('A'), 2, 2,
+  dpct::lapack::gesvd(*handle, 'A', 'A', 2, 2,
                       dpct::library_data_t::real_double, a_d.d_data, 2,
                       dpct::library_data_t::real_double, s_d.d_data,
                       dpct::library_data_t::real_double, u_d.d_data, 2,
                       dpct::library_data_t::real_double, vt_d.d_data, 2,
                       device_ws_d, device_ws_size_d, info);
-  dpct::lapack::gesvd(*handle, dpct::lapack::char2jobsvd('A'),
-                      dpct::lapack::char2jobsvd('A'), 2, 2,
+  dpct::lapack::gesvd(*handle, 'A', 'A', 2, 2,
                       dpct::library_data_t::complex_float, a_c.d_data, 2,
                       dpct::library_data_t::real_float, s_c.d_data,
                       dpct::library_data_t::complex_float, u_c.d_data, 2,
                       dpct::library_data_t::complex_float, vt_c.d_data, 2,
                       device_ws_c, device_ws_size_c, info);
-  dpct::lapack::gesvd(*handle, dpct::lapack::char2jobsvd('A'),
-                      dpct::lapack::char2jobsvd('A'), 2, 2,
+  dpct::lapack::gesvd(*handle, 'A', 'A', 2, 2,
                       dpct::library_data_t::complex_double, a_z.d_data, 2,
                       dpct::library_data_t::real_double, s_z.d_data,
                       dpct::library_data_t::complex_double, u_z.d_data, 2,
@@ -1643,23 +1634,19 @@ void test_cusolverDnGesvd() {
   */
 
   dpct::lapack::gesvd_scratchpad_size(
-      *handle, dpct::lapack::char2jobsvd('A'), dpct::lapack::char2jobsvd('A'),
-      2, 2, dpct::library_data_t::real_float, 2,
+      *handle, 'A', 'A', 2, 2, dpct::library_data_t::real_float, 2,
       dpct::library_data_t::real_float, 2, dpct::library_data_t::real_float, 2,
       &device_ws_size_s);
   dpct::lapack::gesvd_scratchpad_size(
-      *handle, dpct::lapack::char2jobsvd('A'), dpct::lapack::char2jobsvd('A'),
-      2, 2, dpct::library_data_t::real_double, 2,
+      *handle, 'A', 'A', 2, 2, dpct::library_data_t::real_double, 2,
       dpct::library_data_t::real_double, 2, dpct::library_data_t::real_double,
       2, &device_ws_size_d);
   dpct::lapack::gesvd_scratchpad_size(
-      *handle, dpct::lapack::char2jobsvd('A'), dpct::lapack::char2jobsvd('A'),
-      2, 2, dpct::library_data_t::complex_float, 2,
+      *handle, 'A', 'A', 2, 2, dpct::library_data_t::complex_float, 2,
       dpct::library_data_t::complex_float, 2,
       dpct::library_data_t::complex_float, 2, &device_ws_size_c);
   dpct::lapack::gesvd_scratchpad_size(
-      *handle, dpct::lapack::char2jobsvd('A'), dpct::lapack::char2jobsvd('A'),
-      2, 2, dpct::library_data_t::complex_double, 2,
+      *handle, 'A', 'A', 2, 2, dpct::library_data_t::complex_double, 2,
       dpct::library_data_t::complex_double, 2,
       dpct::library_data_t::complex_double, 2, &device_ws_size_z);
 
@@ -1675,29 +1662,24 @@ void test_cusolverDnGesvd() {
   int *info;
   info = sycl::malloc_device<int>(1, q_ct1);
 
-  dpct::lapack::gesvd(*handle, dpct::lapack::char2jobsvd('A'),
-                      dpct::lapack::char2jobsvd('A'), 2, 2,
-                      dpct::library_data_t::real_float, a_s.d_data, 2,
-                      dpct::library_data_t::real_float, s_s.d_data,
-                      dpct::library_data_t::real_float, u_s.d_data, 2,
-                      dpct::library_data_t::real_float, vt_s.d_data, 2,
+  dpct::lapack::gesvd(*handle, 'A', 'A', 2, 2, dpct::library_data_t::real_float,
+                      a_s.d_data, 2, dpct::library_data_t::real_float,
+                      s_s.d_data, dpct::library_data_t::real_float, u_s.d_data,
+                      2, dpct::library_data_t::real_float, vt_s.d_data, 2,
                       device_ws_s, device_ws_size_s, info);
-  dpct::lapack::gesvd(*handle, dpct::lapack::char2jobsvd('A'),
-                      dpct::lapack::char2jobsvd('A'), 2, 2,
+  dpct::lapack::gesvd(*handle, 'A', 'A', 2, 2,
                       dpct::library_data_t::real_double, a_d.d_data, 2,
                       dpct::library_data_t::real_double, s_d.d_data,
                       dpct::library_data_t::real_double, u_d.d_data, 2,
                       dpct::library_data_t::real_double, vt_d.d_data, 2,
                       device_ws_d, device_ws_size_d, info);
-  dpct::lapack::gesvd(*handle, dpct::lapack::char2jobsvd('A'),
-                      dpct::lapack::char2jobsvd('A'), 2, 2,
+  dpct::lapack::gesvd(*handle, 'A', 'A', 2, 2,
                       dpct::library_data_t::complex_float, a_c.d_data, 2,
                       dpct::library_data_t::real_float, s_c.d_data,
                       dpct::library_data_t::complex_float, u_c.d_data, 2,
                       dpct::library_data_t::complex_float, vt_c.d_data, 2,
                       device_ws_c, device_ws_size_c, info);
-  dpct::lapack::gesvd(*handle, dpct::lapack::char2jobsvd('A'),
-                      dpct::lapack::char2jobsvd('A'), 2, 2,
+  dpct::lapack::gesvd(*handle, 'A', 'A', 2, 2,
                       dpct::library_data_t::complex_double, a_z.d_data, 2,
                       dpct::library_data_t::real_double, s_z.d_data,
                       dpct::library_data_t::complex_double, u_z.d_data, 2,
