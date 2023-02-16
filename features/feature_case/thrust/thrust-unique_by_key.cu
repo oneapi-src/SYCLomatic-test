@@ -66,9 +66,6 @@ void test_2() {
   iter_pair new_last =
       thrust::unique_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
 
-  thrust::pair<int *, int *> new_end;
-  new_end = thrust::unique_by_key(thrust::host, A, A + N, B);
-
   int keys_ref[10] = {1, 3, 2, 1};
   int values_ref[10] = {9, 8, 5, 3};
   for (int i = 0; i < 4; i++) {
