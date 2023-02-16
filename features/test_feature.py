@@ -21,7 +21,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'thrust-qmc', 'thrust-transform-if', 'thrust-policy', 'thrust-list', 'module-kernel',
               'kernel-launch', 'thrust-gather', 'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre',
               'thrust-rawptr-noneusm', 'driverStreamAndEvent', 'grid_sync', 'deviceProp', 'gridThreads', 'kernel_library', 'cub_block_p2',
-              'cub_constant_iterator',
+              'cub_constant_iterator', 'ccl_test2'
               'cub_discard_iterator',
               'cub_device', 'cub_device_reduce_sum', 'cub_device_reduce', 'cub_device_reduce_by_key', 'cub_device_select_unique_by_key',
               'cub_device_scan_inclusive_scan', 'cub_device_scan_exclusive_scan', 'cub_device_seg_radix_sort_pairs',
