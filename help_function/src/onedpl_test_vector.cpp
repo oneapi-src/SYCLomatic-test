@@ -50,6 +50,9 @@ int main() {
     int num_failing = 0;
     std::string test_name = "";
 
+    //testing initialization of size zero (should not crash / throw)
+    Vector<int> vempty(0);
+    
     using T = int;
     std::vector<T> v_base(6);// { 0, 1, 2, 3, 4, 5 };
     v_base[0] = 0; v_base[1] = 1; v_base[2] = 2;
@@ -98,7 +101,7 @@ int main() {
 #ifdef _VERBOSE
     std::cout << std::endl << "v5: ";
     for (std::size_t i = 0; i < v5.size(); ++i) {
-        std::cout << v5[i] << " ";  // expected: 5 4 3 2 1 -111 -111 -111 1 0
+        std::cout << v5[i] << " ";  // expected: 0 1 -111 -111 -111 1 2 3 4 5
     }
     std::cout << std::endl;
 #endif
@@ -107,7 +110,7 @@ int main() {
 #ifdef _VERBOSE
     std::cout << std::endl << "v6: ";
     for (std::size_t i = 0; i < v6.size(); ++i) {
-        std::cout << v6[i] << " ";  // expected: 5 4 3 2 1 -111 -111 -111 1 0
+        std::cout << v6[i] << " ";  // expected: 0 1 -111 -111 -111 1 2 3 4 5
     }
     std::cout << std::endl;
 #endif
