@@ -10,9 +10,12 @@
 #include <stdio.h>
 #include <cuda.h>
 typedef  unsigned int dataType;
-#define ArraySize 10
+#define ArraySize 11
 #define numThreads 256
 #define numBlocks 64
+
+const dataType Limit = 139;
+
 
 __global__ void atomic_test_kernel(dataType *ddata) {
 
@@ -38,7 +41,8 @@ __global__ void atomic_test_kernel(dataType *ddata) {
   atomicXor(&ddata[8], tid);
   // Inc test
   atomicInc(&ddata[9], 0);
-
+  // Dec test
+  atomicDec(&ddata[10], Limit);
 }
 
 int main(int argc, char **argv) {
@@ -116,12 +120,21 @@ int main(int argc, char **argv) {
     err = -1;
     printf("atomicXor test failed , %d \n", Hdata2[8]);
   }
-  // check Xor Hdata2[9]
+  // check Inc Hdata2[9]
   if (Hdata2[9] != 0) {
     err = -1;
-    printf("atomicInc test failed , %d \n", Hdata2[8]);
+    printf("atomicInc test failed , %d \n", Hdata2[9]);
   }
 
+  dataType val = 0;
+  for (int i = 0; i < 256 * 64; ++i) {
+    val = ((val == 0) || (val > Limit)) ? Limit : val - 1;
+  }
+  // check dec Hdata2[10]
+  if (Hdata2[10] != val) {
+    err = -1;
+    printf("atomicDec test failed , %d \n", Hdata2[10]);
+  }
 
   cudaFree(Ddata);
   printf("atomic test completed, returned %s\n", err == 0 ? "OK" : "ERROR");
