@@ -61,7 +61,7 @@ static s_pred_E pred_E;
   #define checkVector(VEC,RESULT_NAME,FILE,LINE)                                                \
     checkVectorInternal(VEC,#RESULT_NAME,FILE,LINE)                                               
 #else                                                                                             
-  #include "thrust-fuzz-replace.h"                                                                        
+  #include "check_val.h"                                                                        
                                                                                                   
   #define checkVector(VEC,RESULT_NAME,FILE,LINE)                                                \
     checkVectorInternal(VEC,#RESULT_NAME,RESULT_NAME,FILE,LINE)                                   
