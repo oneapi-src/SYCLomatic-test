@@ -23,7 +23,8 @@ if (load_type==0) {
   if (load_type==1) {
     checkErrors( cuModuleLoadData(&module,content.c_str()) );
   } else {
-#ifdef TODO_LOADDATAEX_OPTIONS
+#define LOADDATAEX_OPTIONS
+#ifdef LOADDATAEX_OPTIONS
     const unsigned int jitNumOptions = 1;
     CUjit_option  jitOptions[jitNumOptions];
     void         *jitOptVals[jitNumOptions];
@@ -32,14 +33,17 @@ if (load_type==0) {
     jitOptions[0] = CU_JIT_WALL_TIME;
 #endif
 
+
+#ifdef LOADDATAEX_OPTIONS
     checkErrors( cuModuleLoadDataEx(&module,content.c_str(),
-#ifdef TODO_LOADDATAEX_OPTIONS
                                     jitNumOptions, jitOptions, (void **)jitOptVals)
-#endif
+#else
+    checkErrors( cuModuleLoadDataEx(&module,content.c_str(),
                                     0, NULL, NULL)
+#endif
                 );
 
-#ifdef TODO_LOADDATAEX_OPTIONS
+#ifdef LOADDATAEX_OPTIONS
     unsigned long long opt_int = (unsigned long long) jitOptVals[0];
     float jitTime = *((float *) &opt_int);
       
