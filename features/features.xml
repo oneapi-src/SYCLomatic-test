@@ -83,6 +83,7 @@
     <test testName="feature_profiling" configFile="config/TEMPLATE_feature_profiling.xml" />
     <test testName="grid_sync" configFile="config/TEMPLATE_grid_sync.xml" />
     <test testName="kernel-launch" configFile="config/TEMPLATE_runtimeAPI.xml" />
+    <test testName="cusolver_range" configFile="config/TEMPLATE_cusolver_range.xml" />
     <test testName="cusolverDnEi" configFile="config/TEMPLATE_cusolver.xml" />
     <test testName="cusolverDnEi-part2" configFile="config/TEMPLATE_cusolver.xml" />
     <test testName="cusolverDnLn" configFile="config/TEMPLATE_cusolver.xml" />
