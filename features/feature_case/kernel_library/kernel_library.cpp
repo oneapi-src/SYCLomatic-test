@@ -122,7 +122,8 @@ int run_tests() {
         int    *argBuffer[3] = { a, b, c };
         size_t  argBufferSize = sizeof(argBuffer);
         void   *extra[] = {
-#ifdef TODO_EXTRA_BUFFER_ANNOTATIONS
+#define EXTRA_BUFFER_ANNOTATIONS
+#ifdef EXTRA_BUFFER_ANNOTATIONS
           CU_LAUNCH_PARAM_BUFFER_SIZE,    &argBufferSize,        
           CU_LAUNCH_PARAM_BUFFER_POINTER, argBuffer,
           CU_LAUNCH_PARAM_END   
