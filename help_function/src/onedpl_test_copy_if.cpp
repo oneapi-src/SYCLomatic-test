@@ -226,7 +226,6 @@ int main() {
     // dcpt::copy_if with device_vector
 
     {
-        // **FAILS AT RUNTIME**
 
         // create src and dst device_vector
         std::vector<int> src_vec(8);
