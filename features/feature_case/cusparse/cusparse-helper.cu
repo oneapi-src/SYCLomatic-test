@@ -10,19 +10,19 @@
 #include <cusparse_v2.h>
 #include <cuda_runtime.h>
 
-int m, n, nnz, k, ldb, ldc;
-double alpha;
-const double* csrValA;
-const int* csrRowPtrA;
-const int* csrColIndA;
-const double* x;
-double beta;
-double* y;
-cusparseHandle_t handle;
-cusparseOperation_t transA = CUSPARSE_OPERATION_NON_TRANSPOSE;
-cusparseMatDescr_t descrA;
-
 int foo(int aaaaa){
+  int m, n, nnz, k, ldb, ldc;
+  double alpha;
+  const double* csrValA;
+  const int* csrRowPtrA;
+  const int* csrColIndA;
+  const double* x;
+  double beta;
+  double* y;
+  cusparseHandle_t handle;
+  cusparseOperation_t transA = CUSPARSE_OPERATION_NON_TRANSPOSE;
+  cusparseMatDescr_t descrA;
+
   cusparseMatDescr_t descr1 = 0, descr2 = 0;
   cusparseMatDescr_t descr3 = 0;
 

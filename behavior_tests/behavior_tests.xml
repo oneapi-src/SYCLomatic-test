@@ -3,6 +3,7 @@
 <suite>
     <description> behavior test</description>
     <tests>
+        <test testName="array_size_fold" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="test_soft_link_folder" configFile="config/test_soft_link_folder.xml" />
         <test testName="execute_from_cuda_path" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="execute_from_bundle_root" configFile="config/TEMPLATE_behavior_tests.xml" />

@@ -17,7 +17,7 @@
 // for cuda 12.0
 #include <thrust/partition.h>
 #include <thrust/unique.h>
-
+#include <thrust/execution_policy.h>
 
 struct greater_than_zero
 {
