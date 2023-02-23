@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
   Hdata[7] = 0;                      // or
   Hdata[8] = 0xff;                   // xor
   Hdata[9] = 10;                     // inc
-
+  Hdata[10] = 0;                     // dec
 
   // allocate device memory for result
   dataType *Ddata;
