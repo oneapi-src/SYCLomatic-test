@@ -6,6 +6,7 @@
 //
 //
 // ===----------------------------------------------------------------------===//
+#define DPCT_USM_LEVEL_NONE
 
 #include <oneapi/dpl/execution>
 
@@ -143,6 +144,8 @@ int main() {
         }
     }
 
+    // These tests assume USM is available, disable when it isn't
+#ifndef DPCT_USM_LEVEL_NONE
     {
     // Test One, call to dpct::sort using USM allocations
         // create queue
@@ -198,23 +201,16 @@ int main() {
         failed_tests += test_passed(num_failing, test_name);
         num_failing = 0;
     }
+#endif //DPCT_USM_LEVEL_NONE
 
     {
     // Test Two, test calls to dpct::sort using device vectors
-        dpct::device_vector<int> keys_vec(10);
-        dpct::device_vector<int> values_vec(10);
 
         std::vector<int> keys_data{4, 8, 5, 3, 0, 9, 7, 2, 1, 6};
         std::vector<int> values_data{13, 16, 17, 11, 19, 14, 12, 18, 10, 15};
 
-        dpct::get_default_queue().submit([&](sycl::handler& h) {
-            h.memcpy(keys_vec.data(), keys_data.data(), 10 * sizeof(int));
-        });
-
-        dpct::get_default_queue().submit([&](sycl::handler& h) {
-            h.memcpy(values_vec.data(), values_data.data(), 10 * sizeof(int));
-        });
-        dpct::get_default_queue().wait();
+        dpct::device_vector<int> keys_vec(keys_data);
+        dpct::device_vector<int> values_vec(values_data);
 
         auto keys_it = keys_vec.begin();
         auto keys_it_end = keys_vec.end();
@@ -226,14 +222,6 @@ int main() {
             // values is now = {19, 10, 18, 11, 13, 17, 15, 12, 16, 14}
         }
 
-        dpct::get_default_queue().submit([&](sycl::handler& h) {
-            h.memcpy(keys_data.data(), keys_vec.data(), 10 * sizeof(int));
-        });
-
-        dpct::get_default_queue().submit([&](sycl::handler& h) {
-            h.memcpy(values_data.data(), values_vec.data(), 10 * sizeof(int));
-        });
-        dpct::get_default_queue().wait();
 
         {
             int check_keys[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -243,8 +231,8 @@ int main() {
             // check that values and keys are correct
 
             for (int i = 0; i != 10; ++i) {
-                num_failing += ASSERT_EQUAL(test_name, values_data[i], check_values[i]);
-                num_failing += ASSERT_EQUAL(test_name, keys_data[i], check_keys[i]);
+                num_failing += ASSERT_EQUAL(test_name, values_vec[i], check_values[i]);
+                num_failing += ASSERT_EQUAL(test_name, keys_vec[i], check_keys[i]);
             }
 
             failed_tests += test_passed(num_failing, test_name);
@@ -291,6 +279,8 @@ int main() {
         }
     }
 
+    // These tests assume USM is available, disable when it isn't
+#ifndef DPCT_USM_LEVEL_NONE
     {
     // Test Three, call to dpct::stable_sort using USM allocations
         // create queue
@@ -348,6 +338,7 @@ int main() {
         failed_tests += test_passed(num_failing, test_name);
         num_failing = 0;
     }
+#endif // DPCT_USM_LEVEL_NONE
 
     { // Test Four, test calls to dpct::stable_sort with duplicate key values
         sycl::buffer<int, 1> keys_buf{ sycl::range<1>(16) };
