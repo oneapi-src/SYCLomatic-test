@@ -82,7 +82,8 @@ def build_test():
         else:
             link_opts.append(' dnnl.lib')
     if (test_config.current_test in blas_cases) or (test_config.current_test in fft_cases) or (
-            test_config.current_test in lapack_cases) or (test_config.current_test in rng_cases):
+            test_config.current_test in lapack_cases) or (test_config.current_test in rng_cases) or (
+                test_config.current_test in oneDNN_related):
         mkl_opts = []
         if platform.system() == "Linux":
             mkl_opts = test_config.mkl_link_opt_lin
