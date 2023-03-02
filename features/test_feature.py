@@ -124,11 +124,11 @@ def build_test():
         cmp_options.append(prepare_oneDPL_specific_macro())
 
     if re.match('^cu.*', test_config.current_test):
-        if test_config.current_test not in oneDNN_related:
-            if platform.system() == 'Linux':
-                link_opts = test_config.mkl_link_opt_lin
-            else:
-                link_opts = test_config.mkl_link_opt_win
+        if platform.system() == 'Linux':
+            link_opts = test_config.mkl_link_opt_lin
+        else:
+            link_opts = test_config.mkl_link_opt_win
+        cmp_options.append("-DMKL_ILP64")
 
     if test_config.current_test == 'ccl':
         link_opts.append('-lccl -lmpi')
