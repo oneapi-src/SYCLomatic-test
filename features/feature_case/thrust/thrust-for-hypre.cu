@@ -119,6 +119,17 @@ void foo_host(){
   Report::check("replace_if", B[2], 0);
   Report::check("replace_if", B[3], 0);
 
+  // corner case of replace_if
+  {
+    thrust::host_vector<long long> vA(1);
+    thrust::host_vector<long long> vB(1);
+
+    vA[0] = 0xd61f6d2a3364f9c0;
+    vB[0] = 0;
+    thrust::replace_if(thrust::host,vA.begin(),vA.end(),vB.begin(),pred,0);
+    Report::check("replace_if with long long vector", vA[0], 0xd61f6d2a3364f9c0);
+  }
+
   // numerically the same as the replace_if test, but use replace_copy_if
 
   A[0] = -5;
@@ -181,6 +192,32 @@ void foo_host(){
   Report::check("replace_copy_if", B[1], 0);
   Report::check("replace_copy_if", B[2], 0);
   Report::check("replace_copy_if", B[3], 0);
+
+  // corner case of replace_copy_if
+  {
+    thrust::host_vector<long long> vA(1);
+    thrust::host_vector<long long> vB(1);
+    thrust::host_vector<long long> vC(1);
+
+    vA[0] = 0xfffffffec19cb1d0LL;
+    vB[0] = 0;
+    vC[0] = 0;
+    thrust::replace_copy_if(vA.begin(),vA.end(),vB.begin(),vC.begin(),pred,0);
+    Report::check("replace_copy_if with long long vector", vC[0], 0xfffffffec19cb1d0LL);
+  }
+
+  // corner case of replace_copy_if
+  {
+    thrust::host_vector<int> vA(1);
+    thrust::host_vector<int> vB(1);
+    thrust::host_vector<long long> vC(1);
+
+    vA[0] = 0;
+    vB[0] = 1;
+    vC[0] = 0;
+    thrust::replace_copy_if(vA.begin(),vA.end(),vB.begin(),vC.begin(),pred,0x123456789abcdefLL);
+    Report::check("replace_copy_if long to long long", vC[0], 0x123456789abcdefLL);
+  }
 
   A[0] = -5;
   A[1] = 3;
