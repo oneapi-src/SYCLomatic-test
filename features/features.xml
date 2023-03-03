@@ -384,6 +384,7 @@
     <test testName="LapackUtils_api_test4" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_skip80.xml" />
     <test testName="SparseUtils_api_test1" configFile="config/TEMPLATE_custom_helper_files_SparseUtils.xml" />
     <test testName="cusparse_1" configFile="config/TEMPLATE_cusparse.xml" />
+    <test testName="cusparse_2" configFile="config/TEMPLATE_cusparse_before_11_skip_double.xml" splitGroup="double"/>
     <test testName="cusolver_test1" configFile="config/TEMPLATE_solver.xml"  splitGroup="double"/>
     <test testName="cusolver_test2" configFile="config/TEMPLATE_solver_skip80.xml"  splitGroup="double"/>
     <test testName="curand-device2" configFile="config/curand-device2.xml" splitGroup="double"/>
