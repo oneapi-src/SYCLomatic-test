@@ -21,8 +21,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'thrust-qmc', 'thrust-transform-if', 'thrust-policy', 'thrust-list', 'module-kernel',
               'kernel-launch', 'thrust-gather', 'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre',
               'thrust-rawptr-noneusm', 'driverStreamAndEvent', 'grid_sync', 'deviceProp', 'gridThreads', 'kernel_library', 'cub_block_p2',
-              'cub_constant_iterator', 'ccl_test2'
-              'cub_discard_iterator',
+              'cub_constant_iterator', 'cub_device_reduce_max', 'cub_device_reduce_min', 'cub_discard_iterator', 'ccl_test2'
               'cub_device', 'cub_device_reduce_sum', 'cub_device_reduce', 'cub_device_reduce_by_key', 'cub_device_select_unique_by_key',
               'cub_device_scan_inclusive_scan', 'cub_device_scan_exclusive_scan', 'cub_device_seg_radix_sort_pairs',
               'cub_device_scan_inclusive_sum', 'cub_device_scan_exclusive_sum', 'cub_device_select_unique', 'cub_device_radix_sort_keys', 'cub_device_radix_sort_pairs',
@@ -125,11 +124,11 @@ def build_test():
         cmp_options.append(prepare_oneDPL_specific_macro())
 
     if re.match('^cu.*', test_config.current_test):
-        if test_config.current_test not in oneDNN_related:
-            if platform.system() == 'Linux':
-                link_opts = test_config.mkl_link_opt_lin
-            else:
-                link_opts = test_config.mkl_link_opt_win
+        if platform.system() == 'Linux':
+            link_opts = test_config.mkl_link_opt_lin
+        else:
+            link_opts = test_config.mkl_link_opt_win
+        cmp_options.append("-DMKL_ILP64")
 
     if test_config.current_test == 'ccl':
         link_opts.append('-lccl -lmpi')

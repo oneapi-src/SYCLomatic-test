@@ -117,6 +117,8 @@
     <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
+    <test testName="cub_device_reduce_min" configFile="config/TEMPLATE_cub_device.xml"/>
+    <test testName="cub_device_reduce_max" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_by_key" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_scan_inclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
@@ -128,7 +130,7 @@
     <test testName="cub_device_inclusive_scan_by_key" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_exclusive_scan_by_key" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_select_unique" configFile="config/TEMPLATE_cub_device.xml" />
-    <test testName="cub_device_select_unique_by_key" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_select_unique_by_key" configFile="config/TEMPLATE_cub_unique_by_key.xml" />
     <test testName="cub_device_select_flagged" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_run_length_encode_encode" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_discard_iterator" configFile="config/TEMPLATE_cub_device.xml" />
