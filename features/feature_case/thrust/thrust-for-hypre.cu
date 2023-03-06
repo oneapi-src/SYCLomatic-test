@@ -45,6 +45,27 @@ void foo2(T1 policy, T2 vec){
   Report::check("inclusive_scan", R[3], 6256800);
 }
 
+struct s_pred_D
+{ __host__ __device__
+ bool operator()(int x) const
+ {
+  return true;
+ }
+ typedef int argument_type;
+};
+static s_pred_D pred_D;
+
+template<typename ELT_TYPE>
+void templated_replace_if() {
+  thrust::host_vector<ELT_TYPE> vTEMPLATE(1);
+  thrust::host_vector<int>      vVAL(1);
+
+  vTEMPLATE[0x0] = 0;
+  vVAL[0x0]      = 0;
+  thrust::replace_if(vVAL.begin(),vVAL.end(),vTEMPLATE.begin(),pred_D,1);
+  Report::check("templated replace_if", vVAL[0], 1);
+}
+
 void foo_host(){
   thrust::device_vector<int> A(4);
   A[0] = -5;
@@ -542,6 +563,8 @@ void foo_host(){
   Report::check("replace_if", host_ptr_A[1], 0);
   Report::check("replace_if", host_ptr_A[2], 0);
   Report::check("replace_if", host_ptr_A[3], -395);
+
+  templated_replace_if<int>();
 
   host_ptr_A = (float*)std::malloc(20 * sizeof(float));
   host_ptr_R = (float*)std::malloc(20 * sizeof(float));
