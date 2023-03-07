@@ -54,6 +54,9 @@ int main(){
   curandSetGeneratorOffset(rng, 100);
   s1 = curandSetGeneratorOffset(rng2, 200);
 
+  cudaStream_t stream;
+  curandSetStream(rng, stream);
+
   curandDestroyGenerator(rng);
   s1 = curandDestroyGenerator(rng);
 }
