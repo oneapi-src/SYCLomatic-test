@@ -105,6 +105,7 @@
     <test testName="onedpl_test_remove_if" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_replace_copy_if" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_sequence" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="onedpl_test_segmented_sort_pairs" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_set_difference_by_key" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_set_intersection_by_key" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_set_symmetric_difference_by_key" configFile="config/TEMPLATE_help_function.xml" />
