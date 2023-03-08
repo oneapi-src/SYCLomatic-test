@@ -160,6 +160,7 @@ def build_test():
         ret = compile_files(srcs, cmp_options)
     return ret
 
+
 def run_test():
     if test_config.current_test not in exec_tests:
         return True
