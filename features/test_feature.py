@@ -41,7 +41,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',
               'thrust_set_difference', 'thrust_set_difference_by_key', 'thrust_set_intersection_by_key', 'thrust_stable_sort',
               'thrust_tabulate', 'thrust_for_each_n', 'device_info', 'defaultStream', 'cudnn-rnn', 'feature_profiling',
-              'thrust_raw_reference_cast']
+              'thrust_raw_reference_cast', 'sync_warp_p2']
 
 
 def setup_test():
@@ -82,7 +82,8 @@ def migrate_test():
         src.append(' --use-dpcpp-extensions=intel_device_math')
     if test_config.current_test == 'feature_profiling':
         src.append(' --enable-profiling ')
-
+    if test_config.current_test == 'sync_warp_p2':
+        src.append(' --use-experimental-features=masked_sub_group_function ')
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
