@@ -84,6 +84,7 @@
     <test testName="image_image_wrapper" configFile="config/image_image_wrapper.xml" />
     <test testName="kernel_function_win" configFile="config/kernel_function_win.xml" />
     <test testName="kernel_function_lin" configFile="config/kernel_function_lin.xml" />
+    <test testName="onedpl_test_arg_index_input_iterator" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_copy" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_copy_if" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_count_if" configFile="config/TEMPLATE_help_function.xml" />
@@ -104,16 +105,20 @@
     <test testName="onedpl_test_remove_if" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_replace_copy_if" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_sequence" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="onedpl_test_segmented_sort_pairs" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_set_difference_by_key" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_set_intersection_by_key" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_set_symmetric_difference_by_key" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_set_union_by_key" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_sort_by_key" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="onedpl_test_sort_keys" configFile="config/TEMPLATE_help_function_skip_double.xml" />
+    <test testName="onedpl_test_sort_pairs" configFile="config/TEMPLATE_help_function_skip_double.xml" />
     <test testName="onedpl_test_stable_partition_copy" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_stable_partition" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_tabulate" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_transform_if" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_transform_reduce" configFile="config/TEMPLATE_help_function_skip_double.xml"  splitGroup="double" />
+    <test testName="onedpl_test_translate_key" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_uninitialized_fill" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_unique_by_key_copy" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_unique_by_key" configFile="config/TEMPLATE_help_function.xml" />
@@ -131,6 +136,7 @@
     <test testName="lib_common_utils_mkl_get_version" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="rng_generator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="rng_generator_vec_size_1" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
+    <test testName="rng_host" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="blas_extension_api_buffer" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
     <test testName="dnnl_utils_rnn" configFile="config/TEMPLATE_help_function_usmnone.xml" />
