@@ -47,7 +47,7 @@ def build_test():
                 "dnnl_utils_normalization_1", "dnnl_utils_normalization_2", "dnnl_utils_normalization_3", "dnnl_utils_rnn"]
     fft_cases = ["fft_utils_engine_buffer", "fft_utils_engine_usm", "fft_workspace_interface", "fft_set_workspace"]
     lapack_cases = ["lapack_utils_buffer", "lapack_utils_usm"]
-    rng_cases = ["rng_generator", "rng_generator_vec_size_1"]
+    rng_cases = ["rng_generator", "rng_generator_vec_size_1", "rng_host"]
 
     srcs = []
     cmp_opts = []
