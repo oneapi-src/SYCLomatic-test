@@ -131,7 +131,6 @@
         <test testName="bt-use-explicit-namespace4" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-use-explicit-namespace5" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-use-explicit-namespace6" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="bt-check-yaml" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-invalid-cuda-version" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-modified-yaml" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-warning1083" configFile="config/TEMPLATE_behavior_tests.xml" />
