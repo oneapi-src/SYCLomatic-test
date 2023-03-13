@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - SYCLomatic
+    types: [opened, synchronize, reopened, ready_for_review]
 
 env:
   BUILD_CONCURRENCY: 2
@@ -13,6 +14,7 @@ env:
 jobs:
   windows-test:
     name: windows-test-${{ matrix.test_suite }}-cpu
+    if: github.event.pull_request.draft == false
     runs-on: win_ci_test
 
     strategy:
