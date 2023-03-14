@@ -14,7 +14,7 @@
 #include "dpct/dpct.hpp"
 #include "dpct/dpl_utils.hpp"
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 
 #include <iostream>
 // verification utilities
