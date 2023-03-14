@@ -19,7 +19,7 @@ extern "C" {
     k = (int *)kernelParams[0];
     queue.submit(
       [&](sycl::handler &cgh) {
-        sycl::accessor<uint8_t, 1, sycl::access_mode::read_write, sycl::access::target::local> dpct_local_acc_ct1(sycl::range<1>(localMemSize), cgh);
+        sycl::accessor<uint8_t, 1, sycl::access_mode::read_write, sycl::access::target::local_accessor> dpct_local_acc_ct1(sycl::range<1>(localMemSize), cgh);
         cgh.parallel_for(
           nr,
           [=](sycl::nd_item<3> item_ct1) {
