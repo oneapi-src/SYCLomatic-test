@@ -146,6 +146,7 @@ int main() {
   cudaMalloc(&dev_data_u, DATA_NUM * sizeof(unsigned int));
   GridSize = {2};
   BlockSize = {32, 2, 1};
+  // NV hardware result reference
   unsigned int expect1[DATA_NUM] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 16,
     33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 32, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 48,
@@ -168,6 +169,7 @@ int main() {
 
   GridSize = {2};
   BlockSize = {32, 2, 1};
+  // NV hardware result reference
   unsigned int expect2[DATA_NUM] = {
     0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
     32, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62,
@@ -191,6 +193,7 @@ int main() {
 
   GridSize = {2};
   BlockSize = {32, 2, 1};
+  // NV hardware result reference
   unsigned int expect3[DATA_NUM] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 31,
     33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 47, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 63,
@@ -213,6 +216,7 @@ int main() {
 
   GridSize = {2};
   BlockSize = {32, 2, 1};
+  // NV hardware result reference
   unsigned int expect4[DATA_NUM] = {
     2,3,0,1,6,7,4,5,10,11,8,9,14,15,12,13,18,19,16,17,22,23,20,21,26,27,24,25,30,31,
     28,29,34,35,32,33,38,39,36,37,42,43,40,41,46,47,44,45,50,51,48,49,54,55,52,53,58,
@@ -237,6 +241,7 @@ int main() {
 // has branch 1
 GridSize = {2};
 BlockSize = {32, 2, 1};
+  // NV hardware result reference
 unsigned int expect5[DATA_NUM] = {
   0, 0, 0, 0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 16,
   0, 0, 0, 0, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 0, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 48,
@@ -259,7 +264,10 @@ if(!verify_data<unsigned int>(dev_data_u, expect5, DATA_NUM)) {
 
 GridSize = {2};
 BlockSize = {32, 2, 1};
-// change some value because in those situation the value is undefined
+  // NV hardware result reference
+  // The result[5/37/69/101] of _shfl_up function in delta 4 and logical warp size 16 is undefined.
+  // But the SYCL version return 3/35/67/99, so we change these 4 number in reference to result of
+  // SYCL version function.
 unsigned int expect6[DATA_NUM] = {
   0, 0, 0, 0, 3/*0 -> 3*/, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
   0, 0, 0, 0, 35/*0 -> 35*/, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62,
@@ -283,7 +291,10 @@ if(!verify_data<unsigned int>(dev_data_u, expect6, DATA_NUM)) {
 
 GridSize = {2};
 BlockSize = {32, 2, 1};
-// change some value because in those situation the value is undefined
+  // NV hardware result reference
+  // The result[27/59/91/123] of _shfl_down function in delta 4 and logical warp size 16 is undefined.
+  // But the SYCL version return 28/60/92/124, so we change these 4 number in reference to result of
+  // SYCL version function.
 unsigned int expect7[DATA_NUM] = {
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28/*0 -> 28*/, 0, 0, 0, 0,
   33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 47, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60/*0 -> 60*/, 0, 0, 0, 0,
@@ -306,6 +317,7 @@ if(!verify_data<unsigned int>(dev_data_u, expect7, DATA_NUM)) {
 
 GridSize = {2};
 BlockSize = {32, 2, 1};
+  // NV hardware result reference
 unsigned int expect8[DATA_NUM] = {
   0, 0, 0, 0, 6, 7, 4, 5, 10, 11, 8, 9, 14, 15, 12, 13, 18, 19, 16, 17, 22, 23, 20, 21, 26, 27, 24, 25, 30, 31, 28, 29,
   0, 0, 0, 0, 38, 39, 36, 37, 42, 43, 40, 41, 46, 47, 44, 45, 50, 51, 48, 49, 54, 55, 52, 53, 58, 59, 56, 57, 62, 63, 60, 61,
@@ -330,6 +342,7 @@ if(!verify_data<unsigned int>(dev_data_u, expect8, DATA_NUM)) {
 
 GridSize = {2};
 BlockSize = {32, 2, 1};
+  // NV hardware result reference
 unsigned int expect9[DATA_NUM] = {
   0, 0, 0, 0, 0, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 31, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
   0, 0, 0, 0, 0, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 63, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62,
