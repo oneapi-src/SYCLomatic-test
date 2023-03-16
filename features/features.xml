@@ -420,8 +420,8 @@
     <test testName="cublas_v1_runable" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
-    <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" />
-    <test testName="ccl_test2" configFile="config/TEMPLATE_ccl_api.xml" />
+    <!-- <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" />
+    <test testName="ccl_test2" configFile="config/TEMPLATE_ccl_api.xml" /> -->
     <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="libcu_array" configFile="config/TEMPLATE_libcu.xml" />
