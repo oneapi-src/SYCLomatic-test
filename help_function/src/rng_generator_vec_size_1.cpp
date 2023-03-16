@@ -6,7 +6,7 @@
 //
 // ===---------------------------------------------------------------------===//
 
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <oneapi/mkl.hpp>
 #include <oneapi/mkl/rng/device.hpp>
 #include <dpct/rng_utils.hpp>
