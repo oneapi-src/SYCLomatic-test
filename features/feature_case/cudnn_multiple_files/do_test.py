@@ -31,15 +31,21 @@ def migrate_test():
 def build_test():
     srcs = []
     objects = []
-    if platform.system() == 'Linux':    
-        linkopt = ["-ldnnl"]
+    cmp_options = []
+
+
+    cmp_options.append("-DMKL_ILP64")
+    if platform.system() == 'Linux':
+        linkopt = test_config.mkl_link_opt_lin
+        linkopt.append(" -ldnnl")
     else:
-        linkopt = ["dnnl.lib"]
-        
+        linkopt = test_config.mkl_link_opt_win
+        linkopt.append(" dnnl.lib")
+
     srcs.append(os.path.join("dpct_output", "multiple_main.cpp"))
     srcs.append(os.path.join("dpct_output", "cudnn-scale.dp.cpp"))
     srcs.append(os.path.join("dpct_output", "cudnn-sum.dp.cpp"))
-    return compile_and_link(srcs,objects,linkopt)
+    return compile_and_link(srcs, cmp_options, objects, linkopt)
 
 def run_test():
     return call_subprocess(os.path.join(os.path.curdir, test_config.current_test + '.run '))

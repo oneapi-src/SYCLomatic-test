@@ -28,9 +28,9 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'cub_device_select_flagged', 'cub_device_run_length_encide_encode', 'cub_counting_iterator', 'cub_arg_index_input_iterator',
               'cub_device_inclusive_sum_by_key', 'cub_device_exclusive_sum_by_key', 'cub_device_inclusive_scan_by_key', 'cub_device_exclusive_scan_by_key',
               'cub_transform_iterator', 'activemask', 'complex', 'thrust-math', 'libcu_array', 'libcu_complex', 'libcu_tuple',
-              'user_defined_rules', 'math-exec', 'math-habs', 'math-ext-half', 'math-ext-half2', 'cudnn-activation',
+              'user_defined_rules', 'math-exec', 'math-habs', 'math-emu-half', 'math-emu-half2', 'math-ext-half', 'math-ext-half2', 'cudnn-activation',
               'cudnn-fill', 'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax',
-              'cudnn-sum', 'math-funnelshift', 'ccl', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
+              'cudnn-sum', 'math-funnelshift', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
               'math-bfloat16', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
               'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5',
               'cudnn_mutilple_files', "cusparse_1",
@@ -38,12 +38,12 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'cudnn-types',
               'constant_attr',
               'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
-              'cusolver_test1', 'cusolver_test2', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
+              'cusolver_test1', 'cusolver_test2', 'cusolver_test3', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
               'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',
               'thrust_set_difference', 'thrust_set_difference_by_key', 'thrust_set_intersection_by_key', 'thrust_stable_sort',
               'thrust_tabulate', 'thrust_for_each_n', 'device_info', 'defaultStream', 'cudnn-rnn', 'feature_profiling',
-              'thrust_raw_reference_cast', 'thrust_partition_copy', 'sync_warp_p2']
-
+              'thrust_raw_reference_cast', 'thrust_partition_copy', 'thrust_stable_partition_copy',
+              'thrust_stable_partition', 'sync_warp_p2']
 
 def setup_test():
     return True
