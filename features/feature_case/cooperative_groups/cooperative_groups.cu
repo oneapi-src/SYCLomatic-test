@@ -25,7 +25,7 @@ bool verify_array(unsigned int *expected, unsigned int *res, unsigned int size) 
   return true;
 }
 
-__global__ void kernel(unsigned int *data, unsigned int *result) {
+__global__ void kernel8(unsigned int *data, unsigned int *result) {
   cg::thread_block ttb = cg::this_thread_block();
   cg::thread_block_tile<8> tbt8 = cg::tiled_partition<8>(ttb);
 
@@ -38,6 +38,11 @@ __global__ void kernel(unsigned int *data, unsigned int *result) {
     result[1] = tbt8.thread_rank();
     result[2] = ttb.size();
   }
+}
+
+__global__ void kernel32(int *data) {
+  auto tp = cg::tiled_partition<32>(cg::this_thread_block());
+  data[tp.thread_rank()] = tp.shfl_down(tp.size() * tp.thread_rank(), 1);
 }
 
 int main() {
@@ -53,7 +58,7 @@ int main() {
   cudaMalloc(&data_device, sizeof(unsigned int) * 56);
 
   cudaMemcpy(data_device, &data_host, sizeof(unsigned int) * 56, cudaMemcpyHostToDevice);
-  kernel<<<1, 56>>>(data_device, result_device);
+  kernel8<<<1, 56>>>(data_device, result_device);
   cudaMemcpy(result_host, result_device, sizeof(unsigned int) * 3, cudaMemcpyDeviceToHost);
   cudaMemcpy(&data_host, data_device, sizeof(unsigned int) * 56, cudaMemcpyDeviceToHost);
   cudaFree(result_device);
@@ -92,7 +97,25 @@ int main() {
     printf("%d, %d\n", result_host[0], result_host[1]);
   }
 
-  if (checker1 && checker2)
+  bool checker3 = true;
+  constexpr int N=32;
+  int *d_data; cudaMalloc(&d_data, sizeof(d_data[0])*N);
+  kernel32<<<1, N>>>(d_data);
+  int h_data[N];
+  cudaMemcpy(h_data, d_data, sizeof(d_data[0])*N, cudaMemcpyDeviceToHost);
+  for (int i = 0; i < 31; ++i)
+    if (h_data[i] != N*(i+1))
+      checker3 = false;
+  if (!checker3) {
+    printf("checker3 fail\n");
+    for (int i = 0; i < 31; ++i)
+      printf("%d ", h_data[i]);
+    printf("\n");
+  }
+
+  if (checker1 && checker2 && checker3) {
+    printf("cooperative_groups pass\n");
     return 0;
+  }
   return -1;
 }
