@@ -9,7 +9,7 @@
 #include <iostream>
 #include <cuda_runtime.h>
 #include <vector>
-
+#include <set>
 #define WARP_SIZE 32
 #define DATA_NUM 128
 
@@ -22,10 +22,12 @@ void init_data(T* data, int num) {
 }
 
 template<typename T = int>
-bool verify_data(T* data, T* expect, int num, int step = 1) {
+bool verify_data(T* data, T* expect, int num, int step = 1, std::set<int> ignore_index = {}) {
   std::vector<T> host_data(num);
   cudaMemcpy(host_data.data(), data, num * sizeof(T), cudaMemcpyDeviceToHost);
   for(int i = 0; i < num; i = i + step) {
+    if(ignore_index.count(i))
+      continue;
     if(host_data[i] != expect[i]) {
       return false;
     }
@@ -140,6 +142,7 @@ int main() {
   bool Result = true;
   int* dev_data = nullptr;
   unsigned int *dev_data_u = nullptr;
+  std::set<int> ignore_index;
   dim3 GridSize;
   dim3 BlockSize;
   cudaMalloc(&dev_data, DATA_NUM * sizeof(int));
@@ -253,7 +256,9 @@ init_data<unsigned int>(dev_data_u, DATA_NUM);
 ShuffleSyncKernel2<<<GridSize, BlockSize>>>(dev_data_u);
 
 cudaDeviceSynchronize();
-if(!verify_data<unsigned int>(dev_data_u, expect5, DATA_NUM)) {
+// The result[31, 63, 95, 127] is undefined, so ignore those value.
+ignore_index = {31, 63, 95, 127};
+if(!verify_data<unsigned int>(dev_data_u, expect5, DATA_NUM, 1, ignore_index)) {
   std::cout << "ShuffleSyncKernel2" << " verify failed" << std::endl;
   Result = false;
   std::cout << "expect:" << std::endl;
@@ -265,21 +270,20 @@ if(!verify_data<unsigned int>(dev_data_u, expect5, DATA_NUM)) {
 GridSize = {2};
 BlockSize = {32, 2, 1};
   // NV hardware result reference
-  // The result[5/37/69/101] of _shfl_up function in delta 4 and logical warp size 16 is undefined.
-  // But the SYCL version return 3/35/67/99, so we change these 4 number in reference to result of
-  // SYCL version function.
 unsigned int expect6[DATA_NUM] = {
-  0, 0, 0, 0, 3/*0 -> 3*/, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-  0, 0, 0, 0, 35/*0 -> 35*/, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62,
-  0, 0, 0, 0, 67/*0 -> 67*/, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 80, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94,
-  0, 0, 0, 0, 99/*0 -> 99*/, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 112, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126,
+  0, 0, 0, 0, 0, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+  0, 0, 0, 0, 0, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62,
+  0, 0, 0, 0, 0, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 80, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94,
+  0, 0, 0, 0, 0, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 112, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126,
 };
 init_data<unsigned int>(dev_data_u, DATA_NUM);
 
 ShuffleUpSyncKernel2<<<GridSize, BlockSize>>>(dev_data_u);
 
 cudaDeviceSynchronize();
-if(!verify_data<unsigned int>(dev_data_u, expect6, DATA_NUM)) {
+// The result[4, 36, 68, 100] is undefined, so ignore those value.
+ignore_index = {4, 36, 68, 100};
+if(!verify_data<unsigned int>(dev_data_u, expect6, DATA_NUM, 1, ignore_index)) {
   std::cout << "ShuffleUpSyncKernel2" << " verify failed" << std::endl;
   Result = false;
   std::cout << "expect:" << std::endl;
@@ -296,17 +300,19 @@ BlockSize = {32, 2, 1};
   // But the SYCL version return 28/60/92/124, so we change these 4 number in reference to result of
   // SYCL version function.
 unsigned int expect7[DATA_NUM] = {
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28/*0 -> 28*/, 0, 0, 0, 0,
-  33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 47, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60/*0 -> 60*/, 0, 0, 0, 0,
-  65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 79, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92/*0 -> 92*/, 0, 0, 0, 0,
-  97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 111, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124/*0 -> 124*/, 0, 0, 0, 0,
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 0, 0, 0, 0, 0,
+  33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 47, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 0, 0, 0, 0, 0,
+  65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 79, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 0, 0, 0, 0, 0,
+  97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 111, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 0, 0, 0, 0, 0,
 };
 init_data<unsigned int>(dev_data_u, DATA_NUM);
 
 ShuffleDownSyncKernel2<<<GridSize, BlockSize>>>(dev_data_u);
 
 cudaDeviceSynchronize();
-if(!verify_data<unsigned int>(dev_data_u, expect7, DATA_NUM)) {
+// The result[27, 59, 91, 123] is undefined, so ignore those value.
+ignore_index = {27, 59, 91, 123};
+if(!verify_data<unsigned int>(dev_data_u, expect7, DATA_NUM, 1, ignore_index)) {
   std::cout << "ShuffleDownSyncKernel2" << " verify failed" << std::endl;
   Result = false;
   std::cout << "expect:" << std::endl;
@@ -354,7 +360,9 @@ init_data<unsigned int>(dev_data_u, DATA_NUM);
 ShuffleSyncKernel3<<<GridSize, BlockSize>>>(dev_data_u);
 
 cudaDeviceSynchronize();
-if(!verify_data<unsigned int>(dev_data_u, expect9, DATA_NUM)) {
+// The result[4, 36, 68, 100] is undefined, so ignore those value.
+ignore_index = {4, 36, 68, 100};
+if(!verify_data<unsigned int>(dev_data_u, expect9, DATA_NUM, 1, ignore_index)) {
   std::cout << "ShuffleSyncKernel3" << " verify failed" << std::endl;
   Result = false;
   std::cout << "expect:" << std::endl;
