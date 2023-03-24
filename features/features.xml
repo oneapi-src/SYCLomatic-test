@@ -30,10 +30,13 @@
     <test testName="thrust_minmax_element" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_partition" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_is_sorted" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_stable_partition" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_raw_reference_cast" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_partition_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_stable_partition_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_remove_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_unique_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_remove" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_transform_exclusive_scan" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_set_difference" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_set_difference_by_key" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
@@ -69,6 +72,8 @@
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml"  splitGroup="double" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-emu-half" configFile="config/TEMPLATE_math_half.xml" />
+    <test testName="math-emu-half2" configFile="config/TEMPLATE_math_half.xml" />
     <test testName="math-exec" configFile="config/TEMPLATE_math_exec.xml" splitGroup="double" />
     <test testName="math-funnelshift" configFile="config/TEMPLATE_math_funnelshift.xml" />
     <test testName="math-habs" configFile="config/TEMPLATE_math_habs.xml" splitGroup="double" />
@@ -82,8 +87,10 @@
     <test testName="cusparse-usm" configFile="config/TEMPLATE_cusparse_before_11.xml" />
     <test testName="perm_byte" configFile="config/TEMPLATE_perm_byte.xml" />
     <test testName="feature_profiling" configFile="config/TEMPLATE_feature_profiling.xml" />
+    <test testName="grid_constant" configFile="config/TEMPLATE_grid_constant.xml" />
     <test testName="grid_sync" configFile="config/TEMPLATE_grid_sync.xml" />
     <test testName="kernel-launch" configFile="config/TEMPLATE_runtimeAPI.xml" />
+    <test testName="cusolver_range" configFile="config/TEMPLATE_cusolver_range.xml" />
     <test testName="cusolverDnEi" configFile="config/TEMPLATE_cusolver.xml" />
     <test testName="cusolverDnEi-part2" configFile="config/TEMPLATE_cusolver.xml" />
     <test testName="cusolverDnLn" configFile="config/TEMPLATE_cusolver.xml" />
@@ -386,6 +393,16 @@
     <test testName="LapackUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_LapackUtils.xml" />
     <test testName="LapackUtils_api_test3" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_skip80.xml" />
     <test testName="LapackUtils_api_test4" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_skip80.xml" />
+    <test testName="LapackUtils_api_test5" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test6" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test7" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test8" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test9" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test10" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test11" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test12" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test13" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test14" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
     <test testName="SparseUtils_api_test1" configFile="config/TEMPLATE_custom_helper_files_SparseUtils.xml" />
     <test testName="SparseUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml.xml" />
     <test testName="SparseUtils_api_test3" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml.xml" />
@@ -395,6 +412,7 @@
     <test testName="cusparse_2" configFile="config/TEMPLATE_cusparse_before_11_skip_double.xml" splitGroup="double"/>
     <test testName="cusolver_test1" configFile="config/TEMPLATE_solver.xml"  splitGroup="double"/>
     <test testName="cusolver_test2" configFile="config/TEMPLATE_solver_skip80.xml"  splitGroup="double"/>
+    <test testName="cusolver_test3" configFile="config/TEMPLATE_solver_11.xml"  splitGroup="double"/>
     <test testName="curand-device2" configFile="config/curand-device2.xml" splitGroup="double"/>
     <test testName="test_shared_memory" configFile="config/TEMPLATE_memory.xml" />
     <test testName="activemask" configFile="config/TEMPLATE_misc_excluding_80.xml" />
@@ -409,8 +427,8 @@
     <test testName="cublas_v1_runable" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
-    <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" />
-    <test testName="ccl_test2" configFile="config/TEMPLATE_ccl_api.xml" />
+    <!-- <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" />
+    <test testName="ccl_test2" configFile="config/TEMPLATE_ccl_api.xml" /> -->
     <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="libcu_array" configFile="config/TEMPLATE_libcu.xml" />

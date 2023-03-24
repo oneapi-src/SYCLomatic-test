@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - SYCLomatic
+    types: [opened, synchronize, reopened, ready_for_review]
 
 env:
   BUILD_CONCURRENCY: 2
@@ -15,8 +16,7 @@ jobs:
   linux-test:
     name: linux-test-${{ matrix.test_suite }}-cpu
     runs-on: lin_ci_test
-    if: |
-      always() 
+    if: github.event.pull_request.draft == false
     strategy:
       fail-fast: false
       matrix:
