@@ -197,8 +197,9 @@ void test_cusparseTcsrmv_ge() {
   beta_z.H2D();
 
   /*
-  DPCT1045:1: Migration is only supported for this API for the general sparse
-  matrix type. You may need to adjust the code.
+  DPCT1045:1: Migration is only supported for this API for the
+  general/symmetric/triangular sparse matrix type. You may need to adjust the
+  code.
   */
   dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 5,
                       (float *)alpha_s.d_data, descrA, (float *)a_s_val.d_data,
@@ -206,8 +207,9 @@ void test_cusparseTcsrmv_ge() {
                       (float *)b_s.d_data, (float *)beta_s.d_data,
                       (float *)c_s.d_data);
   /*
-  DPCT1045:2: Migration is only supported for this API for the general sparse
-  matrix type. You may need to adjust the code.
+  DPCT1045:2: Migration is only supported for this API for the
+  general/symmetric/triangular sparse matrix type. You may need to adjust the
+  code.
   */
   dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 5,
                       (double *)alpha_d.d_data, descrA,
@@ -316,8 +318,9 @@ void test_cusparseTcsrmv_sy() {
   beta_z.H2D();
 
   /*
-  DPCT1045:5: Migration is only supported for this API for the general sparse
-  matrix type. You may need to adjust the code.
+  DPCT1045:5: Migration is only supported for this API for the
+  general/symmetric/triangular sparse matrix type. You may need to adjust the
+  code.
   */
   dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 4,
                       (float *)alpha_s.d_data, descrA, (float *)a_s_val.d_data,
@@ -325,8 +328,9 @@ void test_cusparseTcsrmv_sy() {
                       (float *)b_s.d_data, (float *)beta_s.d_data,
                       (float *)c_s.d_data);
   /*
-  DPCT1045:6: Migration is only supported for this API for the general sparse
-  matrix type. You may need to adjust the code.
+  DPCT1045:6: Migration is only supported for this API for the
+  general/symmetric/triangular sparse matrix type. You may need to adjust the
+  code.
   */
   dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 4,
                       (double *)alpha_d.d_data, descrA,
@@ -437,8 +441,9 @@ void test_cusparseTcsrmv_tr() {
   beta_z.H2D();
 
   /*
-  DPCT1045:9: Migration is only supported for this API for the general sparse
-  matrix type. You may need to adjust the code.
+  DPCT1045:9: Migration is only supported for this API for the
+  general/symmetric/triangular sparse matrix type. You may need to adjust the
+  code.
   */
   dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 4,
                       (float *)alpha_s.d_data, descrA, (float *)a_s_val.d_data,
@@ -446,8 +451,9 @@ void test_cusparseTcsrmv_tr() {
                       (float *)b_s.d_data, (float *)beta_s.d_data,
                       (float *)c_s.d_data);
   /*
-  DPCT1045:10: Migration is only supported for this API for the general sparse
-  matrix type. You may need to adjust the code.
+  DPCT1045:10: Migration is only supported for this API for the
+  general/symmetric/triangular sparse matrix type. You may need to adjust the
+  code.
   */
   dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 4,
                       (double *)alpha_d.d_data, descrA,
@@ -652,7 +658,7 @@ int main() {
   test_cusparseTcsrmv_ge();
   test_cusparseTcsrmv_sy();
   test_cusparseTcsrmv_tr();
-  test_cusparseTcsrmm();
+  // test_cusparseTcsrmm(); // Re-enable this test until MKL issue fixed
   test_cusparseTcsrsv();
 
   if (test_passed)

@@ -404,10 +404,10 @@
     <test testName="LapackUtils_api_test13" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
     <test testName="LapackUtils_api_test14" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
     <test testName="SparseUtils_api_test1" configFile="config/TEMPLATE_custom_helper_files_SparseUtils.xml" />
-    <test testName="SparseUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml.xml" />
-    <test testName="SparseUtils_api_test3" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml.xml" />
-    <test testName="SparseUtils_api_test4" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml.xml" />
-    <test testName="SparseUtils_api_test5" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml.xml" />
+    <test testName="SparseUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml" />
+    <test testName="SparseUtils_api_test3" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml" />
+    <test testName="SparseUtils_api_test4" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml" />
+    <test testName="SparseUtils_api_test5" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml" />
     <test testName="cusparse_1" configFile="config/TEMPLATE_cusparse.xml" />
     <test testName="cusparse_2" configFile="config/TEMPLATE_cusparse_before_11_skip_double.xml" splitGroup="double"/>
     <test testName="cusolver_test1" configFile="config/TEMPLATE_solver.xml"  splitGroup="double"/>
