@@ -137,7 +137,6 @@ __global__ void ShuffleSyncKernel3(unsigned int* data) {
   data[threadid] = output;
 }
 
-
 int main() {
   bool Result = true;
   int* dev_data = nullptr;
