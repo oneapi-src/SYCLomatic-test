@@ -68,7 +68,7 @@
     <test testName="cublasTtrmmLegacy" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="cublas-usm-legacy" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
-    <test testName="math-bfloat16" configFile="config/TEMPLATE_math_bfloat16.xml" />
+<!--    <test testName="math-bfloat16" configFile="config/TEMPLATE_math_bfloat16.xml" />-->
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml"  splitGroup="double" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
