@@ -255,8 +255,8 @@ init_data<unsigned int>(dev_data_u, DATA_NUM);
 ShuffleSyncKernel2<<<GridSize, BlockSize>>>(dev_data_u);
 
 cudaDeviceSynchronize();
-// The result[31, 63, 95, 127] is undefined, so ignore those value.
-ignore_index = {31, 63, 95, 127};
+// The result[15, 47, 79, 111] is undefined, so ignore those value.
+ignore_index = {15, 47, 79, 111};
 if(!verify_data<unsigned int>(dev_data_u, expect5, DATA_NUM, 1, ignore_index)) {
   std::cout << "ShuffleSyncKernel2" << " verify failed" << std::endl;
   Result = false;
