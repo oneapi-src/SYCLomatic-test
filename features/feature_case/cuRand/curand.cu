@@ -125,5 +125,16 @@ int bar6(){
 
 void bar7() {
   curandGenerator_t rng;
-  curandCreateGeneratorHost(&rng, CURAND_RNG_PSEUDO_PHILOX4_32_10);
+  curandRngType_t rngT1 = CURAND_RNG_PSEUDO_DEFAULT;
+  curandRngType_t rngT2 = CURAND_RNG_PSEUDO_XORWOW;
+  curandRngType_t rngT3 = CURAND_RNG_PSEUDO_MRG32K3A;
+  curandRngType_t rngT4 = CURAND_RNG_PSEUDO_MTGP32;
+  curandRngType_t rngT5 = CURAND_RNG_PSEUDO_MT19937;
+  curandRngType_t rngT6 = CURAND_RNG_PSEUDO_PHILOX4_32_10;
+  curandRngType_t rngT7 = CURAND_RNG_QUASI_DEFAULT;
+  curandRngType_t rngT8 = CURAND_RNG_QUASI_SOBOL32;
+  curandRngType_t rngT9 = CURAND_RNG_QUASI_SCRAMBLED_SOBOL32;
+  curandRngType_t rngT10 = CURAND_RNG_QUASI_SOBOL64;
+  curandRngType_t rngT11 = CURAND_RNG_QUASI_SCRAMBLED_SOBOL64;
+  curandCreateGeneratorHost(&rng, rngT1);
 }

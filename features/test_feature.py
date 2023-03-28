@@ -36,14 +36,14 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'cudnn_mutilple_files', "cusparse_1",
               'cudnn-GetErrorString',
               'cudnn-types',
-              'constant_attr',
+              'constant_attr', 'sync_warp_p2',
               'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
               'cusolver_test1', 'cusolver_test2', 'cusolver_test3', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
               'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',
               'thrust_set_difference', 'thrust_set_difference_by_key', 'thrust_set_intersection_by_key', 'thrust_stable_sort',
               'thrust_tabulate', 'thrust_for_each_n', 'device_info', 'defaultStream', 'cudnn-rnn', 'feature_profiling',
-              'thrust_raw_reference_cast', 'thrust_partition_copy', 'thrust_stable_partition_copy', 'sync_warp_p2',
-              'thrust_stable_partition', 'thrust_remove']
+              'thrust_raw_reference_cast', 'thrust_partition_copy', 'thrust_stable_partition_copy',
+              'thrust_stable_partition', 'thrust_remove', 'cub_device_segmented_sort_pairs']
 
 def setup_test():
     return True

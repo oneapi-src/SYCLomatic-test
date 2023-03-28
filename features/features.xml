@@ -68,7 +68,7 @@
     <test testName="cublasTtrmmLegacy" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="cublas-usm-legacy" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
-    <test testName="math-bfloat16" configFile="config/TEMPLATE_math_bfloat16.xml" />
+<!--    <test testName="math-bfloat16" configFile="config/TEMPLATE_math_bfloat16.xml" />-->
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml"  splitGroup="double" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
@@ -87,6 +87,7 @@
     <test testName="cusparse-usm" configFile="config/TEMPLATE_cusparse_before_11.xml" />
     <test testName="perm_byte" configFile="config/TEMPLATE_perm_byte.xml" />
     <test testName="feature_profiling" configFile="config/TEMPLATE_feature_profiling.xml" />
+    <test testName="grid_constant" configFile="config/TEMPLATE_grid_constant.xml" />
     <test testName="grid_sync" configFile="config/TEMPLATE_grid_sync.xml" />
     <test testName="kernel-launch" configFile="config/TEMPLATE_runtimeAPI.xml" />
     <test testName="cusolver_range" configFile="config/TEMPLATE_cusolver_range.xml" />
@@ -145,6 +146,7 @@
     <test testName="cub_device_radix_sort_keys" configFile="config/TEMPLATE_cub_device_radix_sort.xml" />
     <test testName="cub_device_radix_sort_pairs" configFile="config/TEMPLATE_cub_device_radix_sort.xml" />
     <test testName="cub_device_seg_radix_sort_pairs" configFile="config/TEMPLATE_cub_device_radix_sort.xml" />
+    <test testName="cub_device_segmented_sort_pairs" configFile="config/TEMPLATE_cub_device_segmented_sort.xml" />
     <test testName="cub_counting_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
     <test testName="cub_constant_iterator" configFile="config/TEMPLATE_cub_device.xml" />

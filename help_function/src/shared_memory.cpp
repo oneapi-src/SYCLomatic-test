@@ -43,7 +43,7 @@ int main () {
     size_t result_offset_ct1 = result_buf_ct1.second;
     dpct::get_default_queue().submit(
       [&](sycl::handler &cgh) {
-        sycl::accessor<float, 1, sycl::access::mode::read_write, sycl::access::target::local> resultInGroup_acc_ct1(sycl::range<1>(8), cgh);
+        sycl::local_accessor<float, 1> resultInGroup_acc_ct1(sycl::range<1>(8), cgh);
         auto array_acc_ct0 = array_buf_ct0.first.get_access<sycl::access::mode::read_write>(cgh);
         auto result_acc_ct1 = result_buf_ct1.first.get_access<sycl::access::mode::read_write>(cgh);
 
