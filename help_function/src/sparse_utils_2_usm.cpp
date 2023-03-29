@@ -117,6 +117,8 @@ bool compare_result(float *expect, float *result, std::vector<int> indices) {
 
 bool test_passed = true;
 
+const bool run_complex_datatype = false;
+
 void test_cusparseSetGetStream() {
   sycl::queue *handle;
   handle = &dpct::get_default_queue();
@@ -216,8 +218,30 @@ void test_cusparseTcsrmv_ge() {
                       (double *)a_d_val.d_data, (int *)a_row_ptr.d_data,
                       (int *)a_col_ind.d_data, (double *)b_d.d_data,
                       (double *)beta_d.d_data, (double *)c_d.d_data);
-  //cusparseCcsrmv(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, (float2 *)alpha_c.d_data, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (float2 *)b_c.d_data, (float2 *)beta_c.d_data, (float2 *)c_c.d_data);
-  //cusparseZcsrmv(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, (double2 *)alpha_z.d_data, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (double2 *)b_z.d_data, (double2 *)beta_z.d_data, (double2 *)c_z.d_data);
+  if (run_complex_datatype) {
+    /*
+    DPCT1045:4: Migration is only supported for this API for the
+    general/symmetric/triangular sparse matrix type. You may need to adjust the
+    code.
+    */
+    dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 5,
+                        (sycl::float2 *)alpha_c.d_data, descrA,
+                        (sycl::float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data,
+                        (int *)a_col_ind.d_data, (sycl::float2 *)b_c.d_data,
+                        (sycl::float2 *)beta_c.d_data,
+                        (sycl::float2 *)c_c.d_data);
+    /*
+    DPCT1045:5: Migration is only supported for this API for the
+    general/symmetric/triangular sparse matrix type. You may need to adjust the
+    code.
+    */
+    dpct::sparse::csrmv(
+        *handle, oneapi::mkl::transpose::nontrans, 4, 5,
+        (sycl::double2 *)alpha_z.d_data, descrA,
+        (sycl::double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data,
+        (int *)a_col_ind.d_data, (sycl::double2 *)b_z.d_data,
+        (sycl::double2 *)beta_z.d_data, (sycl::double2 *)c_z.d_data);
+  }
 
   c_s.D2H();
   c_d.D2H();
@@ -289,7 +313,7 @@ void test_cusparseTcsrmv_sy() {
   handle = &q_ct1;
 
   /*
-  DPCT1026:4: The call to cusparseSetPointerMode was removed because this call
+  DPCT1026:6: The call to cusparseSetPointerMode was removed because this call
   is redundant in SYCL.
   */
 
@@ -318,7 +342,7 @@ void test_cusparseTcsrmv_sy() {
   beta_z.H2D();
 
   /*
-  DPCT1045:5: Migration is only supported for this API for the
+  DPCT1045:7: Migration is only supported for this API for the
   general/symmetric/triangular sparse matrix type. You may need to adjust the
   code.
   */
@@ -328,7 +352,7 @@ void test_cusparseTcsrmv_sy() {
                       (float *)b_s.d_data, (float *)beta_s.d_data,
                       (float *)c_s.d_data);
   /*
-  DPCT1045:6: Migration is only supported for this API for the
+  DPCT1045:8: Migration is only supported for this API for the
   general/symmetric/triangular sparse matrix type. You may need to adjust the
   code.
   */
@@ -337,8 +361,30 @@ void test_cusparseTcsrmv_sy() {
                       (double *)a_d_val.d_data, (int *)a_row_ptr.d_data,
                       (int *)a_col_ind.d_data, (double *)b_d.d_data,
                       (double *)beta_d.d_data, (double *)c_d.d_data);
-  //cusparseCcsrmv(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 4, 10, (float2 *)alpha_c.d_data, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (float2 *)b_c.d_data, (float2 *)beta_c.d_data, (float2 *)c_c.d_data);
-  //cusparseZcsrmv(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 4, 10, (double2 *)alpha_z.d_data, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (double2 *)b_z.d_data, (double2 *)beta_z.d_data, (double2 *)c_z.d_data);
+  if (run_complex_datatype) {
+    /*
+    DPCT1045:10: Migration is only supported for this API for the
+    general/symmetric/triangular sparse matrix type. You may need to adjust the
+    code.
+    */
+    dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 4,
+                        (sycl::float2 *)alpha_c.d_data, descrA,
+                        (sycl::float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data,
+                        (int *)a_col_ind.d_data, (sycl::float2 *)b_c.d_data,
+                        (sycl::float2 *)beta_c.d_data,
+                        (sycl::float2 *)c_c.d_data);
+    /*
+    DPCT1045:11: Migration is only supported for this API for the
+    general/symmetric/triangular sparse matrix type. You may need to adjust the
+    code.
+    */
+    dpct::sparse::csrmv(
+        *handle, oneapi::mkl::transpose::nontrans, 4, 4,
+        (sycl::double2 *)alpha_z.d_data, descrA,
+        (sycl::double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data,
+        (int *)a_col_ind.d_data, (sycl::double2 *)b_z.d_data,
+        (sycl::double2 *)beta_z.d_data, (sycl::double2 *)c_z.d_data);
+  }
 
   c_s.D2H();
   c_d.D2H();
@@ -347,7 +393,7 @@ void test_cusparseTcsrmv_sy() {
 
   q_ct1.wait();
   /*
-  DPCT1026:7: The call to cusparseDestroyMatDescr was removed because this call
+  DPCT1026:9: The call to cusparseDestroyMatDescr was removed because this call
   is redundant in SYCL.
   */
   handle = nullptr;
@@ -411,7 +457,7 @@ void test_cusparseTcsrmv_tr() {
   handle = &q_ct1;
 
   /*
-  DPCT1026:8: The call to cusparseSetPointerMode was removed because this call
+  DPCT1026:12: The call to cusparseSetPointerMode was removed because this call
   is redundant in SYCL.
   */
 
@@ -441,7 +487,7 @@ void test_cusparseTcsrmv_tr() {
   beta_z.H2D();
 
   /*
-  DPCT1045:9: Migration is only supported for this API for the
+  DPCT1045:13: Migration is only supported for this API for the
   general/symmetric/triangular sparse matrix type. You may need to adjust the
   code.
   */
@@ -451,7 +497,7 @@ void test_cusparseTcsrmv_tr() {
                       (float *)b_s.d_data, (float *)beta_s.d_data,
                       (float *)c_s.d_data);
   /*
-  DPCT1045:10: Migration is only supported for this API for the
+  DPCT1045:14: Migration is only supported for this API for the
   general/symmetric/triangular sparse matrix type. You may need to adjust the
   code.
   */
@@ -460,8 +506,30 @@ void test_cusparseTcsrmv_tr() {
                       (double *)a_d_val.d_data, (int *)a_row_ptr.d_data,
                       (int *)a_col_ind.d_data, (double *)b_d.d_data,
                       (double *)beta_d.d_data, (double *)c_d.d_data);
-  //cusparseCcsrmv(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 4, 7, (float2 *)alpha_c.d_data, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (float2 *)b_c.d_data, (float2 *)beta_c.d_data, (float2 *)c_c.d_data);
-  //cusparseZcsrmv(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 4, 7, (double2 *)alpha_z.d_data, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (double2 *)b_z.d_data, (double2 *)beta_z.d_data, (double2 *)c_z.d_data);
+  if (run_complex_datatype) {
+    /*
+    DPCT1045:16: Migration is only supported for this API for the
+    general/symmetric/triangular sparse matrix type. You may need to adjust the
+    code.
+    */
+    dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 4,
+                        (sycl::float2 *)alpha_c.d_data, descrA,
+                        (sycl::float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data,
+                        (int *)a_col_ind.d_data, (sycl::float2 *)b_c.d_data,
+                        (sycl::float2 *)beta_c.d_data,
+                        (sycl::float2 *)c_c.d_data);
+    /*
+    DPCT1045:17: Migration is only supported for this API for the
+    general/symmetric/triangular sparse matrix type. You may need to adjust the
+    code.
+    */
+    dpct::sparse::csrmv(
+        *handle, oneapi::mkl::transpose::nontrans, 4, 4,
+        (sycl::double2 *)alpha_z.d_data, descrA,
+        (sycl::double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data,
+        (int *)a_col_ind.d_data, (sycl::double2 *)b_z.d_data,
+        (sycl::double2 *)beta_z.d_data, (sycl::double2 *)c_z.d_data);
+  }
 
   c_s.D2H();
   c_d.D2H();
@@ -470,7 +538,7 @@ void test_cusparseTcsrmv_tr() {
 
   q_ct1.wait();
   /*
-  DPCT1026:11: The call to cusparseDestroyMatDescr was removed because this call
+  DPCT1026:15: The call to cusparseDestroyMatDescr was removed because this call
   is redundant in SYCL.
   */
   handle = nullptr;
@@ -527,7 +595,7 @@ void test_cusparseTcsrmm() {
   handle = &q_ct1;
 
   /*
-  DPCT1026:12: The call to cusparseSetPointerMode was removed because this call
+  DPCT1026:18: The call to cusparseSetPointerMode was removed because this call
   is redundant in SYCL.
   */
 
@@ -556,7 +624,7 @@ void test_cusparseTcsrmm() {
   beta_z.H2D();
 
   /*
-  DPCT1045:13: Migration is only supported for this API for the general sparse
+  DPCT1045:19: Migration is only supported for this API for the general sparse
   matrix type. You may need to adjust the code.
   */
   dpct::sparse::csrmm(*handle, oneapi::mkl::transpose::nontrans, 4, 2, 5,
@@ -565,7 +633,7 @@ void test_cusparseTcsrmm() {
                       (float *)b_s.d_data, 5, (float *)beta_s.d_data,
                       (float *)c_s.d_data, 4);
   /*
-  DPCT1045:14: Migration is only supported for this API for the general sparse
+  DPCT1045:20: Migration is only supported for this API for the general sparse
   matrix type. You may need to adjust the code.
   */
   dpct::sparse::csrmm(*handle, oneapi::mkl::transpose::nontrans, 4, 2, 5,
@@ -573,8 +641,28 @@ void test_cusparseTcsrmm() {
                       (double *)a_d_val.d_data, (int *)a_row_ptr.d_data,
                       (int *)a_col_ind.d_data, (double *)b_d.d_data, 5,
                       (double *)beta_d.d_data, (double *)c_d.d_data, 4);
-  //cusparseCcsrmm(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 2, 5, 9, (float2 *)alpha_c.d_data, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (float2 *)b_c.d_data, 5, (float2 *)beta_c.d_data, (float2 *)c_c.d_data, 4);
-  //cusparseZcsrmm(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 2, 5, 9, (double2 *)alpha_z.d_data, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (double2 *)b_z.d_data, 5, (double2 *)beta_z.d_data, (double2 *)c_z.d_data, 4);
+  if (run_complex_datatype) {
+    /*
+    DPCT1045:22: Migration is only supported for this API for the general sparse
+    matrix type. You may need to adjust the code.
+    */
+    dpct::sparse::csrmm(*handle, oneapi::mkl::transpose::nontrans, 4, 2, 5,
+                        (sycl::float2 *)alpha_c.d_data, descrA,
+                        (sycl::float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data,
+                        (int *)a_col_ind.d_data, (sycl::float2 *)b_c.d_data, 5,
+                        (sycl::float2 *)beta_c.d_data,
+                        (sycl::float2 *)c_c.d_data, 4);
+    /*
+    DPCT1045:23: Migration is only supported for this API for the general sparse
+    matrix type. You may need to adjust the code.
+    */
+    dpct::sparse::csrmm(
+        *handle, oneapi::mkl::transpose::nontrans, 4, 2, 5,
+        (sycl::double2 *)alpha_z.d_data, descrA,
+        (sycl::double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data,
+        (int *)a_col_ind.d_data, (sycl::double2 *)b_z.d_data, 5,
+        (sycl::double2 *)beta_z.d_data, (sycl::double2 *)c_z.d_data, 4);
+  }
 
   c_s.D2H();
   c_d.D2H();
@@ -583,7 +671,7 @@ void test_cusparseTcsrmm() {
 
   q_ct1.wait();
   /*
-  DPCT1026:15: The call to cusparseDestroyMatDescr was removed because this call
+  DPCT1026:21: The call to cusparseDestroyMatDescr was removed because this call
   is redundant in SYCL.
   */
   handle = nullptr;
@@ -638,13 +726,21 @@ void test_cusparseTcsrsv() {
                                descrA, (double *)a_d_val.d_data,
                                (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data,
                                info);
-  //cusparseCcsrsv_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 9, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info);
-  //cusparseZcsrsv_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 9, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info);
+  if (run_complex_datatype) {
+    dpct::sparse::optimize_csrsv(*handle, oneapi::mkl::transpose::nontrans, 4,
+                                 descrA, (sycl::float2 *)a_c_val.d_data,
+                                 (int *)a_row_ptr.d_data,
+                                 (int *)a_col_ind.d_data, info);
+    dpct::sparse::optimize_csrsv(*handle, oneapi::mkl::transpose::nontrans, 4,
+                                 descrA, (sycl::double2 *)a_z_val.d_data,
+                                 (int *)a_row_ptr.d_data,
+                                 (int *)a_col_ind.d_data, info);
+  }
 
   q_ct1.wait();
   info.reset();
   /*
-  DPCT1026:16: The call to cusparseDestroyMatDescr was removed because this call
+  DPCT1026:24: The call to cusparseDestroyMatDescr was removed because this call
   is redundant in SYCL.
   */
   handle = nullptr;
