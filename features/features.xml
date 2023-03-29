@@ -365,6 +365,7 @@
     <test testName="free-queries" configFile="config/TEMPLATE_freeQueries.xml" />
     <test testName="deviceProp" configFile="config/TEMPLATE_deviceProp.xml" />
     <test testName="gridThreads" configFile="config/TEMPLATE_gridThreads.xml" />
+    <test testName="device_cpu" configFile="config/TEMPLATE_device_cpu.xml" />
     <test testName="kernel_library" configFile="config/TEMPLATE_kernel_library.xml" />
     <test testName="BlasUtils_api_test11" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
     <test testName="BlasUtils_api_test12" configFile="config/TEMPLATE_custom_helper_files_BlasUtils.xml" />
