@@ -2,15 +2,8 @@
 
 template <typename T> T *init(std::initializer_list<T> list) {
   T *p = nullptr;
-  if (cudaMalloc<T>(&p, sizeof(T) * list.size())) {
-    std::cout << "cudaMalloc failed\n";
-    exit(1);
-  }
-  if (cudaMemcpy(p, list.begin(), sizeof(T) * list.size(),
-                 cudaMemcpyHostToDevice) != cudaSuccess) {
-    std::cout << "cudaMemcpy failed\n";
-    exit(1);
-  }
+  cudaMalloc<T>(&p, sizeof(T) * list.size());
+  cudaMemcpy(p, list.begin(), sizeof(T) * list.size(), cudaMemcpyHostToDevice);
   return p;
 }
 

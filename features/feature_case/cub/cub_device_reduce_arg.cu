@@ -87,22 +87,22 @@ bool test_arg_min_non_default_stream() {
 
 int main() {
   int res = 0;
-  if (test_arg_max()) {
+  if (!test_arg_max()) {
     res = 1;
     std::cout << "cub::DeviceReduce::ArgMax test failed\n";
   }
 
-  if (test_arg_max_non_defaule_stream()) {
+  if (!test_arg_max_non_defaule_stream()) {
     res = 1;
     std::cout << "cub::DeviceReduce::ArgMax(Non default stream) test failed\n";
   }
 
-  if (test_arg_min()) {
+  if (!test_arg_min()) {
     res = 1;
     std::cout << "cub::DeviceReduce::ArgMin test failed\n";
   }
 
-  if (test_arg_min_non_default_stream()) {
+  if (!test_arg_min_non_default_stream()) {
     res = 1;
     std::cout << "cub::DeviceReduce::ArgMin(Non default stream) test failed\n";
   }
