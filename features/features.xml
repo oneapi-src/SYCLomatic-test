@@ -124,6 +124,7 @@
     <test testName="driverDevice" configFile="config/TEMPLATE_driverDevice.xml" />
     <test testName="driverStreamAndEvent" configFile="config/TEMPLATE_driverStreamAndEvent.xml" />
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
+    <test testName="sync_warp_p2" configFile="config/TEMPLATE_sync_warp_p2.xml" />
     <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />

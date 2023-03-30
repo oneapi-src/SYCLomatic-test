@@ -37,7 +37,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'cudnn_mutilple_files', "cusparse_1", "cusparse_2",
               'cudnn-GetErrorString',
               'cudnn-types',
-              'constant_attr',
+              'constant_attr', 'sync_warp_p2',
               'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
               'cusolver_test1', 'cusolver_test2', 'cusolver_test3', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
               'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',
@@ -84,7 +84,8 @@ def migrate_test():
         src.append(' --use-dpcpp-extensions=intel_device_math')
     if test_config.current_test == 'feature_profiling':
         src.append(' --enable-profiling ')
-
+    if test_config.current_test == 'sync_warp_p2':
+        src.append(' --use-experimental-features=masked_sub_group_function ')
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
