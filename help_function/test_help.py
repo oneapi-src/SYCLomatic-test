@@ -48,6 +48,7 @@ def build_test():
     fft_cases = ["fft_utils_engine_buffer", "fft_utils_engine_usm", "fft_workspace_interface", "fft_set_workspace"]
     lapack_cases = ["lapack_utils_buffer", "lapack_utils_usm"]
     rng_cases = ["rng_generator", "rng_generator_vec_size_1", "rng_host"]
+    sparse_cases = ["sparse_utils_2_buffer", "sparse_utils_2_usm"]
 
     srcs = []
     cmp_opts = []
@@ -82,8 +83,8 @@ def build_test():
         else:
             link_opts.append(' dnnl.lib')
     if (test_config.current_test in blas_cases) or (test_config.current_test in fft_cases) or (
-            test_config.current_test in lapack_cases) or (test_config.current_test in rng_cases) or (
-                test_config.current_test in oneDNN_related):
+       test_config.current_test in lapack_cases) or (test_config.current_test in rng_cases) or (
+       test_config.current_test in oneDNN_related) or (test_config.current_test in sparse_cases):
         mkl_opts = []
         if platform.system() == "Linux":
             mkl_opts = test_config.mkl_link_opt_lin
