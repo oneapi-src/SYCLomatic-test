@@ -45,7 +45,8 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'thrust_set_difference', 'thrust_set_difference_by_key', 'thrust_set_intersection_by_key', 'thrust_stable_sort',
               'thrust_tabulate', 'thrust_for_each_n', 'device_info', 'defaultStream', 'cudnn-rnn', 'feature_profiling',
               'thrust_raw_reference_cast', 'thrust_partition_copy', 'thrust_stable_partition_copy',
-              'thrust_stable_partition', 'thrust_remove', 'cub_device_segmented_sort_pairs']
+              'thrust_stable_partition', 'thrust_remove', 'cub_device_segmented_sort_pairs', 'thrust_find_if_not',
+              'thrust_find_if']
 
 def setup_test():
     return True
