@@ -29,8 +29,8 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'cub_device_inclusive_sum_by_key', 'cub_device_exclusive_sum_by_key', 'cub_device_inclusive_scan_by_key', 'cub_device_exclusive_scan_by_key',
               'cub_device_reduce_arg', 'cub_device_seg_sort_pairs', 'cub_intrinsic',
               'cub_transform_iterator', 'activemask', 'complex', 'thrust-math', 'libcu_array', 'libcu_complex', 'libcu_tuple',
-              'user_defined_rules', 'math-exec', 'math-habs', 'math-emu-double', 'math-emu-float', 'math-emu-half', 'math-emu-half2',
-              'math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'cudnn-activation',
+              'user_defined_rules', 'math-exec', 'math-habs', 'math-emu-double', 'math-emu-float', 'math-emu-half', 'math-emu-half2', 'math-emu-simd',
+              'math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'math-ext-simd', 'cudnn-activation',
               'cudnn-fill', 'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax',
               'cudnn-sum', 'math-funnelshift', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
               'math-bfloat16', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
@@ -70,7 +70,7 @@ def migrate_test():
     nd_range_bar_exper = ['grid_sync', 'Util_api_test12']
     logical_group_exper = ['cooperative_groups', 'Util_api_test23', 'Util_api_test24', 'Util_api_test25']
 
-    math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2']
+    math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'math-ext-simd']
 
     if test_config.current_test in size_deallocation:
         extra_args.append(' -fsized-deallocation ')
