@@ -132,6 +132,7 @@
     <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_min" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_max" configFile="config/TEMPLATE_cub_device.xml"/>
+    <test testName="cub_device_reduce_arg" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_by_key" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_scan_inclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
@@ -151,6 +152,8 @@
     <test testName="cub_device_radix_sort_pairs" configFile="config/TEMPLATE_cub_device_radix_sort.xml" />
     <test testName="cub_device_seg_radix_sort_pairs" configFile="config/TEMPLATE_cub_device_radix_sort.xml" />
     <test testName="cub_device_segmented_sort_pairs" configFile="config/TEMPLATE_cub_device_segmented_sort.xml" />
+    <test testName="cub_device_seg_sort_pairs" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_intrinsic" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_counting_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
     <test testName="cub_constant_iterator" configFile="config/TEMPLATE_cub_device.xml" />
