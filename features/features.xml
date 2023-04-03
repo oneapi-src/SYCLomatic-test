@@ -43,6 +43,7 @@
     <test testName="thrust_set_intersection_by_key" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_find_if_not" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_find_if" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_mismatch" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_stable_sort" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_tabulate" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_for_each_n" configFile="config/TEMPLATE_thrust_api.xml" />
