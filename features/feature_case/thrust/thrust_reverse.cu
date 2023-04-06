@@ -1,4 +1,4 @@
-// ====------ thrust_reverse.cu------------------------------------- *- CUDA -*
+// ====------ thrust_reverse.cu-------------------------------------- *- CUDA -*
 // -------------------===//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
