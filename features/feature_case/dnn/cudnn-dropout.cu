@@ -67,6 +67,7 @@ void test1(){
         std::cout << "test failed" << std::endl;
         exit(-1);
     }
+
     cudnnDropoutBackward(handle, desc, dataTensor, d_out, outTensor, d_data, reserve, reserve_size);
     cudaDeviceSynchronize();
     sum = 0.f;
