@@ -140,6 +140,7 @@
     <test testName="rng_host" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="blas_extension_api_buffer" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
+    <test testName="dnnl_utils_version" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_rnn" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_activation" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_fill" configFile="config/TEMPLATE_help_function_usmnone.xml" />
