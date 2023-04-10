@@ -1,4 +1,4 @@
-// ====------ vector_add.cu---------- *- CUDA -* ----===////
+// ====------ kernel-func.cu ---------- *- CUDA -* ----===////
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
@@ -17,13 +17,7 @@ class TestVirtual {
 public:
 
     __device__ TestVirtual() {}
-// CHECK: /*
-// CHECK-NEXT: DPCT1109:{{[0-9]+}}: Virtual functions cannot be called in a SYCL kernel or by functions called by the kernel. You may need to adjust the code.
-// CHECK-NEXT: */
     __device__ virtual ~TestVirtual() {}
-// CHECK: /*
-// CHECK-NEXT: DPCT1109:{{[0-9]+}}: Virtual functions cannot be called in a SYCL kernel or by functions called by the kernel. You may need to adjust the code.
-// CHECK-NEXT: */
     __device__ virtual void push(const T &&e)= 0;
 };
 template <typename T>
@@ -34,9 +28,6 @@ public:
     __device__ ~TestSeqContainer() {
         if (m_data) delete []m_data;
     }
-    // CHECK: /*
-    // CHECK-NEXT: DPCT1109:{{[0-9]+}}: Virtual functions cannot be called in a SYCL kernel or by functions called by the kernel. You may need to adjust the code.
-    // CHECK-NEXT: */
     __device__ virtual void push(const T &&e) {
         if (m_data) {
            int idx = atomicAdd(&this->index_top, 1);
