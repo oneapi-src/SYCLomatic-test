@@ -31,11 +31,7 @@ __global__ void testMathFunctions(char *const TestResults) {
   // Check that the intermediate bfloat16 value has the expected byte
   // representation. The CUDA and SYCL values both use round-to-nearest-even
   // rounding mode.
-#ifdef DPCT_COMPATIBILITY_TEMP
-  TestResults[0] = (convertToU16(bf16) == 0x4048);
-#else
   TestResults[0] = (convertToU16(bf16) == 0x4049);
-#endif
 
   // Check that the converted value is close to the original. The two values
   // may differ slightly due to the loss of precision during type conversion.
