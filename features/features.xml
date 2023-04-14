@@ -192,6 +192,7 @@
     <test testName="cudnn-convp5" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-rnn" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-types" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-version" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="Atomic_api_test1" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
     <test testName="Atomic_api_test2" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
     <test testName="Atomic_api_test3" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
