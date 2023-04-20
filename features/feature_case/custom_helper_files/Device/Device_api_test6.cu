@@ -18,5 +18,7 @@
 int main() {
   cudaDeviceProp deviceProp;
   cudaGetDeviceProperties(&deviceProp, 0);
+  deviceProp.uuid;
+  deviceProp.pciDeviceID;
   return 0;
 }
