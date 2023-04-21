@@ -113,6 +113,7 @@
     <test testName="onedpl_test_sort_by_key" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_sort_keys" configFile="config/TEMPLATE_help_function_skip_double.xml" />
     <test testName="onedpl_test_sort_pairs" configFile="config/TEMPLATE_help_function_skip_double.xml" />
+    <test testName="onedpl_test_null_type" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_stable_partition_copy" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_stable_partition" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="onedpl_test_tabulate" configFile="config/TEMPLATE_help_function.xml" />
@@ -139,6 +140,7 @@
     <test testName="rng_host" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="blas_extension_api_buffer" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
+    <test testName="dnnl_utils_version" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_rnn" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_activation" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_fill" configFile="config/TEMPLATE_help_function_usmnone.xml" />
@@ -162,6 +164,7 @@
     <test testName="dnnl_utils_normalization_1" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double" />
     <test testName="dnnl_utils_normalization_2" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double" />
     <test testName="dnnl_utils_normalization_3" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double" />
+    <test testName="dnnl_utils_dropout" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="util_logical_group" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="fft_workspace_interface" configFile="config/TEMPLATE_help_function.xml" splitGroup="double"/>
     <test testName="fft_utils_engine_buffer" configFile="config/TEMPLATE_help_function_fft_buffer.xml"  splitGroup="double" />
@@ -172,6 +175,8 @@
     <test testName="lapack_utils_usm" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="util_cast_double_from_to_int_test" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="sparse_utils_1" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="sparse_utils_2_buffer" configFile="config/TEMPLATE_help_function_before_11_skip_double.xml" splitGroup="double" />
+    <test testName="sparse_utils_2_usm" configFile="config/TEMPLATE_help_function_before_11_skip_double.xml" splitGroup="double" />
     <test testName="atomic_compare_exchange_strong" configFile="config/TEMPLATE_help_function.xml" />
   </tests>
 </suite>

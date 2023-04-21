@@ -40,7 +40,7 @@ int main () {
     auto result_ct1 = result.get_ptr();
     dpct::get_default_queue().submit(
       [&](sycl::handler &cgh) {
-        sycl::accessor<float, 1, sycl::access::mode::read_write, sycl::access::target::local> resultInGroup_acc_ct1(sycl::range<1>(8), cgh);
+        sycl::local_accessor<float, 1> resultInGroup_acc_ct1(sycl::range<1>(8), cgh);
 
         cgh.parallel_for(
           sycl::nd_range<3>(sycl::range<3>(1, 1, M) * sycl::range<3>(1, 1, N), sycl::range<3>(1, 1, N)), 

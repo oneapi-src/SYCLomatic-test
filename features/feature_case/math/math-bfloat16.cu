@@ -1,11 +1,11 @@
-// ====------ math-bfloat16.cu---------- *- CUDA -* ----===////
+// ====-------------- math-bfloat16.cu---------- *- CUDA -* -------------===////
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //
-// ===----------------------------------------------------------------------===//
+// ===---------------------------------------------------------------------===//
 
 #include <cuda.h>
 #include <cuda_bf16.h>
@@ -29,15 +29,9 @@ __global__ void testMathFunctions(char *const TestResults) {
   const float f32 = __bfloat162float(bf16);
 
   // Check that the intermediate bfloat16 value has the expected byte
-  // representation. The CUDA and SYCL values differ due to a difference in
-  // the rounding mode used:
-  //   - CUDA: round-to-nearest-even mode
-  //   - SYCL: round-to-zero mode
-#ifdef DPCT_COMPATIBILITY_TEMP
-  TestResults[0] = (convertToU16(bf16) == 0x4048);
-#else
+  // representation. The CUDA and SYCL values both use round-to-nearest-even
+  // rounding mode.
   TestResults[0] = (convertToU16(bf16) == 0x4049);
-#endif
 
   // Check that the converted value is close to the original. The two values
   // may differ slightly due to the loss of precision during type conversion.
