@@ -219,7 +219,7 @@
     <test testName="Device_api_test3" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
     <test testName="Device_api_test4" configFile="config/TEMPLATE_custom_helper_files_Device_usm.xml" />
     <test testName="Device_api_test5" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
-    <test testName="Device_api_test6" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
+    <test testName="Device_api_test6" configFile="config/TEMPLATE_custom_helper_files_Device_above_9.2.xml" />
     <test testName="Device_api_test7" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
     <test testName="Device_api_test8" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
     <test testName="Device_api_test9" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
