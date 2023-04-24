@@ -15,7 +15,7 @@ int main() {
 
   size_t version = dpct::dnnl::get_version();
   std::cout << "version = " << version << std::endl;
-  if((version > 3000) && (version < 10000)) {
+  if((version >= 3000) && (version < 10000)) {
     std::cout << "passed" << std::endl;
   } else {
     std::cout << "failed" << std::endl;
