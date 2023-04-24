@@ -1763,7 +1763,7 @@ void test_cusolverDnTsygvj_cusolverDnThegvj() {
   printf("b_s:%f,%f,%f,%f\n", b_s.h_data[0], b_s.h_data[1], b_s.h_data[2], b_s.h_data[3]);
   printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
 
-  float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
+  float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
   float expect_b[4] = {1,0,0,1};
   float expect_w[2] = {0.000000,5.000000};
   if (compare_result(expect_a, a_s.h_data, 4) &&
