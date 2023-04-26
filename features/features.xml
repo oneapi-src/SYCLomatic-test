@@ -182,15 +182,15 @@
     <test testName="cudnn-bnp1" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
     <test testName="cudnn-bnp2" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
     <test testName="cudnn-bnp3" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
-    <test testName="cudnn-normp1" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
-    <test testName="cudnn-normp2" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
-    <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
+    <test testName="cudnn-normp1" configFile="config/TEMPLATE_cuDNN_skip_double_v8.xml" splitGroup="double" />
+    <test testName="cudnn-normp2" configFile="config/TEMPLATE_cuDNN_skip_double_v8.xml" splitGroup="double" />
+    <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN_skip_double_v8.xml" splitGroup="double" />
     <test testName="cudnn-convp1" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp2" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp3" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp4" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp5" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-rnn" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-rnn" configFile="config/TEMPLATE_cuDNN_v8.xml" />
     <test testName="cudnn-types" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-dropout" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-version" configFile="config/TEMPLATE_cuDNN.xml" />
