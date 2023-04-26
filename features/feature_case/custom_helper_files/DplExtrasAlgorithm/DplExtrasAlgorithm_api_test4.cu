@@ -22,7 +22,7 @@
 
 int main() {
   int A[10];
-  auto range = thrust::make_counting_iterator(0);
-  thrust::copy_if(A, A + 10, range, A,[=] __device__(int idx) { return true; });
+  int B[10];
+  thrust::copy_if(A, A + 10, B, A,[=] __device__(int idx) { return true; });
   return 0;
 }
