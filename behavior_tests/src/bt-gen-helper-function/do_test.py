@@ -26,6 +26,7 @@ def migrate_test():
     generated_header_file_root = os.path.join(os.getcwd(), "out", "include", "dpct")
 
     print("----------------------------------------------------")
+    print("!!!", shutil.which("dpct"))
     if (os.path.isdir(generated_header_file_root)):
         print("generated_header_file_root is dir")
     else:
