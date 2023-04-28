@@ -422,6 +422,14 @@
     <test testName="LapackUtils_api_test12" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
     <test testName="LapackUtils_api_test13" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
     <test testName="LapackUtils_api_test14" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test15" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_10.xml" />
+    <test testName="LapackUtils_api_test16" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_10.xml" />
+    <test testName="LapackUtils_api_test17" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test18" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_11.xml" />
+    <test testName="LapackUtils_api_test19" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_10.xml" />
+    <test testName="LapackUtils_api_test20" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_10.xml" />
+    <test testName="LapackUtils_api_test21" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_10.xml" />
+    <test testName="LapackUtils_api_test22" configFile="config/TEMPLATE_custom_helper_files_LapackUtils_10.xml" />
     <test testName="SparseUtils_api_test1" configFile="config/TEMPLATE_custom_helper_files_SparseUtils.xml" />
     <test testName="SparseUtils_api_test2" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml" />
     <test testName="SparseUtils_api_test3" configFile="config/TEMPLATE_custom_helper_files_SparseUtils_before_11.xml" />
