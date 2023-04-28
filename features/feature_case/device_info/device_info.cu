@@ -26,9 +26,6 @@ void test1() {
   const int id = properties.pciDeviceID;
   const cudaUUID_t uuid = properties.uuid;
 
-  properties.pciDeviceID = id;
-  properties.uuid = uuid;
-
   std::cout << "Device ID: " << id << std::endl;
   std::cout << "Device UUID: ";
   for (int i = 0; i < 16; i++) {

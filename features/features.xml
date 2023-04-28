@@ -14,9 +14,10 @@
     <test testName="thrust-copy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <!-- <test testName="thrust-qmc" configFile="config/thrust-qmc.xml" splitGroup="double"/> -->
     <test testName="thrust-transform-if" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <test testName="thrust-policy" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-policy" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust-list" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-gather" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-gather_if" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-scatter" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key_copy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -182,16 +183,17 @@
     <test testName="cudnn-bnp1" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
     <test testName="cudnn-bnp2" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
     <test testName="cudnn-bnp3" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
-    <test testName="cudnn-normp1" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
-    <test testName="cudnn-normp2" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
-    <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
+    <test testName="cudnn-normp1" configFile="config/TEMPLATE_cuDNN_skip_double_v8.xml" splitGroup="double" />
+    <test testName="cudnn-normp2" configFile="config/TEMPLATE_cuDNN_skip_double_v8.xml" splitGroup="double" />
+    <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN_skip_double_v8.xml" splitGroup="double" />
     <test testName="cudnn-convp1" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp2" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp3" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp4" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp5" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-rnn" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-rnn" configFile="config/TEMPLATE_cuDNN_v8.xml" />
     <test testName="cudnn-types" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-dropout" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-version" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="Atomic_api_test1" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
     <test testName="Atomic_api_test2" configFile="config/TEMPLATE_custom_helper_files_Atomic.xml" />
@@ -218,7 +220,7 @@
     <test testName="Device_api_test3" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
     <test testName="Device_api_test4" configFile="config/TEMPLATE_custom_helper_files_Device_usm.xml" />
     <test testName="Device_api_test5" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
-    <test testName="Device_api_test6" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
+    <test testName="Device_api_test6" configFile="config/TEMPLATE_custom_helper_files_Device_above_9.2.xml" />
     <test testName="Device_api_test7" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
     <test testName="Device_api_test8" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
     <test testName="Device_api_test9" configFile="config/TEMPLATE_custom_helper_files_Device.xml" />
@@ -455,8 +457,8 @@
     <test testName="cublas_v1_runable" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
-    <!-- <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" />
-    <test testName="ccl_test2" configFile="config/TEMPLATE_ccl_api.xml" /> -->
+    <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" />
+    <test testName="ccl_test2" configFile="config/TEMPLATE_ccl_api.xml" />
     <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="libcu_array" configFile="config/TEMPLATE_libcu.xml" />
@@ -466,6 +468,7 @@
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
     <test testName="defaultStream" configFile="config/TEMPLATE_defaultStream.xml" />
+    <test testName="volatile-vec" configFile="config/TEMPLATE_misc.xml" />
     <!-- <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" splitGroup="double" /> -->
   </tests>
 </suite>

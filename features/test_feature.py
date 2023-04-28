@@ -19,9 +19,11 @@ from test_utils import *
 
 exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust-copy',
               'thrust-qmc', 'thrust-transform-if', 'thrust-policy', 'thrust-list', 'module-kernel',
-              'kernel-launch', 'thrust-gather', 'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre',
+              'kernel-launch', 'thrust-gather',
+              'thrust-gather_if',
+              'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre',
               'thrust-rawptr-noneusm', 'driverStreamAndEvent', 'grid_sync', 'deviceProp', 'gridThreads', 'kernel_library', 'cub_block_p2',
-              'cub_constant_iterator', 'cub_device_reduce_max', 'cub_device_reduce_min', 'cub_discard_iterator', 'ccl_test2'
+              'cub_constant_iterator', 'cub_device_reduce_max', 'cub_device_reduce_min', 'cub_discard_iterator', 'ccl', 'ccl_test2'
               'cub_device', 'cub_device_reduce_sum', 'cub_device_reduce', 'cub_device_reduce_by_key', 'cub_device_select_unique_by_key',
               'cub_device_scan_inclusive_scan', 'cub_device_scan_exclusive_scan', 'cub_device_seg_radix_sort_pairs',
               'cub_device_scan_inclusive_sum', 'cub_device_scan_exclusive_sum', 'cub_device_select_unique', 'cub_device_radix_sort_keys', 'cub_device_radix_sort_pairs',
@@ -38,7 +40,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5',
               'cudnn_mutilple_files', "cusparse_1", "cusparse_2",
               'cudnn-GetErrorString',
-              'cudnn-types', 'cudnn-version',
+              'cudnn-types', 'cudnn-version', 'cudnn-dropout',
               'constant_attr', 'sync_warp_p2',
               'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
               'cusolver_test1', 'cusolver_test2', 'cusolver_test3', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
@@ -125,7 +127,7 @@ def build_test():
              'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3', 'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3',
              'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5', 'cudnn-rnn',
              'cudnn-GetErrorString',
-             'cudnn-types', 'cudnn-version'
+             'cudnn-types', 'cudnn-version', 'cudnn-dropout'
              ]
 
     if test_config.current_test in oneDPL_related:

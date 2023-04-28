@@ -156,6 +156,21 @@ void testNormfCases(const vector<pair<f_vector, fi_pair>> &TestCases) {
   }
 }
 
+__global__ void _rcbrtf(float *const DeviceResult, float Input1) {
+  *DeviceResult = rcbrtf(Input1);
+}
+
+void testRcbrtfCases(const vector<pair<float, fi_pair>> &TestCases) {
+  float *DeviceResult;
+  cudaMallocManaged(&DeviceResult, sizeof(*DeviceResult));
+  for (const auto &TestCase : TestCases) {
+    _rcbrtf<<<1, 1>>>(DeviceResult, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("rcbrtf", {TestCase.first}, TestCase.second.first,
+                *DeviceResult, TestCase.second.second);
+  }
+}
+
 __global__ void _rnorm3df(float *const DeviceResult, float Input1, float Input2,
                           float Input3) {
   *DeviceResult = rnorm3df(Input1, Input2, Input3);
@@ -266,6 +281,12 @@ int main() {
       {{0.3, 0.34, 0.98}, {1.079814791679382, 15}},
       {{0.5}, {0.5, 16}},
       {{23, 432, 23, 456, 23}, {629.402099609375, 13}},
+  });
+  testRcbrtfCases({
+      {-0.3, {-1.494, 3}},
+      {0.3, {1.494, 3}},
+      {0.5, {1.26, 3}},
+      {23, {0.3516, 4}},
   });
   testRnorm3dfCases({
       {{-0.3, -0.34, -0.98}, {0.9261, 4}},

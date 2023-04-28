@@ -14,9 +14,12 @@
 
 // CHECK: 30
 // TEST_FEATURE: Device_device_ext_get_device_info_return_info
-
+#include<string>
 int main() {
   cudaDeviceProp deviceProp;
   cudaGetDeviceProperties(&deviceProp, 0);
+  int id = deviceProp.pciDeviceID;
+  std::string name = deviceProp.name;
   return 0;
 }
+
