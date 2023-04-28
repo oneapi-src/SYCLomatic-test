@@ -31,15 +31,10 @@
 
 int main() {
   cudaDeviceProp deviceProp;
-  deviceProp.totalGlobalMem = 12345;
-  deviceProp.integrated = 1;
-  deviceProp.sharedMemPerBlock = 1;
-  deviceProp.major = 1;
-  deviceProp.clockRate = 1;
-  deviceProp.multiProcessorCount = 1;
-  deviceProp.warpSize = 1;
-  deviceProp.maxThreadsPerBlock = 1;
-  deviceProp.maxThreadsPerMultiProcessor = 1;
-  deviceProp.minor = 1;
+  cudaGetDeviceProperties(&deviceProp, 0);
+  int memoryClockRate = deviceProp.memoryClockRate;
+  int memoryBusWidth = deviceProp.memoryBusWidth;
+  int minor = deviceProp.minor;
+  int multiProcessorCount = deviceProp.multiProcessorCount;
   return 0;
 }
