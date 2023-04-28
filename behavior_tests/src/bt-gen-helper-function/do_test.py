@@ -21,22 +21,8 @@ def setup_test():
 def migrate_test():
     ret_file = ""
     ret = call_subprocess(test_config.CT_TOOL + " --gen-helper-function --out-root=out")
-    print("ret = ", ret)
     installed_header_file_root = os.path.join(os.path.dirname(get_ct_path()), "..", "include", "dpct")
     generated_header_file_root = os.path.join(os.getcwd(), "out", "include", "dpct")
-
-    print("----------------------------------------------------")
-    print("!!!", shutil.which("dpct"))
-    if (os.path.isdir(generated_header_file_root)):
-        print("generated_header_file_root is dir")
-    else:
-        print("generated_header_file_root is not dir")
-
-    for path, dirs, files in os.walk(generated_header_file_root):
-        for name in files:
-            abs_path = os.path.join(path, name)
-            print(abs_path)
-    print("====================================================")
 
     for path, dirs, files in os.walk(installed_header_file_root):
         for name in files:
