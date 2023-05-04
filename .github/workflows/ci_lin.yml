@@ -24,10 +24,10 @@ jobs:
         persist-credentials: false
         fetch-depth: ${{ env.PR_FETCH_DEPTH }}
     - name: Checkout Source Repo
-        env:
-          FACELESS_TOKEN: ${{ secrets.GH_CI_NSTESTER_TOKEN }}
-        run: |
-          git clone https://$FACELESS_TOKEN@github.com/oneapi-src/SYCLomatic.git c2s.src -b SYCLomatic
+      env:
+        FACELESS_TOKEN: ${{ secrets.GH_CI_NSTESTER_TOKEN }}
+      run: |
+        git clone https://$FACELESS_TOKEN@github.com/oneapi-src/SYCLomatic.git c2s.src -b SYCLomatic
     - name: Run clang-format
       uses: ./c2s.src/devops/actions/clang-format
 
