@@ -157,6 +157,7 @@
         <test testName="bt-multi-cuda-inc-path" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-tilde-path" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="open-source-mkl-compile" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
+        <test testName="bt-gen-helper-function" configFile="config/TEMPLATE_behavior_tests_win.xml" />
     </tests>
 
 </suite>

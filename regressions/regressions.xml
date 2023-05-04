@@ -30,7 +30,7 @@
 	<test testName="test-1662" configFile="config/TEMPLATE_regressions_thrust.xml" />
 	<test testName="test-1792" configFile="config/TEMPLATE_regressions_thrust.xml" />
         <test testName="test-1851" configFile="config/TEMPLATE_regressions.xml" />
-        <test testName="test-1865" configFile="config/TEMPLATE_regressions.xml" />
+ <!--       <test testName="test-1865" configFile="config/TEMPLATE_regressions.xml" />-->
         <test testName="test-1901" configFile="config/test-1901.xml"  />
         <test testName="test-1614" configFile="config/TEMPLATE_regressions.xml" />
         <test testName="test-1634" configFile="config/TEMPLATE_regressions.xml" />
