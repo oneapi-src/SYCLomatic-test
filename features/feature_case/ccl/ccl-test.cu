@@ -48,8 +48,8 @@ int main() {
 
     ncclAllReduce((void*)sendbuff, (void*)recvbuff, count, ncclFloat, ncclSum, comm, stream);
     cudaStreamSynchronize(stream);
-    MPI_Finalize();
     ncclCommDestroy(comm);
+    MPI_Finalize();
     cudaFree(sendbuff);
     cudaFree(recvbuff);
     free(hostbuff);

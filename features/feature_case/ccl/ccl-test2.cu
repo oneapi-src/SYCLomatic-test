@@ -45,8 +45,8 @@ int main() {
 
     ncclBroadcast(sendbuff, sendbuff, count, ncclFloat, rank_g, comm, stream);
     cudaStreamSynchronize(stream);
-    MPI_Finalize();
     ncclCommDestroy(comm);
+    MPI_Finalize();
     cudaFree(sendbuff);
     free(hostbuff);
 
