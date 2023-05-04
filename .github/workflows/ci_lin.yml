@@ -13,6 +13,24 @@ env:
 
 jobs:
 
+  lint:
+    runs-on: build
+    steps:
+    - name: 'PR commits + 1'
+      run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+        persist-credentials: false
+        fetch-depth: ${{ env.PR_FETCH_DEPTH }}
+    - name: Checkout Source Repo
+        env:
+          FACELESS_TOKEN: ${{ secrets.GH_CI_NSTESTER_TOKEN }}
+        run: |
+          git clone https://$FACELESS_TOKEN@github.com/oneapi-src/SYCLomatic.git c2s.src -b SYCLomatic
+    - name: Run clang-format
+      uses: ./c2s.src/devops/actions/clang-format
+
   linux-test:
     name: linux-test-${{ matrix.test_suite }}-cpu
     runs-on: lin_ci_test
