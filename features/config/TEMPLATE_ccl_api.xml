@@ -5,6 +5,7 @@
     <files>
         <file path="feature_case/ccl/${testName}.cu" />
         <platformRule OSFamily="Windows" runOnThisPlatform="false" />
+        <optlevelRule excludeOptlevelNameString="usmnone" />
     </files>
 </test>
 
