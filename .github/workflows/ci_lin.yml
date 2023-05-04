@@ -14,7 +14,7 @@ env:
 jobs:
 
   lint:
-    runs-on: build
+    runs-on: lin_ci_test
     steps:
     - name: 'PR commits + 1'
       run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"
