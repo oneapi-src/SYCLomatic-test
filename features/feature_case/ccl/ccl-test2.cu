@@ -1,4 +1,4 @@
-// ====------ ccl-test.cu-------------------- *- CUDA -* --////////////--===////
+// ====------ ccl-test2.cu-------------------- *- CUDA -* --////////////--===////
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
@@ -14,14 +14,13 @@
 int main() {
     int version, nranks = 2, rank = 1, device_num = -1;
     int device_id = -1;
-
+    int rank_g=0;
     cudaStream_t stream=0;
-    size_t count = 10*1024*1024;
+    size_t count = 10*1024;
     float *sendbuff, *recvbuff,*hostbuff = (float *)malloc(count * sizeof(float));
     for(int i =1;i<count+1;++i) *(hostbuff+i-1)=i;
 
     cudaMalloc(&sendbuff, count * sizeof(float));
-    cudaMalloc(&recvbuff, count * sizeof(float));
     cudaMemcpy(sendbuff, hostbuff, sizeof(float) * count, cudaMemcpyHostToDevice);
     
     ncclUniqueId id;
@@ -42,16 +41,13 @@ int main() {
 
     ncclCommInitRank(&comm, nranks, id, rank);
 
-    ncclCommCount(comm, &device_num);
+    ncclCommUserRank(comm, &rank_g);
 
-    ncclCommCuDevice(comm, &device_id);
-
-    ncclAllReduce((void*)sendbuff, (void*)recvbuff, count, ncclFloat, ncclSum, comm, stream);
+    ncclBroadcast(sendbuff, sendbuff, count, ncclFloat, rank_g, comm, stream);
     cudaStreamSynchronize(stream);
     ncclCommDestroy(comm);
     MPI_Finalize();
     cudaFree(sendbuff);
-    cudaFree(recvbuff);
     free(hostbuff);
 
     printf("TEST PASS\n");
