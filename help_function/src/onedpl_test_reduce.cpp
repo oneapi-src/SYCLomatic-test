@@ -298,7 +298,7 @@ int main() {
         ::std::cout<<"about to call algo" << ::std::endl;
         // call algorithm
         dpct::segmented_reduce_argmax(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 
-                                      30, 9, dev_offsets, dev_offsets+1);
+                                      9, dev_offsets, dev_offsets+1);
         ::std::cout<<"finished call algo" << ::std::endl;
         
         queue.memcpy(output.data(), dev_output, 9 * sizeof(dpct::key_value_pair<ptrdiff_t, ::std::uint64_t>)).wait();
@@ -311,11 +311,13 @@ int main() {
         failed_tests += ASSERT_EQUAL(test_name, output[4].key, 3) || ASSERT_EQUAL(test_name, output[4].value, 8);
         failed_tests += ASSERT_EQUAL(test_name, output[5].key, 2) || ASSERT_EQUAL(test_name, output[5].value, 6);
         failed_tests += ASSERT_EQUAL(test_name, output[6].key, 2) || ASSERT_EQUAL(test_name, output[6].value, 7);
-        failed_tests += ASSERT_EQUAL(test_name, output[7].key, 1) || ASSERT_EQUAL(test_name, output[7].value, ::std::numeric_limits<::std::uint64_t>::lowest());
+        failed_tests += ASSERT_EQUAL(test_name, output[7].key, 1) || 
+                        ASSERT_EQUAL(test_name, output[7].value, ::std::numeric_limits<::std::uint64_t>::lowest());
         failed_tests += ASSERT_EQUAL(test_name, output[8].key, 0) || ASSERT_EQUAL(test_name, output[8].value, 7);
 
         // call algorithm
-        dpct::segmented_reduce_argmin(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 30, 9, dev_offsets, dev_offsets+1);
+        dpct::segmented_reduce_argmin(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 9, 
+                                      dev_offsets, dev_offsets+1);
 
         queue.memcpy(output.data(), dev_output, 9 * sizeof(dpct::key_value_pair<ptrdiff_t, ::std::uint64_t>)).wait();
 
@@ -327,7 +329,8 @@ int main() {
         failed_tests += ASSERT_EQUAL(test_name, output[4].key, 5) || ASSERT_EQUAL(test_name, output[4].value, 1);
         failed_tests += ASSERT_EQUAL(test_name, output[5].key, 0) || ASSERT_EQUAL(test_name, output[5].value, 0);
         failed_tests += ASSERT_EQUAL(test_name, output[6].key, 0) || ASSERT_EQUAL(test_name, output[6].value, 3);
-        failed_tests += ASSERT_EQUAL(test_name, output[7].key, 1) || ASSERT_EQUAL(test_name, output[7].value, ::std::numeric_limits<::std::uint64_t>::max());
+        failed_tests += ASSERT_EQUAL(test_name, output[7].key, 1) || 
+                        ASSERT_EQUAL(test_name, output[7].value, ::std::numeric_limits<::std::uint64_t>::max());
         failed_tests += ASSERT_EQUAL(test_name, output[8].key, 2) || ASSERT_EQUAL(test_name, output[8].value, 0);
 
         sycl::free(dev_input, queue);
