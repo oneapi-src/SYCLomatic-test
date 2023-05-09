@@ -286,22 +286,20 @@ int main() {
         auto queue = dpct::get_default_queue();
         ::std::uint64_t* dev_input = sycl::malloc_device<::std::uint64_t>(30, queue);
         ::std::uint64_t* dev_offsets = sycl::malloc_device<::std::uint64_t>(10, queue);
-        ::std::vector<dpct::key_value_pair<ptrdiff_t, ::std::uint64_t>> output(9);
+        ::std::vector<dpct::key_value_pair<int, ::std::uint64_t>> output(9);
 
-        dpct::key_value_pair<ptrdiff_t, ::std::uint64_t>* dev_output = 
-                sycl::malloc_device<dpct::key_value_pair<ptrdiff_t, ::std::uint64_t>>(9, queue);
+        dpct::key_value_pair<int, ::std::uint64_t>* dev_output = 
+                sycl::malloc_device<dpct::key_value_pair<int, ::std::uint64_t>>(9, queue);
 
         queue.memcpy(dev_input, input.data(), 30 * sizeof(::std::uint64_t)).wait();
         queue.memcpy(dev_offsets, offsets.data(), 10 * sizeof(::std::uint64_t)).wait();
-        queue.memcpy(dev_output, output.data(), 9 * sizeof(dpct::key_value_pair<ptrdiff_t, ::std::uint64_t>)).wait();
+        queue.memcpy(dev_output, output.data(), 9 * sizeof(dpct::key_value_pair<int, ::std::uint64_t>)).wait();
 
-        ::std::cout<<"about to call algo" << ::std::endl;
         // call algorithm
         dpct::segmented_reduce_argmax(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 
                                       9, dev_offsets, dev_offsets+1);
-        ::std::cout<<"finished call algo" << ::std::endl;
         
-        queue.memcpy(output.data(), dev_output, 9 * sizeof(dpct::key_value_pair<ptrdiff_t, ::std::uint64_t>)).wait();
+        queue.memcpy(output.data(), dev_output, 9 * sizeof(dpct::key_value_pair<int, ::std::uint64_t>)).wait();
 
         test_name = "dpct::segmented_reduce_argmax with ::std::uint64_t";
         failed_tests += ASSERT_EQUAL(test_name, output[0].key, 0) || ASSERT_EQUAL(test_name, output[0].value, 7);
@@ -319,7 +317,7 @@ int main() {
         dpct::segmented_reduce_argmin(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 9, 
                                       dev_offsets, dev_offsets+1);
 
-        queue.memcpy(output.data(), dev_output, 9 * sizeof(dpct::key_value_pair<ptrdiff_t, ::std::uint64_t>)).wait();
+        queue.memcpy(output.data(), dev_output, 9 * sizeof(dpct::key_value_pair<int, ::std::uint64_t>)).wait();
 
         test_name = "dpct::segmented_reduce_argmin with ::std::uint64_t";
         failed_tests += ASSERT_EQUAL(test_name, output[0].key, 0) || ASSERT_EQUAL(test_name, output[0].value, 7);
