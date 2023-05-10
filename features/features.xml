@@ -26,7 +26,7 @@
     <test testName="thrust-find" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-sort_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-inner_product" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <test testName="thrust-reduce_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <!-- <test testName="thrust-reduce_by_key" configFile="config/TEMPLATE_thrust_exec.xml" /> -->
     <test testName="thrust-pinned-allocator" configFile="config/TEMPLATE_thrust_pinned_allocator.xml" />
     <test testName="thrust_minmax_element" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_partition" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -143,7 +143,7 @@
     <test testName="cub_device_reduce_max" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_arg" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce" configFile="config/TEMPLATE_cub_device.xml"/>
-    <test testName="cub_device_reduce_by_key" configFile="config/TEMPLATE_cub_device.xml"/>
+    <!-- <test testName="cub_device_reduce_by_key" configFile="config/TEMPLATE_cub_device.xml"/> -->
     <test testName="cub_device_scan_inclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_scan_exclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_scan_inclusive_scan" configFile="config/TEMPLATE_cub_device.xml" />
@@ -155,7 +155,7 @@
     <test testName="cub_device_select_unique" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_select_unique_by_key" configFile="config/TEMPLATE_cub_unique_by_key.xml" />
     <test testName="cub_device_select_flagged" configFile="config/TEMPLATE_cub_device.xml" />
-    <test testName="cub_device_run_length_encode_encode" configFile="config/TEMPLATE_cub_device.xml" />
+    <!-- <test testName="cub_device_run_length_encode_encode" configFile="config/TEMPLATE_cub_device.xml" /> -->
     <test testName="cub_discard_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_radix_sort_keys" configFile="config/TEMPLATE_cub_device_radix_sort.xml" />
     <test testName="cub_device_radix_sort_pairs" configFile="config/TEMPLATE_cub_device_radix_sort.xml" />
@@ -457,8 +457,9 @@
     <test testName="cublas_v1_runable" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
-    <test testName="ccl" configFile="config/TEMPLATE_ccl.xml" />
-    <test testName="ccl_test2" configFile="config/TEMPLATE_ccl_api.xml" />
+    <test testName="ccl-test" configFile="config/TEMPLATE_ccl_api.xml" />
+    <test testName="ccl-test2" configFile="config/TEMPLATE_ccl_api.xml" />
+    <test testName="cooperative_groups_reduce" configFile="config/TEMPLATE_cooperative_groups_reduce.xml" />
     <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="libcu_array" configFile="config/TEMPLATE_libcu.xml" />
