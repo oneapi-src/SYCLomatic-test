@@ -16,5 +16,6 @@
         "option_cpu_custom_helper_files_all": "--use-custom-helper=all",
         "option_usmnone_cpu_custom_helper_files_all": "--use-custom-helper=all --usm-level=none",
         "option_cpu_custom_helper_files_api": "--use-custom-helper=api",
-        "option_usmnone_cpu_custom_helper_files_api": "--use-custom-helper=api --usm-level=none"
+        "option_usmnone_cpu_custom_helper_files_api": "--use-custom-helper=api --usm-level=none",
+        "option_cuda" : ""
     }
