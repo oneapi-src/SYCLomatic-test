@@ -25,7 +25,7 @@ int main() {
   } catch (exception const &e) {
     cout << "Catch exception: " << e.what() << endl;
     char name[100];
-    CUdevice device;
+    CUdevice device = 0;
     cuDeviceGetName(name, 90, device);
     string ExpectException =
         "'half' is not supported in '" + string(name) + "' device";
