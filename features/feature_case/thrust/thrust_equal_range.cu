@@ -1,4 +1,4 @@
-// ====------ thrust_equal_range.cu------------- *- CUDA -*
+// ====------ thrust_equal_range.cu------------- *- CUDA -*-----------------===//
 // -------------------===//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //
-// ===-------------------------------------------------------------------------===//
+// ===-----------------------------------------------------------------------===//
 
 #include <thrust/binary_search.h>
 #include <thrust/device_vector.h>
