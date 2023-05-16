@@ -105,6 +105,24 @@ bool compare_result(float* expect, float* result, int element_num) {
   return true;
 }
 
+bool compare_result(int* expect, int* result, int element_num) {
+  for (int i = 0; i < element_num; i++) {
+    if (result[i] != expect[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool compare_result(int64_t* expect, int64_t* result, int element_num) {
+  for (int i = 0; i < element_num; i++) {
+    if (result[i] != expect[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 bool compare_result(float* expect, float* result, std::vector<int> indices) {
   for (int i = 0; i < indices.size(); i++) {
     if (std::abs(result[indices[i]]-expect[indices[i]]) >= 0.05) {
@@ -2095,6 +2113,711 @@ void test_cusolverDnPotrs() {
   }
 }
 
+void test_cusolverDnSyevdx() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {1, 2, 2, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  Data<float> w_s(2);
+  Data<double> w_d(2);
+  Data<float> w_c(2);
+  Data<double> w_z(2);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+
+  int params;
+  /*
+  DPCT1026:38: The call to cusolverDnCreateParams was removed because this call
+  is redundant in SYCL.
+  */
+
+  size_t lwork_s;
+  size_t lwork_d;
+  size_t lwork_c;
+  size_t lwork_z;
+
+  int64_t h_meig_s;
+  int64_t h_meig_d;
+  int64_t h_meig_c;
+  int64_t h_meig_z;
+  float vlvu_s = 0;
+  double vlvu_d = 0;
+  float vlvu_c = 0;
+  double vlvu_z = 0;
+
+  dpct::lapack::syheevx_scratchpad_size(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::real_float, 2, &vlvu_s,
+      &vlvu_s, 0, 0, dpct::library_data_t::real_float, &lwork_s);
+  dpct::lapack::syheevx_scratchpad_size(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::real_double, 2,
+      &vlvu_d, &vlvu_d, 0, 0, dpct::library_data_t::real_double, &lwork_d);
+  dpct::lapack::syheevx_scratchpad_size(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::complex_float, 2,
+      &vlvu_c, &vlvu_c, 0, 0, dpct::library_data_t::real_float, &lwork_c);
+  dpct::lapack::syheevx_scratchpad_size(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::complex_double, 2,
+      &vlvu_z, &vlvu_z, 0, 0, dpct::library_data_t::real_double, &lwork_z);
+
+  void* device_ws_s;
+  void* device_ws_d;
+  void* device_ws_c;
+  void* device_ws_z;
+  device_ws_s = (void *)sycl::malloc_device(lwork_s, q_ct1);
+  device_ws_d = (void *)sycl::malloc_device(lwork_d, q_ct1);
+  device_ws_c = (void *)sycl::malloc_device(lwork_c, q_ct1);
+  device_ws_z = (void *)sycl::malloc_device(lwork_z, q_ct1);
+
+  int *info;
+  info = sycl::malloc_device<int>(1, q_ct1);
+
+  dpct::lapack::syheevx(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::real_float, a_s.d_data,
+      2, &vlvu_s, &vlvu_s, 0, 0, &h_meig_s, dpct::library_data_t::real_float,
+      w_s.d_data, device_ws_s, lwork_s, info);
+  dpct::lapack::syheevx(*handle, oneapi::mkl::job::vec,
+                        oneapi::mkl::rangev::all, oneapi::mkl::uplo::upper, 2,
+                        dpct::library_data_t::real_double, a_d.d_data, 2,
+                        &vlvu_d, &vlvu_d, 0, 0, &h_meig_d,
+                        dpct::library_data_t::real_double, w_d.d_data,
+                        device_ws_d, lwork_d, info);
+  dpct::lapack::syheevx(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::complex_float,
+      a_c.d_data, 2, &vlvu_c, &vlvu_c, 0, 0, &h_meig_c,
+      dpct::library_data_t::real_float, w_c.d_data, device_ws_c, lwork_c, info);
+  dpct::lapack::syheevx(*handle, oneapi::mkl::job::vec,
+                        oneapi::mkl::rangev::all, oneapi::mkl::uplo::upper, 2,
+                        dpct::library_data_t::complex_double, a_z.d_data, 2,
+                        &vlvu_z, &vlvu_z, 0, 0, &h_meig_z,
+                        dpct::library_data_t::real_double, w_z.d_data,
+                        device_ws_z, lwork_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  w_s.D2H();
+  w_d.D2H();
+  w_c.D2H();
+  w_z.D2H();
+
+  q_ct1.wait();
+
+  /*
+  DPCT1026:39: The call to cusolverDnDestroyParams was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+  sycl::free(device_ws_s, q_ct1);
+  sycl::free(device_ws_d, q_ct1);
+  sycl::free(device_ws_c, q_ct1);
+  sycl::free(device_ws_z, q_ct1);
+  sycl::free(info, q_ct1);
+
+  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
+  printf("h_meig_s:%ld\n", h_meig_s);
+  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
+
+  float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
+  int64_t expect_h_meig = 2;
+  float expect_w[2] = {0.000000,5.000000};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(&expect_h_meig, &h_meig_s, 1) &&
+      compare_result(&expect_h_meig, &h_meig_d, 1) &&
+      compare_result(&expect_h_meig, &h_meig_c, 1) &&
+      compare_result(&expect_h_meig, &h_meig_z, 1) &&
+      compare_result(expect_w, w_s.h_data, 2) &&
+      compare_result(expect_w, w_d.h_data, 2) &&
+      compare_result(expect_w, w_c.h_data, 2) &&
+      compare_result(expect_w, w_z.h_data, 2))
+    printf("DnSyevdx pass\n");
+  else {
+    printf("DnSyevdx fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusolverDnXsyevdx() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {1, 2, 2, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  Data<float> w_s(2);
+  Data<double> w_d(2);
+  Data<float> w_c(2);
+  Data<double> w_z(2);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+
+  int params;
+  /*
+  DPCT1026:40: The call to cusolverDnCreateParams was removed because this call
+  is redundant in SYCL.
+  */
+
+  size_t lwork_s;
+  size_t lwork_d;
+  size_t lwork_c;
+  size_t lwork_z;
+  size_t lwork_host_s;
+  size_t lwork_host_d;
+  size_t lwork_host_c;
+  size_t lwork_host_z;
+
+  int64_t h_meig_s;
+  int64_t h_meig_d;
+  int64_t h_meig_c;
+  int64_t h_meig_z;
+  float vlvu_s = 0;
+  double vlvu_d = 0;
+  float vlvu_c = 0;
+  double vlvu_z = 0;
+
+  dpct::lapack::syheevx_scratchpad_size(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::real_float, 2, &vlvu_s,
+      &vlvu_s, 0, 0, dpct::library_data_t::real_float, &lwork_s, &lwork_host_s);
+  dpct::lapack::syheevx_scratchpad_size(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::real_double, 2,
+      &vlvu_d, &vlvu_d, 0, 0, dpct::library_data_t::real_double, &lwork_d,
+      &lwork_host_d);
+  dpct::lapack::syheevx_scratchpad_size(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::complex_float, 2,
+      &vlvu_c, &vlvu_c, 0, 0, dpct::library_data_t::real_float, &lwork_c,
+      &lwork_host_c);
+  dpct::lapack::syheevx_scratchpad_size(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::complex_double, 2,
+      &vlvu_z, &vlvu_z, 0, 0, dpct::library_data_t::real_double, &lwork_z,
+      &lwork_host_z);
+
+  void* device_ws_s;
+  void* device_ws_d;
+  void* device_ws_c;
+  void* device_ws_z;
+  device_ws_s = (void *)sycl::malloc_device(lwork_s, q_ct1);
+  device_ws_d = (void *)sycl::malloc_device(lwork_d, q_ct1);
+  device_ws_c = (void *)sycl::malloc_device(lwork_c, q_ct1);
+  device_ws_z = (void *)sycl::malloc_device(lwork_z, q_ct1);
+  void* host_ws_s;
+  void* host_ws_d;
+  void* host_ws_c;
+  void* host_ws_z;
+  host_ws_s = malloc(lwork_host_s);
+  host_ws_d = malloc(lwork_host_d);
+  host_ws_c = malloc(lwork_host_c);
+  host_ws_z = malloc(lwork_host_z);
+
+  int *info;
+  info = sycl::malloc_device<int>(1, q_ct1);
+
+  dpct::lapack::syheevx(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::real_float, a_s.d_data,
+      2, &vlvu_s, &vlvu_s, 0, 0, &h_meig_s, dpct::library_data_t::real_float,
+      w_s.d_data, device_ws_s, lwork_s, info);
+  dpct::lapack::syheevx(*handle, oneapi::mkl::job::vec,
+                        oneapi::mkl::rangev::all, oneapi::mkl::uplo::upper, 2,
+                        dpct::library_data_t::real_double, a_d.d_data, 2,
+                        &vlvu_d, &vlvu_d, 0, 0, &h_meig_d,
+                        dpct::library_data_t::real_double, w_d.d_data,
+                        device_ws_d, lwork_d, info);
+  dpct::lapack::syheevx(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, dpct::library_data_t::complex_float,
+      a_c.d_data, 2, &vlvu_c, &vlvu_c, 0, 0, &h_meig_c,
+      dpct::library_data_t::real_float, w_c.d_data, device_ws_c, lwork_c, info);
+  dpct::lapack::syheevx(*handle, oneapi::mkl::job::vec,
+                        oneapi::mkl::rangev::all, oneapi::mkl::uplo::upper, 2,
+                        dpct::library_data_t::complex_double, a_z.d_data, 2,
+                        &vlvu_z, &vlvu_z, 0, 0, &h_meig_z,
+                        dpct::library_data_t::real_double, w_z.d_data,
+                        device_ws_z, lwork_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  w_s.D2H();
+  w_d.D2H();
+  w_c.D2H();
+  w_z.D2H();
+
+  q_ct1.wait();
+
+  /*
+  DPCT1026:41: The call to cusolverDnDestroyParams was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+  sycl::free(device_ws_s, q_ct1);
+  sycl::free(device_ws_d, q_ct1);
+  sycl::free(device_ws_c, q_ct1);
+  sycl::free(device_ws_z, q_ct1);
+  free(host_ws_s);
+  free(host_ws_d);
+  free(host_ws_c);
+  free(host_ws_z);
+  sycl::free(info, q_ct1);
+
+  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
+  printf("h_meig_s:%ld\n", h_meig_s);
+  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
+
+  float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
+  int64_t expect_h_meig = 2;
+  float expect_w[2] = {0.000000,5.000000};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(&expect_h_meig, &h_meig_s, 1) &&
+      compare_result(&expect_h_meig, &h_meig_d, 1) &&
+      compare_result(&expect_h_meig, &h_meig_c, 1) &&
+      compare_result(&expect_h_meig, &h_meig_z, 1) &&
+      compare_result(expect_w, w_s.h_data, 2) &&
+      compare_result(expect_w, w_d.h_data, 2) &&
+      compare_result(expect_w, w_c.h_data, 2) &&
+      compare_result(expect_w, w_z.h_data, 2))
+    printf("DnXsyevdx pass\n");
+  else {
+    printf("DnXsyevdx fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusolverDnTsyevdx_cusolverDnTheevdx() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {1, 2, 2, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  Data<float> w_s(2);
+  Data<double> w_d(2);
+  Data<float> w_c(2);
+  Data<double> w_z(2);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+
+  int params;
+  /*
+  DPCT1026:42: The call to cusolverDnCreateParams was removed because this call
+  is redundant in SYCL.
+  */
+
+  int lwork_s;
+  int lwork_d;
+  int lwork_c;
+  int lwork_z;
+
+  int h_meig_s;
+  int h_meig_d;
+  int h_meig_c;
+  int h_meig_z;
+
+  dpct::lapack::syheevx_scratchpad_size<float, float>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, 2, 0, 0, 0, 0, &lwork_s);
+  dpct::lapack::syheevx_scratchpad_size<double, double>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, 2, 0, 0, 0, 0, &lwork_d);
+  dpct::lapack::syheevx_scratchpad_size<sycl::float2, float>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, 2, 0, 0, 0, 0, &lwork_c);
+  dpct::lapack::syheevx_scratchpad_size<sycl::double2, double>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, 2, 0, 0, 0, 0, &lwork_z);
+
+  float* device_ws_s;
+  double* device_ws_d;
+  sycl::float2 *device_ws_c;
+  sycl::double2 *device_ws_z;
+  device_ws_s = sycl::malloc_device<float>(lwork_s, q_ct1);
+  device_ws_d = sycl::malloc_device<double>(lwork_d, q_ct1);
+  device_ws_c = sycl::malloc_device<sycl::float2>(lwork_c, q_ct1);
+  device_ws_z = sycl::malloc_device<sycl::double2>(lwork_z, q_ct1);
+
+  int *info;
+  info = sycl::malloc_device<int>(1, q_ct1);
+
+  dpct::lapack::syheevx<float, float>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, a_s.d_data, 2, 0, 0, 0, 0, &h_meig_s,
+      w_s.d_data, device_ws_s, lwork_s, info);
+  dpct::lapack::syheevx<double, double>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, a_d.d_data, 2, 0, 0, 0, 0, &h_meig_d,
+      w_d.d_data, device_ws_d, lwork_d, info);
+  dpct::lapack::syheevx<sycl::float2, float>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, a_c.d_data, 2, 0, 0, 0, 0, &h_meig_c,
+      w_c.d_data, device_ws_c, lwork_c, info);
+  dpct::lapack::syheevx<sycl::double2, double>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, a_z.d_data, 2, 0, 0, 0, 0, &h_meig_z,
+      w_z.d_data, device_ws_z, lwork_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  w_s.D2H();
+  w_d.D2H();
+  w_c.D2H();
+  w_z.D2H();
+
+  q_ct1.wait();
+
+  /*
+  DPCT1026:43: The call to cusolverDnDestroyParams was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+  sycl::free(device_ws_s, q_ct1);
+  sycl::free(device_ws_d, q_ct1);
+  sycl::free(device_ws_c, q_ct1);
+  sycl::free(device_ws_z, q_ct1);
+  sycl::free(info, q_ct1);
+
+  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
+  printf("h_meig_s:%d\n", h_meig_s);
+  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
+
+  float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
+  int expect_h_meig = 2;
+  float expect_w[2] = {0.000000,5.000000};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(&expect_h_meig, &h_meig_s, 1) &&
+      compare_result(&expect_h_meig, &h_meig_d, 1) &&
+      compare_result(&expect_h_meig, &h_meig_c, 1) &&
+      compare_result(&expect_h_meig, &h_meig_z, 1) &&
+      compare_result(expect_w, w_s.h_data, 2) &&
+      compare_result(expect_w, w_d.h_data, 2) &&
+      compare_result(expect_w, w_c.h_data, 2) &&
+      compare_result(expect_w, w_z.h_data, 2))
+    printf("DnTsyevdx/DnCheevdx pass\n");
+  else {
+    printf("DnTsyevdx/DnCheevdx fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusolverDnTsygvdx_cusolverDnThegvdx() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {1, 2, 2, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  std::vector<float> b = {1, 0, 0, 1};
+  Data<float> b_s(b.data(), 4);
+  Data<double> b_d(b.data(), 4);
+  Data<sycl::float2> b_c(b.data(), 4);
+  Data<sycl::double2> b_z(b.data(), 4);
+  Data<float> w_s(2);
+  Data<double> w_d(2);
+  Data<float> w_c(2);
+  Data<double> w_z(2);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+
+  int params;
+  /*
+  DPCT1026:44: The call to cusolverDnCreateParams was removed because this call
+  is redundant in SYCL.
+  */
+
+  int lwork_s;
+  int lwork_d;
+  int lwork_c;
+  int lwork_z;
+
+  int h_meig_s;
+  int h_meig_d;
+  int h_meig_c;
+  int h_meig_z;
+
+  dpct::lapack::syhegvx_scratchpad_size<float, float>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, 2, 2, 0, 0, 0, 0, &lwork_s);
+  dpct::lapack::syhegvx_scratchpad_size<double, double>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, 2, 2, 0, 0, 0, 0, &lwork_d);
+  dpct::lapack::syhegvx_scratchpad_size<sycl::float2, float>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, 2, 2, 0, 0, 0, 0, &lwork_c);
+  dpct::lapack::syhegvx_scratchpad_size<sycl::double2, double>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, 2, 2, 0, 0, 0, 0, &lwork_z);
+
+  float* device_ws_s;
+  double* device_ws_d;
+  sycl::float2 *device_ws_c;
+  sycl::double2 *device_ws_z;
+  device_ws_s = sycl::malloc_device<float>(lwork_s, q_ct1);
+  device_ws_d = sycl::malloc_device<double>(lwork_d, q_ct1);
+  device_ws_c = sycl::malloc_device<sycl::float2>(lwork_c, q_ct1);
+  device_ws_z = sycl::malloc_device<sycl::double2>(lwork_z, q_ct1);
+
+  int *info;
+  info = sycl::malloc_device<int>(1, q_ct1);
+
+  dpct::lapack::syhegvx<float, float>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, a_s.d_data, 2, b_s.d_data, 2, 0, 0, 0, 0,
+      &h_meig_s, w_s.d_data, device_ws_s, lwork_s, info);
+  dpct::lapack::syhegvx<double, double>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, a_d.d_data, 2, b_d.d_data, 2, 0, 0, 0, 0,
+      &h_meig_d, w_d.d_data, device_ws_d, lwork_d, info);
+  dpct::lapack::syhegvx<sycl::float2, float>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, a_c.d_data, 2, b_c.d_data, 2, 0, 0, 0, 0,
+      &h_meig_c, w_c.d_data, device_ws_c, lwork_c, info);
+  dpct::lapack::syhegvx<sycl::double2, double>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::rangev::all,
+      oneapi::mkl::uplo::upper, 2, a_z.d_data, 2, b_z.d_data, 2, 0, 0, 0, 0,
+      &h_meig_z, w_z.d_data, device_ws_z, lwork_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  b_s.D2H();
+  b_d.D2H();
+  b_c.D2H();
+  b_z.D2H();
+  w_s.D2H();
+  w_d.D2H();
+  w_c.D2H();
+  w_z.D2H();
+
+  q_ct1.wait();
+
+  /*
+  DPCT1026:45: The call to cusolverDnDestroyParams was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+  sycl::free(device_ws_s, q_ct1);
+  sycl::free(device_ws_d, q_ct1);
+  sycl::free(device_ws_c, q_ct1);
+  sycl::free(device_ws_z, q_ct1);
+  sycl::free(info, q_ct1);
+
+  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
+  printf("b_s:%f,%f,%f,%f\n", b_s.h_data[0], b_s.h_data[1], b_s.h_data[2], b_s.h_data[3]);
+  printf("h_meig_s:%d\n", h_meig_s);
+  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
+
+  float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
+  float expect_b[4] = {1,0,0,1};
+  int expect_h_meig = 2;
+  float expect_w[2] = {0.000000,5.000000};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(expect_b, b_s.h_data, 4) &&
+      compare_result(expect_b, b_d.h_data, 4) &&
+      compare_result(expect_b, b_c.h_data, 4) &&
+      compare_result(expect_b, b_z.h_data, 4) &&
+      compare_result(&expect_h_meig, &h_meig_s, 1) &&
+      compare_result(&expect_h_meig, &h_meig_d, 1) &&
+      compare_result(&expect_h_meig, &h_meig_c, 1) &&
+      compare_result(&expect_h_meig, &h_meig_z, 1) &&
+      compare_result(expect_w, w_s.h_data, 2) &&
+      compare_result(expect_w, w_d.h_data, 2) &&
+      compare_result(expect_w, w_c.h_data, 2) &&
+      compare_result(expect_w, w_z.h_data, 2))
+    printf("DnTsygvdx/DnChegvdx pass\n");
+  else {
+    printf("DnTsygvdx/DnChegvdx fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusolverDnTsygvj_cusolverDnThegvj() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {1, 2, 2, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  std::vector<float> b = {1, 0, 0, 1};
+  Data<float> b_s(b.data(), 4);
+  Data<double> b_d(b.data(), 4);
+  Data<sycl::float2> b_c(b.data(), 4);
+  Data<sycl::double2> b_z(b.data(), 4);
+  Data<float> w_s(2);
+  Data<double> w_d(2);
+  Data<float> w_c(2);
+  Data<double> w_z(2);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+
+  int params;
+  /*
+  DPCT1026:46: The call to cusolverDnCreateSyevjInfo was removed because this
+  call is redundant in SYCL.
+  */
+
+  int lwork_s;
+  int lwork_d;
+  int lwork_c;
+  int lwork_z;
+
+  dpct::lapack::syhegvd_scratchpad_size<float>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2, 2, 2,
+      &lwork_s);
+  dpct::lapack::syhegvd_scratchpad_size<float>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2, 2, 2,
+      &lwork_d);
+  dpct::lapack::syhegvd_scratchpad_size<sycl::float2>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2, 2, 2,
+      &lwork_c);
+  dpct::lapack::syhegvd_scratchpad_size<sycl::double2>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2, 2, 2,
+      &lwork_z);
+
+  float* device_ws_s;
+  double* device_ws_d;
+  sycl::float2 *device_ws_c;
+  sycl::double2 *device_ws_z;
+  device_ws_s = sycl::malloc_device<float>(lwork_s, q_ct1);
+  device_ws_d = sycl::malloc_device<double>(lwork_d, q_ct1);
+  device_ws_c = sycl::malloc_device<sycl::float2>(lwork_c, q_ct1);
+  device_ws_z = sycl::malloc_device<sycl::double2>(lwork_z, q_ct1);
+
+  int *info;
+  info = sycl::malloc_device<int>(1, q_ct1);
+
+  dpct::lapack::syhegvd<float, float>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2,
+      a_s.d_data, 2, b_s.d_data, 2, w_s.d_data, device_ws_s, lwork_s, info);
+  dpct::lapack::syhegvd<double, double>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2,
+      a_d.d_data, 2, b_d.d_data, 2, w_d.d_data, device_ws_d, lwork_d, info);
+  dpct::lapack::syhegvd<sycl::float2, float>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2,
+      a_c.d_data, 2, b_c.d_data, 2, w_c.d_data, device_ws_c, lwork_c, info);
+  dpct::lapack::syhegvd<sycl::double2, double>(
+      *handle, 1, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2,
+      a_z.d_data, 2, b_z.d_data, 2, w_z.d_data, device_ws_z, lwork_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  b_s.D2H();
+  b_d.D2H();
+  b_c.D2H();
+  b_z.D2H();
+  w_s.D2H();
+  w_d.D2H();
+  w_c.D2H();
+  w_z.D2H();
+
+  q_ct1.wait();
+
+  /*
+  DPCT1026:47: The call to cusolverDnDestroySyevjInfo was removed because this
+  call is redundant in SYCL.
+  */
+  handle = nullptr;
+  sycl::free(device_ws_s, q_ct1);
+  sycl::free(device_ws_d, q_ct1);
+  sycl::free(device_ws_c, q_ct1);
+  sycl::free(device_ws_z, q_ct1);
+  sycl::free(info, q_ct1);
+
+  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
+  printf("b_s:%f,%f,%f,%f\n", b_s.h_data[0], b_s.h_data[1], b_s.h_data[2], b_s.h_data[3]);
+  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
+
+  float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
+  float expect_b[4] = {1,0,0,1};
+  float expect_w[2] = {0.000000,5.000000};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(expect_b, b_s.h_data, 4) &&
+      compare_result(expect_b, b_d.h_data, 4) &&
+      compare_result(expect_b, b_c.h_data, 4) &&
+      compare_result(expect_b, b_z.h_data, 4) &&
+      compare_result(expect_w, w_s.h_data, 2) &&
+      compare_result(expect_w, w_d.h_data, 2) &&
+      compare_result(expect_w, w_c.h_data, 2) &&
+      compare_result(expect_w, w_z.h_data, 2))
+    printf("DnTsygvj/DnChegvj pass\n");
+  else {
+    printf("DnTsygvj/DnChegvj fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_helper();
   test_cusolverDnTsygvd();
@@ -2117,6 +2840,11 @@ int main() {
   test_cusolverDnPotrf();
   test_cusolverDnXpotrs();
   test_cusolverDnPotrs();
+  test_cusolverDnSyevdx();
+  test_cusolverDnXsyevdx();
+  test_cusolverDnTsyevdx_cusolverDnTheevdx();
+  test_cusolverDnTsygvdx_cusolverDnThegvdx();
+  test_cusolverDnTsygvj_cusolverDnThegvj();
 
   if (test_passed)
     return 0;

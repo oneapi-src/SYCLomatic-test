@@ -89,6 +89,24 @@ bool compare_result(float* expect, float* result, int element_num) {
   return true;
 }
 
+bool compare_result(int* expect, int* result, int element_num) {
+  for (int i = 0; i < element_num; i++) {
+    if (result[i] != expect[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool compare_result(int64_t* expect, int64_t* result, int element_num) {
+  for (int i = 0; i < element_num; i++) {
+    if (result[i] != expect[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 bool compare_result(float* expect, float* result, std::vector<int> indices) {
   for (int i = 0; i < indices.size(); i++) {
     if (std::abs(result[indices[i]]-expect[indices[i]]) >= 0.05) {
@@ -1221,6 +1239,228 @@ void test_cusolverDnPotrs() {
   }
 }
 
+void test_cusolverDnSyevdx() {
+  std::vector<float> a = {1, 2, 2, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<float2> a_c(a.data(), 4);
+  Data<double2> a_z(a.data(), 4);
+  Data<float> w_s(2);
+  Data<double> w_d(2);
+  Data<float> w_c(2);
+  Data<double> w_z(2);
+
+  cusolverDnHandle_t handle;
+  cusolverDnCreate(&handle);
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+
+  cusolverDnParams_t params;
+  cusolverDnCreateParams(&params);
+
+  size_t lwork_s;
+  size_t lwork_d;
+  size_t lwork_c;
+  size_t lwork_z;
+
+  int64_t h_meig_s;
+  int64_t h_meig_d;
+  int64_t h_meig_c;
+  int64_t h_meig_z;
+  float vlvu_s = 0;
+  double vlvu_d = 0;
+  float vlvu_c = 0;
+  double vlvu_z = 0;
+
+  cusolverDnSyevdx_bufferSize(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_R_32F, a_s.d_data, 2, &vlvu_s, &vlvu_s, 0, 0, &h_meig_s, CUDA_R_32F, w_s.d_data, CUDA_R_32F, &lwork_s);
+  cusolverDnSyevdx_bufferSize(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_R_64F, a_d.d_data, 2, &vlvu_d, &vlvu_d, 0, 0, &h_meig_d, CUDA_R_64F, w_d.d_data, CUDA_R_64F, &lwork_d);
+  cusolverDnSyevdx_bufferSize(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_C_32F, a_c.d_data, 2, &vlvu_c, &vlvu_c, 0, 0, &h_meig_c, CUDA_R_32F, w_c.d_data, CUDA_C_32F, &lwork_c);
+  cusolverDnSyevdx_bufferSize(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_C_64F, a_z.d_data, 2, &vlvu_z, &vlvu_z, 0, 0, &h_meig_z, CUDA_R_64F, w_z.d_data, CUDA_C_64F, &lwork_z);
+
+  void* device_ws_s;
+  void* device_ws_d;
+  void* device_ws_c;
+  void* device_ws_z;
+  cudaMalloc(&device_ws_s, lwork_s);
+  cudaMalloc(&device_ws_d, lwork_d);
+  cudaMalloc(&device_ws_c, lwork_c);
+  cudaMalloc(&device_ws_z, lwork_z);
+
+  int *info;
+  cudaMalloc(&info, sizeof(int));
+
+  cusolverDnSyevdx(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_R_32F, a_s.d_data, 2, &vlvu_s, &vlvu_s, 0, 0, &h_meig_s, CUDA_R_32F, w_s.d_data, CUDA_R_32F, device_ws_s, lwork_s, info);
+  cusolverDnSyevdx(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_R_64F, a_d.d_data, 2, &vlvu_d, &vlvu_d, 0, 0, &h_meig_d, CUDA_R_64F, w_d.d_data, CUDA_R_64F, device_ws_d, lwork_d, info);
+  cusolverDnSyevdx(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_C_32F, a_c.d_data, 2, &vlvu_c, &vlvu_c, 0, 0, &h_meig_c, CUDA_R_32F, w_c.d_data, CUDA_C_32F, device_ws_c, lwork_c, info);
+  cusolverDnSyevdx(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_C_64F, a_z.d_data, 2, &vlvu_z, &vlvu_z, 0, 0, &h_meig_z, CUDA_R_64F, w_z.d_data, CUDA_C_64F, device_ws_z, lwork_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  w_s.D2H();
+  w_d.D2H();
+  w_c.D2H();
+  w_z.D2H();
+
+  cudaStreamSynchronize(0);
+
+  cusolverDnDestroyParams(params);
+  cusolverDnDestroy(handle);
+  cudaFree(device_ws_s);
+  cudaFree(device_ws_d);
+  cudaFree(device_ws_c);
+  cudaFree(device_ws_z);
+  cudaFree(info);
+
+  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
+  printf("h_meig_s:%ld\n", h_meig_s);
+  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
+
+  float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
+  int64_t expect_h_meig = 2;
+  float expect_w[2] = {0.000000,5.000000};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(&expect_h_meig, &h_meig_s, 1) &&
+      compare_result(&expect_h_meig, &h_meig_d, 1) &&
+      compare_result(&expect_h_meig, &h_meig_c, 1) &&
+      compare_result(&expect_h_meig, &h_meig_z, 1) &&
+      compare_result(expect_w, w_s.h_data, 2) &&
+      compare_result(expect_w, w_d.h_data, 2) &&
+      compare_result(expect_w, w_c.h_data, 2) &&
+      compare_result(expect_w, w_z.h_data, 2))
+    printf("DnSyevdx pass\n");
+  else {
+    printf("DnSyevdx fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusolverDnXsyevdx() {
+  std::vector<float> a = {1, 2, 2, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<float2> a_c(a.data(), 4);
+  Data<double2> a_z(a.data(), 4);
+  Data<float> w_s(2);
+  Data<double> w_d(2);
+  Data<float> w_c(2);
+  Data<double> w_z(2);
+
+  cusolverDnHandle_t handle;
+  cusolverDnCreate(&handle);
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+
+  cusolverDnParams_t params;
+  cusolverDnCreateParams(&params);
+
+  size_t lwork_s;
+  size_t lwork_d;
+  size_t lwork_c;
+  size_t lwork_z;
+  size_t lwork_host_s;
+  size_t lwork_host_d;
+  size_t lwork_host_c;
+  size_t lwork_host_z;
+
+  int64_t h_meig_s;
+  int64_t h_meig_d;
+  int64_t h_meig_c;
+  int64_t h_meig_z;
+  float vlvu_s = 0;
+  double vlvu_d = 0;
+  float vlvu_c = 0;
+  double vlvu_z = 0;
+
+  cusolverDnXsyevdx_bufferSize(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_R_32F, a_s.d_data, 2, &vlvu_s, &vlvu_s, 0, 0, &h_meig_s, CUDA_R_32F, w_s.d_data, CUDA_R_32F, &lwork_s, &lwork_host_s);
+  cusolverDnXsyevdx_bufferSize(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_R_64F, a_d.d_data, 2, &vlvu_d, &vlvu_d, 0, 0, &h_meig_d, CUDA_R_64F, w_d.d_data, CUDA_R_64F, &lwork_d, &lwork_host_d);
+  cusolverDnXsyevdx_bufferSize(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_C_32F, a_c.d_data, 2, &vlvu_c, &vlvu_c, 0, 0, &h_meig_c, CUDA_R_32F, w_c.d_data, CUDA_C_32F, &lwork_c, &lwork_host_c);
+  cusolverDnXsyevdx_bufferSize(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_C_64F, a_z.d_data, 2, &vlvu_z, &vlvu_z, 0, 0, &h_meig_z, CUDA_R_64F, w_z.d_data, CUDA_C_64F, &lwork_z, &lwork_host_z);
+
+  void* device_ws_s;
+  void* device_ws_d;
+  void* device_ws_c;
+  void* device_ws_z;
+  cudaMalloc(&device_ws_s, lwork_s);
+  cudaMalloc(&device_ws_d, lwork_d);
+  cudaMalloc(&device_ws_c, lwork_c);
+  cudaMalloc(&device_ws_z, lwork_z);
+  void* host_ws_s;
+  void* host_ws_d;
+  void* host_ws_c;
+  void* host_ws_z;
+  host_ws_s = malloc(lwork_host_s);
+  host_ws_d = malloc(lwork_host_d);
+  host_ws_c = malloc(lwork_host_c);
+  host_ws_z = malloc(lwork_host_z);
+
+  int *info;
+  cudaMalloc(&info, sizeof(int));
+
+  cusolverDnXsyevdx(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_R_32F, a_s.d_data, 2, &vlvu_s, &vlvu_s, 0, 0, &h_meig_s, CUDA_R_32F, w_s.d_data, CUDA_R_32F, device_ws_s, lwork_s, host_ws_s, lwork_host_s, info);
+  cusolverDnXsyevdx(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_R_64F, a_d.d_data, 2, &vlvu_d, &vlvu_d, 0, 0, &h_meig_d, CUDA_R_64F, w_d.d_data, CUDA_R_64F, device_ws_d, lwork_d, host_ws_d, lwork_host_d, info);
+  cusolverDnXsyevdx(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_C_32F, a_c.d_data, 2, &vlvu_c, &vlvu_c, 0, 0, &h_meig_c, CUDA_R_32F, w_c.d_data, CUDA_C_32F, device_ws_c, lwork_c, host_ws_c, lwork_host_c, info);
+  cusolverDnXsyevdx(handle, params, CUSOLVER_EIG_MODE_VECTOR, CUSOLVER_EIG_RANGE_ALL, CUBLAS_FILL_MODE_UPPER, 2, CUDA_C_64F, a_z.d_data, 2, &vlvu_z, &vlvu_z, 0, 0, &h_meig_z, CUDA_R_64F, w_z.d_data, CUDA_C_64F, device_ws_z, lwork_z, host_ws_z, lwork_host_z, info);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  w_s.D2H();
+  w_d.D2H();
+  w_c.D2H();
+  w_z.D2H();
+
+  cudaStreamSynchronize(0);
+
+  cusolverDnDestroyParams(params);
+  cusolverDnDestroy(handle);
+  cudaFree(device_ws_s);
+  cudaFree(device_ws_d);
+  cudaFree(device_ws_c);
+  cudaFree(device_ws_z);
+  free(host_ws_s);
+  free(host_ws_d);
+  free(host_ws_c);
+  free(host_ws_z);
+  cudaFree(info);
+
+  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
+  printf("h_meig_s:%ld\n", h_meig_s);
+  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
+
+  float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
+  int64_t expect_h_meig = 2;
+  float expect_w[2] = {0.000000,5.000000};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(&expect_h_meig, &h_meig_s, 1) &&
+      compare_result(&expect_h_meig, &h_meig_d, 1) &&
+      compare_result(&expect_h_meig, &h_meig_c, 1) &&
+      compare_result(&expect_h_meig, &h_meig_z, 1) &&
+      compare_result(expect_w, w_s.h_data, 2) &&
+      compare_result(expect_w, w_d.h_data, 2) &&
+      compare_result(expect_w, w_c.h_data, 2) &&
+      compare_result(expect_w, w_z.h_data, 2))
+    printf("DnXsyevdx pass\n");
+  else {
+    printf("DnXsyevdx fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_cusolverDnXgetrf();
   test_cusolverDnXgetrfnp();
@@ -1235,6 +1475,8 @@ int main() {
   test_cusolverDnPotrf();
   test_cusolverDnXpotrs();
   test_cusolverDnPotrs();
+  test_cusolverDnSyevdx();
+  test_cusolverDnXsyevdx();
 
   if (test_passed)
     return 0;
