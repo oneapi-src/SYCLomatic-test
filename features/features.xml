@@ -374,6 +374,7 @@
     <test testName="Util_api_test23" configFile="config/TEMPLATE_custom_helper_files_Util_excluding_80.xml" />
     <test testName="Util_api_test24" configFile="config/TEMPLATE_custom_helper_files_Util_excluding_80.xml" />
     <test testName="Util_api_test25" configFile="config/TEMPLATE_custom_helper_files_Util_excluding_80.xml" />
+    <test testName="Util_api_test30" configFile="config/TEMPLATE_custom_helper_files_Util.xml" />
     <test testName="DplExtrasDpcppExtensions_api_test1" configFile="config/TEMPLATE_custom_helper_files_DplExtrasDpcppExtensions.xml" />
     <test testName="DplExtrasDpcppExtensions_api_test2" configFile="config/TEMPLATE_custom_helper_files_DplExtrasDpcppExtensions.xml" />
     <test testName="DplExtrasDpcppExtensions_api_test3" configFile="config/TEMPLATE_custom_helper_files_DplExtrasDpcppExtensions.xml" />
@@ -472,6 +473,7 @@
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
     <test testName="defaultStream" configFile="config/TEMPLATE_defaultStream.xml" />
     <test testName="volatile-vec" configFile="config/TEMPLATE_misc.xml" />
+    <test testName="occupancy_calculation" configFile="config/TEMPLATE_misc.xml" />
     <!-- <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" splitGroup="double" /> -->
   </tests>
 </suite>

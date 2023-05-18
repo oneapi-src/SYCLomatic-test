@@ -49,7 +49,8 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'thrust_tabulate', 'thrust_for_each_n', 'device_info', 'defaultStream', 'cudnn-rnn', 'feature_profiling',
               'thrust_raw_reference_cast', 'thrust_partition_copy', 'thrust_stable_partition_copy',
               'thrust_stable_partition', 'thrust_remove', 'cub_device_segmented_sort_pairs', 'thrust_find_if_not',
-              'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce']
+              'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce',
+              'occupancy_calculation']
 
 
 def setup_test():
@@ -76,6 +77,8 @@ def migrate_test():
 
     math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'math-ext-simd']
 
+    occupancy_calculation_exper = ['Util_api_test30', 'occupancy_calculation']
+
     if test_config.current_test in size_deallocation:
         extra_args.append(' -fsized-deallocation ')
     if test_config.current_test in nd_range_bar_exper:
@@ -88,6 +91,8 @@ def migrate_test():
         src.append(' --rule-file=./math_intel_specific/intel_specific_math.yaml')
     if test_config.current_test in math_extension_tests:
         src.append(' --use-dpcpp-extensions=intel_device_math')
+    if test_config.current_test in occupancy_calculation_exper:
+        src.append(' --use-experimental-features=occupancy_calculation ')
     if test_config.current_test == 'feature_profiling':
         src.append(' --enable-profiling ')
     if test_config.current_test == 'sync_warp_p2':
