@@ -1,34 +1,29 @@
-// ====---------- math-bf16-conv.cu---------- *- CUDA -* ------------------===//
+// ====------ math-half-conversion.cu---------- *- CUDA -* ----===////
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //
-// ===---------------------------------------------------------------------===//
+// ===----------------------------------------------------------------------===//
 
 #include <iomanip>
 #include <iostream>
 #include <vector>
 
-#include "cuda_bf16.h"
+#include "cuda_fp16.h"
 
 using namespace std;
-
-typedef pair<float2, int> f2i_pair;
-typedef pair<float, int> fi_pair;
-typedef pair<__nv_bfloat162, int> bf162i_pair;
-typedef pair<__nv_bfloat16, int> bf16i_pair;
 
 int passed = 0;
 int failed = 0;
 
 void check(bool IsPassed) {
   if (IsPassed) {
-    cout << " ---- passed" << endl;
+    std::cout << " ---- passed" << std::endl;
     passed++;
   } else {
-    cout << " ---- failed" << endl;
+    std::cout << " ---- failed" << std::endl;
     failed++;
   }
 }
@@ -64,147 +59,45 @@ void checkResult(const string &FuncName, const vector<float2> &Inputs,
         abs(Result.y - Expect.y) < pow(10, -precision));
 }
 
-void checkResult(const string &FuncName, const vector<__nv_bfloat16> &Inputs,
-                 const __nv_bfloat16 &Expect, const float &Result,
+void checkResult(const string &FuncName, const vector<__half> &Inputs,
+                 const __half &Expect, const float &Result,
                  const int precision) {
   vector<float> FInputs;
   for (const auto &it : Inputs) {
-    FInputs.push_back(__bfloat162float(it));
+    FInputs.push_back(__half2float(it));
   }
-  float FExpect = __bfloat162float(Expect);
+  float FExpect = __half2float(Expect);
   checkResult(FuncName, FInputs, FExpect, Result, precision);
 }
 
-void checkResult(const string &FuncName, const vector<__nv_bfloat162> &Inputs,
-                 const float2 &Expect, const float2 &Result,
+void checkResult(const string &FuncName, const vector<__half2> &Inputs,
+                 const __half2 &Expect, const float2 &Result,
                  const int precision) {
   vector<float2> FInputs;
   for (const auto &it : Inputs) {
-    FInputs.push_back({__bfloat162float(it.x), __bfloat162float(it.y)});
+    FInputs.push_back({__half2float(it.x), __half2float(it.y)});
   }
-  checkResult(FuncName, FInputs, Expect, Result, precision);
+  float2 FExpect{__half2float(Expect.x), __half2float(Expect.y)};
+  checkResult(FuncName, FInputs, FExpect, Result, precision);
 }
 
-void checkResult(const string &FuncName, const vector<float2> &Inputs,
-                 const __nv_bfloat162 &Expect, const float2 &Result,
-                 const int precision) {
-  float2 FExpect{__bfloat162float(Expect.x), __bfloat162float(Expect.y)};
-  checkResult(FuncName, Inputs, FExpect, Result, precision);
-}
-
-void checkResult(const string &FuncName, const vector<__nv_bfloat162> &Inputs,
-                 const __nv_bfloat162 &Expect, const float2 &Result,
-                 const int precision) {
-  vector<float2> FInputs;
-  for (const auto &it : Inputs) {
-    FInputs.push_back({__bfloat162float(it.x), __bfloat162float(it.y)});
-  }
-  checkResult(FuncName, FInputs, Expect, Result, precision);
-}
-
-__global__ void setValue(__nv_bfloat16 *Input1, const __nv_bfloat16 Input2) {
+__global__ void setValue(__half *Input1, const __half Input2) {
   *Input1 = Input2;
 }
 
-__global__ void setValue(__nv_bfloat162 *Input1, const __nv_bfloat162 Input2) {
+__global__ void setValue(__half2 *Input1, const __half2 Input2) {
   *Input1 = Input2;
 }
 
-__global__ void bFloat1622float2(float *const Result, __nv_bfloat162 Input1) {
-  auto ret = __bfloat1622float2(Input1);
-  Result[0] = ret.x;
-  Result[1] = ret.y;
-}
-
-void testBFloat1622float2Cases(
-    const vector<pair<__nv_bfloat162, f2i_pair>> &TestCases) {
-  float *Result;
-  cudaMallocManaged(&Result, 2 * sizeof(*Result));
-  for (const auto &TestCase : TestCases) {
-    bFloat1622float2<<<1, 1>>>(Result, TestCase.first);
-    cudaDeviceSynchronize();
-    checkResult("__bfloat1622float2", {TestCase.first}, TestCase.second.first,
-                {Result[0], Result[1]}, TestCase.second.second);
-    auto ret = __bfloat1622float2(TestCase.first);
-    Result[0] = ret.x;
-    Result[1] = ret.y;
-    checkResult("(host)__bfloat1622float2", {TestCase.first},
-                TestCase.second.first, {Result[0], Result[1]},
-                TestCase.second.second);
-  }
-}
-
-__global__ void bFloat162float(float *const Result, __nv_bfloat16 Input1) {
-  *Result = __bfloat162float(Input1);
-}
-
-void testBFloat162floatCases(
-    const vector<pair<__nv_bfloat16, fi_pair>> &TestCases) {
-  float *Result;
-  cudaMallocManaged(&Result, sizeof(*Result));
-  for (const auto &TestCase : TestCases) {
-    bFloat162float<<<1, 1>>>(Result, TestCase.first);
-    cudaDeviceSynchronize();
-    checkResult("__bfloat162float", {TestCase.first}, TestCase.second.first,
-                *Result, TestCase.second.second);
-    *Result = __bfloat162float(TestCase.first);
-    checkResult("(host)__bfloat162float", {TestCase.first},
-                TestCase.second.first, *Result, TestCase.second.second);
-  }
-}
-
-__global__ void float22bFloat162_rn(float *const Result, float2 Input1) {
-  auto ret = __float22bfloat162_rn(Input1);
-  Result[0] = __bfloat162float(ret.x);
-  Result[1] = __bfloat162float(ret.y);
-}
-
-void testFloat22bFloat162_rnCases(
-    const vector<pair<float2, bf162i_pair>> &TestCases) {
-  float *Result;
-  cudaMallocManaged(&Result, 2 * sizeof(*Result));
-  for (const auto &TestCase : TestCases) {
-    float22bFloat162_rn<<<1, 1>>>(Result, TestCase.first);
-    cudaDeviceSynchronize();
-    checkResult("__float22bfloat162_rn", {TestCase.first},
-                TestCase.second.first, {Result[0], Result[1]},
-                TestCase.second.second);
-    auto ret = __float22bfloat162_rn(TestCase.first);
-    Result[0] = __bfloat162float(ret.x);
-    Result[1] = __bfloat162float(ret.y);
-    checkResult("(host)__float22bfloat162_rn", {TestCase.first},
-                TestCase.second.first, {Result[0], Result[1]},
-                TestCase.second.second);
-  }
-}
-
-__global__ void float2bFloat16(float *const Result, float Input1) {
-  *Result = __bfloat162float(__float2bfloat16(Input1));
-}
-
-void testFloat2bFloat16Cases(const vector<pair<float, bf16i_pair>> &TestCases) {
-  float *Result;
-  cudaMallocManaged(&Result, sizeof(*Result));
-  for (const auto &TestCase : TestCases) {
-    float2bFloat16<<<1, 1>>>(Result, TestCase.first);
-    cudaDeviceSynchronize();
-    checkResult("__float2bfloat16", {TestCase.first}, TestCase.second.first,
-                *Result, TestCase.second.second);
-    *Result = __float2bfloat16(TestCase.first);
-    checkResult("(host)__float2bfloat16", {TestCase.first},
-                TestCase.second.first, *Result, TestCase.second.second);
-  }
-}
-
-__global__ void ldca(float *const Result, __nv_bfloat16 *Input1) {
+__global__ void ldca(float *const Result, __half *Input1) {
   *Result = __ldca(Input1);
 }
 
-void testLdcaCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
+void testLdcaCases(const vector<pair<__half, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat16 *Input;
+    half *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -215,17 +108,17 @@ void testLdcaCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
   }
 }
 
-__global__ void ldca(float *const Result, __nv_bfloat162 *Input1) {
+__global__ void ldca(float *const Result, __half2 *Input1) {
   auto ret = __ldca(Input1);
-  Result[0] = __bfloat162float(ret.x);
-  Result[1] = __bfloat162float(ret.y);
+  Result[0] = __half2float(ret.x);
+  Result[1] = __half2float(ret.y);
 }
 
-void testLdcaCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
+void testLdcaCases2(const vector<pair<__half2, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, 2 * sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat162 *Input;
+    half2 *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -236,15 +129,15 @@ void testLdcaCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
   }
 }
 
-__global__ void ldcg(float *const Result, __nv_bfloat16 *Input1) {
+__global__ void ldcg(float *const Result, __half *Input1) {
   *Result = __ldcg(Input1);
 }
 
-void testLdcgCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
+void testLdcgCases(const vector<pair<__half, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat16 *Input;
+    half *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -255,17 +148,17 @@ void testLdcgCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
   }
 }
 
-__global__ void ldcg(float *const Result, __nv_bfloat162 *Input1) {
+__global__ void ldcg(float *const Result, __half2 *Input1) {
   auto ret = __ldcg(Input1);
-  Result[0] = __bfloat162float(ret.x);
-  Result[1] = __bfloat162float(ret.y);
+  Result[0] = __half2float(ret.x);
+  Result[1] = __half2float(ret.y);
 }
 
-void testLdcgCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
+void testLdcgCases2(const vector<pair<__half2, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, 2 * sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat162 *Input;
+    half2 *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -276,15 +169,15 @@ void testLdcgCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
   }
 }
 
-__global__ void ldcs(float *const Result, __nv_bfloat16 *Input1) {
+__global__ void ldcs(float *const Result, __half *Input1) {
   *Result = __ldcs(Input1);
 }
 
-void testLdcsCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
+void testLdcsCases(const vector<pair<__half, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat16 *Input;
+    half *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -295,17 +188,17 @@ void testLdcsCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
   }
 }
 
-__global__ void ldcs(float *const Result, __nv_bfloat162 *Input1) {
+__global__ void ldcs(float *const Result, __half2 *Input1) {
   auto ret = __ldcs(Input1);
-  Result[0] = __bfloat162float(ret.x);
-  Result[1] = __bfloat162float(ret.y);
+  Result[0] = __half2float(ret.x);
+  Result[1] = __half2float(ret.y);
 }
 
-void testLdcsCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
+void testLdcsCases2(const vector<pair<__half2, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, 2 * sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat162 *Input;
+    half2 *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -316,15 +209,15 @@ void testLdcsCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
   }
 }
 
-__global__ void ldcv(float *const Result, __nv_bfloat16 *Input1) {
+__global__ void ldcv(float *const Result, __half *Input1) {
   *Result = __ldcv(Input1);
 }
 
-void testLdcvCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
+void testLdcvCases(const vector<pair<__half, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat16 *Input;
+    half *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -335,17 +228,17 @@ void testLdcvCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
   }
 }
 
-__global__ void ldcv(float *const Result, __nv_bfloat162 *Input1) {
+__global__ void ldcv(float *const Result, __half2 *Input1) {
   auto ret = __ldcv(Input1);
-  Result[0] = __bfloat162float(ret.x);
-  Result[1] = __bfloat162float(ret.y);
+  Result[0] = __half2float(ret.x);
+  Result[1] = __half2float(ret.y);
 }
 
-void testLdcvCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
+void testLdcvCases2(const vector<pair<__half2, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, 2 * sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat162 *Input;
+    half2 *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -356,15 +249,15 @@ void testLdcvCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
   }
 }
 
-__global__ void ldg(float *const Result, __nv_bfloat16 *Input1) {
+__global__ void ldg(float *const Result, __half *Input1) {
   *Result = __ldg(Input1);
 }
 
-void testLdgCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
+void testLdgCases(const vector<pair<__half, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat16 *Input;
+    half *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -375,17 +268,17 @@ void testLdgCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
   }
 }
 
-__global__ void ldg(float *const Result, __nv_bfloat162 *Input1) {
+__global__ void ldg(float *const Result, __half2 *Input1) {
   auto ret = __ldg(Input1);
-  Result[0] = __bfloat162float(ret.x);
-  Result[1] = __bfloat162float(ret.y);
+  Result[0] = __half2float(ret.x);
+  Result[1] = __half2float(ret.y);
 }
 
-void testLdgCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
+void testLdgCases2(const vector<pair<__half2, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, 2 * sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat162 *Input;
+    half2 *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -396,15 +289,15 @@ void testLdgCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
   }
 }
 
-__global__ void ldlu(float *const Result, __nv_bfloat16 *Input1) {
+__global__ void ldlu(float *const Result, __half *Input1) {
   *Result = __ldlu(Input1);
 }
 
-void testLdluCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
+void testLdluCases(const vector<pair<__half, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat16 *Input;
+    half *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -415,17 +308,17 @@ void testLdluCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
   }
 }
 
-__global__ void ldlu(float *const Result, __nv_bfloat162 *Input1) {
+__global__ void ldlu(float *const Result, __half2 *Input1) {
   auto ret = __ldlu(Input1);
-  Result[0] = __bfloat162float(ret.x);
-  Result[1] = __bfloat162float(ret.y);
+  Result[0] = __half2float(ret.x);
+  Result[1] = __half2float(ret.y);
 }
 
-void testLdluCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
+void testLdluCases2(const vector<pair<__half2, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, 2 * sizeof(*Result));
   for (const auto &TestCase : TestCases) {
-    __nv_bfloat162 *Input;
+    half2 *Input;
     cudaMallocManaged(&Input, sizeof(*Input));
     setValue<<<1, 1>>>(Input, TestCase.first);
     cudaDeviceSynchronize();
@@ -436,16 +329,15 @@ void testLdluCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
   }
 }
 
-__global__ void stcg(float *const Result, __nv_bfloat16 Input1,
-                     __nv_bfloat16 *const Temp) {
+__global__ void stcg(float *const Result, __half Input1, __half *const Temp) {
   __stcg(Temp, Input1);
-  *Result = __bfloat162float(*Temp);
+  *Result = __half2float(*Temp);
 }
 
-void testStcgCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
+void testStcgCases(const vector<pair<__half, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
-  __nv_bfloat16 *Temp;
+  __half *Temp;
   cudaMallocManaged(&Temp, sizeof(*Temp));
   for (const auto &TestCase : TestCases) {
     stcg<<<1, 1>>>(Result, TestCase.first, Temp);
@@ -455,17 +347,16 @@ void testStcgCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
   }
 }
 
-__global__ void stcg(float *const Result, __nv_bfloat162 Input1,
-                     __nv_bfloat162 *const Temp) {
+__global__ void stcg(float *const Result, __half2 Input1, __half2 *const Temp) {
   __stcg(Temp, Input1);
-  Result[0] = __bfloat162float(Temp->x);
-  Result[1] = __bfloat162float(Temp->y);
+  Result[0] = __half2float(Temp->x);
+  Result[1] = __half2float(Temp->y);
 }
 
-void testStcgCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
+void testStcgCases2(const vector<pair<__half2, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, 2 * sizeof(*Result));
-  __nv_bfloat162 *Temp;
+  __half2 *Temp;
   cudaMallocManaged(&Temp, sizeof(*Temp));
   for (const auto &TestCase : TestCases) {
     stcg<<<1, 1>>>(Result, TestCase.first, Temp);
@@ -475,16 +366,15 @@ void testStcgCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
   }
 }
 
-__global__ void stcs(float *const Result, __nv_bfloat16 Input1,
-                     __nv_bfloat16 *const Temp) {
+__global__ void stcs(float *const Result, __half Input1, __half *const Temp) {
   __stcs(Temp, Input1);
-  *Result = __bfloat162float(*Temp);
+  *Result = __half2float(*Temp);
 }
 
-void testStcsCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
+void testStcsCases(const vector<pair<__half, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
-  __nv_bfloat16 *Temp;
+  __half *Temp;
   cudaMallocManaged(&Temp, sizeof(*Temp));
   for (const auto &TestCase : TestCases) {
     stcs<<<1, 1>>>(Result, TestCase.first, Temp);
@@ -494,17 +384,16 @@ void testStcsCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
   }
 }
 
-__global__ void stcs(float *const Result, __nv_bfloat162 Input1,
-                     __nv_bfloat162 *const Temp) {
+__global__ void stcs(float *const Result, __half2 Input1, __half2 *const Temp) {
   __stcs(Temp, Input1);
-  Result[0] = __bfloat162float(Temp->x);
-  Result[1] = __bfloat162float(Temp->y);
+  Result[0] = __half2float(Temp->x);
+  Result[1] = __half2float(Temp->y);
 }
 
-void testStcsCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
+void testStcsCases2(const vector<pair<__half2, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, 2 * sizeof(*Result));
-  __nv_bfloat162 *Temp;
+  __half2 *Temp;
   cudaMallocManaged(&Temp, sizeof(*Temp));
   for (const auto &TestCase : TestCases) {
     stcs<<<1, 1>>>(Result, TestCase.first, Temp);
@@ -514,16 +403,15 @@ void testStcsCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
   }
 }
 
-__global__ void stwb(float *const Result, __nv_bfloat16 Input1,
-                     __nv_bfloat16 *const Temp) {
+__global__ void stwb(float *const Result, __half Input1, __half *const Temp) {
   __stwb(Temp, Input1);
-  *Result = __bfloat162float(*Temp);
+  *Result = __half2float(*Temp);
 }
 
-void testStwbCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
+void testStwbCases(const vector<pair<__half, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
-  __nv_bfloat16 *Temp;
+  __half *Temp;
   cudaMallocManaged(&Temp, sizeof(*Temp));
   for (const auto &TestCase : TestCases) {
     stwb<<<1, 1>>>(Result, TestCase.first, Temp);
@@ -533,17 +421,16 @@ void testStwbCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
   }
 }
 
-__global__ void stwb(float *const Result, __nv_bfloat162 Input1,
-                     __nv_bfloat162 *const Temp) {
+__global__ void stwb(float *const Result, __half2 Input1, __half2 *const Temp) {
   __stwb(Temp, Input1);
-  Result[0] = __bfloat162float(Temp->x);
-  Result[1] = __bfloat162float(Temp->y);
+  Result[0] = __half2float(Temp->x);
+  Result[1] = __half2float(Temp->y);
 }
 
-void testStwbCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
+void testStwbCases2(const vector<pair<__half2, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, 2 * sizeof(*Result));
-  __nv_bfloat162 *Temp;
+  __half2 *Temp;
   cudaMallocManaged(&Temp, sizeof(*Temp));
   for (const auto &TestCase : TestCases) {
     stwb<<<1, 1>>>(Result, TestCase.first, Temp);
@@ -553,16 +440,15 @@ void testStwbCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
   }
 }
 
-__global__ void stwt(float *const Result, __nv_bfloat16 Input1,
-                     __nv_bfloat16 *const Temp) {
+__global__ void stwt(float *const Result, __half Input1, __half *const Temp) {
   __stwt(Temp, Input1);
-  *Result = __bfloat162float(*Temp);
+  *Result = __half2float(*Temp);
 }
 
-void testStwtCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
+void testStwtCases(const vector<pair<__half, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
-  __nv_bfloat16 *Temp;
+  __half *Temp;
   cudaMallocManaged(&Temp, sizeof(*Temp));
   for (const auto &TestCase : TestCases) {
     stwt<<<1, 1>>>(Result, TestCase.first, Temp);
@@ -572,17 +458,16 @@ void testStwtCases(const vector<pair<__nv_bfloat16, int>> &TestCases) {
   }
 }
 
-__global__ void stwt(float *const Result, __nv_bfloat162 Input1,
-                     __nv_bfloat162 *const Temp) {
+__global__ void stwt(float *const Result, __half2 Input1, __half2 *const Temp) {
   __stwt(Temp, Input1);
-  Result[0] = __bfloat162float(Temp->x);
-  Result[1] = __bfloat162float(Temp->y);
+  Result[0] = __half2float(Temp->x);
+  Result[1] = __half2float(Temp->y);
 }
 
-void testStwtCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
+void testStwtCases2(const vector<pair<__half2, int>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, 2 * sizeof(*Result));
-  __nv_bfloat162 *Temp;
+  __half2 *Temp;
   cudaMallocManaged(&Temp, sizeof(*Temp));
   for (const auto &TestCase : TestCases) {
     stwt<<<1, 1>>>(Result, TestCase.first, Temp);
@@ -593,30 +478,6 @@ void testStwtCases(const vector<pair<__nv_bfloat162, int>> &TestCases) {
 }
 
 int main() {
-  testBFloat1622float2Cases({
-      {{-0.3, -0.5}, {{-0.30078125, -0.5}, 16}},
-      {{0.3, 0.5}, {{0.30078125, 0.5}, 16}},
-      {{30, 50}, {{30, 50}, 14}},
-      {{0.432643, 0.23654}, {{0.43359375, 0.236328125}, 16}},
-  });
-  testBFloat162floatCases({
-      {-0.3, {-0.30078125, 16}},
-      {0.3, {0.30078125, 16}},
-      {30, {30, 14}},
-      {0.432643, {0.43359375, 16}},
-  });
-  testFloat22bFloat162_rnCases({
-      {{-0.3, -0.5}, {{-0.30078125, -0.5}, 16}},
-      {{0.3, 0.5}, {{0.30078125, 0.5}, 16}},
-      {{30, 50}, {{30, 50}, 14}},
-      {{0.432643, 0.23654}, {{0.43359375, 0.236328125}, 16}},
-  });
-  testFloat2bFloat16Cases({
-      {-0.3, {-0.30078125, 16}},
-      {0.3, {0.30078125, 16}},
-      {30, {30, 14}},
-      {0.432643, {0.43359375, 16}},
-  });
   testLdcaCases({
       {-0.3, 16},
       {-0.4, 16},
@@ -625,7 +486,7 @@ int main() {
       {1, 15},
       {100.6, 14},
   });
-  testLdcaCases({
+  testLdcaCases2({
       {{-0.3, -0.4}, 16},
       {{0, 0.7}, 16},
       {{1, 100.6}, 14},
@@ -639,7 +500,7 @@ int main() {
       {1, 15},
       {100.6, 14},
   });
-  testLdcgCases({
+  testLdcgCases2({
       {{-0.3, -0.4}, 16},
       {{0, 0.7}, 16},
       {{1, 100.6}, 14},
@@ -653,7 +514,7 @@ int main() {
       {1, 15},
       {100.6, 14},
   });
-  testLdcsCases({
+  testLdcsCases2({
       {{-0.3, -0.4}, 16},
       {{0, 0.7}, 16},
       {{1, 100.6}, 14},
@@ -667,7 +528,7 @@ int main() {
       {1, 15},
       {100.6, 14},
   });
-  testLdcvCases({
+  testLdcvCases2({
       {{-0.3, -0.4}, 16},
       {{0, 0.7}, 16},
       {{1, 100.6}, 14},
@@ -681,7 +542,7 @@ int main() {
       {1, 15},
       {100.6, 14},
   });
-  testLdgCases({
+  testLdgCases2({
       {{-0.3, -0.4}, 16},
       {{0, 0.7}, 16},
       {{1, 100.6}, 14},
@@ -695,7 +556,7 @@ int main() {
       {1, 15},
       {100.6, 14},
   });
-  testLdluCases({
+  testLdluCases2({
       {{-0.3, -0.4}, 16},
       {{0, 0.7}, 16},
       {{1, 100.6}, 14},
@@ -709,7 +570,7 @@ int main() {
       {1, 15},
       {100.6, 14},
   });
-  testStcgCases({
+  testStcgCases2({
       {{-0.3, -0.4}, 16},
       {{0, 0.7}, 16},
       {{1, 100.6}, 14},
@@ -723,7 +584,7 @@ int main() {
       {1, 15},
       {100.6, 14},
   });
-  testStcsCases({
+  testStcsCases2({
       {{-0.3, -0.4}, 16},
       {{0, 0.7}, 16},
       {{1, 100.6}, 14},
@@ -737,7 +598,7 @@ int main() {
       {1, 15},
       {100.6, 14},
   });
-  testStwbCases({
+  testStwbCases2({
       {{-0.3, -0.4}, 16},
       {{0, 0.7}, 16},
       {{1, 100.6}, 14},
@@ -751,7 +612,7 @@ int main() {
       {1, 15},
       {100.6, 14},
   });
-  testStwtCases({
+  testStwtCases2({
       {{-0.3, -0.4}, 16},
       {{0, 0.7}, 16},
       {{1, 100.6}, 14},
