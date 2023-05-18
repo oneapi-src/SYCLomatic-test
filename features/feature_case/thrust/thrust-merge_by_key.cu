@@ -1,11 +1,11 @@
-// ====------ thrust-merge_by_key.cu---------- *- CUDA -* -----------------===//
+// ====------ thrust-merge_by_key.cu---------- *- CUDA -* ----------------===//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //
-// ===----------------------------------------------------------------------===//
+// ===---------------------------------------------------------------------===//
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
 #include <thrust/merge.h>
