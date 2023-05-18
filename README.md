@@ -85,7 +85,7 @@ The format of the option map is key and value pairs. The key is the test option 
 | "option_usmnone_cpu" : "--usm-level=none" | a. c2s migrates with usm switching off.  b. The test run on the CPU device. |
 | "option_gpu" : ""                         | a. c2s migrates with default opt. b. The test run on the GPU device. |
 | "option_usmnone_gpu" : "--usm-level=none" | a. c2s migrates with usm switching off. b. The test run on the GPU device.  |
-| "option_cuda" : ""                        | a. c2s migrates with default opt. b. The test run on the CPU device. |
+| "option_cuda" : ""                        | a. c2s migrates with default opt. b. The test run on the CUDA backend. |
 
 
 ## Test suite configuration file:

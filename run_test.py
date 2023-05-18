@@ -481,7 +481,7 @@ def parse_input_args():
         exit(1)
     return args
 
-def main(): 
+def main():
     args = parse_input_args()
     do_sanity_test()
     set_default_compiler(args.option == 'option_cuda')
