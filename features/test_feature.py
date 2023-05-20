@@ -52,6 +52,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce',
               'remove_unnecessary_wait']
 
+occupancy_calculation_exper = ['Util_api_test30', 'occupancy_calculation']
 
 def setup_test():
     return True
@@ -77,8 +78,6 @@ def migrate_test():
 
     math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'math-ext-simd']
 
-    occupancy_calculation_exper = ['Util_api_test30', 'occupancy_calculation']
-
     if test_config.current_test in size_deallocation:
         extra_args.append(' -fsized-deallocation ')
     if test_config.current_test in nd_range_bar_exper:
@@ -92,7 +91,7 @@ def migrate_test():
     if test_config.current_test in math_extension_tests:
         src.append(' --use-dpcpp-extensions=intel_device_math')
     if test_config.current_test in occupancy_calculation_exper:
-        src.append(' --use-experimental-features=occupancy_calculation ')
+        src.append(' --use-experimental-features=occupancy-calculation ')
     if test_config.current_test == 'feature_profiling':
         src.append(' --enable-profiling ')
     if test_config.current_test == 'sync_warp_p2':
@@ -110,6 +109,17 @@ def manual_fix_for_cufft_external_workspace(migrated_file):
                     is_first_occur = False
                 else:
                     line = line.replace('&workSize', '&workSize, std::pair(dpct::fft::fft_direction::backward, true)')
+            lines.append(line)
+    with open(migrated_file, 'w') as out_f:
+        for line in lines:
+            out_f.write(line)
+
+def manual_fix_for_occupancy_calculation(migrated_file):
+    lines = []
+    with open(migrated_file) as in_f:
+        for line in in_f:
+            if ('dpct_placeholder' in line):
+                line = line.replace('dpct_placeholder', '0')
             lines.append(line)
     with open(migrated_file, 'w') as out_f:
         for line in lines:
@@ -162,6 +172,8 @@ def build_test():
 
     if (test_config.current_test == 'cufft-external-workspace'):
         manual_fix_for_cufft_external_workspace(srcs[0])
+    if (test_config.current_test in occupancy_calculation_exper):
+        manual_fix_for_occupancy_calculation(srcs[0])
 
     if test_config.current_test == 'cufft_test':
         ret = compile_and_link([os.path.join(test_config.out_root, 'cufft_test.dp.cpp')], cmp_options, objects, link_opts)
