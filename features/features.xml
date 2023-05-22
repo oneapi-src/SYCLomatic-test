@@ -18,6 +18,7 @@
     <test testName="thrust-list" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-gather" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-gather_if" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-merge_by_key" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust-scatter" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key_copy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
