@@ -15,7 +15,7 @@ using namespace std;
 
 __device__ void device_fp() {
   __half a = 0;
-  __habs(a);
+  __hneg(a);
 }
 __global__ void test_fp() { device_fp(); }
 
