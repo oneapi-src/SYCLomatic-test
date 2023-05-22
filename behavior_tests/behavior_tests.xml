@@ -158,6 +158,7 @@
         <test testName="bt-tilde-path" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="open-source-mkl-compile" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="bt-gen-helper-function" configFile="config/TEMPLATE_behavior_tests_win.xml" />
+        <test testName="bt-language-warning" configFile="config/TEMPLATE_behavior_tests.xml" />
     </tests>
 
 </suite>
