@@ -513,7 +513,7 @@ void test_cusolverDnTsyevj_cusolverDnTheevj() {
   printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
   printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
 
-  float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
+  float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
   float expect_w[2] = {0.000000,5.000000};
   if (compare_result(expect_a, a_s.h_data, 4) &&
       compare_result(expect_a, a_d.h_data, 4) &&
@@ -617,7 +617,7 @@ void test_cusolverDnXsyevd() {
   printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
   printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
 
-  float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
+  float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
   float expect_w[2] = {0.000000,5.000000};
   if (compare_result(expect_a, a_s.h_data, 4) &&
       compare_result(expect_a, a_d.h_data, 4) &&
@@ -705,7 +705,7 @@ void test_cusolverDnSyevd() {
   printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
   printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
 
-  float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
+  float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
   float expect_w[2] = {0.000000,5.000000};
   if (compare_result(expect_a, a_s.h_data, 4) &&
       compare_result(expect_a, a_d.h_data, 4) &&
