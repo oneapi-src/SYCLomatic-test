@@ -410,6 +410,8 @@ def config_running_device(opt):
         test_config.device_filter = "opencl:cpu"
     if "gpu" in opt:
         test_config.device_filter = "level_zero:gpu"
+    if "cuda" in opt:
+        test_config.device_filter = "cuda:gpu"
     test_config.migrate_option = test_config.option_map[opt]
 
 def test_suite_with_opt(suite_root_path, suite_name, opt):
@@ -480,10 +482,9 @@ def parse_input_args():
     return args
 
 def main():
-    set_default_compiler()
     args = parse_input_args()
     do_sanity_test()
-
+    set_default_compiler(args.option == 'option_cuda')
     suite_list = get_suite_list()
     test_config.root_path = os.getcwd()
     test_config.option_map = get_option_mapping()
