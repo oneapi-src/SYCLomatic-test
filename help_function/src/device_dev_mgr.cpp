@@ -43,5 +43,8 @@ int main() {
   // test_feature:device_count()
   Dmgr.device_count();
 
+  // test_feature:select_device()
+  Dmgr.select_device(sycl::gpu_selector_v);
+
   return 0;
 }
