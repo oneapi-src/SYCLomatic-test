@@ -13,5 +13,7 @@ int main() {
   int block_size = 128;
   size_t dynamic_shared_memory_size = 0;
   cudaOccupancyMaxActiveBlocksPerMultiprocessor(&num_blocks, k, block_size, dynamic_shared_memory_size);
+  CUfunction func;
+  cuOccupancyMaxActiveBlocksPerMultiprocessor(&num_blocks, func, block_size, dynamic_shared_memory_size);
   return 0;
 }
