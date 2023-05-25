@@ -13,7 +13,6 @@
 __global__ void complex_math_kernel(float * res)
 {
   auto c = thrust::polar(11.48569f, 1.33698f);
-  c = thrust::tanh(c);
   c = thrust::asinh(c);
   c = thrust::acosh(c);
   c = thrust::atanh(c);
@@ -27,6 +26,8 @@ __global__ void complex_math_kernel(float * res)
 void complex_math(float * res)
 {
   auto c = thrust::polar(11.48569f, 1.33698f);
+  c = thrust::asinh(c);
+  c = thrust::acosh(c);
   c = thrust::atanh(c);
   c = thrust::log(c);
   c = thrust::exp(c);
