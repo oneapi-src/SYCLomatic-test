@@ -52,7 +52,9 @@
     <test testName="thrust_stable_sort" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_tabulate" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_for_each_n" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="thrust-math" configFile="config/TEMPLATE_thrust_math.xml" />
+    <test testName="thrust-math" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust-math1" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust-math2" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="curand" configFile="config/TEMPLATE_cuRand.xml" />
     <test testName="curandEnum" configFile="config/TEMPLATE_cuRand.xml" />
     <test testName="curand-usm" configFile="config/TEMPLATE_cuRand.xml" />
