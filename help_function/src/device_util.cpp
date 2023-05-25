@@ -41,8 +41,8 @@ int main() {
   sycl::exception_list ExceptionList;
   dpct::exception_handler(ExceptionList);
 
-  //test_feature:select_device(sycl::gpu_selector_v)
-  dpct::select_device(sycl::gpu_selector_v);
+  //test_feature:select_device(sycl::default_selector_v)
+  dpct::select_device(sycl::default_selector_v);
 
   return 0;
 }

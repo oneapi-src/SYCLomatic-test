@@ -44,7 +44,7 @@ int main() {
   Dmgr.device_count();
 
   // test_feature:select_device()
-  Dmgr.select_device(sycl::gpu_selector_v);
+  Dmgr.select_device(sycl::default_selector_v);
 
   return 0;
 }
