@@ -19,9 +19,8 @@ from test_utils import *
 
 exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust-copy',
               'thrust-qmc', 'thrust-transform-if', 'thrust-policy', 'thrust-list', 'module-kernel',
-              'kernel-launch', 'thrust-gather',
-              'thrust-gather_if',
-              'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre',
+              'kernel-launch', 'thrust-gather', 'thrust-gather_if',
+              'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre', 'thrust-merge_by_key',
               'thrust-rawptr-noneusm', 'driverStreamAndEvent', 'grid_sync', 'deviceProp', 'gridThreads', 'kernel_library', 'cub_block_p2',
               'cub_constant_iterator', 'cub_device_reduce_max', 'cub_device_reduce_min', 'cub_discard_iterator', 'ccl-test', 'ccl-test2',
               'cub_device', 'cub_device_reduce_sum', 'cub_device_reduce', 'cub_device_reduce_by_key', 'cub_device_select_unique_by_key',
@@ -35,13 +34,13 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'math-ext-simd', 'cudnn-activation',
               'cudnn-fill', 'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax',
               'cudnn-sum', 'math-funnelshift', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
-              'math-bf16-conv',
+              'math-bf16-conv', 'math-half-conv',
               'math-bfloat16', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
-              'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5',
+              'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5', 'cudnn-convp6',
               'cudnn_mutilple_files', "cusparse_1", "cusparse_2",
               'cudnn-GetErrorString',
               'cudnn-types', 'cudnn-version', 'cudnn-dropout',
-              'constant_attr', 'sync_warp_p2',
+              'constant_attr', 'sync_warp_p2', 'occupancy_calculation',
               'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
               'cusolver_test1', 'cusolver_test2', 'cusolver_test3', 'cusolver_test4', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
               'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',
@@ -49,8 +48,10 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'thrust_tabulate', 'thrust_for_each_n', 'device_info', 'defaultStream', 'cudnn-rnn', 'feature_profiling',
               'thrust_raw_reference_cast', 'thrust_partition_copy', 'thrust_stable_partition_copy',
               'thrust_stable_partition', 'thrust_remove', 'cub_device_segmented_sort_pairs', 'thrust_find_if_not',
-              'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce']
+              'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce',
+              'remove_unnecessary_wait', 'thrust_equal_range']
 
+occupancy_calculation_exper = ['Util_api_test30', 'occupancy_calculation']
 
 def setup_test():
     return True
@@ -88,6 +89,8 @@ def migrate_test():
         src.append(' --rule-file=./math_intel_specific/intel_specific_math.yaml')
     if test_config.current_test in math_extension_tests:
         src.append(' --use-dpcpp-extensions=intel_device_math')
+    if test_config.current_test in occupancy_calculation_exper:
+        src.append(' --use-experimental-features=occupancy-calculation ')
     if test_config.current_test == 'feature_profiling':
         src.append(' --enable-profiling ')
     if test_config.current_test == 'sync_warp_p2':
@@ -110,6 +113,17 @@ def manual_fix_for_cufft_external_workspace(migrated_file):
         for line in lines:
             out_f.write(line)
 
+def manual_fix_for_occupancy_calculation(migrated_file):
+    lines = []
+    with open(migrated_file) as in_f:
+        for line in in_f:
+            if ('dpct_placeholder' in line):
+                line = line.replace('dpct_placeholder', '0')
+            lines.append(line)
+    with open(migrated_file, 'w') as out_f:
+        for line in lines:
+            out_f.write(line)
+
 def build_test():
     if (os.path.exists(test_config.current_test)):
         os.chdir(test_config.current_test)
@@ -125,7 +139,7 @@ def build_test():
     oneDNN_related = ['cudnn-activation', 'cudnn-fill', 'cudnn-lrn', 'cudnn-memory',
              'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax', 'cudnn-sum', 'cudnn-reduction',
              'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3', 'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3',
-             'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5', 'cudnn-rnn',
+             'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5', 'cudnn-convp6', 'cudnn-rnn',
              'cudnn-GetErrorString',
              'cudnn-types', 'cudnn-version', 'cudnn-dropout'
              ]
@@ -157,6 +171,8 @@ def build_test():
 
     if (test_config.current_test == 'cufft-external-workspace'):
         manual_fix_for_cufft_external_workspace(srcs[0])
+    if (test_config.current_test in occupancy_calculation_exper):
+        manual_fix_for_occupancy_calculation(srcs[0])
 
     if test_config.current_test == 'cufft_test':
         ret = compile_and_link([os.path.join(test_config.out_root, 'cufft_test.dp.cpp')], cmp_options, objects, link_opts)

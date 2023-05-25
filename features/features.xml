@@ -18,6 +18,7 @@
     <test testName="thrust-list" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-gather" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-gather_if" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-merge_by_key" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust-scatter" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key_copy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -47,6 +48,7 @@
     <test testName="thrust_find_if_not" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_find_if" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_mismatch" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_equal_range" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_stable_sort" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_tabulate" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_for_each_n" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -74,24 +76,25 @@
     <test testName="cublasTtrmmLegacy" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="cublas-usm-legacy" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
-    <test testName="math-bf16-conv" configFile="config/TEMPLATE_math_bfloat16.xml" />
-    <test testName="math-bfloat16" configFile="config/TEMPLATE_math_bfloat16.xml" />
+    <test testName="math-bf16-conv" configFile="config/TEMPLATE_math_after_11.xml" />
+    <test testName="math-bfloat16" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml"  splitGroup="double" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-emu-double" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-emu-float" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
-    <test testName="math-emu-half" configFile="config/TEMPLATE_math_half.xml" />
-    <test testName="math-emu-half2" configFile="config/TEMPLATE_math_half.xml" />
+    <test testName="math-emu-half" configFile="config/TEMPLATE_math_after_9.xml" />
+    <test testName="math-emu-half2" configFile="config/TEMPLATE_math_after_9.xml" />
     <test testName="math-emu-simd" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-exec" configFile="config/TEMPLATE_math_exec.xml" splitGroup="double" />
     <test testName="math-funnelshift" configFile="config/TEMPLATE_math_funnelshift.xml" />
     <test testName="math-habs" configFile="config/TEMPLATE_math_habs.xml" splitGroup="double" />
     <test testName="math-ext-double" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-ext-float" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
-    <test testName="math-ext-half" configFile="config/TEMPLATE_math_half.xml" />
-    <test testName="math-ext-half2" configFile="config/TEMPLATE_math_half.xml" />
+    <test testName="math-ext-half" configFile="config/TEMPLATE_math_after_9.xml" />
+    <test testName="math-ext-half2" configFile="config/TEMPLATE_math_after_9.xml" />
     <test testName="math-ext-simd" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-half-conv" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-saturate" configFile="config/TEMPLATE_math_saturate.xml" />
     <test testName="cusparse" configFile="config/TEMPLATE_cusparse_before_11.xml" />
@@ -192,6 +195,7 @@
     <test testName="cudnn-convp3" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp4" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp5" configFile="config/TEMPLATE_cuDNN.xml" />
+    <test testName="cudnn-convp6" configFile="config/TEMPLATE_cuDNN_v8.xml" />
     <test testName="cudnn-conv_v7" configFile="config/TEMPLATE_cuDNN_v7.xml" />
     <test testName="cudnn-rnn" configFile="config/TEMPLATE_cuDNN_v8.xml" />
     <test testName="cudnn-types" configFile="config/TEMPLATE_cuDNN.xml" />
@@ -374,6 +378,7 @@
     <test testName="Util_api_test23" configFile="config/TEMPLATE_custom_helper_files_Util_excluding_80.xml" />
     <test testName="Util_api_test24" configFile="config/TEMPLATE_custom_helper_files_Util_excluding_80.xml" />
     <test testName="Util_api_test25" configFile="config/TEMPLATE_custom_helper_files_Util_excluding_80.xml" />
+    <test testName="Util_api_test30" configFile="config/TEMPLATE_custom_helper_files_Util.xml" />
     <test testName="DplExtrasDpcppExtensions_api_test1" configFile="config/TEMPLATE_custom_helper_files_DplExtrasDpcppExtensions.xml" />
     <test testName="DplExtrasDpcppExtensions_api_test2" configFile="config/TEMPLATE_custom_helper_files_DplExtrasDpcppExtensions.xml" />
     <test testName="DplExtrasDpcppExtensions_api_test3" configFile="config/TEMPLATE_custom_helper_files_DplExtrasDpcppExtensions.xml" />
@@ -472,6 +477,8 @@
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
     <test testName="defaultStream" configFile="config/TEMPLATE_defaultStream.xml" />
     <test testName="volatile-vec" configFile="config/TEMPLATE_misc.xml" />
+    <test testName="occupancy_calculation" configFile="config/TEMPLATE_misc.xml" />
     <!-- <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" splitGroup="double" /> -->
+    <test testName="remove_unnecessary_wait" configFile="config/TEMPLATE_remove_unnecessary_wait.xml" />
   </tests>
 </suite>

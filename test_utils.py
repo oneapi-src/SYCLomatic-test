@@ -54,7 +54,10 @@ def change_dir(dir):
         os.chdir(dir)
     return True
 
-def set_default_compiler():
+def set_default_compiler(use_cuda : bool):
+    if (use_cuda):
+        test_config.DPCXX_COM = 'clang++ -fsycl -fsycl-targets=nvptx64-nvidia-cuda'
+        return
     if (platform.system() == 'Windows'):
         test_config.DPCXX_COM = "icx-cl -fsycl"
     else:
