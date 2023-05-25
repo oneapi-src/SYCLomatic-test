@@ -375,12 +375,101 @@ void test_cusolverDnTgesvdj() {
   }
 }
 
+void test_cusolverDnTsyevj_cusolverDnTheevj() {
+  std::vector<float> a = {1, 2, 2, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<float2> a_c(a.data(), 4);
+  Data<double2> a_z(a.data(), 4);
+  Data<float> w_s(2);
+  Data<double> w_d(2);
+  Data<float> w_c(2);
+  Data<double> w_z(2);
+
+  cusolverDnHandle_t handle;
+  cusolverDnCreate(&handle);
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+
+  syevjInfo_t params;
+  cusolverDnCreateSyevjInfo(&params);
+
+  int lwork_s;
+  int lwork_d;
+  int lwork_c;
+  int lwork_z;
+
+  cusolverDnSsyevj_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_s.d_data, 2, w_s.d_data, &lwork_s, params);
+  cusolverDnDsyevj_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_d.d_data, 2, w_d.d_data, &lwork_d, params);
+  cusolverDnCheevj_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_c.d_data, 2, w_c.d_data, &lwork_c, params);
+  cusolverDnZheevj_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_z.d_data, 2, w_z.d_data, &lwork_z, params);
+
+  float* device_ws_s;
+  double* device_ws_d;
+  float2* device_ws_c;
+  double2* device_ws_z;
+  cudaMalloc(&device_ws_s, lwork_s * sizeof(float));
+  cudaMalloc(&device_ws_d, lwork_d * sizeof(double));
+  cudaMalloc(&device_ws_c, lwork_c * sizeof(float2));
+  cudaMalloc(&device_ws_z, lwork_z * sizeof(double2));
+
+  int *info;
+  cudaMalloc(&info, sizeof(int));
+
+  cusolverDnSsyevj(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_s.d_data, 2, w_s.d_data, device_ws_s, lwork_s, info, params);
+  cusolverDnDsyevj(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_d.d_data, 2, w_d.d_data, device_ws_d, lwork_d, info, params);
+  cusolverDnCheevj(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_c.d_data, 2, w_c.d_data, device_ws_c, lwork_c, info, params);
+  cusolverDnZheevj(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_z.d_data, 2, w_z.d_data, device_ws_z, lwork_z, info, params);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  w_s.D2H();
+  w_d.D2H();
+  w_c.D2H();
+  w_z.D2H();
+
+  cudaStreamSynchronize(0);
+
+  cusolverDnDestroySyevjInfo(params);
+  cusolverDnDestroy(handle);
+  cudaFree(device_ws_s);
+  cudaFree(device_ws_d);
+  cudaFree(device_ws_c);
+  cudaFree(device_ws_z);
+  cudaFree(info);
+
+  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
+  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
+
+  float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
+  float expect_w[2] = {0.000000,5.000000};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(expect_w, w_s.h_data, 2) &&
+      compare_result(expect_w, w_d.h_data, 2) &&
+      compare_result(expect_w, w_c.h_data, 2) &&
+      compare_result(expect_w, w_z.h_data, 2))
+    printf("DnTsyevj/DnCheevj pass\n");
+  else {
+    printf("DnTsyevj/DnCheevj fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
 #ifndef DPCT_USM_LEVEL_NONE
   test_cusolverDnTpotrfBatched();
   test_cusolverDnTpotrsBatched();
 #endif
   test_cusolverDnTgesvdj();
+  test_cusolverDnTsyevj_cusolverDnTheevj();
 
   if (test_passed)
     return 0;
