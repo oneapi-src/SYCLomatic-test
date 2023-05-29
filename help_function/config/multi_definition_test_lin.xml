@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test driverID="test_help" name="multi_definition_test">
+    <description>test</description>
+    <files>
+        <file path="src/multi_definition_test/main.cpp" />
+        <file path="src/multi_definition_test/foo.cpp" />
+        <file path="src/multi_definition_test/Makefile" />
+        <file path="src/multi_definition_test/multi_definition_test.py" />
+    </files>
+    <rules>
+        <platformRule OSFamily="Windows" runOnThisPlatform="false"/>
+    </rules>
+</test>
