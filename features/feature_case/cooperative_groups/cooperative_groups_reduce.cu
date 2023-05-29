@@ -111,22 +111,27 @@ int main () {
         std::cout << "bit_or result" << bit_or << " " << host_out[5] <<std::endl;
         is_result_expected = false;    
     }
-       if (11 != host_out[6]) {
-        std::cout << "meta_group_rank execution failed" <<std::endl;
-        is_result_expected = false;    
+    if (11 != host_out[6])
+    {
+        std::cout << "meta_group_rank execution failed" << std::endl;
+        is_result_expected = false;
     }
-       if (3 != host_out[7]) {
-        std::cout << "shfl_up execution failed " <<std::endl;
-        is_result_expected = false;    
+    if (3 != host_out[7])
+    {
+        std::cout << "shfl_up execution failed " << std::endl;
+        is_result_expected = false;
     }
-       if (3 != host_out[8]) {
-                std::cout << "shfl_down execution failed " <<std::endl;
+    if (3 != host_out[8])
+    {
+        std::cout << "shfl_down execution failed " << std::endl;
 
-        is_result_expected = false;    
-    }   if (3 != host_out[9]) {
-                std::cout << "shfl_xor execution failed " <<std::endl;
+        is_result_expected = false;
+    }
+    if (3 != host_out[9])
+    {
+        std::cout << "shfl_xor execution failed " << std::endl;
 
-        is_result_expected = false;    
+        is_result_expected = false;
     }
     std::cout <<"Other " << host_out[6] << " " << host_out[7] << " " << host_out[8] << " " << host_out[9] << std::endl;
     if (!is_result_expected) {
