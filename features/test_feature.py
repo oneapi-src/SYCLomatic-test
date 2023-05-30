@@ -49,7 +49,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'thrust_raw_reference_cast', 'thrust_partition_copy', 'thrust_stable_partition_copy',
               'thrust_stable_partition', 'thrust_remove', 'cub_device_segmented_sort_pairs', 'thrust_find_if_not',
               'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce',
-              'remove_unnecessary_wait', 'thrust_equal_range']
+              'remove_unnecessary_wait', 'thrust_equal_range', 'thrust_transform_inclusive_scan']
 
 occupancy_calculation_exper = ['Util_api_test30', 'occupancy_calculation']
 
