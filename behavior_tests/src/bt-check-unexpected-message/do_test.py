@@ -18,11 +18,11 @@ def setup_test():
     return True
 
 def migrate_test():
-    call_subprocess(test_config.CT_TOOL + " test.cpp --out-root=out --cuda-include-path=" + test_config.include_path)
-    return is_sub_string("is treated as a CUDA file by default. Use the --extra-arg=-xc++ option to treat", test_config.command_output)
+    call_subprocess(test_config.CT_TOOL + " test.cu --out-root=out --cuda-include-path=" + test_config.include_path + " --extra-arg=-xc++")
+    return not is_sub_string("warning: '-x c' after last input file has no effect [-Wunused-command-line-argument]", test_config.command_output)
 
 def build_test():
-    return True
+    return call_subprocess("icpx -fsycl out/test.dp.cpp")
 
 def run_test():
     return True

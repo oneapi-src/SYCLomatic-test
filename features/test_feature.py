@@ -49,7 +49,7 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'thrust_raw_reference_cast', 'thrust_partition_copy', 'thrust_stable_partition_copy',
               'thrust_stable_partition', 'thrust_remove', 'cub_device_segmented_sort_pairs', 'thrust_find_if_not',
               'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce',
-              'remove_unnecessary_wait', 'thrust_equal_range']
+              'remove_unnecessary_wait', 'thrust_equal_range', 'thrust_transform_inclusive_scan']
 
 occupancy_calculation_exper = ['Util_api_test30', 'occupancy_calculation']
 
@@ -94,7 +94,7 @@ def migrate_test():
     if test_config.current_test == 'feature_profiling':
         src.append(' --enable-profiling ')
     if test_config.current_test == 'sync_warp_p2':
-        src.append(' --use-experimental-features=masked_sub_group_function ')
+        src.append(' --use-experimental-features=masked_sub_group_operation ')
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
