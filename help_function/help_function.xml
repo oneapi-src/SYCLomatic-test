@@ -3,42 +3,42 @@
 <suite>
   <description>Test the helper function</description>
   <tests>
-    <test testName="array_copy" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="assign_device_vector" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="move_device_vector" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="atomic_add_float" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="atomic_fetch_compare_inc" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="async_exception" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="dpct_device_info" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="max" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="memcpy3D" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="memcpy3D_2" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="array_copy" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="assign_device_vector" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="move_device_vector" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="atomic_add_float" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="atomic_fetch_compare_inc" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="async_exception" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="dpct_device_info" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="max" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="memcpy3D" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="memcpy3D_2" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
     <!-- <test testName="memory_management_test1" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="memory_management_test2" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="memory_management_test3" configFile="config/TEMPLATE_help_function.xml" /> -->
-    <test testName="global_memory" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="global_memory_usm" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="shared_memory" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="shared_memory_usm" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="global_memory" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="global_memory_usm" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="shared_memory" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="shared_memory_usm" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
     <test testName="test_default_queue_2" configFile="config/test_default_queue_2.xml" />
     <test testName="image_wrapper" configFile="config/image_wrapper.xml" />
     <test testName="thrust_test_device_ptr_2" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="thrust_test-pennet_simple_pstl" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="image_array" configFile="image_array/config/image_array.xml" />
     <test testName="test_complex" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="math_function" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="math_function" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
     <test testName="cpu_device_index_initializaion_test" configFile="config/cpu_device_index_initializaion_test.xml" />
     <test testName="image_wrapper_usm" configFile="config/TEMPLATE_syclct_help_function_image_wrapper_usm.xml" />
     <test testName="image_wrapper_2_usm" configFile="config/TEMPLATE_syclct_help_function_image_wrapper_usm.xml" />
-    <test testName="memory_async_dpct_free" configFile="config/TEMPLATE_help_function_usm.xml" />
+    <test testName="memory_async_dpct_free" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
     <test testName="memory_is_device_ptr" configFile="config/TEMPLATE_help_function_usm.xml" />
-    <test testName="dpct_dpct_align_and_dpct_inline" configFile="config/TEMPLATE_help_function_usm.xml" />
-    <test testName="dpct_dpct_compatibility_temp" configFile="config/TEMPLATE_help_function_usm.xml" />
+    <test testName="dpct_dpct_align_and_dpct_inline" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="dpct_dpct_compatibility_temp" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
     <test testName="dpct_dpct_pi_f" configFile="config/TEMPLATE_help_function_usm.xml" />
     <test testName="dpct_dpct_pi" configFile="config/TEMPLATE_help_function_usm.xml" />
-    <test testName="atomic_atomic_fetch_sub" configFile="config/TEMPLATE_help_function_usm.xml" />
+    <test testName="atomic_atomic_fetch_sub" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
     <test testName="atomics_noneusm_verification" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="atomics_usm_verification" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="atomics_usm_verification" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
     <test testName="blas_utils_getrf" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_getrf-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
     <test testName="blas_utils_getrf-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
@@ -73,10 +73,10 @@
     <test testName="util_vectorized_max_test" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="util_vectorized_min_test" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="util_DataType_test" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="device_util" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="device_dev_mgr" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="device_device_ext" configFile="config/TEMPLATE_help_function.xml" />
-    <test testName="device_device_info" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="device_util" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="device_dev_mgr" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="device_device_ext" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
+    <test testName="device_device_info" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
     <test testName="image_image_channel" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="image_image_matrix" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="image_image_data" configFile="config/TEMPLATE_help_function.xml" />
@@ -179,6 +179,6 @@
     <test testName="sparse_utils_1" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="sparse_utils_2_buffer" configFile="config/TEMPLATE_help_function_before_11_skip_double.xml" splitGroup="double" />
     <test testName="sparse_utils_2_usm" configFile="config/TEMPLATE_help_function_before_11_skip_double.xml" splitGroup="double" />
-    <test testName="atomic_compare_exchange_strong" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="atomic_compare_exchange_strong" configFile="config/TEMPLATE_help_function_eanble_cuda_backend.xml" />
   </tests>
 </suite>

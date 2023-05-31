@@ -5,5 +5,7 @@
     <files>
       <file path="feature_case/misc/${testName}.cu" />
     </files>
-    <rules />
+    <rules>
+      <optlevelRule enableSpecialPlatform="cuda" />
+    </rules>
 </test>
