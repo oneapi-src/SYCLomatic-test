@@ -1,4 +1,4 @@
-CC := g++
+CC := icpx -fsycl
 
 LD := $(CC)
 
