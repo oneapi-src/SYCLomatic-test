@@ -49,7 +49,7 @@ int main() {
   memset(&res, 0, sizeof(res));
   res.set_data_type(dpct::image_data_type::pitch);
   res.set_data_ptr(data_d);
-  res.set_x(6 * sizeof(sycl::float4));
+  res.set_x(6);
   res.set_y(4);
   res.set_pitch(6 * sizeof(sycl::float4));
   res.set_channel(dpct::image_channel::create<sycl::float4>());
