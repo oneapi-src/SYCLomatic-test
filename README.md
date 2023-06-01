@@ -73,6 +73,16 @@ The configuration file test_suite_list.xml lists all the test suites target to b
 | name         | Name of test suite, also **${dir}/${name}.xml** is configuration file for this suite.           |
 | opts         | Specifies the test option list for each test suite. Test options can be: **option_cpu**, **option_gpu**, **option_usmnone_cpu**, **option_cuda** and so on. Each test option defines the target device to run and extra c2s options during migration, more details in the [Define option for a test suite](#define-option-for-a-test-suite-option_mappingjson). |
 
+### Current test suite in SYCLomatic-test
+| Test suite name | Description| Link with the CI|
+| ------------ | ------------------------------------------------------------ |---|
+|api_coverage | Currently supported migrated APIs are limited to those related to cublas.|test-api_coverage-cpu|
+|behavior_tests | The SYCLomatic tool was tested for both available and negative input or options.|test-behavior_tests|
+|help_function | This suite covers all SYCLomatic-developed help functions that aid in smoother code migration.| test-help_function|
+|features | All new migrated APIs and features must have new tests added to this suite to improve testing coverage.|test-features|
+|regressions| When a regression is caught without any test cases, a new test case must be added to this suite.|test-regressions|
+|samples| Put the small end-to-end test cases in this suite.|test-samples|
+|user_guide_samples|Simple samples that guide users to run basic test cases in SYCLomatic.|test-user_guide_samples|
 
 ### Define option for a test suite: option_mapping.json
 
