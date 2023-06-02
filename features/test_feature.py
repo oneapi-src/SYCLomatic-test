@@ -94,7 +94,7 @@ def migrate_test():
     if test_config.current_test == 'feature_profiling':
         src.append(' --enable-profiling ')
     if test_config.current_test == 'sync_warp_p2':
-        src.append(' --use-experimental-features=masked_sub_group_operation ')
+        src.append(' --use-experimental-features=masked-sub-group-operation ')
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
