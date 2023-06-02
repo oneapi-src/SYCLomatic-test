@@ -26,14 +26,14 @@ void complex_tan(float * res)
 
 __global__ void complex_asin_kernel(float * res)
 {
-  auto c = thrust::polar(11.48569f, 1.33698f);
+  auto c = thrust::polar(1.48569f, 1.33698f);
   c = thrust::asin(c);
   *res = thrust::abs(c);  
 }
 
 void complex_asin(float * res)
 {
-  auto c = thrust::polar(11.48569f, 1.33698f);
+  auto c = thrust::polar(1.48569f, 1.33698f);
   c = thrust::asin(c);
   *res = thrust::abs(c);  
 }
@@ -116,7 +116,9 @@ bool test_math(){
   cudaMalloc((float **)&deviceRes, sizeof(float));
 
   complex_tan_kernel<<<1, 1>>>(deviceRes);
+  cudaDeviceSynchronize();
   cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
   complex_tan(Res);
   if(std::abs(*hostRes-*Res)>1e-6){
     std::cout<<"complex_tan "<<" test failed \n";
@@ -125,10 +127,12 @@ bool test_math(){
   else{
     std::cout<<"complex_tan "<<"test pass \n";
   }
-  flag = flag & (std::abs(*hostRes-*Res)>1e-6);
+  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
 
   complex_asin_kernel<<<1, 1>>>(deviceRes);
+  cudaDeviceSynchronize();
   cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
   complex_asin(Res);
   if(std::abs(*hostRes-*Res)>1e-6){
     std::cout<<"complex_asin "<<" test failed \n";
@@ -137,10 +141,12 @@ bool test_math(){
   else{
     std::cout<<"complex_asin "<<"test pass \n";
   }
-  flag = flag & (std::abs(*hostRes-*Res)>1e-6);
+  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
 
   complex_acos_kernel<<<1, 1>>>(deviceRes);
+  cudaDeviceSynchronize();
   cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
   complex_acos(Res);
   if(std::abs(*hostRes-*Res)>1e-6){
     std::cout<<"complex_acos "<<" test failed \n";
@@ -149,10 +155,12 @@ bool test_math(){
   else{
     std::cout<<"complex_acos "<<"test pass \n";
   }
-  flag = flag & (std::abs(*hostRes-*Res)>1e-6);
+  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
 
   complex_atan_kernel<<<1, 1>>>(deviceRes);
+  cudaDeviceSynchronize();
   cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
   complex_atan(Res);
   if(std::abs(*hostRes-*Res)>1e-6){
     std::cout<<"complex_atan "<<" test failed \n";
@@ -161,10 +169,12 @@ bool test_math(){
   else{
     std::cout<<"complex_atan "<<"test pass \n";
   }
-  flag = flag & (std::abs(*hostRes-*Res)>1e-6);
+  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
 
   complex_sinh_kernel<<<1, 1>>>(deviceRes);
+  cudaDeviceSynchronize();
   cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
   complex_sinh(Res);
   if(std::abs(*hostRes-*Res)>1e-6){
     std::cout<<"complex_sinh "<<" test failed \n";
@@ -173,10 +183,12 @@ bool test_math(){
   else{
     std::cout<<"complex_sinh "<<"test pass \n";
   }
-  flag = flag & (std::abs(*hostRes-*Res)>1e-6);
+  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
 
   complex_cosh_kernel<<<1, 1>>>(deviceRes);
+  cudaDeviceSynchronize();
   cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
   complex_cosh(Res);
   if(std::abs(*hostRes-*Res)>1e-6){
     std::cout<<"complex_cosh "<<" test failed \n";
@@ -185,10 +197,12 @@ bool test_math(){
   else{
     std::cout<<"complex_cosh "<<"test pass \n";
   }
-  flag = flag & (std::abs(*hostRes-*Res)>1e-6);
+  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
 
   complex_tanh_kernel<<<1, 1>>>(deviceRes);
+  cudaDeviceSynchronize();
   cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
   complex_tanh(Res);
   if(std::abs(*hostRes-*Res)>1e-6){
     std::cout<<"complex_tanh "<<" test failed \n";
@@ -197,7 +211,7 @@ bool test_math(){
   else{
     std::cout<<"complex_tanh "<<"test pass \n";
   }
-  flag = flag & (std::abs(*hostRes-*Res)>1e-6);
+  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
 
   free(hostRes);
   free(Res);
