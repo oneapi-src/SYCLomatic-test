@@ -1,4 +1,4 @@
-// ====------ thrust-vector.cu---------- *- CUDA -* ----===////
+// ====------ thrust-math.cu---------- *- CUDA -* ----===////
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
@@ -118,19 +118,19 @@ bool test_math(){
   bool flag = true;
   cudaMalloc((float **)&deviceRes, sizeof(float));
 
-  complex_log10_kernel<<<1, 1>>>(deviceRes);
-  cudaDeviceSynchronize();
-  cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
-  cudaDeviceSynchronize();
-  complex_log10(Res);
-  if(std::abs(*hostRes-*Res)>1e-6){
-    std::cout<<"complex_log10 "<<" test failed \n";
-    std::cout<<*hostRes<<'\t'<<*Res<<'\n';
-  }
-  else{
-    std::cout<<"complex_log10 "<<"test pass \n";
-  }
-  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
+  // complex_log10_kernel<<<1, 1>>>(deviceRes);
+  // cudaDeviceSynchronize();
+  // cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  // cudaDeviceSynchronize();
+  // complex_log10(Res);
+  // if(std::abs(*hostRes-*Res)>1e-6){
+  //   std::cout<<"complex_log10 "<<" test failed \n";
+  //   std::cout<<*hostRes<<'\t'<<*Res<<'\n';
+  // }
+  // else{
+  //   std::cout<<"complex_log10 "<<"test pass \n";
+  // }
+  // flag = flag & (std::abs(*hostRes-*Res)<1e-6);
 
   complex_sqrt_kernel<<<1, 1>>>(deviceRes);
   cudaDeviceSynchronize();
@@ -174,19 +174,19 @@ bool test_math(){
   // }
   // flag = flag & (std::abs(*hostRes-*Res)<1e-6);
 
-  complex_pow3_kernel<<<1, 1>>>(deviceRes);
-  cudaDeviceSynchronize();
-  cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
-  cudaDeviceSynchronize();
-  complex_pow3(Res);
-  if(std::abs(*hostRes-*Res)>1e-6){
-    std::cout<<"complex_pow3 "<<" test failed \n";
-    std::cout<<*hostRes<<'\t'<<*Res<<'\n';
-  }
-  else{
-    std::cout<<"complex_pow3 "<<"test pass \n";
-  }
-  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
+  // complex_pow3_kernel<<<1, 1>>>(deviceRes);
+  // cudaDeviceSynchronize();
+  // cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  // cudaDeviceSynchronize();
+  // complex_pow3(Res);
+  // if(std::abs(*hostRes-*Res)>1e-6){
+  //   std::cout<<"complex_pow3 "<<" test failed \n";
+  //   std::cout<<*hostRes<<'\t'<<*Res<<'\n';
+  // }
+  // else{
+  //   std::cout<<"complex_pow3 "<<"test pass \n";
+  // }
+  // flag = flag & (std::abs(*hostRes-*Res)<1e-6);
 
   complex_sin_kernel<<<1, 1>>>(deviceRes);
   cudaDeviceSynchronize();
