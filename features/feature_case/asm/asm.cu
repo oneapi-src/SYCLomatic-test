@@ -6,6 +6,19 @@
 //
 //
 // ===--------------------------------------------------------------------===//
+//
+// This file defines the test cases to check inline device asm parser.
+// 
+// (1) Floating point/integer constant.
+// (2) Binary/Unary/Conditional operators and paren expressions.
+// (3) Compound statements.
+// (4) Conditional instructions.
+// (5) Instructions(mov, setp, and lop3).
+//
+// Usually, we check the result of inline asm statement to ensure that the migrated 
+// programe has the same behavior with the inline asmstatement.
+//
+//===----------------------------------------------------------------------===//
 
 #include <cmath>
 #include <cstdint>
@@ -833,7 +846,7 @@ __global__ void setp(int *ec) {
 }
 
 // clang-format off
-__device__ void slow_lop3(uint32_t &R, uint32_t A, uint32_t B, uint32_t C, uint32_t D) {
+__device__ void reference_of_lop3(uint32_t &R, uint32_t A, uint32_t B, uint32_t C, uint32_t D) {
   switch (D) {
   case 0: R = 0; break;
   case 1: R = (~A & ~B & ~C); break;
@@ -1095,7 +1108,7 @@ __device__ void slow_lop3(uint32_t &R, uint32_t A, uint32_t B, uint32_t C, uint3
   }
 }
 
-__device__ void fast_lop3(uint32_t &R, uint32_t A, uint32_t B, uint32_t C, uint32_t D) {
+__device__ void asm_lop3(uint32_t &R, uint32_t A, uint32_t B, uint32_t C, uint32_t D) {
   switch (D) {
   case 0: asm("lop3.b32 %0, %1, %2, %3, 0x0;" : "=r"(R) : "r"(A), "r"(B), "r"(C)); break;
   case 1: asm("lop3.b32 %0, %1, %2, %3, 0x1;" : "=r"(R) : "r"(A), "r"(B), "r"(C)); break;
@@ -1354,7 +1367,6 @@ __device__ void fast_lop3(uint32_t &R, uint32_t A, uint32_t B, uint32_t C, uint3
   case 254: asm("lop3.b32 %0, %1, %2, %3, 0xFE;" : "=r"(R) : "r"(A), "r"(B), "r"(C)); break;
   case 255: asm("lop3.b32 %0, %1, %2, %3, 0xFF;" : "=r"(R) : "r"(A), "r"(B), "r"(C)); break;
   }
-
 }
 
 // clang-format on
@@ -1362,8 +1374,8 @@ __device__ void fast_lop3(uint32_t &R, uint32_t A, uint32_t B, uint32_t C, uint3
 __global__ void lop3(int *ec) {
   uint32_t X, Y, A = 1, B = 2, C = 3, D;
   for (D = 0; D < 256; ++D) {
-    slow_lop3(X, A, B, C, D);
-    fast_lop3(Y, A, B, C, D);
+    reference_of_lop3(X, A, B, C, D);
+    asm_lop3(Y, A, B, C, D);
     if (X != Y) {
       *ec = D;
       return;
