@@ -64,5 +64,22 @@ int main() {
   // test_feature:get_context()
   auto Context = Device.get_context();
 
+  // test_feature:in_order_queue()
+  Queue = Device.in_order_queue();
+
+  // test_feature:out_of_order_queue()
+  Queue = Device.out_of_order_queue();
+
+  // test_feature:default_queue()
+  Queue = Device.default_queue();
+
+  // test_feature:create_in_order_queue()
+  QueuePtr = Device.create_in_order_queue();
+
+  // test_feature:create_out_of_order_queue()
+  QueuePtr = Device.create_out_of_order_queue();
+
+  // test_feature:get_saved_queue()
+  QueuePtr = Device.get_saved_queue();
   return 0;
 }
