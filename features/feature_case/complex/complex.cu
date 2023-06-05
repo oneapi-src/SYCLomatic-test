@@ -233,7 +233,11 @@ int main() {
 
     auto a23 = COMPLEX_F_FIMAG(f1);
     r = r && check(a23, expect, index);
-
+    
+    f1 = cuComplexDoubleToFloat(d1);
+    
+    d1 = cuComplexFloatToDouble(f1);
+    
     int *result = nullptr;
     cudaMallocManaged(&result, sizeof(int));
     *result = 0;
