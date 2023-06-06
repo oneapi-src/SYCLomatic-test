@@ -8,15 +8,15 @@
 // ===--------------------------------------------------------------------===//
 //
 // This file defines the test cases to check inline device asm parser.
-// 
+//
 // (1) Floating point/integer constant.
 // (2) Binary/Unary/Conditional operators and paren expressions.
 // (3) Compound statements.
 // (4) Conditional instructions.
 // (5) Instructions(mov, setp, and lop3).
 //
-// Usually, we check the result of inline asm statement to ensure that the migrated 
-// programe has the same behavior with the inline asmstatement.
+// Usually, we check the result of inline asm statement to ensure that the
+// migrated programe has the same behavior with the inline asmstatement.
 //
 //===----------------------------------------------------------------------===//
 
@@ -1389,7 +1389,6 @@ int main() {
   int *ec = nullptr;
   cudaMalloc(&ec, sizeof(int));
 
-
   auto wait_and_check = [&](const char *case_name) {
     cudaDeviceSynchronize();
     int res = 0;
@@ -1399,7 +1398,6 @@ int main() {
     ret = ret || ec;
   };
 
-
   floating_point<<<1, 1>>>(ec);
   wait_and_check("floating point");
 
@@ -1408,7 +1406,7 @@ int main() {
 
   expression<<<1, 1>>>(ec);
   wait_and_check("expression");
-  
+
   declaration<<<1, 1>>>(ec);
   wait_and_check("declaration");
 
