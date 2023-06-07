@@ -1386,34 +1386,34 @@ __global__ void lop3(int *ec) {
 
 int main() {
   int ret = 0;
-  int *ec = nullptr;
-  cudaMalloc(&ec, sizeof(int));
+  int *d_ec = nullptr;
+  cudaMalloc(&d_ec, sizeof(int));
 
   auto wait_and_check = [&](const char *case_name) {
     cudaDeviceSynchronize();
-    int res = 0;
-    cudaMemcpy(&res, ec, sizeof(int), cudaMemcpyDeviceToHost);
-    if (res != 0)
-      printf("Test %s failed: return code = %d\n", case_name, res);
+    int ec = 0;
+    cudaMemcpy(&ec, d_ec, sizeof(int), cudaMemcpyDeviceToHost);
+    if (ec != 0)
+      printf("Test %s failed: return code = %d\n", case_name, ec);
     ret = ret || ec;
   };
 
-  floating_point<<<1, 1>>>(ec);
+  floating_point<<<1, 1>>>(d_ec);
   wait_and_check("floating point");
 
-  integer_literal<<<1, 1>>>(ec);
+  integer_literal<<<1, 1>>>(d_ec);
   wait_and_check("integer literal");
 
-  expression<<<1, 1>>>(ec);
+  expression<<<1, 1>>>(d_ec);
   wait_and_check("expression");
 
-  declaration<<<1, 1>>>(ec);
+  declaration<<<1, 1>>>(d_ec);
   wait_and_check("declaration");
 
-  setp<<<1, 1>>>(ec);
+  setp<<<1, 1>>>(d_ec);
   wait_and_check("setp");
 
-  lop3<<<1, 1>>>(ec);
+  lop3<<<1, 1>>>(d_ec);
   wait_and_check("lop3");
 
   return ret;
