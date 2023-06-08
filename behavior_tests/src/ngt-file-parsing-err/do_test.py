@@ -20,7 +20,10 @@ def setup_test():
 def migrate_test():
 
     call_subprocess(test_config.CT_TOOL + " simple_foo.cu -stop-on-parse-err --cuda-include-path=" + test_config.include_path)
-    return is_sub_string("Cannot parse input file", test_config.command_output)
+    return (is_sub_string("Cannot parse input file", test_config.command_output)
+            and is_sub_string("Parsing", test_config.command_output)
+            and not is_sub_string("Analyzing", test_config.command_output)
+            and not is_sub_string("Migrating", test_config.command_output))
 
 def build_test():
     return True
