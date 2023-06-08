@@ -12,13 +12,13 @@
 
 dpct::image_wrapper<sycl::float4, 2> tex42;
 dpct::image_wrapper<sycl::float4, 1> tex41;
-dpct::image_wrapper<sycl::ushort4, 3> tex43;
+dpct::image_wrapper<sycl::uint4, 3> tex43;
 
 void test_image(sycl::float4* out, dpct::image_accessor_ext<sycl::float4, 2> acc42,
                   dpct::image_accessor_ext<sycl::float4, 1> acc21,
-                  dpct::image_accessor_ext<sycl::ushort4, 3> acc13) {
+                  dpct::image_accessor_ext<sycl::uint4, 3> acc13) {
   out[0] = acc42.read(0.5f, 0.5f);
-  sycl::ushort4 data13 = acc13.read(0.5f, 0.5f, 0.5f);
+  sycl::uint4 data13 = acc13.read(0.5f, 0.5f, 0.5f);
   sycl::float4 data21 = acc21.read(0.5f);
   out[1].x() = data21.x();
   out[1].y() = data13.x();
@@ -37,7 +37,7 @@ int main() {
   dpct::dpct_memcpy(device_buffer, host_buffer, 640 * 480 * 24 * sizeof(sycl::float4));
 
   dpct::image_channel chn1 =
-      dpct::image_channel(16, 16, 16, 16, dpct::image_channel_data_type::unsigned_int);
+      dpct::image_channel(32, 32, 32, 32, dpct::image_channel_data_type::unsigned_int);
   dpct::image_channel chn2 =
       dpct::image_channel(32, 32, 32, 32, dpct::image_channel_data_type::fp);
   dpct::image_channel chn4 =
@@ -56,7 +56,7 @@ int main() {
 
   dpct::dpct_memcpy(array1->to_pitched_data(), sycl::id<3>(0, 0, 0), dpct::pitched_data(host_buffer, 640 * sizeof(sycl::float4), 640 * sizeof(sycl::float4), 1), sycl::id<3>(0, 0, 0), sycl::range<3>(640 * sizeof(sycl::float4), 1, 1));
   dpct::dpct_memcpy(dpct::pitched_data(image_data2, 650 * sizeof(sycl::float4), 640 * sizeof(sycl::float4*), 480), sycl::id<3>(0, 0, 0), dpct::pitched_data(host_buffer, 640 * 480 * sizeof(sycl::float4), 640 * 480 * sizeof(sycl::float4), 1), sycl::id<3>(0, 0, 0), sycl::range<3>(640 * 480 * sizeof(sycl::float4), 1, 1));
-  dpct::dpct_memcpy(array3->to_pitched_data(), sycl::id<3>(0, 0, 0), dpct::pitched_data(device_buffer, 640 * 480 * 24 * sizeof(sycl::ushort4), 640 * 480 * 24 * sizeof(sycl::ushort4), 1), sycl::id<3>(0, 0, 0), sycl::range<3>(640 * 480 * 24 * sizeof(sycl::ushort4), 1, 1));
+  dpct::dpct_memcpy(array3->to_pitched_data(), sycl::id<3>(0, 0, 0), dpct::pitched_data(device_buffer, 640 * 480 * 24 * sizeof(sycl::uint4), 640 * 480 * 24 * sizeof(sycl::uint4), 1), sycl::id<3>(0, 0, 0), sycl::range<3>(640 * 480 * 24 * sizeof(sycl::uint4), 1, 1));
 
   tex43.attach(array3);
 
@@ -105,7 +105,7 @@ int main() {
       cgh.single_task<dpct_kernel_name<class dpct_single_kernel>>([=] {
         test_image(acc_out.get_pointer(),dpct::image_accessor_ext<sycl::float4, 2>(smpl42, acc42),
                    dpct::image_accessor_ext<sycl::float4, 1>(smpl21, acc21),
-                   dpct::image_accessor_ext<sycl::ushort4, 3>(smpl13, acc13));
+                   dpct::image_accessor_ext<sycl::uint4, 3>(smpl13, acc13));
       });
     });
   }
