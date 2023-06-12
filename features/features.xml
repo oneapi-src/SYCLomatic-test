@@ -90,7 +90,10 @@
     <test testName="math-emu-double" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-emu-float" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-emu-half" configFile="config/TEMPLATE_math_after_9.xml" />
+    <test testName="math-emu-half-after11" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-emu-half2" configFile="config/TEMPLATE_math_after_9.xml" />
+    <test testName="math-emu-half2-after11" configFile="config/TEMPLATE_math_after_11.xml" />
+    <test testName="math-emu-half2-after12" configFile="config/TEMPLATE_math_after_12.xml" />
     <test testName="math-emu-simd" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-exec" configFile="config/TEMPLATE_math_exec.xml" splitGroup="double" />
     <test testName="math-funnelshift" configFile="config/TEMPLATE_math_funnelshift.xml" />
@@ -98,9 +101,11 @@
     <test testName="math-ext-double" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-ext-float" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-ext-half" configFile="config/TEMPLATE_math_after_9.xml" />
+    <test testName="math-ext-half-after11" configFile="config/TEMPLATE_math_ext_after_11.xml" />
     <test testName="math-ext-half2" configFile="config/TEMPLATE_math_after_9.xml" />
+    <test testName="math-ext-half2-after11" configFile="config/TEMPLATE_math_ext_after_11.xml" />
     <test testName="math-ext-simd" configFile="config/TEMPLATE_math.xml" />
-    <test testName="math-half-conv" configFile="config/TEMPLATE_math_after_11.xml" />
+    <test testName="math-half-conv" configFile="config/TEMPLATE_math_after_11_skip_double.xml" splitGroup="double"/>
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-saturate" configFile="config/TEMPLATE_math_saturate.xml" />
     <test testName="cusparse" configFile="config/TEMPLATE_cusparse_before_11.xml" />
