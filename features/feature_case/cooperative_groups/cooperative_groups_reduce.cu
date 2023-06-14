@@ -45,6 +45,12 @@ __global__ void CGReduce(int *input, int *out, unsigned int n) {
     out[3] = bit_and;
     out[4] = bit_xor;
     out[5] = bit_or;
+    if (tile32.meta_group_rank() == 0) {
+        out[6] = 11;
+        out[7] = tile32.shfl_up(input[3], 2);
+        out[8] = tile32.shfl_down(input[3], 2);
+        out[9] = tile32.shfl_xor(input[3], 2);
+    }
 }
 template <class T>
 void init_value(T * input, size_t size, T &max, T &min) {
@@ -105,6 +111,29 @@ int main () {
         std::cout << "bit_or result" << bit_or << " " << host_out[5] <<std::endl;
         is_result_expected = false;    
     }
+    if (11 != host_out[6])
+    {
+        std::cout << "meta_group_rank execution failed" << std::endl;
+        is_result_expected = false;
+    }
+    if (3 != host_out[7])
+    {
+        std::cout << "shfl_up execution failed " << std::endl;
+        is_result_expected = false;
+    }
+    if (3 != host_out[8])
+    {
+        std::cout << "shfl_down execution failed " << std::endl;
+
+        is_result_expected = false;
+    }
+    if (3 != host_out[9])
+    {
+        std::cout << "shfl_xor execution failed " << std::endl;
+
+        is_result_expected = false;
+    }
+    std::cout <<"Other " << host_out[6] << " " << host_out[7] << " " << host_out[8] << " " << host_out[9] << std::endl;
     if (!is_result_expected) {
         return -1;
     }

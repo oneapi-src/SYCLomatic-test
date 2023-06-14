@@ -3,10 +3,9 @@
 <test driverID="test_feature" name="TEMPLATE">
     <description>test</description>
     <files>
-        <file path="feature_case/image/${testName}.cu" />
+        <file path="feature_case/asm/${testName}.cu" />
     </files>
     <rules>
-      <optlevelRule excludeOptlevelNameString="cuda" />
+        <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
     </rules>
 </test>
-
