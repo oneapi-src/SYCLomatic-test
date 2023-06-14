@@ -52,6 +52,7 @@
         <test testName="bt-version" configFile="config/TEMPLATE_behavior_tests.xml" />
 	    <test testName="ngt-no-db-specified" configFile="config/TEMPLATE_behavior_tests.xml" />
 	    <test testName="bt-extra-arg" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-extra-arg-comma-separate" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-output" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="ngt-report-type-diags" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-report-format2" configFile="config/TEMPLATE_behavior_tests.xml" />
@@ -109,15 +110,8 @@
         <test testName="ngt-cannot-access-dir-in-db" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-vcxproj-does-not-exist" configFile="config/TEMPLATE_behavior_tests_win.xml" />
         <test testName="ngt-assume-nd-range-dim" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="ngt-use-custom-helper-file" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="ngt-custom-helper-file1" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="ngt-custom-helper-file2" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="ngt-custom-helper-file3" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="bt-custom-helper-file-name" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="bt-custom-helper-file-name2" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-yaml-without-ct-version" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-yaml-with-different-ct-version" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="bt-yaml-with-different-custom-help-file" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-yaml-with-different-options1" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-yaml-with-different-options2" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-yaml-with-different-options3" configFile="config/TEMPLATE_behavior_tests.xml" />
@@ -152,12 +146,13 @@
         <test testName="ngt-analysis-scope-path1" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-use-dpcpp-extensions" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-install-files" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="bt-deprecate-custom-helper" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-c2s" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-multi-cuda-inc-path" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-tilde-path" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="open-source-mkl-compile" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="bt-gen-helper-function" configFile="config/TEMPLATE_behavior_tests_win.xml" />
+        <test testName="bt-language-warning" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-check-unexpected-message" configFile="config/TEMPLATE_behavior_tests.xml" />
     </tests>
 
 </suite>

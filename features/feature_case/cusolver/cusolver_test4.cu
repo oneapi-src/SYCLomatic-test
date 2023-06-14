@@ -137,9 +137,6 @@ void test_cusolverDnTsyevdx_cusolverDnTheevdx() {
   a_c.H2D();
   a_z.H2D();
 
-  cusolverDnParams_t params;
-  cusolverDnCreateParams(&params);
-
   int lwork_s;
   int lwork_d;
   int lwork_c;
@@ -183,7 +180,6 @@ void test_cusolverDnTsyevdx_cusolverDnTheevdx() {
 
   cudaStreamSynchronize(0);
 
-  cusolverDnDestroyParams(params);
   cusolverDnDestroy(handle);
   cudaFree(device_ws_s);
   cudaFree(device_ws_d);
@@ -245,9 +241,6 @@ void test_cusolverDnTsygvdx_cusolverDnThegvdx() {
   b_c.H2D();
   b_z.H2D();
 
-  cusolverDnParams_t params;
-  cusolverDnCreateParams(&params);
-
   int lwork_s;
   int lwork_d;
   int lwork_c;
@@ -295,7 +288,6 @@ void test_cusolverDnTsygvdx_cusolverDnThegvdx() {
 
   cudaStreamSynchronize(0);
 
-  cusolverDnDestroyParams(params);
   cusolverDnDestroy(handle);
   cudaFree(device_ws_s);
   cudaFree(device_ws_d);

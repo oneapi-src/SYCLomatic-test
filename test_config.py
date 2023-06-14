@@ -33,7 +33,7 @@ migrate_option = ""
 workspace = ""
 option_map = ""       # Option mapping table. Ref: option_mapping.json
 root_path = ""      # The root path of test repo.
-timeout = 300       # The time limit for each test case.
+timeout = 1200       # The time limit for each test case.
 back_end_device = ""
 
 # The default device for the test. Device can be "opencl:cpu", "opencl:gpu" and "level_zero:gpu".

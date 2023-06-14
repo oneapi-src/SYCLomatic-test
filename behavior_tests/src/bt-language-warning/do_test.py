@@ -10,7 +10,6 @@ import subprocess
 import platform
 import os
 import sys
-from test_config import CT_TOOL
 
 from test_utils import *
 
@@ -19,10 +18,8 @@ def setup_test():
     return True
 
 def migrate_test():
-    return (call_subprocess(test_config.CT_TOOL + " --extra-arg=\"--cuda-path=" + test_config.include_path + "\" vector_add.cu")
-            and is_sub_string("Parsing", test_config.command_output)
-            and is_sub_string("Analyzing", test_config.command_output)
-            and is_sub_string("Migrating", test_config.command_output))
+    call_subprocess(test_config.CT_TOOL + " test.cpp --out-root=out --cuda-include-path=" + test_config.include_path)
+    return is_sub_string("NOTE: test.cpp is treated as a CUDA file by default. Use the --extra-arg=-xc++ option to treat test.cpp as a C++ file if needed.", test_config.command_output)
 
 def build_test():
     return True

@@ -19,10 +19,9 @@ def setup_test():
     return True
 
 def migrate_test():
-    return (call_subprocess(test_config.CT_TOOL + " --extra-arg=\"--cuda-path=" + test_config.include_path + "\" vector_add.cu")
-            and is_sub_string("Parsing", test_config.command_output)
-            and is_sub_string("Analyzing", test_config.command_output)
-            and is_sub_string("Migrating", test_config.command_output))
+    return call_subprocess(test_config.CT_TOOL + " --extra-arg=-I\"" + os.path.dirname(__file__) + 
+                           "/header1 "+",-I" + os.path.dirname(__file__) + "/header2\"" + 
+                           " --cuda-include-path=" + test_config.include_path + " test.cu")
 
 def build_test():
     return True

@@ -41,5 +41,14 @@ int main() {
   sycl::exception_list ExceptionList;
   dpct::exception_handler(ExceptionList);
 
+  //test_feature:select_device(sycl::default_selector_v)
+  dpct::select_device(sycl::default_selector_v);
+
+  //test_feature:get_in_order_queue()
+  dpct::get_in_order_queue();
+
+  //test_feature:get_out_of_order_queue()
+  dpct::get_out_of_order_queue();
+
   return 0;
 }
