@@ -6,7 +6,8 @@
         <file path="src/${testName}.cpp" />
     </files>
     <rules>
-    <optlevelRule excludeOptlevelNameString="acc" />
+        <optlevelRule excludeOptlevelNameString="acc" />
+        <optlevelRule excludeOptlevelNameString="cuda" />
     </rules>
 
 </test>

@@ -10,5 +10,6 @@
         <platformRule OSFamily="Windows" kit="CUDA11.0" kitRange="LATER_OR_EQUAL" runOnThisPlatform="false"/>
         <optlevelRule excludeOptlevelNameString="acc" />
         <optlevelRule excludeOptlevelNameString="gpu" />
+        <optlevelRule excludeOptlevelNameString="cuda" />
     </rules>
 </test>

@@ -8,5 +8,6 @@
     <rules>
         <optlevelRule excludeOptlevelNameString="acc" />
         <optlevelRule excludeOptlevelNameString="gpu" />
+        <optlevelRule excludeOptlevelNameString="cuda" />
     </rules>
 </test>

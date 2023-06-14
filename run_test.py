@@ -47,12 +47,11 @@ class platform_rule:
         self.cuda_range = cuda_range
 
 class option_rule:
-    def __init__(self, case_name, exclude_option, only_option, not_double_type_feature, enable_special_platform):
+    def __init__(self, case_name, exclude_option, only_option, not_double_type_feature):
         self.name = case_name
         self.exclude_option = exclude_option
         self.only_option = only_option
         self.not_double_type_feature = not_double_type_feature
-        self.enable_special_platform = enable_special_platform
 
 class case_config:
     def __init__(self, case_name, test_dep_files, option_rule_list, platform_rule_list,
@@ -114,16 +113,13 @@ def prepare_test_case(case_name, test_config_path, root_path, split_group):
         exclude_option = ""
         only_option = ""
         not_double_type_feature = ""
-        enable_special_platform = ""
         if "excludeOptlevelNameString" in rule.attrib:
             exclude_option = str(rule.get("excludeOptlevelNameString"))
         if "onlyOptlevelNameString" in rule.attrib:
             only_option = str(rule.get("onlyOptlevelNameString"))
         if "GPUFeature" in rule.attrib:
             not_double_type_feature = str(rule.get("GPUFeature"))
-        if "enableSpecialPlatform" in rule.attrib:
-            enable_special_platform = str(rule.get("enableSpecialPlatform"))
-        option_rules.append(option_rule(case_name, exclude_option, only_option, not_double_type_feature, enable_special_platform))
+        option_rules.append(option_rule(case_name, exclude_option, only_option, not_double_type_feature))
 
     for rule in root.iter("platformRule"):
         rule_osfamily = str(rule.get("OSFamily"))
@@ -268,8 +264,6 @@ def is_platform_supported(platform_rule_list):
 
 def is_option_supported(option_rule_list):
     for option_rule in option_rule_list:
-        if test_config.test_option == "option_cuda":
-            return option_rule.enable_special_platform=="cuda"
         if option_rule.exclude_option != "" and  option_rule.exclude_option in test_config.test_option and not option_rule.not_double_type_feature:
             return False
         elif option_rule.only_option not in test_config.test_option:
@@ -286,9 +280,6 @@ def test_single_case(current_test, single_case_config, workspace, module, suite_
         return True
 
     if single_case_config.option_rule_list and not is_option_supported(single_case_config.option_rule_list):
-        append_msg_to_file(test_config.result_text, current_test + " Skip " + "\n")
-        return True
-    if not single_case_config.option_rule_list and test_config.test_option == "option_cuda":
         append_msg_to_file(test_config.result_text, current_test + " Skip " + "\n")
         return True
     

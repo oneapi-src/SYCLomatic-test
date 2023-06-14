@@ -5,7 +5,4 @@
     <files>
         <file path="src/${testName}.cpp" />
     </files>
-    <rules>
-        <optlevelRule enableSpecialPlatform="cuda" />
-    </rules>
 </test>

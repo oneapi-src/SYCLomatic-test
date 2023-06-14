@@ -5,5 +5,7 @@
     <files>
         <file path="src/${testName}.cpp" />
     </files>
-    <rules />
+    <rules>
+      <optlevelRule excludeOptlevelNameString="cuda" />
+    </rules>
 </test>

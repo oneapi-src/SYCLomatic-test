@@ -5,7 +5,4 @@
     <files>
       <file path="feature_case/deviceProp/gridThreads.cu" />
     </files>
-    <rules>
-      <optlevelRule enableSpecialPlatform="cuda" />
-    </rules>
 </test>

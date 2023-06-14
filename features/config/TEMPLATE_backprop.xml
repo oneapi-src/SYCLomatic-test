@@ -5,7 +5,4 @@
     <files>
         <file path="feature_case/backprop" />
     </files>
-    <rules>
-        <optlevelRule enableSpecialPlatform="cuda" />
-    </rules>
 </test>

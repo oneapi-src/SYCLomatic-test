@@ -5,7 +5,4 @@
     <files>
         <file path="feature_case/perm_byte/${testName}.cu" />
     </files>
-    <rules>
-        <optlevelRule enableSpecialPlatform="cuda" />
-    </rules>
 </test>

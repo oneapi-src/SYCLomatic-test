@@ -10,7 +10,4 @@
       <file path="feature_case/constant_attr/use_header2.cu" />      
       <file path="feature_case/constant_attr/constant_array.cuh" />
     </files>
-    <rules>
-        <optlevelRule enableSpecialPlatform="cuda" />
-    </rules>
 </test>
