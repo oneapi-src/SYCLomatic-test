@@ -282,7 +282,7 @@ def test_single_case(current_test, single_case_config, workspace, module, suite_
     if single_case_config.option_rule_list and not is_option_supported(single_case_config.option_rule_list):
         append_msg_to_file(test_config.result_text, current_test + " Skip " + "\n")
         return True
-    
+
     case_workspace = os.path.join(workspace, current_test)
     if not os.path.exists(case_workspace):
         os.makedirs(case_workspace)
