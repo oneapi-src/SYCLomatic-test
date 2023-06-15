@@ -222,6 +222,10 @@ void test_cusparseSpMV() {
 
   cudaStreamSynchronize(0);
 
+  cudaFree(ws_s);
+  cudaFree(ws_d);
+  cudaFree(ws_c);
+  cudaFree(ws_z);
   cusparseDestroySpMat(a_descr_s);
   cusparseDestroySpMat(a_descr_d);
   cusparseDestroySpMat(a_descr_c);
@@ -286,11 +290,6 @@ void test_cusparseSpMM() {
   cusparseCreate(&handle);
 
   cusparseSetPointerMode(handle, CUSPARSE_POINTER_MODE_DEVICE);
-
-  cusparseMatDescr_t descrA;
-  cusparseCreateMatDescr(&descrA);
-  cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
-  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
 
   a_s_val.H2D();
   a_d_val.H2D();
@@ -374,6 +373,10 @@ void test_cusparseSpMM() {
 
   cudaStreamSynchronize(0);
 
+  cudaFree(ws_s);
+  cudaFree(ws_d);
+  cudaFree(ws_c);
+  cudaFree(ws_z);
   cusparseDestroySpMat(a_descr_s);
   cusparseDestroySpMat(a_descr_d);
   cusparseDestroySpMat(a_descr_c);
