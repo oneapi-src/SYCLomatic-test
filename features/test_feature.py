@@ -52,7 +52,7 @@ exec_tests = ['asm', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 
               'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce',
               'remove_unnecessary_wait', 'thrust_equal_range', 'thrust_transform_inclusive_scan']
 
-occupancy_calculation_exper = ['Util_api_test30', 'occupancy_calculation']
+occupancy_calculation_exper = ['occupancy_calculation']
 
 def setup_test():
     return True
@@ -70,16 +70,11 @@ def migrate_test():
         for filename in [f for f in filenames if re.match('.*(cu|cpp|c)$', f)]:
             src.append(os.path.abspath(os.path.join(dirpath, filename)))
 
-    # if 'module-kernel' in current_test:
-    size_deallocation = ['DplExtrasAlgorithm_api_test7', 'DplExtrasAlgorithm_api_test8',
-                        'DplExtrasVector_api_test1', 'DplExtrasVector_api_test2']
-    nd_range_bar_exper = ['grid_sync', 'Util_api_test12']
-    logical_group_exper = ['cooperative_groups', 'Util_api_test23', 'Util_api_test24', 'Util_api_test25']
+    nd_range_bar_exper = ['grid_sync']
+    logical_group_exper = ['cooperative_groups']
 
     math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'math-ext-simd']
 
-    if test_config.current_test in size_deallocation:
-        extra_args.append(' -fsized-deallocation ')
     if test_config.current_test in nd_range_bar_exper:
         src.append(' --use-experimental-features=nd_range_barrier ')
     if test_config.current_test == "user_defined_rules":
@@ -134,8 +129,7 @@ def build_test():
     objects = []
 
     oneDPL_related = ['thrust-vector', 'thrust-for-h2o4gpu', 'thrust-for-RapidCFD', 'cub_device',
-             'cub_block_p2', 'DplExtrasDpcppExtensions_api_test1', 'DplExtrasDpcppExtensions_api_test2',
-             'DplExtrasDpcppExtensions_api_test3', 'DplExtrasDpcppExtensions_api_test4']
+             'cub_block_p2']
 
     oneDNN_related = ['cudnn-activation', 'cudnn-fill', 'cudnn-lrn', 'cudnn-memory',
              'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax', 'cudnn-sum', 'cudnn-reduction',
