@@ -14,6 +14,7 @@
 // (3) Compound statements.
 // (4) Conditional instructions.
 // (5) Instructions(mov, setp, and lop3).
+// (6) Builtin registers.
 //
 // Usually, we check the result of inline asm statement to ensure that the
 // migrated programe has the same behavior with the inline asmstatement.
@@ -24,6 +25,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cuda_runtime.h>
+#include <map>
 
 #define EPS (1e-6)
 
@@ -242,6 +244,27 @@ __global__ void declaration(int *ec) {
   }
 
   *ec = 0;
+}
+
+__global__ void builtin(int *ec, int *warpszs, int *warpids) {
+  unsigned laneid, warp_size, warpid;
+  unsigned tid =
+      ((blockIdx.x + (blockIdx.y * gridDim.x)) * (blockDim.x * blockDim.y)) +
+      (threadIdx.x + (threadIdx.y * blockDim.x));
+  asm volatile("mov.u32 %0, %%laneid;" : "=r"(laneid));
+  asm volatile("mov.u32 %0, WARP_SZ;" : "=r"(warp_size));
+  asm volatile("mov.u32 %0, %%warpid;" : "=r"(warpid));
+  unsigned laneid2 = (threadIdx.x & (warpSize - 1));
+  if (laneid != laneid2) {
+    *ec = 1;
+    return;
+  }
+
+  warpszs[tid] = warp_size;
+  warpids[tid] = warpid;
+  if (tid == 0) {
+    *ec = 0;
+  }
 }
 
 __global__ void setp(int *ec) {
@@ -1409,6 +1432,31 @@ int main() {
 
   declaration<<<1, 1>>>(d_ec);
   wait_and_check("declaration");
+
+  int *d_warpids, *d_warpszs;
+  cudaMalloc(&d_warpszs, sizeof(int) * 66);
+  cudaMalloc(&d_warpids, sizeof(int) * 66);
+  builtin<<<2, 33>>>(d_ec, d_warpszs, d_warpids);
+  wait_and_check("builtin");
+  int warpids[66] = {0}, warpszs[66] = {0};
+  cudaMemcpy(warpids, d_warpids, sizeof(int) * 66, cudaMemcpyDeviceToHost);
+  cudaMemcpy(warpszs, d_warpszs, sizeof(int) * 66, cudaMemcpyDeviceToHost);
+  std::map<int, int> cnt_warpid, cnt_warpsz;
+  for (int I = 0; I < 66; ++I) {
+    cnt_warpid[warpids[I]]++;
+    cnt_warpsz[warpszs[I]]++;
+  }
+
+  int total_warpid = 0;
+  for (const auto &[k, v] : cnt_warpid)
+    total_warpid += v;
+
+  cudaMemset(d_ec, total_warpid != 66, sizeof(int));
+  wait_and_check("builtin");
+
+  cudaMemset(d_ec, cnt_warpsz.size() > 2U, sizeof(int));
+  wait_and_check("builtin");
+  cudaMemset(d_ec, 0, sizeof(int));
 
   setp<<<1, 1>>>(d_ec);
   wait_and_check("setp");
