@@ -1474,12 +1474,17 @@ int main() {
   cudaMemset(d_ec, cnt_warpsz.size() > 2U, sizeof(int));
   wait_and_check("builtin");
   cudaMemset(d_ec, 0, sizeof(int));
+  cudaFree(d_warpids);
+  cudaFree(d_laneids);
+  cudaFree(d_warpszs);
 
   setp<<<1, 1>>>(d_ec);
   wait_and_check("setp");
 
   lop3<<<1, 1>>>(d_ec);
   wait_and_check("lop3");
+
+  cudaFree(d_ec);
 
   return ret;
 }
