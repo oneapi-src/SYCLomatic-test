@@ -246,7 +246,7 @@ __global__ void declaration(int *ec) {
   *ec = 0;
 }
 
-__global__ void builtin(int *ec, int *warpszs, int *warpids) {
+__global__ void builtin(int *ec, int *laneids, int *warpszs, int *warpids) {
   unsigned laneid, warp_size, warpid;
   unsigned tid =
       ((blockIdx.x + (blockIdx.y * gridDim.x)) * (blockDim.x * blockDim.y)) +
@@ -259,12 +259,13 @@ __global__ void builtin(int *ec, int *warpszs, int *warpids) {
     *ec = 1;
     return;
   }
-
+  laneids[tid] = laneid;
   warpszs[tid] = warp_size;
   warpids[tid] = warpid;
   if (tid == 0) {
     *ec = 0;
   }
+  // printf("laneid=%u\n", laneid);
 }
 
 __global__ void setp(int *ec) {
@@ -1433,23 +1434,39 @@ int main() {
   declaration<<<1, 1>>>(d_ec);
   wait_and_check("declaration");
 
-  int *d_warpids, *d_warpszs;
+  int *d_warpids, *d_warpszs, *d_laneids;
+  cudaMalloc(&d_laneids, sizeof(int) * 66);
   cudaMalloc(&d_warpszs, sizeof(int) * 66);
   cudaMalloc(&d_warpids, sizeof(int) * 66);
-  builtin<<<2, 33>>>(d_ec, d_warpszs, d_warpids);
+  builtin<<<2, 33>>>(d_ec, d_laneids, d_warpszs, d_warpids);
   wait_and_check("builtin");
-  int warpids[66] = {0}, warpszs[66] = {0};
+  int laneids[66] = {0}, warpids[66] = {0}, warpszs[66] = {0};
+  cudaMemcpy(laneids, d_laneids, sizeof(int) * 66, cudaMemcpyDeviceToHost);
   cudaMemcpy(warpids, d_warpids, sizeof(int) * 66, cudaMemcpyDeviceToHost);
   cudaMemcpy(warpszs, d_warpszs, sizeof(int) * 66, cudaMemcpyDeviceToHost);
-  std::map<int, int> cnt_warpid, cnt_warpsz;
+  std::map<int, int> cnt_laneid, cnt_warpid, cnt_warpsz, cnt_laneid_num;
   for (int I = 0; I < 66; ++I) {
     cnt_warpid[warpids[I]]++;
     cnt_warpsz[warpszs[I]]++;
+    cnt_laneid[laneids[I]]++;
   }
 
   int total_warpid = 0;
   for (const auto &[k, v] : cnt_warpid)
     total_warpid += v;
+  for (const auto &[k, v] : cnt_laneid)
+    cnt_laneid_num[v]++;
+
+  auto check_laneid_num = [&]() {
+    if (cnt_laneid_num.size() != 2)
+      return false;
+    const auto first = *cnt_laneid_num.begin();
+    const auto second = *std::next(cnt_laneid_num.begin());
+    return first.first + 2 == second.first;
+  };
+
+  cudaMemset(d_ec, !check_laneid_num(), sizeof(int));
+  wait_and_check("builtin");
 
   cudaMemset(d_ec, total_warpid != 66, sizeof(int));
   wait_and_check("builtin");
