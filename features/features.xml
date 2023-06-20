@@ -248,5 +248,6 @@
     <test testName="occupancy_calculation" configFile="config/TEMPLATE_misc.xml" />
     <!-- <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" splitGroup="double" /> -->
     <test testName="remove_unnecessary_wait" configFile="config/TEMPLATE_remove_unnecessary_wait.xml" />
+    <test testName="warp_reduce_functions" configFile="config/TEMPLATE_cpp_language_extensions.xml" />
   </tests>
 </suite>
