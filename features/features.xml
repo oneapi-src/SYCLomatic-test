@@ -52,6 +52,8 @@
     <test testName="thrust_mismatch" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_equal_range" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_stable_sort" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_uninitialized_copy_n" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_uninitialized_copy" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_tabulate" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_for_each_n" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-math" configFile="config/TEMPLATE_thrust_api_disable_win.xml" />
