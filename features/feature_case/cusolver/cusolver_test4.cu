@@ -187,10 +187,6 @@ void test_cusolverDnTsyevdx_cusolverDnTheevdx() {
   cudaFree(device_ws_z);
   cudaFree(info);
 
-  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
-  printf("h_meig_s:%d\n", h_meig_s);
-  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
-
   float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
   int expect_h_meig = 2;
   float expect_w[2] = {0.000000,5.000000};
@@ -294,11 +290,6 @@ void test_cusolverDnTsygvdx_cusolverDnThegvdx() {
   cudaFree(device_ws_c);
   cudaFree(device_ws_z);
   cudaFree(info);
-
-  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
-  printf("b_s:%f,%f,%f,%f\n", b_s.h_data[0], b_s.h_data[1], b_s.h_data[2], b_s.h_data[3]);
-  printf("h_meig_s:%d\n", h_meig_s);
-  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
 
   float expect_a[4] = {0.894427,-0.447214,0.447214,0.894427};
   float expect_b[4] = {1,0,0,1};
@@ -408,10 +399,6 @@ void test_cusolverDnTsygvj_cusolverDnThegvj() {
   cudaFree(device_ws_z);
   cudaFree(info);
 
-  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
-  printf("b_s:%f,%f,%f,%f\n", b_s.h_data[0], b_s.h_data[1], b_s.h_data[2], b_s.h_data[3]);
-  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
-
   float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
   float expect_b[4] = {1,0,0,1};
   float expect_w[2] = {0.000000,5.000000};
@@ -501,9 +488,6 @@ void test_cusolverDnTsyevj_cusolverDnTheevj() {
   cudaFree(device_ws_c);
   cudaFree(device_ws_z);
   cudaFree(info);
-
-  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
-  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
 
   float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
   float expect_w[2] = {0.000000,5.000000};
@@ -606,9 +590,6 @@ void test_cusolverDnXsyevd() {
   free(host_ws_z);
   cudaFree(info);
 
-  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
-  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
-
   float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
   float expect_w[2] = {0.000000,5.000000};
   if (compare_result(expect_a, a_s.h_data, 4) &&
@@ -693,9 +674,6 @@ void test_cusolverDnSyevd() {
   cudaFree(device_ws_c);
   cudaFree(device_ws_z);
   cudaFree(info);
-
-  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
-  printf("w_s:%f,%f\n", w_s.h_data[0], w_s.h_data[1]);
 
   float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
   float expect_w[2] = {0.000000,5.000000};
@@ -785,8 +763,6 @@ void test_cusolverDnXtrtri() {
   free(host_ws_c);
   free(host_ws_z);
   cudaFree(info);
-
-  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
 
   float expect_a[4] = {1.000000,2.000000,-0.500000,0.250000};
   if (compare_result(expect_a, a_s.h_data, 4) &&

@@ -190,8 +190,6 @@ void test_cusolverDnXtrtri() {
   free(host_ws_z);
   cudaFree(info);
 
-  printf("a_s:%f,%f,%f,%f\n", a_s.h_data[0], a_s.h_data[1], a_s.h_data[2], a_s.h_data[3]);
-
   float expect_a[4] = {1.000000,2.000000,-0.500000,0.250000};
   if (compare_result(expect_a, a_s.h_data, 4) &&
       compare_result(expect_a, a_d.h_data, 4) &&
