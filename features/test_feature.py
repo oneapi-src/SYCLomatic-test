@@ -50,7 +50,7 @@ exec_tests = ['asm', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 
               'thrust_raw_reference_cast', 'thrust_partition_copy', 'thrust_stable_partition_copy',
               'thrust_stable_partition', 'thrust_remove', 'cub_device_segmented_sort_pairs', 'thrust_find_if_not',
               'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce',
-              'remove_unnecessary_wait', 'thrust_equal_range', 'thrust_transform_inclusive_scan']
+              'remove_unnecessary_wait', 'thrust_equal_range', 'thrust_transform_inclusive_scan', 'thrust_uninitialized_copy_n', 'thrust_uninitialized_copy']
 
 occupancy_calculation_exper = ['occupancy_calculation']
 
