@@ -1,4 +1,4 @@
-// ====------------ math-emu-double.cu---------- *- CUDA -* -------------===////
+// ===-------------- math-emu-float.cu---------- *- CUDA -* ---------------===//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
@@ -39,11 +39,26 @@ void checkResult(const string &FuncName, const vector<T> &Inputs,
   for (size_t i = 1; i < Inputs.size(); ++i) {
     cout << ", " << Inputs[i];
   }
-  cout << ") = " << fixed << setprecision(precision) << DeviceResult
-       << " (expect " << Expect - pow(10, -precision) << " ~ "
+  cout << ") = " << fixed << setprecision(precision < 0 ? 0 : precision)
+       << DeviceResult << " (expect " << Expect - pow(10, -precision) << " ~ "
        << Expect + pow(10, -precision) << ")";
   cout.unsetf(ios::fixed);
   check(abs(DeviceResult - Expect) < pow(10, -precision));
+}
+
+__global__ void expf(float *const Result, float Input1) {
+  *Result = expf(Input1);
+}
+
+void testExpfCases(const vector<pair<float, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    expf<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("expf", {TestCase.first}, TestCase.second.first, *Result,
+                TestCase.second.second);
+  }
 }
 
 __global__ void _norm3df(float *const DeviceResult, float Input1, float Input2,
@@ -256,7 +271,28 @@ void testRnormfCases(const vector<pair<f_vector, fi_pair>> &TestCases) {
   }
 }
 
+__global__ void _expf(float *const Result, float Input1) {
+  *Result = __expf(Input1);
+}
+
+void test_ExpfCases(const vector<pair<float, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _expf<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("__expf", {TestCase.first}, TestCase.second.first, *Result,
+                TestCase.second.second);
+  }
+}
+
 int main() {
+  testExpfCases({
+      {-0.3, {0.7408, 4}},
+      {0.34, {1.405, 3}},
+      {23, {9745000000, -6}},
+      {-12, {0.000006144, 9}},
+  });
   testNorm3dfCases({
       {{-0.3, -0.34, -0.98}, {1.079814791679382, 15}},
       {{0.3, 0.34, 0.98}, {1.079814791679382, 15}},
@@ -305,6 +341,12 @@ int main() {
       {{0.3, 0.34, 0.98}, {0.9261, 4}},
       {{0.5}, {2, 3}},
       {{23, 432, 23, 456, 23}, {0.0015888, 7}},
+  });
+  test_ExpfCases({
+      {-0.3, {0.7408, 4}},
+      {0.34, {1.405, 3}},
+      {23, {9745000000, -6}},
+      {-12, {0.000006144, 9}},
   });
   cout << "passed " << passed << "/" << passed + failed << " cases!" << endl;
   if (failed) {

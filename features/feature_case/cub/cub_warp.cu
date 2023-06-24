@@ -178,6 +178,19 @@ __global__ void ReduceValidKernel(int* data, int valid_items) {
   data[threadid] = output;
 }
 
+__global__ void SumValidKernel(int* data, int valid_items) {
+  typedef cub::WarpReduce<int> WarpReduce;
+
+  __shared__ typename WarpReduce::TempStorage temp1;
+
+  int threadid = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y + blockIdx.x * blockDim.x * blockDim.y * blockDim.z;
+
+  int input = data[threadid];
+  int output = 0;
+  output = WarpReduce(temp1).Sum(input, valid_items);
+  data[threadid] = output;
+}
+
 __global__ void ThreadLoadKernel(int* data) {
   int threadid = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y + blockIdx.x * blockDim.x * blockDim.y * blockDim.z;
 
@@ -469,6 +482,18 @@ int main() {
 
   ReduceValidKernel<<<GridSize, BlockSize>>>(dev_data, valid_items);
 
+  cudaDeviceSynchronize();
+  if(!verify_data(dev_data, expect_valid10, 1, 1)) {
+    std::cout << "ReduceValidKernel" << " verify failed" << std::endl;
+    Result = false;
+    std::cout << "expect:" << std::endl;
+    print_data(expect10, 1);
+    std::cout << "current result:" << std::endl;
+    print_data(dev_data, 1);
+  }
+
+  init_data(dev_data, DATA_NUM);
+  SumValidKernel<<<GridSize, BlockSize>>>(dev_data, valid_items);
   cudaDeviceSynchronize();
   if(!verify_data(dev_data, expect_valid10, 1, 1)) {
     std::cout << "ReduceValidKernel" << " verify failed" << std::endl;
