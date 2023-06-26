@@ -67,7 +67,7 @@ jobs:
           shell: bash
           command: |
             ARCHIVE_PATH=$(cat $GITHUB_WORKSPACE/../../../../GH_CI_LIN_ARCHIVE_FOLDER.txt)
-            cp -r "${ARCHIVE_PATH}/latest/build/linux_prod/" ./
+            rsync -av "${ARCHIVE_PATH}/latest/build/*" ./
             mv linux_prod c2s.obj
 
       - name: Prepare Env
