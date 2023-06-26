@@ -7,7 +7,7 @@
     </files>
     <rules>
     <optlevelRule excludeOptlevelNameString="acc" />
-      <optlevelRule excludeOptlevelNameString="cuda" />
+      <optlevelRule excludeOptlevelNameString="cuda_backend" />
     </rules>
 
 </test>

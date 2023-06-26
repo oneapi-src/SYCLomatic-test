@@ -8,7 +8,7 @@
         <optlevelRule excludeOptlevelNameString="usmnone" />
     </files>
     <rules>
-        <optlevelRule excludeOptlevelNameString="cuda" />
+        <optlevelRule excludeOptlevelNameString="cuda_backend" />
     </rules>
 </test>
 

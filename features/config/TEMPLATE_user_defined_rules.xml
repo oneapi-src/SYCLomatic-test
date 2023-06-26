@@ -11,6 +11,6 @@
     </files>
     <rules>
       <optlevelRule excludeOptlevelNameString="custom" />
-      <optlevelRule excludeOptlevelNameString="cuda" />
+      <optlevelRule excludeOptlevelNameString="cuda_backend" />
     </rules>
 </test>
