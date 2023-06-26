@@ -1639,6 +1639,14 @@ void test_cusolverDnSyevd() {
   }
 }
 
+void test_cusolverDnSetAdvOptions() {
+  cusolverDnFunction_t a = CUSOLVERDN_GETRF;
+  cusolverAlgMode_t b = CUSOLVER_ALG_1;
+  cusolverDnParams_t p;
+  cusolverDnSetAdvOptions(p, a, b);
+  printf("DnSetAdvOptions pass\n");
+}
+
 int main() {
   test_cusolverDnXgetrf();
   test_cusolverDnXgetrfnp();
@@ -1657,6 +1665,7 @@ int main() {
   test_cusolverDnXsyevdx();
   test_cusolverDnXsyevd();
   test_cusolverDnSyevd();
+  test_cusolverDnSetAdvOptions();
 
   if (test_passed)
     return 0;
