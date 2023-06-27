@@ -15,6 +15,7 @@
 
 struct Int {
   __host__ __device__ Int(int x) : val(x) {}
+  Int() {}
   int val;
 };
 
@@ -27,10 +28,11 @@ void test_1() {
 
   thrust::uninitialized_copy_n(input.begin(), N, array);
 
-  thrust::host_vector<Int> hostVec(array, array + N);
+  Int host_array[N];
+  cudaMemcpy(host_array, array.get(), N * sizeof(Int), cudaMemcpyDeviceToHost);
 
   for (int i = 0; i < N; i++) {
-    if (hostVec[i].val != 46) {
+    if (host_array[i].val != 46) {
       printf("test_1 run failed\n");
       exit(-1);
     }
@@ -67,10 +69,11 @@ void test_3() {
   thrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);
   thrust::uninitialized_copy_n(thrust::device, input.begin(), N, array);
 
-  thrust::host_vector<Int> hostVec(array, array + N);
+  Int host_array[N];
+  cudaMemcpy(host_array, array.get(), N * sizeof(Int), cudaMemcpyDeviceToHost);
 
   for (int i = 0; i < N; i++) {
-    if (hostVec[i].val != 46) {
+    if (host_array[i].val != 46) {
       printf("test_3 run failed\n");
       exit(-1);
     }
