@@ -74,6 +74,31 @@ bool test_laneid_warpid() {
   return total_warpid == 66 && check_laneid_num();
 }
 
+bool test_current_device() {
+  unsigned CurDev = cub::CurrentDevice();
+  return true;
+}
+
+bool test_device_count() {
+  unsigned device_count = cub::DeviceCount();
+  device_count = cub::DeviceCountCachedValue();
+  device_count = cub::DeviceCountUncached();
+  (void) device_count;
+  return true;
+}
+
+bool test_sync_stream() {
+  cub::SyncStream(0);
+  cub::SyncStream((cudaStream_t)(uintptr_t)1);
+  cub::SyncStream((cudaStream_t)(uintptr_t)2);
+  cudaStream_t NewS;
+  cudaStreamCreate(&NewS);
+  cub::SyncStream(NewS);
+  cudaStreamDestroy(NewS);
+  (void) NewS;
+  return true;
+}
+
 #define TEST(FUNC)                                                             \
   if (!FUNC()) {                                                               \
     printf(#FUNC " failed\n");                                                 \
@@ -83,5 +108,8 @@ bool test_laneid_warpid() {
 int main() {
   TEST(test_iadd3);
   TEST(test_laneid_warpid);
+  TEST(test_current_device);
+  TEST(test_device_count);
+  TEST(test_sync_stream);
   return 0;
 }
