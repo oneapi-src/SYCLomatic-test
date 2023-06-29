@@ -77,7 +77,7 @@ void matrix_mem_copy_test_2() {
   dpct::matrix_mem_copy(host_d, devPtrA, M - 1 /*to_ld*/, M /*from_ld*/,
                         M - 1 /*rows*/, N /*cols*/);
 
-  for (int i = 0; i < M*N; i++) {
+  for (int i = 0; i < (M-1)*N; i++) {
     if (fabs(host_d[i] - host_e[i]) > 1e-5) {
       printf("matrix_mem_copy_test_2.2 failed\n");
       exit(-1);
