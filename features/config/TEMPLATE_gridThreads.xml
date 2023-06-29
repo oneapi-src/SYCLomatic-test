@@ -5,4 +5,5 @@
     <files>
       <file path="feature_case/deviceProp/gridThreads.cu" />
     </files>
+    <rules />
 </test>

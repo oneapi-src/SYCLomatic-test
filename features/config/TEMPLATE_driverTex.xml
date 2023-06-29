@@ -5,7 +5,4 @@
     <files>
       <file path="feature_case/driverTex/driverTex.cu" />
     </files>
-    <rules>
-      <optlevelRule enableSpecialPlatform="cuda" />
-    </rules>
 </test>

@@ -5,4 +5,5 @@
     <files>
         <file path="src/${testName}.cpp" />
     </files>
+    <rules />
 </test>

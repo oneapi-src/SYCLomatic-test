@@ -5,4 +5,5 @@
     <files>
         <file path="feature_case/backprop" />
     </files>
+    <rules />
 </test>

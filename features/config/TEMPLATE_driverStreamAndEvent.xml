@@ -5,7 +5,5 @@
     <files>
       <file path="feature_case/driverStreamAndEvent/driverStreamAndEvent.cu" />
     </files>
-    <rules>
-      <optlevelRule enableSpecialPlatform="cuda" />
-    </rules>
+    <rules />
 </test>
