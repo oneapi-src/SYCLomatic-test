@@ -7,6 +7,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
 
@@ -14,6 +15,14 @@
 #include <cub/cub.cuh>
 
 #define DATA_NUM 100
+
+template<typename T = int>
+T *init_data(std::initializer_list<T> init) {
+  T *Ptr = nullptr;
+  cudaMallocManaged(&Ptr, sizeof(T) * init.size());
+  memcpy(Ptr, init.begin(), sizeof(T) * init.size());
+  return Ptr;
+}
 
 template<typename T = int>
 void init_data(T* data, int num) {
@@ -248,6 +257,79 @@ bool test_max(){
   return true;
 }
 
+std::ostream &operator<<(std::ostream &os, const cub::KeyValuePair<int, int> &kv) {
+  os << '[' << kv.key << ", " << kv.value << ']';
+  return os;
+}
+
+bool test_arg_min() {
+  int num_segs = 3;
+  int *offset = init_data({0, 3, 3, 7});
+  int *in = init_data({8, 6, 7, 5, 3, 0, 9});
+
+  cub::KeyValuePair<int, int> *out = init_data<cub::KeyValuePair<int, int>>({{}, {}, {}});
+  cub::KeyValuePair<int, int> expected[] = {{1, 6}, {1, INT_MAX}, {2, 0}};
+
+  // CHECK-DPCT1026 DPCT1026:{{.*}}: The call to cub::DeviceSegmentedReduce::ArgMin was removed because this call is redundant in SYCL.
+  // CHECK: dpct::segmented_reduce_argmin(oneapi::dpl::execution::device_policy(q_ct1), in, out, num_segs, offset, offset + 1);
+  void *tmp_storage = nullptr;
+  size_t tmp_storage_size = 0;
+  cub::DeviceSegmentedReduce::ArgMin(tmp_storage, tmp_storage_size, in, out, num_segs, offset, offset + 1);
+  cudaMalloc(&tmp_storage, tmp_storage_size);
+  cub::DeviceSegmentedReduce::ArgMin(tmp_storage, tmp_storage_size, in, out, num_segs, offset, offset + 1);
+  cudaDeviceSynchronize();
+
+  auto cmp = [](const cub::KeyValuePair<int, int> &lhs, const cub::KeyValuePair<int, int> &rhs) -> bool {
+    return lhs.value == rhs.value && lhs.key == rhs.key;
+  };
+
+  if (!std::equal(out, out + num_segs, expected, cmp)) {
+    std::cout << "ArgMin verify failed!\n";
+    std::cout << "expect: ";
+    std::for_each(expected, expected + num_segs, [](const auto &v) { std::cout << v << " "; });
+    std::cout << "\n";
+    std::cout<< "current result: ";
+    std::for_each(expected, expected + num_segs, [](const auto &v) { std::cout << v << " "; });
+    std::cout << "\n";
+    return false;
+  }
+  return true;
+}
+
+bool test_arg_max() {
+  int num_segs = 3;
+  int *offset = init_data({0, 3, 3, 7});
+  int *in = init_data({8, 6, 7, 5, 3, 0, 9});
+
+  cub::KeyValuePair<int, int> *out = init_data<cub::KeyValuePair<int, int>>({{}, {}, {}});
+  cub::KeyValuePair<int, int> expected[] = {{0, 8}, {1, INT_MIN}, {3, 9}};
+
+  // CHECK-DPCT1026 DPCT1026:{{.*}}: The call to cub::DeviceSegmentedReduce::ArgMax was removed because this call is redundant in SYCL.
+  // CHECK: dpct::segmented_reduce_argmax(oneapi::dpl::execution::device_policy(q_ct1), in, out, num_segs, offset, offset + 1);
+  void *tmp_storage = nullptr;
+  size_t tmp_storage_size = 0;
+  cub::DeviceSegmentedReduce::ArgMax(tmp_storage, tmp_storage_size, in, out, num_segs, offset, offset + 1);
+  cudaMalloc(&tmp_storage, tmp_storage_size);
+  cub::DeviceSegmentedReduce::ArgMax(tmp_storage, tmp_storage_size, in, out, num_segs, offset, offset + 1);
+  cudaDeviceSynchronize();
+
+  auto cmp = [](const cub::KeyValuePair<int, int> &lhs, const cub::KeyValuePair<int, int> &rhs) -> bool {
+    return lhs.value == rhs.value && lhs.key == rhs.key;
+  };
+
+  if (!std::equal(out, out + num_segs, expected, cmp)) {
+    std::cout << "ArgMax verify failed!\n";
+    std::cout << "expect: ";
+    std::for_each(expected, expected + num_segs, [](const auto &v) { std::cout << v << " "; });
+    std::cout << "\n";
+    std::cout<< "current result: ";
+    std::for_each(expected, expected + num_segs, [](const auto &v) { std::cout << v << " "; });
+    std::cout << "\n";
+    return false;
+  }
+  return true;
+}
+
 int main() {
   bool Result = true;
   Result = test_reduce_1() && Result;
@@ -255,6 +337,8 @@ int main() {
   Result = test_sum_2() && Result;
   Result = test_min() && Result;
   Result = test_max() && Result;
+  Result = test_arg_min() && Result;
+  Result = test_arg_max() && Result;
   if(Result) {
     std::cout << "cub_device Pass" << std::endl;
     return 0;
