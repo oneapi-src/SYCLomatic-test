@@ -13,12 +13,12 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
 
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     file_vcxproj = os.path.join(os.getcwd(), "cuda", "file_cu.vcxproj")
     migrated_file = os.path.join(os.getcwd(), "cuda", "file.cu")
     expected_str = ""
@@ -40,8 +40,8 @@ def migrate_test():
         return True
     return False
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

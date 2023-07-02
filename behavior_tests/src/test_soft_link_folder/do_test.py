@@ -13,8 +13,8 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     prepare_soft_link_folder()
     return True
 
@@ -22,15 +22,15 @@ def setup_test():
 def prepare_soft_link_folder():
     os.symlink("cuda_", "cuda")
 
-def migrate_test():
+def migrate_test(single_case_text):
 
     src = [os.path.join("cuda", "test_soft_link_folder.cu")]
     in_root = ""
     extra_args = ""
-    return do_migrate(src, in_root, test_config.out_root, extra_args)
+    return do_migrate(src, in_root, single_case_text.out_root, single_case_text, extra_args)
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

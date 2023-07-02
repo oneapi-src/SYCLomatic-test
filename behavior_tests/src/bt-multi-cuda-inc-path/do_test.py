@@ -12,18 +12,18 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     call_subprocess("cp -r --dereference " + test_config.include_path + " + .")
-    change_dir("src")
+    change_dir("src", single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     command = test_config.CT_TOOL + " --out-root out test.cu --cuda-include-path ../include --extra-arg=\"-I" + test_config.include_path + "\""
     print(command)
     return call_subprocess(command)
 
-def build_test():
+def build_test(single_case_text):
     return call_subprocess("icpx -fsycl out/test.dp.cpp")
-def run_test():
+def run_test(single_case_text):
     return True

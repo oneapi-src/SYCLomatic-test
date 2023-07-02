@@ -11,12 +11,12 @@ import os
 from test_utils import *
 
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
 
-def migrate_test():
+def migrate_test(single_case_text):
     res = True
     cmd = test_config.CT_TOOL + " --out-root=out double.cu --cuda-include-path=" + test_config.include_path
     if not call_subprocess(cmd):
@@ -33,9 +33,9 @@ def migrate_test():
     return res
 
 
-def build_test():
+def build_test(single_case_text):
     res = True
-    if not compile_files([os.path.join("out", "double.dp.cpp")]):
+    if not compile_files([os.path.join("out", "double.dp.cpp")], single_case_text):
         res = False
         print("double.dp.cpp compile failed")
     else:
@@ -46,7 +46,7 @@ def build_test():
         print("double.dp.cpp link failed")
     else:
         print("double.dp.cpp link pass")
-    if not compile_files([os.path.join("out", "half.dp.cpp")]):
+    if not compile_files([os.path.join("out", "half.dp.cpp")], single_case_text):
         res = False
         print("half.dp.cpp compile failed")
     else:
@@ -60,7 +60,7 @@ def build_test():
     return res
 
 
-def run_test():
+def run_test(single_case_text):
     os.environ["ONEAPI_DEVICE_SELECTOR"] = test_config.device_filter
     res = 0
 
@@ -69,7 +69,7 @@ def run_test():
         res += 1
         print("double.run run pass")
     print("double.run output:")
-    print(test_config.command_output)
+    print(single_case_text.command_text)
     if res != 1:
         print("case 'double' failed")
         return False
@@ -79,7 +79,7 @@ def run_test():
         res += 1
         print("half.run run pass")
     print("half.run output:")
-    print(test_config.command_output)
+    print(single_case_text.command_text)
     if res != 2:
         print("case 'half' failed")
         return False

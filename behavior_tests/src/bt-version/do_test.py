@@ -13,20 +13,20 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL + " --version")
     ct_clang_version = get_ct_clang_version()
     expected_output = "dpct version {0}".format(ct_clang_version)
     print("expected dpct version output: {0}".format(expected_output))
-    print("\n'dpct --version' outputs {0}".format(test_config.command_output))
-    return is_sub_string(expected_output, test_config.command_output)
+    print("\n'dpct --version' outputs {0}".format(single_case_text.command_text))
+    return is_sub_string(expected_output, single_case_text.command_text)
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

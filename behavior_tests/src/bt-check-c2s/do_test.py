@@ -14,11 +14,11 @@ import sys
 from test_utils import *
 from hashlib import md5
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     dpct_path = shutil.which("dpct")
     c2s_path = shutil.which("c2s")
 
@@ -34,8 +34,8 @@ def migrate_test():
     c2s_file.close()
     return c2s_md5 == dpct_md5
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

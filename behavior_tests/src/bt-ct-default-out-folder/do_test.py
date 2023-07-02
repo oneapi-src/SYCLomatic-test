@@ -13,26 +13,26 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
 
     return True
 
 
 
-def migrate_test():
+def migrate_test(single_case_text):
     src = ["hello.cu", "hello2.cu"]
 
     in_root = ""
     extra_args = ""
     out_root_path = "out"
-    do_migrate(src, in_root, out_root_path, extra_args)
+    do_migrate(src, in_root, out_root_path, single_case_text, extra_args)
     if os.path.exists(os.path.join("out", "hello.dp.cpp")):
         return True
     return False
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

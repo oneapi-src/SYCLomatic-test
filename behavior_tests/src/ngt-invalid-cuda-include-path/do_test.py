@@ -13,17 +13,17 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL +
         " --extra-arg=\"--cuda-path=/usr/local/folder-does-not-contain-cuda\" vector_add.cu")
-    return is_sub_string("Could not detect path to CUDA header files", test_config.command_output)
+    return is_sub_string("Could not detect path to CUDA header files", single_case_text.command_text)
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

@@ -14,18 +14,18 @@ from test_config import CT_TOOL
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     return (call_subprocess(test_config.CT_TOOL + " --extra-arg=\"--cuda-path=" + test_config.include_path + "\" vector_add.cu")
-            and is_sub_string("Parsing", test_config.command_output)
-            and is_sub_string("Analyzing", test_config.command_output)
-            and is_sub_string("Migrating", test_config.command_output))
+            and is_sub_string("Parsing", single_case_text.command_text)
+            and is_sub_string("Analyzing", single_case_text.command_text)
+            and is_sub_string("Migrating", single_case_text.command_text))
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

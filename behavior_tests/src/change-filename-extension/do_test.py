@@ -14,47 +14,47 @@ import sys
 from test_utils import *
 
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
 
-def migrate_test():
+def migrate_test(single_case_text):
     call_subprocess(
         test_config.CT_TOOL + " -p=. --change-cuda-files-extension-only --out-root=out --cuda-include-path=" + test_config.include_path)
-    print(test_config.command_output)
+    print(single_case_text.command_text)
 
     reference = 'main.dp.cpp'
     call_subprocess("ls out | grep " + reference)
     res = True
-    if reference not in test_config.command_output:
+    if reference not in single_case_text.command_text:
         res = False
         print("there should be a file: " + reference)
 
     reference = 'test.cpp'
     call_subprocess("ls out | grep " + reference)
-    if reference not in test_config.command_output:
+    if reference not in single_case_text.command_text:
         res = False
         print("there should be a file: " + reference)
 
     reference = 'test.dp.hpp'
     call_subprocess("ls out | grep " + reference)
-    if reference not in test_config.command_output:
+    if reference not in single_case_text.command_text:
         res = False
         print("there should be a file: " + reference)
 
     reference = 'test.h'
     call_subprocess("ls out | grep " + reference)
-    if reference not in test_config.command_output:
+    if reference not in single_case_text.command_text:
         res = False
         print("there should be a file: " + reference)
 
     return res
 
 
-def build_test():
+def build_test(single_case_text):
     return True
 
 
-def run_test():
+def run_test(single_case_text):
     return True

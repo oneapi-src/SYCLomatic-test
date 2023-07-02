@@ -113,10 +113,10 @@ For example, for test suite: internal_samples, there is a test driver configure 
 
 The test driver implementation file test_samples.py needs to implement the following 4 interfaces:
 
-    1. setup_test():  Setup the execution environment. eg. setup CPATH or LD_LIBRARY_PATH in Linux to contain library required for the test case.
-    2. migrate_test(): Migration command for each test case.
-    3. build_test(): Compile and link command for each test case.
-    4. run_test(): Run the test cases in the test suite.
+    1. setup_test(single_case_text):  Setup the execution environment. eg. setup CPATH or LD_LIBRARY_PATH in Linux to contain library required for the test case.
+    2. migrate_test(single_case_text): Migration command for each test case.
+    3. build_test(single_case_text): Compile and link command for each test case.
+    4. run_test(single_case_text): Run the test cases in the test suite.
 
 
 # Add or modify test case

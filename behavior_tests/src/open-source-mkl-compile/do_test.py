@@ -11,26 +11,26 @@ import os
 from test_utils import *
 
 
-def setup_test():
+def setup_test(single_case_text):
     print("ONEMKLROOT =", end = " ")
     print(os.environ["ONEMKLROOT"])
     if not os.path.exists(os.environ["ONEMKLROOT"] + "/include"):
         print("The path '${ONEMKLROOT}/include' is not exist!")
         return False
-    change_dir(test_config.current_test)
+    change_dir(single_case_text.name, single_case_text)
     return True
 
 
-def migrate_test():
+def migrate_test(single_case_text):
     return True
 
 
-def build_test():
+def build_test(single_case_text):
     cmp_opts = ["-I${ONEMKLROOT}/include"]
     ret = False
-    ret = compile_files(["main.dp.cpp"], cmp_opts)
+    ret = compile_files(["main.dp.cpp"], single_case_text, cmp_opts)
     return ret
 
 
-def run_test():
+def run_test(single_case_text):
     return True

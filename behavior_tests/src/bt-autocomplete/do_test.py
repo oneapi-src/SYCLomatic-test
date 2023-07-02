@@ -12,73 +12,73 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     res = True
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=--gen-build")
     reference = '--gen-build-script\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=-gen-build")
     reference = '-gen-build-script\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=foo")
     reference = '\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=--output-verbosity=#d")
     reference = 'detailed\n' + \
                 'diagnostics\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=-output-verbosity=#d")
     reference = 'detailed\n' + \
                 'diagnostics\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=--output-verbosity=")
     reference = 'detailed\n' + \
                 'diagnostics\n' + \
                 'normal\n' + \
                 'silent\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=-output-verbosity=")
     reference = 'detailed\n' + \
                 'diagnostics\n' + \
                 'normal\n' + \
                 'silent\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=foo#bar##--enable-c")
     reference = '--enable-ctad\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=foo#bar###--format-range=#a")
     reference = 'all\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=--rule-file=")
     reference = '\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=--rule-file")
     reference = '--rule-file\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=-p=")
     reference = '\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=-p")
     reference = '-p\n' + \
                 '-process-all\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=--usm-level=#none,restricted#--use-explicit-namespace=#cl,sycl,")
     reference = 'cl,sycl,cl\n' + \
@@ -86,28 +86,28 @@ def migrate_test():
                 'cl,sycl,none\n' + \
                 'cl,sycl,sycl\n' + \
                 'cl,sycl,sycl-math\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=--usm-level=#none,restricted#--use-explicit-namespace=#cl,sycl,s")
     reference = 'cl,sycl,sycl\n' + \
                 'cl,sycl,sycl-math\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=")
     reference = '\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=,")
     reference = '\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete==")
     reference = '\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=,,")
     reference = '\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=-")
     opts = ['--always-use-async-handler\n',
@@ -152,20 +152,20 @@ def migrate_test():
             '--version\n',
             '-p\n']
     for opt in opts:
-        res = res and (opt in test_config.command_output)
+        res = res and (opt in single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=##")
     reference = '\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=#")
     reference = '\n'
-    res = res and (reference == test_config.command_output)
+    res = res and (reference == single_case_text.command_text)
 
     return res
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

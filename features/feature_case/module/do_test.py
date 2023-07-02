@@ -14,17 +14,17 @@ from test_config import CT_TOOL
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     # clean previous migration output
     if (os.path.exists("dpct_output")):
         shutil.rmtree("dpct_output")    
     call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " module-helper.cpp module-main.cu module-kernel.cu --extra-arg=--ptx")
     return os.path.exists(os.path.join("dpct_output", "module-kernel.dp.cpp"))
-def build_test():
+def build_test(single_case_text):
     # make shared library
     if (platform.system() == 'Windows'):
         ret = call_subprocess("icpx -fsycl              dpct_output/module-kernel.dp.cpp       -shared -o module-kernel.dll")
@@ -37,6 +37,6 @@ def build_test():
     srcs = []
     srcs.append(os.path.join("dpct_output", "module-helper.cpp"))
     srcs.append(os.path.join("dpct_output", "module-main.dp.cpp"))
-    return compile_and_link(srcs)
-def run_test():
-    return call_subprocess(os.path.join(os.path.curdir, test_config.current_test + '.run '))
+    return compile_and_link(srcs, single_case_text)
+def run_test(single_case_text):
+    return call_subprocess(os.path.join(os.path.curdir, single_case_text.name + '.run '))

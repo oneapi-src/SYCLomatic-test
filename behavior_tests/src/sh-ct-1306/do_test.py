@@ -13,15 +13,15 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     os.environ["CUDA_INCLUDE_PATH"] = test_config.include_path
     return call_subprocess("/bin/bash sh-ct-1306.sh")
 
-def build_test():
+def build_test(single_case_text):
     return True
-def run_test():
+def run_test(single_case_text):
     return True

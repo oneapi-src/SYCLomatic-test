@@ -13,11 +13,11 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
 
     os.mkdir("out_migrated")
     os.mkdir("out_all")
@@ -33,8 +33,8 @@ def migrate_test():
     ret = is_sub_string("; // variable declearation", "./out_custom/vector_add.dp.cpp") or ret
     ret = is_sub_string("; // allocate device memory", "./out_custom/vector_add.dp.cpp") or ret
     return not ret
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

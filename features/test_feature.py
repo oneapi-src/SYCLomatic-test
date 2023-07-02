@@ -54,17 +54,17 @@ exec_tests = ['asm', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 
 
 occupancy_calculation_exper = ['occupancy_calculation']
 
-def setup_test():
+def setup_test(single_case_text):
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     src = []
     extra_args = []
-    in_root = os.path.join(os.getcwd(), test_config.current_test)
-    test_config.out_root = os.path.join(in_root, 'out_root')
+    in_root = os.path.join(os.getcwd(), single_case_text.name)
+    single_case_text.out_root = os.path.join(in_root, 'out_root')
 
-    if test_config.current_test == 'cufft_test':
-        return do_migrate([os.path.join(in_root, 'cufft_test.cu')], in_root, test_config.out_root, extra_args)
+    if single_case_text.name == 'cufft_test':
+        return do_migrate([os.path.join(in_root, 'cufft_test.cu')], in_root, single_case_text.out_root, single_case_text, extra_args)
 
     for dirpath, dirnames, filenames in os.walk(in_root):
         for filename in [f for f in filenames if re.match('.*(cu|cpp|c)$', f)]:
@@ -75,23 +75,23 @@ def migrate_test():
 
     math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'math-ext-simd']
 
-    if test_config.current_test in nd_range_bar_exper:
+    if single_case_text.name in nd_range_bar_exper:
         src.append(' --use-experimental-features=nd_range_barrier ')
-    if test_config.current_test == "user_defined_rules":
+    if single_case_text.name == "user_defined_rules":
         src.append(' --rule-file=./user_defined_rules/rules.yaml')
-    if test_config.current_test in logical_group_exper:
+    if single_case_text.name in logical_group_exper:
         src.append(' --use-experimental-features=logical-group ')
-    if test_config.current_test == 'math_intel_specific':
+    if single_case_text.name == 'math_intel_specific':
         src.append(' --rule-file=./math_intel_specific/intel_specific_math.yaml')
-    if test_config.current_test in math_extension_tests:
+    if single_case_text.name in math_extension_tests:
         src.append(' --use-dpcpp-extensions=intel_device_math')
-    if test_config.current_test in occupancy_calculation_exper:
+    if single_case_text.name in occupancy_calculation_exper:
         src.append(' --use-experimental-features=occupancy-calculation ')
-    if test_config.current_test == 'feature_profiling':
+    if single_case_text.name == 'feature_profiling':
         src.append(' --enable-profiling ')
-    if test_config.current_test == 'sync_warp_p2':
+    if single_case_text.name == 'sync_warp_p2':
         src.append(' --use-experimental-features=masked-sub-group-operation ')
-    return do_migrate(src, in_root, test_config.out_root, extra_args)
+    return do_migrate(src, in_root, single_case_text.out_root, single_case_text, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
     lines = []
@@ -120,9 +120,9 @@ def manual_fix_for_occupancy_calculation(migrated_file):
         for line in lines:
             out_f.write(line)
 
-def build_test():
-    if (os.path.exists(test_config.current_test)):
-        os.chdir(test_config.current_test)
+def build_test(single_case_text):
+    if (os.path.exists(single_case_text.name)):
+        os.chdir(single_case_text.name)
     srcs = []
     cmp_options = []
     link_opts = []
@@ -139,53 +139,53 @@ def build_test():
              'cudnn-types', 'cudnn-version', 'cudnn-dropout'
              ]
 
-    if test_config.current_test in oneDPL_related:
-        cmp_options.append(prepare_oneDPL_specific_macro())
+    if single_case_text.name in oneDPL_related:
+        cmp_options.append(prepare_oneDPL_specific_macro(single_case_text))
 
-    if re.match('^cu.*', test_config.current_test):
+    if re.match('^cu.*', single_case_text.name):
         if platform.system() == 'Linux':
             link_opts = test_config.mkl_link_opt_lin
         else:
             link_opts = test_config.mkl_link_opt_win
         cmp_options.append("-DMKL_ILP64")
 
-    if test_config.current_test.startswith('ccl-test'):
+    if single_case_text.name.startswith('ccl-test'):
         link_opts.append('-lccl -lmpi')
 
-    for dirpath, dirnames, filenames in os.walk(test_config.out_root):
+    for dirpath, dirnames, filenames in os.walk(single_case_text.out_root):
         for filename in [f for f in filenames if re.match('.*(cpp|c)$', f)]:
             srcs.append(os.path.abspath(os.path.join(dirpath, filename)))
     if platform.system() == 'Linux':
         link_opts.append(' -lpthread ')
-    if test_config.current_test in oneDNN_related:
+    if single_case_text.name in oneDNN_related:
         if platform.system() == 'Linux':
             link_opts.append(' -ldnnl')
         else:
             link_opts.append(' dnnl.lib')
     ret = False
 
-    if (test_config.current_test == 'cufft-external-workspace'):
+    if (single_case_text.name == 'cufft-external-workspace'):
         manual_fix_for_cufft_external_workspace(srcs[0])
-    if (test_config.current_test in occupancy_calculation_exper):
+    if (single_case_text.name in occupancy_calculation_exper):
         manual_fix_for_occupancy_calculation(srcs[0])
 
-    if test_config.current_test == 'cufft_test':
-        ret = compile_and_link([os.path.join(test_config.out_root, 'cufft_test.dp.cpp')], cmp_options, objects, link_opts)
-    elif test_config.current_test in exec_tests:
-        ret = compile_and_link(srcs, cmp_options, objects, link_opts)
-    elif re.match('^cufft.*', test_config.current_test) and platform.system() == 'Linux':
-        ret = compile_and_link(srcs, cmp_options, objects, link_opts)
+    if single_case_text.name == 'cufft_test':
+        ret = compile_and_link([os.path.join(single_case_text.out_root, 'cufft_test.dp.cpp')], single_case_text, cmp_options, objects, link_opts)
+    elif single_case_text.name in exec_tests:
+        ret = compile_and_link(srcs, single_case_text, cmp_options, objects, link_opts)
+    elif re.match('^cufft.*', single_case_text.name) and platform.system() == 'Linux':
+        ret = compile_and_link(srcs, single_case_text, cmp_options, objects, link_opts)
     else:
-        ret = compile_files(srcs, cmp_options)
+        ret = compile_files(srcs, single_case_text, cmp_options)
     return ret
 
 
-def run_test():
-    if test_config.current_test not in exec_tests:
+def run_test(single_case_text):
+    if single_case_text.name not in exec_tests:
         return True
     os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
     os.environ['CL_CONFIG_CPU_EXPERIMENTAL_FP16']="1"
-    if test_config.current_test.startswith('ccl-test'):
-        return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '))
-    return run_binary_with_args()
+    if single_case_text.name.startswith('ccl-test'):
+        return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, single_case_text.name + '.run '),single_case_text)
+    return run_binary_with_args(single_case_text)
 

@@ -13,11 +13,11 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL + ' hello.h --out-root=out --cuda-include-path=' + \
                    os.environ['CUDA_INCLUDE_PATH'])
 
@@ -30,14 +30,14 @@ def migrate_test():
 
     call_subprocess(test_config.CT_TOOL + ' hello.h --out-root=./out --cuda-include-path=' + \
                    os.environ['CUDA_INCLUDE_PATH'])
-    if "error: unknown key \'ConstantFla\'" in test_config.command_output:
+    if "error: unknown key \'ConstantFla\'" in single_case_text.command_text:
         return True
     print("not catch the error: unkown key constantFla")
     return False
 
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

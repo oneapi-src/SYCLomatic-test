@@ -13,18 +13,18 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     include_path = os.path.join(os.getcwd(), "include")
     in_root = os.getcwd()
     test_case_path = os.path.join(in_root, "vector_add.cu")
     call_subprocess(test_config.CT_TOOL + " " + test_case_path + " --out-root=out --in-root=" + in_root + " --cuda-include-path=" + include_path)
-    return is_sub_string("Error: The version of CUDA header files specified by --cuda-include-path is not supported. See Release Notes for supported versions.", test_config.command_output)
+    return is_sub_string("Error: The version of CUDA header files specified by --cuda-include-path is not supported. See Release Notes for supported versions.", single_case_text.command_text)
 
-def build_test():
+def build_test(single_case_text):
     return True
-def run_test():
+def run_test(single_case_text):
     return True

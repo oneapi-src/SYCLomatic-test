@@ -13,22 +13,22 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
-    change_dir("helloworld")
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
+    change_dir("helloworld", single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     call_subprocess("intercept-build /usr/bin/make")
-    change_dir("..")
+    change_dir("..", single_case_text)
     call_subprocess("mv helloworld helloworld_tst")
     call_subprocess(test_config.CT_TOOL + " helloworld_tst/src/test.cu --cuda-include-path=" + test_config.include_path +
              " --suppress-warnings=-1,0,0x100,0x1000,0x3fffffff,0x7ffffffe,0x7fffffff,0x80000000,0xfffffffe,0xffffffff,0x10000,0x100000")
 
-    return is_sub_string("Error: Invalid warning ID or range; valid warning IDs range from 1000 to", test_config.command_output)
+    return is_sub_string("Error: Invalid warning ID or range; valid warning IDs range from 1000 to", single_case_text.command_text)
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

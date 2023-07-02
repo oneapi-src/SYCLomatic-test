@@ -15,16 +15,16 @@ sys.path.append(parent)
 
 from test_utils import *
 
-def setup_test():
+def setup_test(single_case_text):
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     return True
 
-def build_test():
-    if (os.path.exists(test_config.current_test)):
-        os.chdir(test_config.current_test)
-    test_config.out_root = os.getcwd()
+def build_test(single_case_text):
+    if (os.path.exists(single_case_text.name)):
+        os.chdir(single_case_text.name)
+    single_case_text.out_root = os.getcwd()
 
     lpthread_link_cases = ["devicemgr_multi_thread_aware", "memory_async_dpct_free", "blas_extension_api_usm",
                            "blas_extension_api_buffer", "fft_utils_engine_buffer", "fft_utils_engine_usm",
@@ -56,36 +56,36 @@ def build_test():
     link_opts = []
     objects = []
 
-    if test_config.current_test in oneDPL_related:
-        cmp_opts.append(prepare_oneDPL_specific_macro())
-    if test_config.current_test in lpthread_link_cases and platform.system() == "Linux":
+    if single_case_text.name in oneDPL_related:
+        cmp_opts.append(prepare_oneDPL_specific_macro(single_case_text))
+    if single_case_text.name in lpthread_link_cases and platform.system() == "Linux":
         link_opts.append("-lpthread")
 
-    for dirpath, dirnames, filenames in os.walk(test_config.out_root):
-        srcs.append(os.path.abspath(os.path.join(dirpath, test_config.current_test + ".cpp")))
+    for dirpath, dirnames, filenames in os.walk(single_case_text.out_root):
+        srcs.append(os.path.abspath(os.path.join(dirpath, single_case_text.name + ".cpp")))
     ret = False
 
-    if test_config.current_test == "test_default_queue_2":
+    if single_case_text.name == "test_default_queue_2":
         srcs.append("test_default_queue_1.cpp")
-    if test_config.current_test == "kernel_function_lin":
+    if single_case_text.name == "kernel_function_lin":
         ret = call_subprocess(test_config.DPCXX_COM + " -shared -fPIC -o module.so kernel_module_lin.cpp")
         if not ret:
             print("kernel_function_lin created the shared lib failed.")
             return False
-    if test_config.current_test == "kernel_function_win":
+    if single_case_text.name == "kernel_function_win":
         ret = call_subprocess("icx-cl -fsycl /EHsc /LD kernel_module_win.cpp /link /OUT:module.dll")
         if not ret:
             print("kernel_function_win created the shared lib failed.")
             return False
 
-    if test_config.current_test in oneDNN_related:
+    if single_case_text.name in oneDNN_related:
         if platform.system() == 'Linux':
             link_opts.append(' -ldnnl')
         else:
             link_opts.append(' dnnl.lib')
-    if (test_config.current_test in blas_cases) or (test_config.current_test in fft_cases) or (
-       test_config.current_test in lapack_cases) or (test_config.current_test in rng_cases) or (
-       test_config.current_test in oneDNN_related) or (test_config.current_test in sparse_cases):
+    if (single_case_text.name in blas_cases) or (single_case_text.name in fft_cases) or (
+       single_case_text.name in lapack_cases) or (single_case_text.name in rng_cases) or (
+       single_case_text.name in oneDNN_related) or (single_case_text.name in sparse_cases):
         mkl_opts = []
         if platform.system() == "Linux":
             mkl_opts = test_config.mkl_link_opt_lin
@@ -94,23 +94,23 @@ def build_test():
 
         link_opts += mkl_opts
         cmp_opts.append("-DMKL_ILP64")
-    if test_config.current_test == 'fft_utils_engine_buffer' or test_config.current_test == 'fft_utils_engine_usm':
-        ret = compile_and_link([os.path.join(test_config.out_root, 'cufft_test.dp.cpp')], cmp_opts, objects, link_opts)
+    if single_case_text.name == 'fft_utils_engine_buffer' or single_case_text.name == 'fft_utils_engine_usm':
+        ret = compile_and_link([os.path.join(single_case_text.out_root, 'cufft_test.dp.cpp')], single_case_text, cmp_opts, objects, link_opts)
     else:
-        ret = compile_and_link(srcs, cmp_opts, objects, link_opts)
+        ret = compile_and_link(srcs, single_case_text, cmp_opts, objects, link_opts)
     return ret
 
 
-def run_test():
+def run_test(single_case_text):
     os.environ["ONEAPI_DEVICE_SELECTOR"] = test_config.device_filter
     args = []
-    if test_config.current_test == "kernel_function_lin":
+    if single_case_text.name == "kernel_function_lin":
         args.append("./module.so")
-    if test_config.current_test == "kernel_function_win":
+    if single_case_text.name == "kernel_function_win":
         args.append("./module.dll")
     os.environ['CL_CONFIG_CPU_EXPERIMENTAL_FP16']="1"
-    ret = run_binary_with_args(args)
-    if test_config.current_test == "async_exception" and "Caught asynchronous SYCL exception" in test_config.command_output and "test_dpct_async_handler" in test_config.command_output:
+    ret = run_binary_with_args(single_case_text, args)
+    if single_case_text.name == "async_exception" and "Caught asynchronous SYCL exception" in single_case_text.command_text and "test_dpct_async_handler" in single_case_text.command_text:
         return True
     return ret
 

@@ -15,14 +15,14 @@ import glob
 from test_utils import *
 user_root_path = ""
 old_tilde = ""
-def setup_test():
+def setup_test(single_case_text):
     global old_tilde
-    change_dir(test_config.current_test)
+    change_dir(single_case_text.name, single_case_text)
     old_tilde = os.path.expanduser("~")
     os.environ["HOME"] = "/tmp"
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     global user_root_path
     user_root_path = os.path.expanduser("~") + "/workspace"
     if os.path.exists(user_root_path):
@@ -31,7 +31,7 @@ def migrate_test():
     distutils.dir_util.copy_tree(test_config.include_path + "/..", user_root_path)
     return call_subprocess("dpct vector_add.cu --cuda-include-path=" + "~/workspace/include")
 
-def build_test():
+def build_test(single_case_text):
     global old_tilde
     global user_root_path
     if os.path.exists(user_root_path):
@@ -39,5 +39,5 @@ def build_test():
     os.environ["HOME"] = old_tilde
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

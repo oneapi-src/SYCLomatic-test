@@ -15,21 +15,21 @@ sys.path.append(parent)
 
 from test_utils import *
 
-def setup_test():
+def setup_test(single_case_text):
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     return True
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
-    change_dir(test_config.current_test)
-    test_driver = test_config.current_test + ".py"
+def run_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
+    test_driver = single_case_text.name + ".py"
     options = " \" \""
     os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
     call_subprocess("python " + test_driver + options)
-    if "case pass" in test_config.command_output:
+    if "case pass" in single_case_text.command_text:
         return True
     return False

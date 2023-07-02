@@ -13,11 +13,11 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     os.mkdir("out_custom")
     os.mkdir("out_llvm")
     os.mkdir("out_google")
@@ -38,8 +38,8 @@ def migrate_test():
         ret = is_sub_string("; //", file_str) or ret
 
     return ret
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

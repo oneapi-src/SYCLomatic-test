@@ -13,17 +13,17 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
 
     call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path +
         " --suppress-warnings=1010-1020-1023")
-    return is_sub_string("Invalid warning ID or range:", test_config.command_output)
+    return is_sub_string("Invalid warning ID or range:", single_case_text.command_text)
 
-def build_test():
+def build_test(single_case_text):
     return True
-def run_test():
+def run_test(single_case_text):
     return True

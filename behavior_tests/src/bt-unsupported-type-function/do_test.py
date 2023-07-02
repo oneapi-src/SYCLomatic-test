@@ -13,11 +13,11 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     migrated_file = os.path.join("out_nvml", "test.dp.cpp")
     call_subprocess(test_config.CT_TOOL + " test.cu --out-root=./out_nvml --cuda-include-path=" + test_config.include_path)
     warn_1007_count = 0
@@ -32,8 +32,8 @@ def migrate_test():
     if warn_1007_count == 5 and warn_1082_count == 19:
         return True
     return False
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

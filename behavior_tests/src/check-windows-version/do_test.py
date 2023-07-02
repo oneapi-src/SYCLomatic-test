@@ -14,15 +14,15 @@ import test_config
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
 def get_windows_version(arg1, arg2):
     call_subprocess("powershell \"(Get-Item -path " + arg1 + ").VersionInfo." + arg2 + "\"")
-    return test_config.command_output
+    return single_case_text.command_text
 
-def migrate_test():
+def migrate_test(single_case_text):
     ct_path = get_ct_path()
     if not ct_path:
         print('Cannot find the path to dpct!')
@@ -50,8 +50,8 @@ def migrate_test():
     return file_version == ct_clang_version and product_version == ct_clang_version and \
         product_name == "SYCLomatic" and file_description == "" and legal_copyright == ""
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

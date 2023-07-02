@@ -13,25 +13,25 @@ import sys
 
 from test_utils import *
 
-def setup_test():
+def setup_test(single_case_text):
     return True
 
-def migrate_test():
-    change_dir('cannot-acc-dir-in-db/helloworld')
+def migrate_test(single_case_text):
+    change_dir('cannot-acc-dir-in-db/helloworld', single_case_text)
     call_subprocess('intercept-build /usr/bin/make')
-    change_dir('..')
+    change_dir('..', single_case_text)
     call_subprocess('mv helloworld helloworld_tst')
 
     call_subprocess(test_config.CT_TOOL + ' -p ./helloworld_tst/compile_commands.json --cuda-include-path=' + \
                    os.environ['CUDA_INCLUDE_PATH'])
 
-    if 'check if the directory exists and can be accessed by the tool' in test_config.command_output:
+    if 'check if the directory exists and can be accessed by the tool' in single_case_text.command_text:
         return True
     print("could not get expected message: check if the directory exists and can be accessed by the tool")
     return False
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

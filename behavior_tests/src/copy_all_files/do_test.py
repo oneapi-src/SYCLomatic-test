@@ -14,23 +14,23 @@ from test_config import CT_TOOL
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
 
     call_subprocess(test_config.CT_TOOL +" --out-root=out --cuda-include-path=" + test_config.include_path +
         " t.c t.cpp t.cu")
-    # return is_sub_string("Migration not necessary", test_config.command_output)
+    # return is_sub_string("Migration not necessary", single_case_text.command_text)
 
     if os.path.exists(os.path.join("out", "t.c")) or os.path.exists(os.path.join("out", "t.cpp")) or \
             os.path.exists(os.path.join("out", "t.dp.cpp")):
         return True
     return False
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True
