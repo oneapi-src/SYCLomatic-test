@@ -21,8 +21,8 @@ def migrate_test(single_case_text):
 
     call_subprocess(test_config.CT_TOOL + " --optimize-migration --out-root=./out kernel-func.cu --cuda-include-path=" + test_config.include_path, single_case_text)
 
-    ret = is_sub_string("Recursive functions cannot be called in SYCL device code", single_case_text.command_text)
-    ret = is_sub_string("Virtual functions cannot be called in SYCL device code", single_case_text.command_text) and ret
+    ret = is_sub_string("Recursive functions cannot be called in SYCL device code", single_case_text.print_text)
+    ret = is_sub_string("Virtual functions cannot be called in SYCL device code", single_case_text.print_text) and ret
     return ret
 def build_test(single_case_text):
     return True

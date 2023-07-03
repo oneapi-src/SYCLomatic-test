@@ -110,7 +110,7 @@ def run_test(single_case_text):
         args.append("./module.dll")
     os.environ['CL_CONFIG_CPU_EXPERIMENTAL_FP16']="1"
     ret = run_binary_with_args(single_case_text, args)
-    if single_case_text.name == "async_exception" and "Caught asynchronous SYCL exception" in single_case_text.command_text and "test_dpct_async_handler" in single_case_text.command_text:
+    if single_case_text.name == "async_exception" and "Caught asynchronous SYCL exception" in single_case_text.print_text and "test_dpct_async_handler" in single_case_text.print_text:
         return True
     return ret
 

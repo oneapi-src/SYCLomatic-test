@@ -37,7 +37,7 @@ def call_subprocess(cmd, single_case_text):
             complete_process = subprocess.run(cmd, shell=run_on_shell, check=False,
                                         stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                         encoding="utf-8", timeout=test_config.timeout)
-            single_case_text.command_output = complete_process.stdout
+            single_case_text.print_text = complete_process.stdout
             f.write(complete_process.stdout)
         except subprocess.TimeoutExpired:
             f.write("========= Execution time out(" + str(test_config.timeout) + "s) Please check. ======")
@@ -131,9 +131,9 @@ def prepare_oneDPL_specific_macro(single_case_text):
     if (platform.system() == 'Windows'):
         return ''
     call_subprocess('gcc -dumpversion', single_case_text)
-    if ('9' in single_case_text.command_output):
+    if ('9' in single_case_text.print_text):
         return "-DPSTL_USE_PARALLEL_POLICIES=0"
-    elif ('10' in single_case_text.command_output):
+    elif ('10' in single_case_text.print_text):
         return "-D_GLIBCXX_USE_TBB_PAR_BACKEND=0"
     return ""
 
@@ -182,14 +182,14 @@ def is_registered_module(test_case_workspace):
     return False
 
 # Print the failed test result and details in the screen.
-def print_result(single_case_text):
+def print_result(single_case_text, detail_log):
     print("============= " + single_case_text.name + ": " + 
             single_case_text.test_status + " ==================\n")
     call_subprocess("sycl-ls", single_case_text)
     print("========== Device Runtime Info: ===============")
-    print(single_case_text.command_output)
+    print(single_case_text.print_text)
     print("=============================================\n")
-    print("----------------------------\n" + single_case_text.command_output 
+    print("----------------------------\n" + detail_log
             + "\n----------------------\n")
 
 def is_sub_string(substr, fullstr):

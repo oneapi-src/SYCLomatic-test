@@ -34,7 +34,7 @@ def migrate_test(single_case_text):
                         os.path.realpath(analysis_scope), single_case_text)
         if not is_sub_string(
                 "Error: The path for --analysis-scope-path is not the same as or a parent directory of --in-root",
-                single_case_text.command_text):
+                single_case_text.print_text):
             return False
     return True
 

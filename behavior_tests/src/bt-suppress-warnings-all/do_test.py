@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL + " --suppress-warnings-all vector_add.cu --cuda-include-path=" + test_config.include_path, single_case_text)
-    return not is_sub_string("DPCT1015", single_case_text.command_text)
+    return not is_sub_string("DPCT1015", single_case_text.print_text)
 def build_test(single_case_text):
     return True
 

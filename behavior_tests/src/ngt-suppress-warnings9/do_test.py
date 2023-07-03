@@ -22,7 +22,7 @@ def migrate_test(single_case_text):
 
     call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path +
         " --suppress-warnings=1010-1020-1023", single_case_text)
-    return is_sub_string("Invalid warning ID or range:", single_case_text.command_text)
+    return is_sub_string("Invalid warning ID or range:", single_case_text.print_text)
 
 def build_test(single_case_text):
     return True

@@ -28,7 +28,7 @@ def migrate_test(single_case_text):
         long_path = os.path.join(long_path, "test_path")
     os.path.join(long_path, "name")
     call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " --output-file=" +long_path, single_case_text)
-    return is_sub_string("should be less than", single_case_text.command_text)
+    return is_sub_string("should be less than", single_case_text.print_text)
 
 def build_test(single_case_text):
     return True

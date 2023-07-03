@@ -25,7 +25,7 @@ def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL + ' helloworld_tst/src/test.cu --cuda-include-path=' + \
                    os.environ['CUDA_INCLUDE_PATH'], single_case_text)
 
-    if 'check if the directory exists and can be accessed by the tool' in single_case_text.command_text:
+    if 'check if the directory exists and can be accessed by the tool' in single_case_text.print_text:
         return True
     print("could not get expected message: check if the directory exists and can be accessed by the tool")
     return False

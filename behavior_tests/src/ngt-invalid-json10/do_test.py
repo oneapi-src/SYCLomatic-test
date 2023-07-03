@@ -30,7 +30,7 @@ def migrate_test(single_case_text):
         f.writelines(ret)
 
     call_subprocess(test_config.CT_TOOL + ' -p=./ --cuda-include-path=' + test_config.include_path, single_case_text)
-    return is_sub_string("The file name(s) in the \"command\" and \"file\" fields of the compilation database are inconsistent", single_case_text.command_text)
+    return is_sub_string("The file name(s) in the \"command\" and \"file\" fields of the compilation database are inconsistent", single_case_text.print_text)
 
 
 def build_test(single_case_text):

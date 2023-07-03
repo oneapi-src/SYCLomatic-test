@@ -22,30 +22,30 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
     call_subprocess(
         test_config.CT_TOOL + " -p=. --change-cuda-files-extension-only --out-root=out --cuda-include-path=" + test_config.include_path, single_case_text)
-    print(single_case_text.command_text)
+    print(single_case_text.print_text)
 
     reference = 'main.dp.cpp'
     call_subprocess("ls out | grep " + reference, single_case_text)
     res = True
-    if reference not in single_case_text.command_text:
+    if reference not in single_case_text.print_text:
         res = False
         print("there should be a file: " + reference)
 
     reference = 'test.cpp'
     call_subprocess("ls out | grep " + reference, single_case_text)
-    if reference not in single_case_text.command_text:
+    if reference not in single_case_text.print_text:
         res = False
         print("there should be a file: " + reference)
 
     reference = 'test.dp.hpp'
     call_subprocess("ls out | grep " + reference, single_case_text)
-    if reference not in single_case_text.command_text:
+    if reference not in single_case_text.print_text:
         res = False
         print("there should be a file: " + reference)
 
     reference = 'test.h'
     call_subprocess("ls out | grep " + reference, single_case_text)
-    if reference not in single_case_text.command_text:
+    if reference not in single_case_text.print_text:
         res = False
         print("there should be a file: " + reference)
 

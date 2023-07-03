@@ -35,7 +35,7 @@ def migrate_test(single_case_text):
         f.writelines(ret)
 
     call_subprocess(test_config.CT_TOOL + ' -p=./ --cuda-include-path=' + test_config.include_path, single_case_text)
-    return is_sub_string("Processed 1 file(s)", single_case_text.command_text)
+    return is_sub_string("Processed 1 file(s)", single_case_text.print_text)
 
 
 def build_test(single_case_text):

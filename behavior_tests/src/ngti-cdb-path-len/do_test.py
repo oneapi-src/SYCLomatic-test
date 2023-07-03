@@ -28,7 +28,7 @@ def migrate_test(single_case_text):
     os.path.join(long_path, "name")
     call_subprocess("intercept-build --cdb " +
         long_path, single_case_text)
-    return is_sub_string("File name", single_case_text.command_text)
+    return is_sub_string("File name", single_case_text.print_text)
 
 def build_test(single_case_text):
     return True

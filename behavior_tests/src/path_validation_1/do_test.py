@@ -23,7 +23,7 @@ def migrate_test(single_case_text):
     change_dir("..", single_case_text)
     call_subprocess("mv helloworld helloworld_tst", single_case_text)
     call_subprocess(test_config.CT_TOOL + " -in-root=helloworld_tst/src/rootdir helloworld_tst/src/rootdir/../test.cu --cuda-include-path=" + test_config.include_path, single_case_text)
-    return is_sub_string("is not under the specified input root directory", single_case_text.command_text)
+    return is_sub_string("is not under the specified input root directory", single_case_text.print_text)
 
 def build_test(single_case_text):
     return True

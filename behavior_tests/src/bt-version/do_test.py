@@ -22,8 +22,8 @@ def migrate_test(single_case_text):
     ct_clang_version = get_ct_clang_version()
     expected_output = "dpct version {0}".format(ct_clang_version)
     print("expected dpct version output: {0}".format(expected_output))
-    print("\n'dpct --version' outputs {0}".format(single_case_text.command_text))
-    return is_sub_string(expected_output, single_case_text.command_text)
+    print("\n'dpct --version' outputs {0}".format(single_case_text.print_text))
+    return is_sub_string(expected_output, single_case_text.print_text)
 
 def build_test(single_case_text):
     return True

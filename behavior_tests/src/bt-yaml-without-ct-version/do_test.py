@@ -20,8 +20,8 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
 
     call_subprocess(test_config.CT_TOOL + " test.cu --out-root=out --cuda-include-path=" + test_config.include_path, single_case_text)
-    return is_sub_string("Failed to load", single_case_text.command_text) and \
-            is_sub_string("Migration continues with incremental migration disabled", single_case_text.command_text)
+    return is_sub_string("Failed to load", single_case_text.print_text) and \
+            is_sub_string("Migration continues with incremental migration disabled", single_case_text.print_text)
 
 def build_test(single_case_text):
     return True

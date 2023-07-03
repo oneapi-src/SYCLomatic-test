@@ -22,7 +22,7 @@ def migrate_test(single_case_text):
 
     call_subprocess(test_config.CT_TOOL +" --out-root=out --cuda-include-path=" + test_config.include_path +
         " t.c t.cpp t.cu", single_case_text)
-    # return is_sub_string("Migration not necessary", single_case_text.command_text)
+    # return is_sub_string("Migration not necessary", single_case_text.print_text)
 
     if os.path.exists(os.path.join("out", "t.c")) or os.path.exists(os.path.join("out", "t.cpp")) or \
             os.path.exists(os.path.join("out", "t.dp.cpp")):

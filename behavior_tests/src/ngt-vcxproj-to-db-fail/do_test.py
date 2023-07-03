@@ -25,7 +25,7 @@ def migrate_test(single_case_text):
     source_path = os.path.join(os.getcwd(), "source", "simple_foo.cu")
     call_subprocess(test_config.CT_TOOL + " " + source_path   + " --vcxprojfile=\"" + vcxproj_path  + "\" --cuda-include-path=" + test_config.include_path, single_case_text)
     call_subprocess("icacls ./source /grant Everyone\:\(WD\)", single_case_text)
-    return is_sub_string("Cannot create CompilationDatabase", single_case_text.command_text)
+    return is_sub_string("Cannot create CompilationDatabase", single_case_text.print_text)
 
 def build_test(single_case_text):
     return True

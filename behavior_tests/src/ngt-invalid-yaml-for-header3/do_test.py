@@ -32,8 +32,8 @@ def migrate_test(single_case_text):
 
     call_subprocess(test_config.CT_TOOL + ' hello.h --out-root=./out --cuda-include-path=' + \
                    os.environ['CUDA_INCLUDE_PATH'], single_case_text)
-    print(single_case_text.command_text)
-    if "Unexpected token. Expected Key or Block End" in single_case_text.command_text:
+    print(single_case_text.print_text)
+    if "Unexpected token. Expected Key or Block End" in single_case_text.print_text:
         return True
     print("not catch the error: unkown key constantFla")
     return False

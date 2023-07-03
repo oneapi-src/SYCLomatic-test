@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL + " test.cu --out-root=out --cuda-include-path=" + test_config.include_path + " --extra-arg=-xc++", single_case_text)
-    return not is_sub_string("warning: '-x c' after last input file has no effect [-Wunused-command-line-argument]", single_case_text.command_text)
+    return not is_sub_string("warning: '-x c' after last input file has no effect [-Wunused-command-line-argument]", single_case_text.print_text)
 
 def build_test(single_case_text):
     return call_subprocess("icpx -fsycl out/test.dp.cpp", single_case_text)

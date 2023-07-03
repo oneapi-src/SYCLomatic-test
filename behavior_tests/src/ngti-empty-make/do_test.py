@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     call_subprocess("intercept-build make", single_case_text)
-    return is_sub_string("No targets", single_case_text.command_text)
+    return is_sub_string("No targets", single_case_text.print_text)
 
 def build_test(single_case_text):
     return True

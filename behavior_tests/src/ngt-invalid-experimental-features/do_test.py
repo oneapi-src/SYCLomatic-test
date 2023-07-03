@@ -22,7 +22,7 @@ def migrate_test(single_case_text):
 
     call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path +
         " --use-experimental-features=logical-group,abc", single_case_text)
-    return is_sub_string("for the --use-experimental-features option: Cannot find option named \'abc\'!", single_case_text.command_text)
+    return is_sub_string("for the --use-experimental-features option: Cannot find option named \'abc\'!", single_case_text.print_text)
 
 def build_test(single_case_text):
     return True

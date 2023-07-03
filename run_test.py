@@ -76,6 +76,7 @@ class case_text:
         self.print_text = print_text
         self.test_status = "BADTEST"
         self.out_root = ""
+        self.run_flag = False
 
 
 def parse_suite_cfg(suite_name, root_path):
@@ -246,7 +247,7 @@ def run_test_driver(module, single_case_text):
     single_case_text.result_text += single_case_text.name + " " + single_case_text.test_status + "\n"
     single_case_text.log_text += "------------------------------------------------------------------------\n\n" + \
                 "=================== "+ single_case_text.name + " is " + single_case_text.test_status + " ======================\n "
-    print_result(single_case_text)
+    print_result(single_case_text, single_case_text.print_text)
     return ret_val
 
 # To do: if the API was enabled in CUDA 9.2 version but deprecated in the CUDA 11.4 version,
@@ -290,7 +291,10 @@ def is_option_supported(option_rule_list):
                 return False
     return True
 
-def test_single_case(current_test, single_case_config, workspace,  suite_root_path, single_case_text):
+def test_single_case(current_test, single_case_config, workspace,  suite_root_path):
+    single_case_text = case_text(current_test, os.path.join(workspace, "command.tst"),"", 
+                                os.path.join(workspace, current_test, current_test + ".lf"), "",
+                                os.path.join(workspace, "result.md"), "", "")
     module = import_test_driver(suite_root_path)
     if single_case_config.platform_rule_list and not is_platform_supported(single_case_config.platform_rule_list):
         single_case_text.result_text += current_test + " Skip " + "\n"
@@ -309,13 +313,12 @@ def test_single_case(current_test, single_case_config, workspace,  suite_root_pa
 
     # test_config.log_file = os.path.join(workspace, current_test + ".lf")
     copy_source_to_ws(single_case_config.test_dep_files, case_workspace, suite_root_path)
-    return run_test_driver(module, single_case_text)
+    single_case_text.run_flag =  run_test_driver(module, single_case_text)
+    return single_case_text
 
 def prepare_test_workspace(root_path, suite_name, opt, case = ""):
     suite_workspace = os.path.join(os.path.abspath(root_path), suite_name, opt)
     case_workspace = os.path.join(suite_workspace, case)
-    test_config.command_file = os.path.join(suite_workspace, "command.tst")
-    test_config.result_text = os.path.join(suite_workspace, "result.md")
 
     if os.path.isdir(suite_workspace) and not case:
         shutil.rmtree(suite_workspace)
@@ -339,11 +342,17 @@ def get_gpu_split_test_suite(suite_cfg):
     return new_test_config_map
 
 def record_msg_case(single_case_text):
-    if single_case_text.test_status is not "BADTEST":
-        append_msg_to_file(single_case_text.command_file, single_case_text.command_text)
-        ppend_msg_to_file(single_case_text.log_file, single_case_text.log_text)
+    # print(single_case_text.result_file)
+    # print(single_case_text.result_text)
     append_msg_to_file(single_case_text.result_file, single_case_text.result_text)
-    print(single_case_text.print_text)
+    if single_case_text.test_status is  "BADTEST":
+        return
+    # print(single_case_text.command_file)
+    # print(single_case_text.command_text)
+    append_msg_to_file(single_case_text.command_file, single_case_text.command_text)
+    # print(single_case_text.log_file)
+    # print(single_case_text.log_text)
+    append_msg_to_file(single_case_text.log_file, single_case_text.log_text)
     return
 
 def test_suite(suite_root_path, suite_name, opt):
@@ -360,22 +369,29 @@ def test_suite(suite_root_path, suite_name, opt):
         results = []
         
         for current_test, single_case_config in test_config.suite_cfg.test_config_map.items():
-            single_case_text = case_text(current_test, os.path.join(test_workspace, "command.tst"),"", 
-                                        os.path.join(test_workspace, current_test, current_test + ".lf"), "",
-                                        os.path.join(test_workspace, "result.md"), "", "")
+            # print(os.path.join(test_workspace, "command.tst"))
+            # print(os.path.join(test_workspace, "result.md"))
+            # single_case_text = case_text(current_test, os.path.join(test_workspace, "command.tst"),"", 
+            #                             os.path.join(test_workspace, current_test, current_test + ".lf"), "",
+            #                             os.path.join(test_workspace, "result.md"), "", "")
+            # print(single_case_text.command_file)
+            # print(single_case_text.result_file)
+            # sys.exit(0)
             result = pool.apply_async(test_single_case, (current_test, single_case_config, test_workspace, 
-                                                        suite_root_path, single_case_text,))
+                                                        suite_root_path,))
             # store all msg
-            results.append([result, current_test, single_case_config, test_workspace, suite_root_path, single_case_text])
-        # ret = test_single_case(current_test, single_case_config, test_workspace, module, suite_root_path)
-    
+            results.append([result, current_test, single_case_config, test_workspace, suite_root_path])
+        
+        # close process pool and wait all work being flinish
+        pool.close()
+        pool.join()
         for result_iter in results:
             ret = result_iter[0].get()
-            record_msg_case(result_iter[5])
-            if not ret:
+            record_msg_case(ret)
+            if not ret.run_flag:
                 # TODO we can add auto rerun 
-                failed_cases.append(current_test + " " + result_iter[5].test_status)
-                suite_result = ret & suite_result
+                failed_cases.append(ret.name + " " + ret.test_status)
+                suite_result = ret.run_flag & suite_result
 
     if failed_cases:
         print("===============Failed case(s) ==========================")
@@ -394,13 +410,10 @@ def test_single_case_in_suite(suite_root_path, suite_name, case, option):
         exit("The test case " + case + " is not in the " + suite_name + " test suite! Please double check.")
     single_case_config = suite_cfg.test_config_map[case]
     # create single_case_text to store result msg
-    single_case_text = case_text(case, os.path.join(test_workspace, "command.tst"),"", 
-                                os.path.join(test_workspace, case, case + ".lf"), "",
-                                os.path.join(test_workspace, "result.md"), "", "")
-    ret = test_single_case(case, single_case_config, test_workspace, suite_root_path, single_case_text)
+    single_case_text = test_single_case(case, single_case_config, test_workspace, suite_root_path)
     # print(single_case_text.name)
     # print(single_case_text.command_file)
-    # print(single_case_text.command_text)
+    # print(single_case_text.print_text)
     # print(single_case_text.log_file)
     # print(single_case_text.log_text)
     # print(single_case_text.result_file)
@@ -409,7 +422,7 @@ def test_single_case_in_suite(suite_root_path, suite_name, case, option):
     # print(single_case_text.test_status)
     # print(single_case_text.out_root)
     record_msg_case(single_case_text)
-    return ret
+    return single_case_text.run_flag
 
 
 # Before run the test:

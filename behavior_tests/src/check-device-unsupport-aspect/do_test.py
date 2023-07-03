@@ -69,7 +69,7 @@ def run_test(single_case_text):
         res += 1
         print("double.run run pass")
     print("double.run output:")
-    print(single_case_text.command_text)
+    print(single_case_text.print_text)
     if res != 1:
         print("case 'double' failed")
         return False
@@ -79,7 +79,7 @@ def run_test(single_case_text):
         res += 1
         print("half.run run pass")
     print("half.run output:")
-    print(single_case_text.command_text)
+    print(single_case_text.print_text)
     if res != 2:
         print("case 'half' failed")
         return False

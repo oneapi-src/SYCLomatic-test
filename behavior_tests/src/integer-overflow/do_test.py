@@ -25,7 +25,7 @@ def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL + " helloworld_tst/src/test.cu --cuda-include-path=" + test_config.include_path +
              " --suppress-warnings=-1,0,0x100,0x1000,0x3fffffff,0x7ffffffe,0x7fffffff,0x80000000,0xfffffffe,0xffffffff,0x10000,0x100000", single_case_text)
 
-    return is_sub_string("Error: Invalid warning ID or range; valid warning IDs range from 1000 to", single_case_text.command_text)
+    return is_sub_string("Error: Invalid warning ID or range; valid warning IDs range from 1000 to", single_case_text.print_text)
 
 def build_test(single_case_text):
     return True

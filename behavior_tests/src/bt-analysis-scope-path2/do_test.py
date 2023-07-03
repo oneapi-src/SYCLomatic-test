@@ -50,7 +50,7 @@ def migrate_test(single_case_text):
                     os.path.join("cuda", ".."), single_case_text)
     return is_sub_string(
         f"use the same option set as in previous migration: \"--analysis-scope-path=",
-        single_case_text.command_text)
+        single_case_text.print_text)
 
 
 def build_test(single_case_text):
