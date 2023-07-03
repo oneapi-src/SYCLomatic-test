@@ -32,7 +32,7 @@ def parse_compilation_database(compilation_database_name):
 
 def migrate_test(single_case_text):
 
-    call_subprocess("intercept-build /usr/bin/make --no-linker-entry")
+    call_subprocess("intercept-build /usr/bin/make --no-linker-entry", single_case_text)
     new_database = parse_compilation_database("compile_commands.json")
     reference_database = parse_compilation_database("compile_commands.json_ref")
     new_database = list(set(new_database))

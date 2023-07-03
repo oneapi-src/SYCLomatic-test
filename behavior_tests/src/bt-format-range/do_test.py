@@ -23,8 +23,8 @@ def migrate_test(single_case_text):
     os.mkdir("out_all")
     os.mkdir("out_none")
     call_subprocess(test_config.CT_TOOL + " --format-range=migrated --out-root=./out_migrated vector_add.cu --cuda-include-path=" + test_config.include_path)
-    call_subprocess(test_config.CT_TOOL + " --format-range=all --out-root=./out_all vector_add.cu  --cuda-include-path=" + test_config.include_path)
-    call_subprocess(test_config.CT_TOOL + " -format-range=none --out-root=./out_none vector_add.cu --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " --format-range=all --out-root=./out_all vector_add.cu  --cuda-include-path=" + test_config.include_path, single_case_text)
+    call_subprocess(test_config.CT_TOOL + " -format-range=none --out-root=./out_none vector_add.cu --cuda-include-path=" + test_config.include_path, single_case_text)
 
     ret = is_sub_string(";\/\/ variable declearation", "./out_llvm/vector_add.dp.cpp")
     ret = is_sub_string(";\/\/ allocate device memory", "./out_google/vector_add.dp.cpp") or ret

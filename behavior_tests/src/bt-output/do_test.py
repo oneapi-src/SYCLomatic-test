@@ -18,7 +18,7 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    return call_subprocess(test_config.CT_TOOL + " hello.cu hello2.cu  --cuda-include-path=" + test_config.include_path + " > output.txt")
+    return call_subprocess(test_config.CT_TOOL + " hello.cu hello2.cu  --cuda-include-path=" + test_config.include_path + " > output.txt", single_case_text)
 
 def build_test(single_case_text):
     return True

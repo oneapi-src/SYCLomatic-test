@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL +
-        " simple_foo.cu --in-root=/notavalidfolder --cuda-include-path=" + test_config.include_path)
+        " simple_foo.cu --in-root=/notavalidfolder --cuda-include-path=" + test_config.include_path, single_case_text)
     return is_sub_string("The path for --in-root or --out-root is not valid", single_case_text.command_text)
 
 

@@ -20,7 +20,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
 
-    call_subprocess(test_config.CT_TOOL + " --stop-on-parse-err vector_add.cu --out-root=out --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " --stop-on-parse-err vector_add.cu --out-root=out --cuda-include-path=" + test_config.include_path, single_case_text)
     if os.path.exists(os.path.join("out", "vector_add.dp.cpp")):
         return False
     return True

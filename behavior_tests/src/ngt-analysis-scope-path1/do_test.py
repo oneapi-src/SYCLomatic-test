@@ -31,7 +31,7 @@ def migrate_test(single_case_text):
     for analysis_scope in (os.path.join(".", "cuda"),
                            os.path.join("non_exist_dir", "abc")):
         call_subprocess(migrate_cmd + " --analysis-scope-path=" +
-                        os.path.realpath(analysis_scope))
+                        os.path.realpath(analysis_scope), single_case_text)
         if not is_sub_string(
                 "Error: The path for --analysis-scope-path is not the same as or a parent directory of --in-root",
                 single_case_text.command_text):

@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL +
-        " --extra-arg=\"--cuda-path=/usr/local/folder-does-not-contain-cuda\" vector_add.cu")
+        " --extra-arg=\"--cuda-path=/usr/local/folder-does-not-contain-cuda\" vector_add.cu", single_case_text)
     return is_sub_string("Could not detect path to CUDA header files", single_case_text.command_text)
 
 def build_test(single_case_text):

@@ -20,7 +20,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path +
-        " --report-type=xxx --report-diags-content=transformation vector_add.cu")
+        " --report-type=xxx --report-diags-content=transformation vector_add.cu", single_case_text)
     return is_sub_string("--report-type option: Cannot find option named 'xxx'!", single_case_text.command_text)
 
 def build_test(single_case_text):

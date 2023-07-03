@@ -25,7 +25,7 @@ def migrate_test(single_case_text):
     migrated_str = ""
     call_subprocess(test_config.CT_TOOL + " --report-file-prefix=report --out-root=out --vcxprojfile=\"" + \
             file_vcxproj +  "\" \"" + migrated_file + "\" --cuda-include-path=" + \
-                   os.environ['CUDA_INCLUDE_PATH'])
+                   os.environ['CUDA_INCLUDE_PATH'], single_case_text)
     with open("expected.cpp", 'r') as f:
         lines = f.readlines()
         for line in lines:

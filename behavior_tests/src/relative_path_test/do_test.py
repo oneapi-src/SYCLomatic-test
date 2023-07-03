@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     change_dir("build", single_case_text)
-    call_subprocess(test_config.CT_TOOL + " -in-root ../src -out-root ../sycl -p ./ --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " -in-root ../src -out-root ../sycl -p ./ --cuda-include-path=" + test_config.include_path, single_case_text)
     change_dir("..", single_case_text)
     return os.path.exists(os.path.join("sycl", "kernel.dp.cpp"))
 

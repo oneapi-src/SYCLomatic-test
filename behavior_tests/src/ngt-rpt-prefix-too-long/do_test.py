@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL + " simple_foo.cu -report-format=csv -report-file-prefix=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
-     --cuda-include-path=" + test_config.include_path )
+     --cuda-include-path=" + test_config.include_path, single_case_text)
     return is_sub_string("Prefix is too long", single_case_text.command_text)
 
 def build_test(single_case_text):

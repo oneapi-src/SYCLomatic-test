@@ -20,7 +20,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     ret_file = ""
-    ret = call_subprocess(test_config.CT_TOOL + " --gen-helper-function --out-root=out")
+    ret = call_subprocess(test_config.CT_TOOL + " --gen-helper-function --out-root=out", single_case_text)
     installed_header_file_root = os.path.join(os.path.dirname(get_ct_path()), "..", "include", "dpct")
     generated_header_file_root = os.path.join(os.getcwd(), "out", "include", "dpct")
 

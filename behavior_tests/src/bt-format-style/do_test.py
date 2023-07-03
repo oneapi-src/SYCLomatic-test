@@ -21,9 +21,9 @@ def migrate_test(single_case_text):
     os.mkdir("out_custom")
     os.mkdir("out_llvm")
     os.mkdir("out_google")
-    call_subprocess(test_config.CT_TOOL + " --format-style=custom --out-root=./out_custom vector_add.cu  --cuda-include-path=" + test_config.include_path)
-    call_subprocess(test_config.CT_TOOL + " --format-style=llvm --out-root=./out_llvm vector_add.cu  --cuda-include-path=" + test_config.include_path)
-    call_subprocess(test_config.CT_TOOL + " --format-style=google --out-root=./out_google vector_add.cu  --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " --format-style=custom --out-root=./out_custom vector_add.cu  --cuda-include-path=" + test_config.include_path, single_case_text)
+    call_subprocess(test_config.CT_TOOL + " --format-style=llvm --out-root=./out_llvm vector_add.cu  --cuda-include-path=" + test_config.include_path, single_case_text)
+    call_subprocess(test_config.CT_TOOL + " --format-style=google --out-root=./out_google vector_add.cu  --cuda-include-path=" + test_config.include_path, single_case_text)
     ret = False
     with open(os.path.join("out_llvm", "vector_add.dp.cpp")) as f:
         file_str = f.read()

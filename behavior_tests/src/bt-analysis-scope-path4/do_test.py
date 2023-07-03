@@ -33,7 +33,7 @@ def migrate_test(single_case_text):
         "cuda",
         "call_device_func_outside.cu") + " --in-root=cuda" + " --out-root=out"
 
-    call_subprocess(migrate_cmd + " --analysis-scope-path=cuda_symlink")
+    call_subprocess(migrate_cmd + " --analysis-scope-path=cuda_symlink", single_case_text)
     if (not os.path.exists(
             os.path.join("out", "call_device_func_outside.dp.cpp"))):
         return False

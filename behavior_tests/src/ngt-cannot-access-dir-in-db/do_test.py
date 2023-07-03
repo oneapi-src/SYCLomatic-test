@@ -29,7 +29,7 @@ def migrate_test(single_case_text):
     with open("compile_commands.json", 'w') as f:
         f.write(ret)
 
-    call_subprocess(test_config.CT_TOOL + " simple_foo.cu --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " simple_foo.cu --cuda-include-path=" + test_config.include_path, single_case_text)
 
     return is_sub_string("Error: Cannot access directory", single_case_text.command_text)
 

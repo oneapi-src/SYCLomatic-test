@@ -29,7 +29,7 @@ def migrate_test(single_case_text):
     in_root = ""
     extra_args = ""
     call_subprocess(ct_bin + " --cuda-include-path=" + test_config.include_path +
-                " " + "hellocuda.cu")
+                " " + "hellocuda.cu", single_case_text)
     if ('or the same folder as' in single_case_text.command_text):
         return True
     return False

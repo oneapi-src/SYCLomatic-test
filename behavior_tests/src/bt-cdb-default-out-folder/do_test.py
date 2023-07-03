@@ -23,7 +23,7 @@ def migrate_test(single_case_text):
     in_root = ""
     extra_args = ""
     return call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " " +
-        "-p .")
+        "-p .", single_case_text)
 
 def build_test(single_case_text):
     return True

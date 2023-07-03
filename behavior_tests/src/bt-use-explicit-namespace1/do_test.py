@@ -18,7 +18,7 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    call_subprocess(test_config.CT_TOOL + " --use-explicit-namespace=none --out-root=./sycl vector_add.cu --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " --use-explicit-namespace=none --out-root=./sycl vector_add.cu --cuda-include-path=" + test_config.include_path, single_case_text)
     return True
 def build_test(single_case_text):
     srcs = []

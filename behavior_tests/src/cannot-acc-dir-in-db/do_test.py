@@ -18,12 +18,12 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     change_dir('cannot-acc-dir-in-db/helloworld', single_case_text)
-    call_subprocess('intercept-build /usr/bin/make')
+    call_subprocess('intercept-build /usr/bin/make', single_case_text)
     change_dir('..', single_case_text)
-    call_subprocess('mv helloworld helloworld_tst')
+    call_subprocess('mv helloworld helloworld_tst', single_case_text)
 
     call_subprocess(test_config.CT_TOOL + ' -p ./helloworld_tst/compile_commands.json --cuda-include-path=' + \
-                   os.environ['CUDA_INCLUDE_PATH'])
+                   os.environ['CUDA_INCLUDE_PATH'], single_case_text)
 
     if 'check if the directory exists and can be accessed by the tool' in single_case_text.command_text:
         return True

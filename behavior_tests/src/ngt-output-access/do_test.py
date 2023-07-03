@@ -19,12 +19,12 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     os.mkdir("dpct_output")
-    call_subprocess("chmod u-r dpct_output")
-    call_subprocess("dpct vector_add.cu --cuda-include-path=" + test_config.include_path    )
+    call_subprocess("chmod u-r dpct_output", single_case_text)
+    call_subprocess("dpct vector_add.cu --cuda-include-path=" + test_config.include_path, single_case_text)
     return is_sub_string("Could not access output directory", single_case_text.command_text)
 
 def build_test(single_case_text):
-    call_subprocess("chmod 777 dpct_output")
+    call_subprocess("chmod 777 dpct_output", single_case_text)
     return True
 
 def run_test(single_case_text):

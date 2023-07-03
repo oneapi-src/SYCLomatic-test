@@ -28,14 +28,14 @@ def migrate_test(single_case_text):
         "cuda",
         "call_device_func_outside.cu") + " --in-root=cuda" + " --out-root=out"
     # migrate with implicit --analysis-scope-path which defaults to --in-root
-    call_subprocess(migrate_cmd)
+    call_subprocess(migrate_cmd, single_case_text)
     if (not os.path.exists(
             os.path.join("out", "call_device_func_outside.dp.cpp"))):
         return False
     shutil.rmtree("out")
 
     # migrate with specified --analysis-scope-path which equals --in-root
-    call_subprocess(migrate_cmd + " --analysis-scope-path=cuda")
+    call_subprocess(migrate_cmd + " --analysis-scope-path=cuda", single_case_text)
     if (not os.path.exists(
             os.path.join("out", "call_device_func_outside.dp.cpp"))):
         return False
@@ -43,7 +43,7 @@ def migrate_test(single_case_text):
 
     # migrate with specified --analysis-scope-path which is the parent of --in-root
     call_subprocess(migrate_cmd + " --analysis-scope-path=" +
-                    os.path.join("cuda", ".."))
+                    os.path.join("cuda", ".."), single_case_text)
     if (not os.path.exists(
             os.path.join("out", "call_device_func_outside.dp.cpp"))):
         return False

@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     os.environ["CUDA_INCLUDE_PATH"] = test_config.include_path
-    return call_subprocess("/bin/bash sh-ct-1306.sh")
+    return call_subprocess("/bin/bash sh-ct-1306.sh", single_case_text)
 
 def build_test(single_case_text):
     return True

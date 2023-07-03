@@ -68,12 +68,12 @@ def build_test(single_case_text):
     if single_case_text.name == "test_default_queue_2":
         srcs.append("test_default_queue_1.cpp")
     if single_case_text.name == "kernel_function_lin":
-        ret = call_subprocess(test_config.DPCXX_COM + " -shared -fPIC -o module.so kernel_module_lin.cpp")
+        ret = call_subprocess(test_config.DPCXX_COM + " -shared -fPIC -o module.so kernel_module_lin.cpp", single_case_text)
         if not ret:
             print("kernel_function_lin created the shared lib failed.")
             return False
     if single_case_text.name == "kernel_function_win":
-        ret = call_subprocess("icx-cl -fsycl /EHsc /LD kernel_module_win.cpp /link /OUT:module.dll")
+        ret = call_subprocess("icx-cl -fsycl /EHsc /LD kernel_module_win.cpp /link /OUT:module.dll", single_case_text)
         if not ret:
             print("kernel_function_win created the shared lib failed.")
             return False

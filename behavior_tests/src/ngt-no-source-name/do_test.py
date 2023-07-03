@@ -21,7 +21,7 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
 
     call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path +
-        "  vector_add")
+        "  vector_add", single_case_text)
     return is_sub_string("does not have an extension", single_case_text.command_text)
 
 def build_test(single_case_text):

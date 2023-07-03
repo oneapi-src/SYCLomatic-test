@@ -29,7 +29,7 @@ def migrate_test(single_case_text):
     ret.pop(5)
     with open("compile_commands.json", 'w') as f:
         f.writelines(ret)
-    call_subprocess(test_config.CT_TOOL + ' -p=./ --cuda-include-path=' + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + ' -p=./ --cuda-include-path=' + test_config.include_path, single_case_text)
     return is_sub_string("Expected Key, Flow Entry, or Flow Mapping End", single_case_text.command_text)
 
 def build_test(single_case_text):

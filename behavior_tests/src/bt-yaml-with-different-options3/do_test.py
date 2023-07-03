@@ -18,8 +18,8 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    call_subprocess(test_config.CT_TOOL + " test.cu --out-root out --usm-level=none --cuda-include-path=" + test_config.include_path)
-    return call_subprocess(test_config.CT_TOOL + " test.cu --out-root out --no-incremental-migration --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " test.cu --out-root out --usm-level=none --cuda-include-path=" + test_config.include_path, single_case_text)
+    return call_subprocess(test_config.CT_TOOL + " test.cu --out-root out --no-incremental-migration --cuda-include-path=" + test_config.include_path, single_case_text)
 
 def build_test(single_case_text):
     return True

@@ -21,7 +21,7 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
 
     call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path +
-        " --output-verbosity=abc")
+        " --output-verbosity=abc", single_case_text)
     return is_sub_string("--output-verbosity option: Cannot find option named", single_case_text.command_text)
 
 def build_test(single_case_text):

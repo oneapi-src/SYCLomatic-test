@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
 
-    call_subprocess(test_config.CT_TOOL +" --help")
+    call_subprocess(test_config.CT_TOOL +" --help", single_case_text)
     return is_sub_string("USAGE", single_case_text.command_text)
 
 def build_test(single_case_text):

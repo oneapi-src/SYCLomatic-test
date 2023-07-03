@@ -23,9 +23,9 @@ def migrate_test(single_case_text):
     if (os.path.exists("dpct_output")):
         shutil.rmtree("dpct_output")
 
-    call_subprocess("sed 's/main/scale_main/' cudnn-scale.cu --in-place")
-    call_subprocess("sed 's/main/sum_main/'   cudnn-sum.cu   --in-place")    
-    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " multiple_main.cpp cudnn-scale.cu cudnn-sum.cu")
+    call_subprocess("sed 's/main/scale_main/' cudnn-scale.cu --in-place", single_case_text)
+    call_subprocess("sed 's/main/sum_main/'   cudnn-sum.cu   --in-place", single_case_text)    
+    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " multiple_main.cpp cudnn-scale.cu cudnn-sum.cu", single_case_text)
     return os.path.exists(os.path.join("dpct_output", "cudnn-scale.dp.cpp"))
 
 def build_test(single_case_text):
@@ -48,4 +48,4 @@ def build_test(single_case_text):
     return compile_and_link(srcs, single_case_text, cmp_options, objects, linkopt)
 
 def run_test(single_case_text):
-    return call_subprocess(os.path.join(os.path.curdir, single_case_text.name + '.run '))
+    return call_subprocess(os.path.join(os.path.curdir, single_case_text.name + '.run '), single_case_text)

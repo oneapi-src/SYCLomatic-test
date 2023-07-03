@@ -19,7 +19,7 @@ def setup_test(single_case_text):
     return True
 
 def get_windows_version(arg1, arg2):
-    call_subprocess("powershell \"(Get-Item -path " + arg1 + ").VersionInfo." + arg2 + "\"")
+    call_subprocess("powershell \"(Get-Item -path " + arg1 + ").VersionInfo." + arg2 + "\"", single_case_text)
     return single_case_text.command_text
 
 def migrate_test(single_case_text):

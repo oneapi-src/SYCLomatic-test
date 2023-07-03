@@ -19,10 +19,10 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     change_dir("helloworld", single_case_text)
-    call_subprocess("intercept-build /usr/bin/make")
+    call_subprocess("intercept-build /usr/bin/make", single_case_text)
     change_dir("..", single_case_text)
-    call_subprocess("mv helloworld helloworld_tst")
-    call_subprocess(test_config.CT_TOOL + " -in-root=helloworld_tst/src/rootdir helloworld_tst/src/test.cu  --cuda-include-path=" + test_config.include_path)
+    call_subprocess("mv helloworld helloworld_tst", single_case_text)
+    call_subprocess(test_config.CT_TOOL + " -in-root=helloworld_tst/src/rootdir helloworld_tst/src/test.cu  --cuda-include-path=" + test_config.include_path, single_case_text)
     return is_sub_string("is not under the specified input root directory", single_case_text.command_text)
 
 def build_test(single_case_text):

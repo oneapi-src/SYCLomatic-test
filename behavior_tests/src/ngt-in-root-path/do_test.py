@@ -19,7 +19,7 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path +" --in-root=./inroot vector_add.cu")
+    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path +" --in-root=./inroot vector_add.cu", single_case_text)
     return is_sub_string("is not under the specified input root directory", single_case_text.command_text)
 
 def build_test(single_case_text):

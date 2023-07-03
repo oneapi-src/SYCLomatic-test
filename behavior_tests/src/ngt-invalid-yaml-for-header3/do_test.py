@@ -20,7 +20,7 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
     print("test-----------------")
     call_subprocess(test_config.CT_TOOL + ' hello.h --out-root=out --cuda-include-path=' + \
-                   os.environ['CUDA_INCLUDE_PATH'])
+                   os.environ['CUDA_INCLUDE_PATH'], single_case_text)
     file_data=""
     with open('out/hello.h.yaml', 'r') as f:
         file_data = f.read()
@@ -31,7 +31,7 @@ def migrate_test(single_case_text):
         f.write(file_data)
 
     call_subprocess(test_config.CT_TOOL + ' hello.h --out-root=./out --cuda-include-path=' + \
-                   os.environ['CUDA_INCLUDE_PATH'])
+                   os.environ['CUDA_INCLUDE_PATH'], single_case_text)
     print(single_case_text.command_text)
     if "Unexpected token. Expected Key or Block End" in single_case_text.command_text:
         return True

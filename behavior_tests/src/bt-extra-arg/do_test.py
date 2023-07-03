@@ -19,7 +19,7 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    return (call_subprocess(test_config.CT_TOOL + " --extra-arg=\"--cuda-path=" + test_config.include_path + "\" vector_add.cu")
+    return (call_subprocess(test_config.CT_TOOL + " --extra-arg=\"--cuda-path=" + test_config.include_path + "\" vector_add.cu", single_case_text)
             and is_sub_string("Parsing", single_case_text.command_text)
             and is_sub_string("Analyzing", single_case_text.command_text)
             and is_sub_string("Migrating", single_case_text.command_text))

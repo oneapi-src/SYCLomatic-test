@@ -20,7 +20,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path +
-        "  -in-root=./ -out-root=out -p=./")
+        "  -in-root=./ -out-root=out -p=./", single_case_text)
     return is_sub_string("Error: Cannot find compilation database", single_case_text.command_text)
 
 def build_test(single_case_text):

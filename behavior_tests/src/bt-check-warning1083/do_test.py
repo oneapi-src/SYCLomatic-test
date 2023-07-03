@@ -20,7 +20,7 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
     ret_file = ""
 
-    call_subprocess(test_config.CT_TOOL + " test.cu --out-root=out --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " test.cu --out-root=out --cuda-include-path=" + test_config.include_path, single_case_text)
     ret = ""
     with open(os.path.join("out", "test.dp.cpp"), 'r') as f:
         ret = f.read()

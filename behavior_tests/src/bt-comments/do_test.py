@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     ret_file = ""
-    call_subprocess(test_config.CT_TOOL + " --comments comments.cu --out-root=out --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " --comments comments.cu --out-root=out --cuda-include-path=" + test_config.include_path, single_case_text)
     with open(os.path.join("out", "comments.dp.cpp"), 'r') as f:
         ret_file = f.read()
     return is_sub_string("//", ret_file)

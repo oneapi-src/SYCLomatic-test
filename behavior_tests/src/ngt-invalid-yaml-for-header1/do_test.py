@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     call_subprocess(test_config.CT_TOOL + ' hello.h --out-root=out --cuda-include-path=' + \
-                   os.environ['CUDA_INCLUDE_PATH'])
+                   os.environ['CUDA_INCLUDE_PATH'], single_case_text)
 
     with open('out/hello.h.yaml', 'r') as f:
         file_data = f.read()
@@ -29,7 +29,7 @@ def migrate_test(single_case_text):
         f.write(file_data)
 
     call_subprocess(test_config.CT_TOOL + ' hello.h --out-root=./out --cuda-include-path=' + \
-                   os.environ['CUDA_INCLUDE_PATH'])
+                   os.environ['CUDA_INCLUDE_PATH'], single_case_text)
     if "error: unknown key \'ConstantFla\'" in single_case_text.command_text:
         return True
     print("not catch the error: unkown key constantFla")

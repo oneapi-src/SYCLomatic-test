@@ -18,7 +18,7 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    call_subprocess(test_config.CT_TOOL + " test.cu --out-root=out --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " test.cu --out-root=out --cuda-include-path=" + test_config.include_path, single_case_text)
     return is_sub_string("Incremental migration requires the same version of dpct. Migration continues with incremental migration disabled", single_case_text.command_text)
 
 def build_test(single_case_text):

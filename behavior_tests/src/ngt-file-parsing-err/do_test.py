@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
 
-    call_subprocess(test_config.CT_TOOL + " simple_foo.cu -stop-on-parse-err --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " simple_foo.cu -stop-on-parse-err --cuda-include-path=" + test_config.include_path, single_case_text)
     return (is_sub_string("Cannot parse input file", single_case_text.command_text)
             and is_sub_string("Parsing", single_case_text.command_text)
             and not is_sub_string("Analyzing", single_case_text.command_text)

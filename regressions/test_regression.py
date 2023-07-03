@@ -23,7 +23,7 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
     if single_case_text.name in ["test-1399", "test-1247"]:
         os.chdir(single_case_text.name)
-        return call_subprocess("sh ./run.sh")
+        return call_subprocess("sh ./run.sh", single_case_text)
     src = []
     extra_args = []
     in_root = os.path.join(os.getcwd(), single_case_text.name)

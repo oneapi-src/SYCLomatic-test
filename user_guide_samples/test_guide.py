@@ -29,7 +29,7 @@ def run_test(single_case_text):
     test_driver = single_case_text.name + ".py"
     options = " \" \""
     os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
-    call_subprocess("python " + test_driver + options)
+    call_subprocess("python " + test_driver + options, single_case_text)
     if "case pass" in single_case_text.command_text:
         return True
     return False

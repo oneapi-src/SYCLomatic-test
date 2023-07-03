@@ -19,13 +19,13 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
     res = True
     cmd = test_config.CT_TOOL + " --out-root=out double.cu --cuda-include-path=" + test_config.include_path
-    if not call_subprocess(cmd):
+    if not call_subprocess(cmd, single_case_text):
         res = False
         print("double.cu migrate failed")
     else:
         print("double.cu migrate pass")
     cmd = test_config.CT_TOOL + " --out-root=out half.cu --cuda-include-path=" + test_config.include_path
-    if not call_subprocess(cmd):
+    if not call_subprocess(cmd, single_case_text):
         res = False
         print("half.cu migrate failed")
     else:
@@ -41,7 +41,7 @@ def build_test(single_case_text):
     else:
         print("double.dp.cpp compile pass")
     cmd = test_config.DPCXX_COM + ' ' + prepare_obj_name(os.path.join("out", "double.dp.cpp")) + " -o double.run"
-    if not call_subprocess(cmd):
+    if not call_subprocess(cmd, single_case_text):
         res = False
         print("double.dp.cpp link failed")
     else:
@@ -52,7 +52,7 @@ def build_test(single_case_text):
     else:
         print("half.dp.cpp compile pass")
     cmd = test_config.DPCXX_COM + ' ' + prepare_obj_name(os.path.join("out", "half.dp.cpp")) + " -o half.run"
-    if not call_subprocess(cmd):
+    if not call_subprocess(cmd, single_case_text):
         res = False
         print("half.dp.cpp link failed")
     else:
@@ -65,7 +65,7 @@ def run_test(single_case_text):
     res = 0
 
     cmd = os.path.join(os.path.curdir, 'double.run')
-    if call_subprocess(cmd):
+    if call_subprocess(cmd, single_case_text):
         res += 1
         print("double.run run pass")
     print("double.run output:")
@@ -75,7 +75,7 @@ def run_test(single_case_text):
         return False
 
     cmd = os.path.join(os.path.curdir, 'half.run')
-    if call_subprocess(cmd):
+    if call_subprocess(cmd, single_case_text):
         res += 1
         print("half.run run pass")
     print("half.run output:")

@@ -22,14 +22,14 @@ def migrate_test(single_case_text):
     # clean previous migration output
     if (os.path.exists("dpct_output")):
         shutil.rmtree("dpct_output")    
-    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " kernel_library.cpp jit.cu --extra-arg=--ptx")
+    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " kernel_library.cpp jit.cu --extra-arg=--ptx", single_case_text)
     return os.path.exists(os.path.join("dpct_output", "kernel_library.cpp.dp.cpp"))
 def build_test(single_case_text):
     # make shared library
     if (platform.system() == 'Windows'):
-        ret = call_subprocess("icpx -fsycl              dpct_output/jit.dp.cpp       -shared -o premade.ptx")
+        ret = call_subprocess("icpx -fsycl              dpct_output/jit.dp.cpp       -shared -o premade.ptx", single_case_text)
     else:
-        ret = call_subprocess(test_config.DPCXX_COM + " dpct_output/jit.dp.cpp -fPIC -shared -o premade.ptx")
+        ret = call_subprocess(test_config.DPCXX_COM + " dpct_output/jit.dp.cpp -fPIC -shared -o premade.ptx", single_case_text)
     if not ret:
         print("Could not make premade.ptx shared library.")
         return False
@@ -38,4 +38,4 @@ def build_test(single_case_text):
     srcs.append(os.path.join("dpct_output", "kernel_library.cpp.dp.cpp"))
     return compile_and_link(srcs, single_case_text, linkopt=["-lstdc++fs"])
 def run_test(single_case_text):
-    return call_subprocess(os.path.join(os.path.curdir, single_case_text.name + '.run '))
+    return call_subprocess(os.path.join(os.path.curdir, single_case_text.name + '.run '), single_case_text)

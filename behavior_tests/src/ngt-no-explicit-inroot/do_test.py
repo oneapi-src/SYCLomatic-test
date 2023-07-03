@@ -18,7 +18,7 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    call_subprocess(test_config.CT_TOOL + " simple_foo.cu --process-all --cuda-include-path=" + test_config.include_path)
+    call_subprocess(test_config.CT_TOOL + " simple_foo.cu --process-all --cuda-include-path=" + test_config.include_path, single_case_text)
     return is_sub_string("Error: The option --process-all requires that the", single_case_text.command_text)
 
 def build_test(single_case_text):

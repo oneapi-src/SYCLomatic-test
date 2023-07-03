@@ -21,7 +21,7 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
     return call_subprocess(test_config.CT_TOOL + " --extra-arg=-I\"" + os.path.dirname(__file__) + 
                            "/header1 "+",-I" + os.path.dirname(__file__) + "/header2\"" + 
-                           " --cuda-include-path=" + test_config.include_path + " test.cu")
+                           " --cuda-include-path=" + test_config.include_path + " test.cu", single_case_text)
 
 def build_test(single_case_text):
     return True
