@@ -30,7 +30,7 @@ def migrate_test(single_case_text):
     # clean previous migration output
     if (os.path.exists("out")):
         shutil.rmtree("out")
-    migrate_cmd = test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " " + os.path.join(
+    migrate_cmd = single_case_text.CT_TOOL + " --cuda-include-path=" + single_case_text.include_path + " " + os.path.join(
         "cuda",
         "call_device_func_outside.cu") + " --in-root=cuda" + " --out-root=out"
     # migrate with implicit --analysis-scope-path which defaults to --in-root

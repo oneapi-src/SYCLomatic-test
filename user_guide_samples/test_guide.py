@@ -28,7 +28,7 @@ def run_test(single_case_text):
     change_dir(single_case_text.name, single_case_text)
     test_driver = single_case_text.name + ".py"
     options = " \" \""
-    os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
+    os.environ['ONEAPI_DEVICE_SELECTOR'] = single_case_text.device_filter
     call_subprocess("python " + test_driver + options, single_case_text)
     if "case pass" in single_case_text.print_text:
         return True

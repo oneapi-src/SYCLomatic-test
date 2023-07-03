@@ -21,19 +21,11 @@ migrate_option = ""
 option_map = ""       # Option mapping table. Ref: option_mapping.json
 root_path = ""      # The root path of test repo.
 timeout = 1200       # The time limit for each test case.
-back_end_device = ""
 
 # The default device for the test. Device can be "opencl:cpu", "opencl:gpu" and "level_zero:gpu".
 # For all the devices: https://intel.github.io/llvm-docs/EnvironmentVariables.html#sycl_device_filter
 device_filter = "level_zero:gpu"
 
-# Depended libraries
-mkl_link_opt_lin = ["-lmkl_intel_ilp64", "-lmkl_sequential", "-lmkl_core",
-                    "-lOpenCL", "-lmkl_sycl", "-lpthread", "-ldl"]
-
-mkl_link_opt_win = ["mkl_sycl_dll.lib", "mkl_intel_ilp64_dll.lib", "mkl_sequential_dll.lib", "mkl_core_dll.lib", "OpenCL.lib"]
-
-mkl_comp_opt = ["-DMKL_ILP64"]
 
 gpu_device = ["Gen9", "Gen12"]
 

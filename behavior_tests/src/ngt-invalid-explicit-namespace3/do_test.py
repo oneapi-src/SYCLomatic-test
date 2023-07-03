@@ -18,7 +18,7 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    call_subprocess(test_config.CT_TOOL + " --use-explicit-namespace=sycl,sycl-math vector_add.cu --cuda-include-path=" + test_config.include_path, single_case_text)
+    call_subprocess(single_case_text.CT_TOOL + " --use-explicit-namespace=sycl,sycl-math vector_add.cu --cuda-include-path=" + single_case_text.include_path, single_case_text)
     return is_sub_string("Error: The input for option --use-explicit-namespace is not valid.", single_case_text.print_text)
 
 def build_test(single_case_text):

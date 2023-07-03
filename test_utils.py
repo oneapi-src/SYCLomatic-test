@@ -34,11 +34,11 @@ def call_subprocess(cmd, single_case_text):
                 run_on_shell = True
             complete_process = subprocess.run(cmd, shell=run_on_shell, check=False,
                                         stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                        encoding="utf-8", timeout=test_config.timeout)
+                                        encoding="utf-8", timeout=single_case_text.timeout)
             single_case_text.print_text = complete_process.stdout
             f.write(complete_process.stdout)
         except subprocess.TimeoutExpired:
-            f.write("========= Execution time out(" + str(test_config.timeout) + "s) Please check. ======")
+            f.write("========= Execution time out(" + str(single_case_text.timeout) + "s) Please check. ======")
             return False
     if complete_process.returncode != 0:
         return False
@@ -69,7 +69,7 @@ def print_debug_log(desc, *args):
 
 def compile_files(srcs, single_case_text,cmpopts = []):
     ret = True
-    base_cmd = test_config.DPCXX_COM + " -c "
+    base_cmd = single_case_text.DPCXX_COM + " -c "
     if (platform.system() == 'Windows'):
         base_cmd += " /EHsc -DNOMINMAX "
     for src in srcs:
@@ -93,7 +93,7 @@ def compile_and_link(srcs, single_case_text,cmpopts = [], objects = [], linkopt 
         new_obj = prepare_obj_name(src)
         if new_obj not in obj_files:
             obj_files.append(new_obj)
-    cmd = test_config.DPCXX_COM + ' '  + ' '.join(obj_files) + ' ' + \
+    cmd = single_case_text.DPCXX_COM + ' '  + ' '.join(obj_files) + ' ' + \
                         ' '.join(linkopt) + ' ' + ' '.join(objects) + ' -o ' + single_case_text.name + '.run'
     return call_subprocess(cmd, single_case_text)
 
@@ -148,7 +148,7 @@ def append_msg_to_file(file_path, msg):
 
 
 def do_migrate(src, in_root, out_root, single_case_text, extra_args = []):
-    cmd = test_config.CT_TOOL  + " --cuda-include-path=" + test_config.include_path + \
+    cmd = single_case_text.CT_TOOL  + " --cuda-include-path=" + single_case_text.include_path + \
             ' ' + ' '.join(src)
     if in_root:
         cmd += ' --in-root ' + os.path.abspath(in_root)
@@ -157,8 +157,8 @@ def do_migrate(src, in_root, out_root, single_case_text, extra_args = []):
     if extra_args:
         for arg in extra_args:
             cmd +=  ' --extra-arg=\" ' + arg + '\"'
-    if test_config.migrate_option:
-        cmd += ' ' + test_config.migrate_option
+    if single_case_text.migrate_option:
+        cmd += ' ' + single_case_text.migrate_option
     return call_subprocess(cmd, single_case_text)
 
 def check_migration_result(msg, single_case_text):

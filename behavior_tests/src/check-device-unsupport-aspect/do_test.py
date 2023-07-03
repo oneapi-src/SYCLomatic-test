@@ -18,13 +18,13 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
     res = True
-    cmd = test_config.CT_TOOL + " --out-root=out double.cu --cuda-include-path=" + test_config.include_path
+    cmd = single_case_text.CT_TOOL + " --out-root=out double.cu --cuda-include-path=" + single_case_text.include_path
     if not call_subprocess(cmd, single_case_text):
         res = False
         print("double.cu migrate failed")
     else:
         print("double.cu migrate pass")
-    cmd = test_config.CT_TOOL + " --out-root=out half.cu --cuda-include-path=" + test_config.include_path
+    cmd = single_case_text.CT_TOOL + " --out-root=out half.cu --cuda-include-path=" + single_case_text.include_path
     if not call_subprocess(cmd, single_case_text):
         res = False
         print("half.cu migrate failed")
@@ -40,7 +40,7 @@ def build_test(single_case_text):
         print("double.dp.cpp compile failed")
     else:
         print("double.dp.cpp compile pass")
-    cmd = test_config.DPCXX_COM + ' ' + prepare_obj_name(os.path.join("out", "double.dp.cpp")) + " -o double.run"
+    cmd = single_case_text.DPCXX_COM + ' ' + prepare_obj_name(os.path.join("out", "double.dp.cpp")) + " -o double.run"
     if not call_subprocess(cmd, single_case_text):
         res = False
         print("double.dp.cpp link failed")
@@ -51,7 +51,7 @@ def build_test(single_case_text):
         print("half.dp.cpp compile failed")
     else:
         print("half.dp.cpp compile pass")
-    cmd = test_config.DPCXX_COM + ' ' + prepare_obj_name(os.path.join("out", "half.dp.cpp")) + " -o half.run"
+    cmd = single_case_text.DPCXX_COM + ' ' + prepare_obj_name(os.path.join("out", "half.dp.cpp")) + " -o half.run"
     if not call_subprocess(cmd, single_case_text):
         res = False
         print("half.dp.cpp link failed")
@@ -61,7 +61,7 @@ def build_test(single_case_text):
 
 
 def run_test(single_case_text):
-    os.environ["ONEAPI_DEVICE_SELECTOR"] = test_config.device_filter
+    os.environ["ONEAPI_DEVICE_SELECTOR"] = single_case_text.device_filter
     res = 0
 
     cmd = os.path.join(os.path.curdir, 'double.run')

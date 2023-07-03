@@ -55,9 +55,9 @@ def build_test(single_case_text):
 
     if single_case_text.name in mkl_related_cases:
         if platform.system() == 'Linux':
-            link_opts = test_config.mkl_link_opt_lin
+            link_opts = single_case_text.mkl_link_opt_lin
         else:
-            link_opts = test_config.mkl_link_opt_win
+            link_opts = single_case_text.mkl_link_opt_win
     ret = False
     ret = compile_and_link(srcs, single_case_text, cmp_opts, objects, link_opts)
     return ret
@@ -68,5 +68,5 @@ def run_test(single_case_text):
         return True
     if single_case_text.name == "test-1601":
         args.append("12 12 12")
-    os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
+    os.environ['ONEAPI_DEVICE_SELECTOR'] = single_case_text.device_filter
     return run_binary_with_args(single_case_text, args)

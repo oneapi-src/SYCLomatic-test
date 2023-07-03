@@ -20,7 +20,7 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
     call_subprocess("mkdir ./read_only_folder", single_case_text)
     call_subprocess("chmod 0444 ./read_only_folder", single_case_text)
-    call_subprocess(test_config.CT_TOOL + " simple_foo.cu --out-root=./read_only_folder --cuda-include-path=" + test_config.include_path, single_case_text)
+    call_subprocess(single_case_text.CT_TOOL + " simple_foo.cu --out-root=./read_only_folder --cuda-include-path=" + single_case_text.include_path, single_case_text)
     return is_sub_string("Unable to save the output to the specified directory", single_case_text.print_text)
 def build_test(single_case_text):
     call_subprocess("rm -rf ./read_only_folder", single_case_text)

@@ -18,8 +18,8 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    call_subprocess(test_config.CT_TOOL +
-        " simple_foo.cu --in-root=C:\Windows --cuda-include-path=" + test_config.include_path, single_case_text)
+    call_subprocess(single_case_text.CT_TOOL +
+        " simple_foo.cu --in-root=C:\Windows --cuda-include-path=" + single_case_text.include_path, single_case_text)
     return is_sub_string("The path for --in-root is not valid", single_case_text.print_text)
 
 

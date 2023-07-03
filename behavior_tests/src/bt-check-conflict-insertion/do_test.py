@@ -10,7 +10,7 @@ import subprocess
 import platform
 import os
 import sys
-from test_config import CT_TOOL
+
 
 from test_utils import *
 
@@ -22,7 +22,7 @@ def migrate_test(single_case_text):
     call_subprocess("intercept-build /usr/bin/make", single_case_text)
     in_root = ""
     extra_args = ""
-    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " " +
+    call_subprocess(single_case_text.CT_TOOL + " --cuda-include-path=" + single_case_text.include_path + " " +
         "-p .", single_case_text)
     return False
 def build_test(single_case_text):

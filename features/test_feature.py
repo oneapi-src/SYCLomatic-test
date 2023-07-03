@@ -144,9 +144,9 @@ def build_test(single_case_text):
 
     if re.match('^cu.*', single_case_text.name):
         if platform.system() == 'Linux':
-            link_opts = test_config.mkl_link_opt_lin
+            link_opts = single_case_text.mkl_link_opt_lin
         else:
-            link_opts = test_config.mkl_link_opt_win
+            link_opts = single_case_text.mkl_link_opt_win
         cmp_options.append("-DMKL_ILP64")
 
     if single_case_text.name.startswith('ccl-test'):
@@ -183,7 +183,7 @@ def build_test(single_case_text):
 def run_test(single_case_text):
     if single_case_text.name not in exec_tests:
         return True
-    os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
+    os.environ['ONEAPI_DEVICE_SELECTOR'] = single_case_text.device_filter
     os.environ['CL_CONFIG_CPU_EXPERIMENTAL_FP16']="1"
     if single_case_text.name.startswith('ccl-test'):
         return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, single_case_text.name + '.run '),single_case_text)

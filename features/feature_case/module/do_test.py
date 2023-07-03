@@ -10,7 +10,7 @@ import subprocess
 import platform
 import os
 import sys
-from test_config import CT_TOOL
+
 
 from test_utils import *
 
@@ -22,14 +22,14 @@ def migrate_test(single_case_text):
     # clean previous migration output
     if (os.path.exists("dpct_output")):
         shutil.rmtree("dpct_output")    
-    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " module-helper.cpp module-main.cu module-kernel.cu --extra-arg=--ptx", single_case_text)
+    call_subprocess(single_case_text.CT_TOOL + " --cuda-include-path=" + single_case_text.include_path + " module-helper.cpp module-main.cu module-kernel.cu --extra-arg=--ptx", single_case_text)
     return os.path.exists(os.path.join("dpct_output", "module-kernel.dp.cpp"))
 def build_test(single_case_text):
     # make shared library
     if (platform.system() == 'Windows'):
         ret = call_subprocess("icpx -fsycl              dpct_output/module-kernel.dp.cpp       -shared -o module-kernel.dll", single_case_text)
     else:
-        ret = call_subprocess(test_config.DPCXX_COM + " dpct_output/module-kernel.dp.cpp -fPIC -shared -o module-kernel.so", single_case_text)
+        ret = call_subprocess(single_case_text.DPCXX_COM + " dpct_output/module-kernel.dp.cpp -fPIC -shared -o module-kernel.so", single_case_text)
     if not ret:
         print("Could not make module-kernel.* shared library.")
         return False

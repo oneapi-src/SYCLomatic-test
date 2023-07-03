@@ -18,7 +18,7 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    ret = call_subprocess(test_config.CT_TOOL + " --use-explicit-namespace=cl --out-root=./sycl vector_add.cu --cuda-include-path=" + test_config.include_path, single_case_text)
+    ret = call_subprocess(single_case_text.CT_TOOL + " --use-explicit-namespace=cl --out-root=./sycl vector_add.cu --cuda-include-path=" + single_case_text.include_path, single_case_text)
     return ret
 def build_test(single_case_text):
     return True

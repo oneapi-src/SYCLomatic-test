@@ -47,5 +47,5 @@ def build_test(single_case_text):
     return ret
 
 def run_test(single_case_text):
-    os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
+    os.environ['ONEAPI_DEVICE_SELECTOR'] = single_case_text.device_filter
     return run_binary_with_args(single_case_text)

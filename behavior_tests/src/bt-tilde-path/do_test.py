@@ -28,7 +28,7 @@ def migrate_test(single_case_text):
     if os.path.exists(user_root_path):
         shutil.rmtree(user_root_path)
     os.makedirs(user_root_path)
-    distutils.dir_util.copy_tree(test_config.include_path + "/..", user_root_path)
+    distutils.dir_util.copy_tree(single_case_text.include_path + "/..", user_root_path)
     return call_subprocess("dpct vector_add.cu --cuda-include-path=" + "~/workspace/include", single_case_text)
 
 def build_test(single_case_text):

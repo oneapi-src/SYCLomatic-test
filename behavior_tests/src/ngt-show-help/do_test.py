@@ -18,7 +18,7 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    call_subprocess(test_config.CT_TOOL, single_case_text)
+    call_subprocess(single_case_text.CT_TOOL, single_case_text)
     return is_sub_string("To get help on the tool usage", single_case_text.print_text)
 
 def build_test(single_case_text):

@@ -19,7 +19,7 @@ def setup_test(single_case_text):
 
 def migrate_test(single_case_text):
 
-    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " " +
+    call_subprocess(single_case_text.CT_TOOL + " --cuda-include-path=" + single_case_text.include_path + " " +
         os.path.join("cuda", "migrate_nonbuilding_code.cu"), single_case_text)
     return is_sub_string("unknown type name", single_case_text.print_text)
 def build_test(single_case_text):

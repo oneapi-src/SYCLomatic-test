@@ -18,8 +18,8 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    shutil.copytree(test_config.include_path, "cc")
-    call_subprocess(test_config.CT_TOOL + " --in-root=./ ./simple_foo.cu --cuda-include-path=./cc", single_case_text)
+    shutil.copytree(single_case_text.include_path, "cc")
+    call_subprocess(single_case_text.CT_TOOL + " --in-root=./ ./simple_foo.cu --cuda-include-path=./cc", single_case_text)
     return is_sub_string("Error: Input folder specified by --in-root or --analysis-scope-path is the parent of, or the same folder", single_case_text.print_text)
 
 

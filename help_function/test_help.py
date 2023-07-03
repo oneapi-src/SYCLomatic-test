@@ -68,7 +68,7 @@ def build_test(single_case_text):
     if single_case_text.name == "test_default_queue_2":
         srcs.append("test_default_queue_1.cpp")
     if single_case_text.name == "kernel_function_lin":
-        ret = call_subprocess(test_config.DPCXX_COM + " -shared -fPIC -o module.so kernel_module_lin.cpp", single_case_text)
+        ret = call_subprocess(single_case_text.DPCXX_COM + " -shared -fPIC -o module.so kernel_module_lin.cpp", single_case_text)
         if not ret:
             print("kernel_function_lin created the shared lib failed.")
             return False
@@ -88,9 +88,9 @@ def build_test(single_case_text):
        single_case_text.name in oneDNN_related) or (single_case_text.name in sparse_cases):
         mkl_opts = []
         if platform.system() == "Linux":
-            mkl_opts = test_config.mkl_link_opt_lin
+            mkl_opts = single_case_text.mkl_link_opt_lin
         else:
-            mkl_opts = test_config.mkl_link_opt_win
+            mkl_opts = single_case_text.mkl_link_opt_win
 
         link_opts += mkl_opts
         cmp_opts.append("-DMKL_ILP64")
@@ -102,7 +102,7 @@ def build_test(single_case_text):
 
 
 def run_test(single_case_text):
-    os.environ["ONEAPI_DEVICE_SELECTOR"] = test_config.device_filter
+    os.environ["ONEAPI_DEVICE_SELECTOR"] = single_case_text.device_filter
     args = []
     if single_case_text.name == "kernel_function_lin":
         args.append("./module.so")

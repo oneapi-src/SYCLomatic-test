@@ -10,7 +10,6 @@ import subprocess
 import platform
 import os
 import sys
-import test_config
 
 from test_utils import *
 

@@ -18,7 +18,7 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    call_subprocess(test_config.CT_TOOL + " --version", single_case_text)
+    call_subprocess(single_case_text.CT_TOOL + " --version", single_case_text)
     ct_clang_version = get_ct_clang_version()
     expected_output = "dpct version {0}".format(ct_clang_version)
     print("expected dpct version output: {0}".format(expected_output))

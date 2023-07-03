@@ -14,12 +14,12 @@ from test_utils import *
 
 def setup_test(single_case_text):
     change_dir(single_case_text.name, single_case_text)
-    call_subprocess("cp -r --dereference " + test_config.include_path + " + .", single_case_text)
+    call_subprocess("cp -r --dereference " + single_case_text.include_path + " + .", single_case_text)
     change_dir("src", single_case_text)
     return True
 
 def migrate_test(single_case_text):
-    command = test_config.CT_TOOL + " --out-root out test.cu --cuda-include-path ../include --extra-arg=\"-I" + test_config.include_path + "\""
+    command = single_case_text.CT_TOOL + " --out-root out test.cu --cuda-include-path ../include --extra-arg=\"-I" + single_case_text.include_path + "\""
     print(command)
     return call_subprocess(command, single_case_text)
 

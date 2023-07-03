@@ -64,7 +64,7 @@ class case_config:
         self.split_group = split_group
 
 class case_text:
-    def __init__(self, case_name, command_file = "", command_text = "", log_file = "", log_text = "",
+    def __init__(self, single_run_config, case_name, command_file = "", command_text = "", log_file = "", log_text = "", 
                 result_file = "", result_text = "", print_text = ""):
         self.name = case_name
         self.command_file = command_file
@@ -78,6 +78,25 @@ class case_text:
         self.out_root = ""
         self.run_flag = False
         self.case_workspace = ""
+        self.mkl_link_opt_lin = ["-lmkl_intel_ilp64", "-lmkl_sequential", "-lmkl_core",
+                    "-lOpenCL", "-lmkl_sycl", "-lpthread", "-ldl"]
+        self.mkl_link_opt_win = ["mkl_sycl_dll.lib", "mkl_intel_ilp64_dll.lib", 
+                    "mkl_sequential_dll.lib", "mkl_core_dll.lib", "OpenCL.lib"]
+        self.DPCXX_COM = single_run_config.DPCXX_COM
+        self.CT_TOOL = single_run_config.CT_TOOL
+        self.include_path = single_run_config.include_path
+        self.migrate_option = single_run_config.migrate_option
+        self.timeout = single_run_config.timeout
+        self.device_filter = single_run_config.device_filter
+
+class case_run_config:
+    def __init__(self, DPCXX_COM, CT_TOOL, include_path, migrate_option, timeout, device_filter):
+        self.DPCXX_COM = DPCXX_COM
+        self.CT_TOOL = CT_TOOL
+        self.include_path = include_path
+        self.migrate_option = migrate_option
+        self.timeout = timeout
+        self.device_filter = device_filter
 
 
 def parse_suite_cfg(suite_name, root_path):
@@ -291,8 +310,8 @@ def is_option_supported(option_rule_list):
                 return False
     return True
 
-def test_single_case(current_test, single_case_config, workspace,  suite_root_path):
-    single_case_text = case_text(current_test, os.path.join(workspace, "command.tst"),"", 
+def test_single_case(current_test, single_case_config, workspace,  suite_root_path, single_run_config):
+    single_case_text = case_text(single_run_config, current_test, os.path.join(workspace, "command.tst"),"", 
                                 os.path.join(workspace, current_test + ".lf"), "",
                                 os.path.join(workspace, "result.md"), "", "")
     module = import_test_driver(suite_root_path)
@@ -362,10 +381,12 @@ def test_suite(suite_root_path, suite_name, opt):
         results = []
         
         for current_test, single_case_config in test_config.suite_cfg.test_config_map.items():
+            single_run_config = case_run_config(test_config.DPCXX_COM, test_config.CT_TOOL, test_config.include_path, 
+                                    test_config.migrate_option, test_config.timeout, test_config.device_filter)
             result = pool.apply_async(test_single_case, (current_test, single_case_config, test_workspace, 
-                                                        suite_root_path,))
+                                                        suite_root_path, single_run_config,))
             # store all msg
-            results.append([result, current_test, single_case_config, test_workspace, suite_root_path])
+            results.append([result, current_test, single_case_config, test_workspace, suite_root_path, single_run_config])
     
         for result_iter in results:
             ret = result_iter[0].get()
@@ -393,7 +414,9 @@ def test_single_case_in_suite(suite_root_path, suite_name, case, option):
     if case not in suite_cfg.test_config_map.keys():
         exit("The test case " + case + " is not in the " + suite_name + " test suite! Please double check.")
     single_case_config = suite_cfg.test_config_map[case]
-    single_case_text = test_single_case(case, single_case_config, test_workspace, suite_root_path)
+    single_run_config = case_run_config(test_config.DPCXX_COM, test_config.CT_TOOL, test_config.include_path, 
+                                    test_config.migrate_option, test_config.timeout, test_config.device_filter)
+    single_case_text = test_single_case(case,  single_case_config, test_workspace, suite_root_path, single_run_config)
     record_msg_case(single_case_text)
     return single_case_text.run_flag
 

@@ -21,14 +21,14 @@ def setup_test(single_case_text):
 
 
 def prepare_execution_folder():
-    copy_ct_bin = os.path.dirname(str(shutil.which(test_config.CT_TOOL)))
+    copy_ct_bin = os.path.dirname(str(shutil.which(single_case_text.CT_TOOL)))
     distutils.dir_util.copy_tree(copy_ct_bin, "bin")
 
 def migrate_test(single_case_text):
-    ct_bin = os.path.join("bin", test_config.CT_TOOL)
+    ct_bin = os.path.join("bin", single_case_text.CT_TOOL)
     in_root = ""
     extra_args = ""
-    call_subprocess(ct_bin + " --cuda-include-path=" + test_config.include_path +
+    call_subprocess(ct_bin + " --cuda-include-path=" + single_case_text.include_path +
                 " " + "hellocuda.cu", single_case_text)
     if ('or the same folder as' in single_case_text.print_text):
         return True

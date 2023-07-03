@@ -10,7 +10,7 @@ import subprocess
 import platform
 import os
 import sys
-from test_config import CT_TOOL
+
 
 from test_utils import *
 
@@ -21,13 +21,13 @@ def setup_test(single_case_text):
 
 
 def prepare_execution_folder():
-    distutils.dir_util.copy_tree(test_config.include_path, "include")
+    distutils.dir_util.copy_tree(single_case_text.include_path, "include")
 
 def migrate_test(single_case_text):
     src =os.path.join("include", "vector_types.h")
     in_root = ""
     extra_args = ""
-    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=./include " + src, single_case_text)
+    call_subprocess(single_case_text.CT_TOOL + " --cuda-include-path=./include " + src, single_case_text)
     print("hello" + single_case_text.print_text, single_case_text)
     if ('option is in the CUDA_PATH folder' in single_case_text.print_text):
         return True
