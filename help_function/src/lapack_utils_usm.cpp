@@ -3283,6 +3283,99 @@ void test_cusolverDnXtrtri() {
   }
 }
 
+void test_cusolverDnTsyheevd() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a = {1, 2, 2, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<sycl::float2> a_c(a.data(), 4);
+  Data<sycl::double2> a_z(a.data(), 4);
+  Data<float> w_s(2);
+  Data<double> w_d(2);
+  Data<float> w_c(2);
+  Data<double> w_z(2);
+
+  sycl::queue *handle;
+  int s = DPCT_CHECK_ERROR(handle = &q_ct1);
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+
+  int lwork_s;
+  int lwork_d;
+  int lwork_c;
+  int lwork_z;
+  dpct::lapack::syheevd_scratchpad_size<float>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2, 2, &lwork_s);
+  dpct::lapack::syheevd_scratchpad_size<double>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2, 2, &lwork_d);
+  dpct::lapack::syheevd_scratchpad_size<std::complex<float>>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2, 2, &lwork_c);
+  dpct::lapack::syheevd_scratchpad_size<std::complex<double>>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2, 2, &lwork_z);
+
+  float* work_s;
+  double* work_d;
+  sycl::float2 *work_c;
+  sycl::double2 *work_z;
+  int *devInfo;
+  work_s = sycl::malloc_device<float>(lwork_s, q_ct1);
+  work_d = sycl::malloc_device<double>(lwork_d, q_ct1);
+  work_c = sycl::malloc_device<sycl::float2>(lwork_c, q_ct1);
+  work_z = sycl::malloc_device<sycl::double2>(lwork_z, q_ct1);
+  devInfo = sycl::malloc_device<int>(1, q_ct1);
+
+  dpct::lapack::syheevd<float, float>(*handle, oneapi::mkl::job::vec,
+                                      oneapi::mkl::uplo::upper, 2, a_s.d_data,
+                                      2, w_s.d_data, work_s, lwork_s, devInfo);
+  dpct::lapack::syheevd<double, double>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2, a_d.d_data,
+      2, w_d.d_data, work_d, lwork_d, devInfo);
+  dpct::lapack::syheevd<sycl::float2, float>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2, a_c.d_data,
+      2, w_c.d_data, work_c, lwork_c, devInfo);
+  dpct::lapack::syheevd<sycl::double2, double>(
+      *handle, oneapi::mkl::job::vec, oneapi::mkl::uplo::upper, 2, a_z.d_data,
+      2, w_z.d_data, work_z, lwork_z, devInfo);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  w_s.D2H();
+  w_d.D2H();
+  w_c.D2H();
+  w_z.D2H();
+
+  q_ct1.wait();
+
+  handle = nullptr;
+  sycl::free(work_s, q_ct1);
+  sycl::free(work_d, q_ct1);
+  sycl::free(work_c, q_ct1);
+  sycl::free(work_z, q_ct1);
+  sycl::free(devInfo, q_ct1);
+
+  float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
+  float expect_w[2] = {0.000000,5.000000};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(expect_w, w_s.h_data, 2) &&
+      compare_result(expect_w, w_d.h_data, 2) &&
+      compare_result(expect_w, w_c.h_data, 2) &&
+      compare_result(expect_w, w_z.h_data, 2))
+    printf("DnTsyheevd pass\n");
+  else {
+    printf("DnTsyheevd fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_helper();
   test_cusolverDnTsygvd();
@@ -3316,6 +3409,7 @@ int main() {
 #ifndef DPCT_USM_LEVEL_NONE
   test_cusolverDnXtrtri();
 #endif
+  test_cusolverDnTsyheevd();
 
   if (test_passed)
     return 0;

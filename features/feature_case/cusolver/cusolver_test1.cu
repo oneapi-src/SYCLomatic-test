@@ -234,10 +234,90 @@ void test_helper() {
   cusolverDnSetStream(handle, stream);
 }
 
+void test_cusolverDnTsyheevd() {
+  std::vector<float> a = {1, 2, 2, 4};
+  Data<float> a_s(a.data(), 4);
+  Data<double> a_d(a.data(), 4);
+  Data<float2> a_c(a.data(), 4);
+  Data<double2> a_z(a.data(), 4);
+  Data<float> w_s(2);
+  Data<double> w_d(2);
+  Data<float> w_c(2);
+  Data<double> w_z(2);
+
+  cusolverDnHandle_t handle;
+  int s = cusolverDnCreate(&handle);
+
+  a_s.H2D();
+  a_d.H2D();
+  a_c.H2D();
+  a_z.H2D();
+
+  int lwork_s;
+  int lwork_d;
+  int lwork_c;
+  int lwork_z;
+  cusolverDnSsyevd_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_s.d_data, 2, w_s.d_data, &lwork_s);
+  cusolverDnDsyevd_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_d.d_data, 2, w_d.d_data, &lwork_d);
+  cusolverDnCheevd_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_c.d_data, 2, w_c.d_data, &lwork_c);
+  cusolverDnZheevd_bufferSize(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_z.d_data, 2, w_z.d_data, &lwork_z);
+
+  float* work_s;
+  double* work_d;
+  float2* work_c;
+  double2* work_z;
+  int *devInfo;
+  cudaMalloc(&work_s, sizeof(float) * lwork_s);
+  cudaMalloc(&work_d, sizeof(double) * lwork_d);
+  cudaMalloc(&work_c, sizeof(float2) * lwork_c);
+  cudaMalloc(&work_z, sizeof(double2) * lwork_z);
+  cudaMalloc(&devInfo, sizeof(int));
+
+  cusolverDnSsyevd(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_s.d_data, 2, w_s.d_data, work_s, lwork_s, devInfo);
+  cusolverDnDsyevd(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_d.d_data, 2, w_d.d_data, work_d, lwork_d, devInfo);
+  cusolverDnCheevd(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_c.d_data, 2, w_c.d_data, work_c, lwork_c, devInfo);
+  cusolverDnZheevd(handle, CUSOLVER_EIG_MODE_VECTOR, CUBLAS_FILL_MODE_UPPER, 2, a_z.d_data, 2, w_z.d_data, work_z, lwork_z, devInfo);
+
+  a_s.D2H();
+  a_d.D2H();
+  a_c.D2H();
+  a_z.D2H();
+  w_s.D2H();
+  w_d.D2H();
+  w_c.D2H();
+  w_z.D2H();
+
+  cudaStreamSynchronize(0);
+
+  cusolverDnDestroy(handle);
+  cudaFree(work_s);
+  cudaFree(work_d);
+  cudaFree(work_c);
+  cudaFree(work_z);
+  cudaFree(devInfo);
+
+  float expect_a[4] = {-0.894427,0.447214,0.447214,0.894427};
+  float expect_w[2] = {0.000000,5.000000};
+  if (compare_result(expect_a, a_s.h_data, 4) &&
+      compare_result(expect_a, a_d.h_data, 4) &&
+      compare_result(expect_a, a_c.h_data, 4) &&
+      compare_result(expect_a, a_z.h_data, 4) &&
+      compare_result(expect_w, w_s.h_data, 2) &&
+      compare_result(expect_w, w_d.h_data, 2) &&
+      compare_result(expect_w, w_c.h_data, 2) &&
+      compare_result(expect_w, w_z.h_data, 2))
+    printf("DnTsyheevd pass\n");
+  else {
+    printf("DnTsyheevd fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_helper();
   test_cusolverDnTsygvd();
   test_cusolverDnThegvd();
+  test_cusolverDnTsyheevd();
 
   if (test_passed)
     return 0;
