@@ -13,25 +13,11 @@ DPCXX_COM = ""             # Default compiler will set by set_default_compiler A
 CT_TOOL = "dpct"         # The migration tool binary name
 PYTHON_COM = "python3 "
 suite_list_file = "test_suite_list.xml"   # The configuration file lists all the suite to run and corresponding options.
-
 VERBOSE_LEVEL = 0       # Debug verbose level： 0: silent all the debug information. None 0: turn on all the debug information.
-
-# current_test = ""  # The name of current test. The test driver will automatically set a name for current test, if the current test is empty.
-# command_file = ""  # Used to store the execution command.
-# log_file = ""      # Default: <workspace>/[test name].lf
-# result_text = ""   # Default: <workspace>/result.md
 include_path = ""  # Specify the CUDA header file path.
-
-# out_root = ""
-# command_output = ""
 cuda_ver = 0        # CUDA header file version.
-# test_status = ""    # the test case execution status: MIGFAIL, COMPFAIL, RUNFAIL, SKIPPED or PASS.
 test_option = ""    # Ref the option_mapping.json file table.
-# failed_message = ""
-# test_driver = ""
-# suite_cfg = ""      # Parsed from <suite>.xml.
 migrate_option = ""
-# workspace = ""
 option_map = ""       # Option mapping table. Ref: option_mapping.json
 root_path = ""      # The root path of test repo.
 timeout = 1200       # The time limit for each test case.

@@ -204,8 +204,6 @@ def run_migrated_binary_test(test_driver_module, specific_module, single_case_te
 
 # Execute the test driver to do the validation.
 def run_test_driver(module, single_case_text):
-    # with open(test_config.command_file, "a+") as f:
-    #     f.write("================= " + single_case_text.name + " ==================\n")
     single_case_text.command_text += "================= " + single_case_text.name + " ==================\n"
 
     case_workspace = single_case_text.case_workspace
@@ -300,13 +298,11 @@ def test_single_case(current_test, single_case_config, workspace,  suite_root_pa
     module = import_test_driver(suite_root_path)
     if single_case_config.platform_rule_list and not is_platform_supported(single_case_config.platform_rule_list):
         single_case_text.result_text += current_test + " Skip " + "\n"
-        # append_msg_to_file(test_config.result_text, current_test + " Skip " + "\n")
         single_case_text.run_flag = True
         return single_case_text
 
     if single_case_config.option_rule_list and not is_option_supported(single_case_config.option_rule_list):
         single_case_text.result_text += current_test + " Skip " + "\n"
-        # append_msg_to_file(test_config.result_text, current_test + " Skip " + "\n")
         single_case_text.run_flag = True
         return single_case_text
 
@@ -346,22 +342,15 @@ def get_gpu_split_test_suite(suite_cfg):
     return new_test_config_map
 
 def record_msg_case(single_case_text):
-    # print(single_case_text.result_file)
-    # print(single_case_text.result_text)
     append_msg_to_file(single_case_text.result_file, single_case_text.result_text)
     if single_case_text.test_status == "BADTEST" or single_case_text.test_status == "SKIPPED":
         return
-    # print(single_case_text.command_file)
-    # print(single_case_text.command_text)
     append_msg_to_file(single_case_text.command_file, single_case_text.command_text)
-    # print(single_case_text.log_file)
-    # print(single_case_text.log_text)
     append_msg_to_file(single_case_text.log_file, single_case_text.log_text)
     return
 
 def test_suite(suite_root_path, suite_name, opt):
     test_ws_root = os.path.join(os.path.dirname(suite_root_path), "test_workspace")
-    # module means the test driver for a test suite.
     test_config.suite_cfg = parse_suite_cfg(suite_name, suite_root_path)
     test_workspace = prepare_test_workspace(test_ws_root, suite_name, opt)
     suite_result = True
@@ -373,14 +362,6 @@ def test_suite(suite_root_path, suite_name, opt):
         results = []
         
         for current_test, single_case_config in test_config.suite_cfg.test_config_map.items():
-            # print(os.path.join(test_workspace, "command.tst"))
-            # print(os.path.join(test_workspace, "result.md"))
-            # single_case_text = case_text(current_test, os.path.join(test_workspace, "command.tst"),"", 
-            #                             os.path.join(test_workspace, current_test, current_test + ".lf"), "",
-            #                             os.path.join(test_workspace, "result.md"), "", "")
-            # print(single_case_text.command_file)
-            # print(single_case_text.result_file)
-            # sys.exit(0)
             result = pool.apply_async(test_single_case, (current_test, single_case_config, test_workspace, 
                                                         suite_root_path,))
             # store all msg
@@ -412,18 +393,7 @@ def test_single_case_in_suite(suite_root_path, suite_name, case, option):
     if case not in suite_cfg.test_config_map.keys():
         exit("The test case " + case + " is not in the " + suite_name + " test suite! Please double check.")
     single_case_config = suite_cfg.test_config_map[case]
-    # create single_case_text to store result msg
     single_case_text = test_single_case(case, single_case_config, test_workspace, suite_root_path)
-    # print(single_case_text.name)
-    # print(single_case_text.command_file)
-    # print(single_case_text.print_text)
-    # print(single_case_text.log_file)
-    # print(single_case_text.log_text)
-    # print(single_case_text.result_file)
-    # print(single_case_text.result_text)
-    # print(single_case_text.print_text)
-    # print(single_case_text.test_status)
-    # print(single_case_text.out_root)
     record_msg_case(single_case_text)
     return single_case_text.run_flag
 
@@ -458,16 +428,6 @@ def import_test_driver(suite_folder):
         for test_driver in root.iter("testDriver"):
             test_config.test_driver = str(test_driver.get("driverID"))
     return importlib.import_module(test_config.test_driver)
-
-# def clean_global_setting():
-#     single_case_text.name = ""
-#     test_config.command_file = ""  # Used to store the executed command.
-#     test_config.log_file = ""      # Used to store the executed log for each case.
-#     test_config.result_text = ""   # Used to store the executed status for each case.
-#     single_case_text.out_root = ""
-#     test_config.subprocess_stdout_log = ""
-#     test_config.test_status = ""   # Default: "SKIPPED"
-#     test_config.test_driver = ""
 
 # Parse the test suite configuration file and get the supported suite list.
 def get_suite_list():
@@ -506,7 +466,6 @@ def test_suite_with_opts(suite_root_path, suite_name, opts):
 def test_full_suite_list(suite_list):
     ret = True
     for suite_name in suite_list:
-        # clean_global_setting()
         os.chdir(test_config.root_path)
         suite_root_path = suite_list[suite_name][0]
         if os.path.exists(suite_root_path):

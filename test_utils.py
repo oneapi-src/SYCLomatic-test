@@ -26,8 +26,6 @@ from distutils import dir_util
 # Call subprocess to run migration, build and test binary. Store the command and execution result to
 # command.tst and result.md.
 def call_subprocess(cmd, single_case_text):
-    # with open(test_config.command_file, 'a+') as f:
-    #     f.write(cmd + "\n")
     single_case_text.command_text += cmd + "\n"
     with open(single_case_text.log_file, 'a+') as f:
         try:
@@ -48,9 +46,6 @@ def call_subprocess(cmd, single_case_text):
 
 def change_dir(dir, single_case_text):
     cmd = "cd " + dir
-
-    # with open(test_config.command_file, 'a+') as f:
-    #     f.write(cmd + "\n")
     single_case_text.command_text += cmd + "\n"
     if os.path.exists(dir):
         os.chdir(dir)
