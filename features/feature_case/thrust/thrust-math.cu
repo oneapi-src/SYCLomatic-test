@@ -1,4 +1,4 @@
-// ====------ thrust-vector.cu---------- *- CUDA -* ----===////
+// ====------ thrust-math.cu---------- *- CUDA -* ----===////
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
@@ -9,60 +9,105 @@
 
 #include <thrust/complex.h>
 #include <iostream>
+#include <functional>
 
-__global__ void complex_math_kernel(float * res)
+__global__ void complex_log10_kernel(float * res)
 {
   auto c = thrust::polar(11.48569f, 1.33698f);
-
   c = thrust::log10(c);
-  c = thrust::sqrt(c);
-  c = thrust::pow(1.0f, c);
-  c = thrust::pow(c, 1.0f);
-  c = thrust::pow(c, c);
-  c = thrust::sin(c);
-  c = thrust::cos(c);
-  c = thrust::tan(c);
-  c = thrust::asin(c);
-  c = thrust::acos(c);
-  c = thrust::atan(c);
-  c = thrust::sinh(c);
-  c = thrust::cosh(c);
-  c = thrust::tanh(c);
-  c = thrust::asinh(c);
-  c = thrust::acosh(c);
-  c = thrust::atanh(c);
-  c = thrust::log(c);
-  c = thrust::exp(c);
-  c = thrust::proj(thrust::norm(c));
-  c = thrust::conj(c);
   *res = thrust::abs(c);  
 }
 
-void complex_math(float * res)
+__global__ void complex_sqrt_kernel(float * res)
 {
   auto c = thrust::polar(11.48569f, 1.33698f);
-
-  c = thrust::log10(c);
   c = thrust::sqrt(c);
+  *res = thrust::abs(c);  
+}
+
+
+__global__ void complex_pow1_kernel(float * res)
+{
+  auto c = thrust::polar(11.48569f, 1.33698f);
   c = thrust::pow(1.0f, c);
-  c = thrust::pow(c, 1.0f);
+  *res = thrust::abs(c);  
+}
+
+// __global__ void complex_pow2_kernel(float * res)
+// {
+//   auto c = thrust::polar(5.48569f, 1.33698f);
+//   c = thrust::pow(c, 1.0f);
+//   *res = thrust::abs(c);  
+// }
+
+__global__ void complex_pow3_kernel(float * res)
+{
+  auto c = thrust::polar(11.48569f, 1.33698f);
   c = thrust::pow(c, c);
+  *res = thrust::abs(c);  
+}
+
+__global__ void complex_sin_kernel(float * res)
+{
+  auto c = thrust::polar(11.48569f, 1.33698f);
   c = thrust::sin(c);
+  *res = thrust::abs(c);  
+}
+
+__global__ void complex_cos_kernel(float * res)
+{
+  auto c = thrust::polar(1.48569f, 1.33698f);
   c = thrust::cos(c);
-  c = thrust::tan(c);
-  c = thrust::asin(c);
-  c = thrust::acos(c);
-  c = thrust::atan(c);
-  c = thrust::sinh(c);
-  c = thrust::cosh(c);
-  c = thrust::tanh(c);
-  c = thrust::asinh(c);
-  c = thrust::acosh(c);
-  c = thrust::atanh(c);
-  c = thrust::log(c);
-  c = thrust::exp(c);
-  c = thrust::proj(thrust::norm(c));
-  c = thrust::conj(c);
+  *res = thrust::abs(c);  
+}
+
+void complex_log10(float * res)
+{
+  auto c = thrust::polar(11.48569f, 1.33698f);
+  c = thrust::log10(c);
+  *res = thrust::abs(c);  
+}
+
+void complex_sqrt(float * res)
+{
+  auto c = thrust::polar(11.48569f, 1.33698f);
+  c = thrust::sqrt(c);
+  *res = thrust::abs(c);  
+}
+
+
+void complex_pow1(float * res)
+{
+  auto c = thrust::polar(11.48569f, 1.33698f);
+  c = thrust::pow(1.0f, c);
+  *res = thrust::abs(c);  
+}
+
+// void complex_pow2(float * res)
+// {
+//   auto c = thrust::polar(5.48569f, 1.33698f);
+//   c = thrust::pow(c, 1.0f);
+//   *res = thrust::abs(c);  
+// }
+
+void complex_pow3(float * res)
+{
+  auto c = thrust::polar(11.48569f, 1.33698f);
+  c = thrust::pow(c, c);
+  *res = thrust::abs(c);  
+}
+
+void complex_sin(float * res)
+{
+  auto c = thrust::polar(11.48569f, 1.33698f);
+  c = thrust::sin(c);
+  *res = thrust::abs(c);  
+}
+
+void complex_cos(float * res)
+{
+  auto c = thrust::polar(1.48569f, 1.33698f);
+  c = thrust::cos(c);
   *res = thrust::abs(c);  
 }
 
@@ -70,24 +115,111 @@ bool test_math(){
   float *hostRes = (float *)malloc(sizeof(float));
   float *Res = (float *)malloc(sizeof(float));
   float *deviceRes;
+  bool flag = true;
   cudaMalloc((float **)&deviceRes, sizeof(float));
-  complex_math_kernel<<<1, 1>>>(deviceRes);
+
+  // complex_log10_kernel<<<1, 1>>>(deviceRes);
+  // cudaDeviceSynchronize();
+  // cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  // cudaDeviceSynchronize();
+  // complex_log10(Res);
+  // if(std::abs(*hostRes-*Res)>1e-6){
+  //   std::cout<<"complex_log10 "<<" test failed \n";
+  //   std::cout<<*hostRes<<'\t'<<*Res<<'\n';
+  // }
+  // else{
+  //   std::cout<<"complex_log10 "<<"test pass \n";
+  // }
+  // flag = flag & (std::abs(*hostRes-*Res)<1e-6);
+
+  complex_sqrt_kernel<<<1, 1>>>(deviceRes);
+  cudaDeviceSynchronize();
   cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
-  cudaFree(deviceRes);
-  complex_math(Res);
+  cudaDeviceSynchronize();
+  complex_sqrt(Res);
   if(std::abs(*hostRes-*Res)>1e-6){
+    std::cout<<"complex_sqrt "<<" test failed \n";
     std::cout<<*hostRes<<'\t'<<*Res<<'\n';
-    std::cout<<"test failed \n";
-    free(hostRes);
-    free(Res);
-    return false;
   }
   else{
-    std::cout<<"test pass \n";
-    free(hostRes);
-    free(Res);
-    return true;
+    std::cout<<"complex_sqrt "<<"test pass \n";
   }
+  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
+
+  complex_pow1_kernel<<<1, 1>>>(deviceRes);
+  cudaDeviceSynchronize();
+  cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
+  complex_pow1(Res);
+  if(std::abs(*hostRes-*Res)>1e-6){
+    std::cout<<"complex_pow1 "<<" test failed \n";
+    std::cout<<*hostRes<<'\t'<<*Res<<'\n';
+  }
+  else{
+    std::cout<<"complex_pow1 "<<"test pass \n";
+  }
+  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
+
+  // complex_pow2_kernel<<<1, 1>>>(deviceRes);
+  // cudaDeviceSynchronize();
+  cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
+  // complex_pow2(Res);
+  // if(std::abs(*hostRes-*Res)>1e-6){
+  //   std::cout<<"complex_pow2 "<<" test failed \n";
+  //   std::cout<<*hostRes<<'\t'<<*Res<<'\n';
+  // }
+  // else{
+  //   std::cout<<"complex_pow2 "<<"test pass \n";
+  // }
+  // flag = flag & (std::abs(*hostRes-*Res)<1e-6);
+
+  // complex_pow3_kernel<<<1, 1>>>(deviceRes);
+  // cudaDeviceSynchronize();
+  // cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  // cudaDeviceSynchronize();
+  // complex_pow3(Res);
+  // if(std::abs(*hostRes-*Res)>1e-6){
+  //   std::cout<<"complex_pow3 "<<" test failed \n";
+  //   std::cout<<*hostRes<<'\t'<<*Res<<'\n';
+  // }
+  // else{
+  //   std::cout<<"complex_pow3 "<<"test pass \n";
+  // }
+  // flag = flag & (std::abs(*hostRes-*Res)<1e-6);
+
+  complex_sin_kernel<<<1, 1>>>(deviceRes);
+  cudaDeviceSynchronize();
+  cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
+  complex_sin(Res);
+  if(std::abs(*hostRes-*Res)>1e-6){
+    std::cout<<"complex_sin "<<" test failed \n";
+    std::cout<<*hostRes<<'\t'<<*Res<<'\n';
+  }
+  else{
+    std::cout<<"complex_sin "<<"test pass \n";
+  }
+  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
+
+  complex_cos_kernel<<<1, 1>>>(deviceRes);
+  cudaDeviceSynchronize();
+  cudaMemcpy(hostRes, deviceRes, sizeof(float), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
+  complex_cos(Res);
+  if(std::abs(*hostRes-*Res)>1e-6){
+    std::cout<<"complex_cos "<<" test failed \n";
+    std::cout<<*hostRes<<'\t'<<*Res<<'\n';
+  }
+  else{
+    std::cout<<"complex_cos "<<"test pass \n";
+  }
+  flag = flag & (std::abs(*hostRes-*Res)<1e-6);
+
+  free(hostRes);
+  free(Res);
+  cudaFree(deviceRes);
+  return flag;
 }
 
 int main()

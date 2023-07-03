@@ -17,18 +17,18 @@ sys.path.append(parent)
 
 from test_utils import *
 
-exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust-copy',
+exec_tests = ['asm', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust-copy',
               'thrust-qmc', 'thrust-transform-if', 'thrust-policy', 'thrust-list', 'module-kernel',
               'kernel-launch', 'thrust-gather', 'thrust-gather_if',
               'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre', 'thrust-merge_by_key',
               'thrust-rawptr-noneusm', 'driverStreamAndEvent', 'grid_sync', 'deviceProp', 'gridThreads', 'kernel_library', 'cub_block_p2',
               'cub_constant_iterator', 'cub_device_reduce_max', 'cub_device_reduce_min', 'cub_discard_iterator', 'ccl-test', 'ccl-test2',
-              'cub_device', 'cub_device_reduce_sum', 'cub_device_reduce', 'cub_device_reduce_by_key', 'cub_device_select_unique_by_key',
+              'cub_device', 'cub_device_reduce_sum', 'cub_device_reduce', 'cub_device_reduce_by_key', 'cub_device_select_unique_by_key', 'cub_device_segmented_sort_keys',
               'cub_device_scan_inclusive_scan', 'cub_device_scan_exclusive_scan', 'cub_device_seg_radix_sort_pairs',
               'cub_device_scan_inclusive_sum', 'cub_device_scan_exclusive_sum', 'cub_device_select_unique', 'cub_device_radix_sort_keys', 'cub_device_radix_sort_pairs',
               'cub_device_select_flagged', 'cub_device_run_length_encide_encode', 'cub_counting_iterator', 'cub_arg_index_input_iterator', 'cub_device_seg_radix_sort_keys',
               'cub_device_inclusive_sum_by_key', 'cub_device_exclusive_sum_by_key', 'cub_device_inclusive_scan_by_key', 'cub_device_exclusive_scan_by_key',
-              'cub_device_reduce_arg', 'cub_device_seg_sort_pairs', 'cub_intrinsic', 'cub_device_seg_sort_keys',
+              'cub_device_reduce_arg', 'cub_device_seg_sort_pairs', 'cub_intrinsic', 'cub_device_seg_sort_keys', 'thrust-math1', 'thrust-math2',
               'cub_transform_iterator', 'activemask', 'complex', 'thrust-math', 'libcu_array', 'libcu_complex', 'libcu_tuple',
               'user_defined_rules', 'math-exec', 'math-habs', 'math-emu-double', 'math-emu-float', 'math-emu-half', 'math-emu-half2', 'math-emu-simd',
               'math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'math-ext-simd', 'cudnn-activation',
@@ -43,16 +43,16 @@ exec_tests = ['thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust
               'constant_attr', 'sync_warp_p2', 'occupancy_calculation',
               'text_obj_linear', 'text_obj_pitch2d',
               'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
-              'cusolver_test1', 'cusolver_test2', 'cusolver_test3', 'cusolver_test4', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
+              'cusolver_test1', 'cusolver_test2', 'cusolver_test3', 'cusolver_test4', 'cusolver_test5', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
               'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',
               'thrust_set_difference', 'thrust_set_difference_by_key', 'thrust_set_intersection_by_key', 'thrust_stable_sort',
               'thrust_tabulate', 'thrust_for_each_n', 'device_info', 'defaultStream', 'cudnn-rnn', 'feature_profiling',
               'thrust_raw_reference_cast', 'thrust_partition_copy', 'thrust_stable_partition_copy',
               'thrust_stable_partition', 'thrust_remove', 'cub_device_segmented_sort_pairs', 'thrust_find_if_not',
               'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce',
-              'remove_unnecessary_wait', 'thrust_equal_range', 'thrust_transform_inclusive_scan']
+              'remove_unnecessary_wait', 'thrust_equal_range', 'thrust_transform_inclusive_scan', 'thrust_uninitialized_copy_n', 'thrust_uninitialized_copy']
 
-occupancy_calculation_exper = ['Util_api_test30', 'occupancy_calculation']
+occupancy_calculation_exper = ['occupancy_calculation']
 
 def setup_test():
     return True
@@ -70,16 +70,11 @@ def migrate_test():
         for filename in [f for f in filenames if re.match('.*(cu|cpp|c)$', f)]:
             src.append(os.path.abspath(os.path.join(dirpath, filename)))
 
-    # if 'module-kernel' in current_test:
-    size_deallocation = ['DplExtrasAlgorithm_api_test7', 'DplExtrasAlgorithm_api_test8',
-                        'DplExtrasVector_api_test1', 'DplExtrasVector_api_test2']
-    nd_range_bar_exper = ['grid_sync', 'Util_api_test12']
-    logical_group_exper = ['cooperative_groups', 'Util_api_test23', 'Util_api_test24', 'Util_api_test25']
+    nd_range_bar_exper = ['grid_sync']
+    logical_group_exper = ['cooperative_groups']
 
     math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'math-ext-simd']
 
-    if test_config.current_test in size_deallocation:
-        extra_args.append(' -fsized-deallocation ')
     if test_config.current_test in nd_range_bar_exper:
         src.append(' --use-experimental-features=nd_range_barrier ')
     if test_config.current_test == "user_defined_rules":
@@ -134,8 +129,7 @@ def build_test():
     objects = []
 
     oneDPL_related = ['thrust-vector', 'thrust-for-h2o4gpu', 'thrust-for-RapidCFD', 'cub_device',
-             'cub_block_p2', 'DplExtrasDpcppExtensions_api_test1', 'DplExtrasDpcppExtensions_api_test2',
-             'DplExtrasDpcppExtensions_api_test3', 'DplExtrasDpcppExtensions_api_test4']
+             'cub_block_p2']
 
     oneDNN_related = ['cudnn-activation', 'cudnn-fill', 'cudnn-lrn', 'cudnn-memory',
              'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax', 'cudnn-sum', 'cudnn-reduction',

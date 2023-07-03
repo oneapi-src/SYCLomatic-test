@@ -31,9 +31,57 @@ bool test_iadd3() {
          iadd3(0, 1, 0);
 }
 
-int main() {
-  if (!test_iadd3()) {
-    return 1;
+__global__ void laneid_and_warpid(int *laneids, int *warpids) {
+  unsigned tid =
+      ((blockIdx.x + (blockIdx.y * gridDim.x)) * (blockDim.x * blockDim.y)) +
+      (threadIdx.x + (threadIdx.y * blockDim.x));
+  laneids[tid] = cub::LaneId();
+  warpids[tid] = cub::WarpId();
+}
+
+bool test_laneid_warpid() {
+  int *d_warpids, *d_laneids;
+  cudaMalloc(&d_laneids, sizeof(int) * 66);
+  cudaMalloc(&d_warpids, sizeof(int) * 66);
+  laneid_and_warpid<<<2, 33>>>(d_laneids, d_warpids);
+  cudaDeviceSynchronize();
+  int laneids[66] = {0}, warpids[66] = {0};
+  cudaMemcpy(laneids, d_laneids, sizeof(int) * 66, cudaMemcpyDeviceToHost);
+  cudaMemcpy(warpids, d_warpids, sizeof(int) * 66, cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
+  std::map<int, int> cnt_laneid, cnt_warpid, cnt_laneid_num;
+  for (int I = 0; I < 66; ++I) {
+    cnt_warpid[warpids[I]]++;
+    cnt_laneid[laneids[I]]++;
   }
+
+  int total_warpid = 0;
+  for (const auto &[k, v] : cnt_warpid)
+    total_warpid += v;
+  for (const auto &[k, v] : cnt_laneid)
+    cnt_laneid_num[v]++;
+
+  auto check_laneid_num = [&]() {
+    if (cnt_laneid_num.size() != 2)
+      return false;
+    const auto first = *cnt_laneid_num.begin();
+    const auto second = *std::next(cnt_laneid_num.begin());
+    return first.first + 2 == second.first;
+  };
+
+  cudaFree(d_laneids);
+  cudaFree(d_warpids);
+  return total_warpid == 66 && check_laneid_num();
+}
+
+#define TEST(FUNC)                                                             \
+  if (!FUNC()) {                                                               \
+    printf(#FUNC " failed\n");                                                 \
+    return 1;                                                                  \
+  }
+
+int main() {
+  TEST(test_iadd3);
+  TEST(test_laneid_warpid);
   return 0;
 }

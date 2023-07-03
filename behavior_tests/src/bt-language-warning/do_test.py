@@ -19,7 +19,7 @@ def setup_test():
 
 def migrate_test():
     call_subprocess(test_config.CT_TOOL + " test.cpp --out-root=out --cuda-include-path=" + test_config.include_path)
-    return is_sub_string("is treated as a CUDA file by default. Use the --extra-arg=-xc++ option to treat", test_config.command_output)
+    return is_sub_string("NOTE: test.cpp is treated as a CUDA file by default. Use the --extra-arg=-xc++ option to treat test.cpp as a C++ file if needed.", test_config.command_output)
 
 def build_test():
     return True
