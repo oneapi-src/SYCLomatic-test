@@ -77,6 +77,7 @@ class case_text:
         self.test_status = "SKIPPED"
         self.out_root = ""
         self.run_flag = False
+        self.case_workspace = ""
 
 
 def parse_suite_cfg(suite_name, root_path):
@@ -206,7 +207,8 @@ def run_test_driver(module, single_case_text):
     # with open(test_config.command_file, "a+") as f:
     #     f.write("================= " + single_case_text.name + " ==================\n")
     single_case_text.command_text += "================= " + single_case_text.name + " ==================\n"
-    case_workspace = os.path.join(os.path.dirname(single_case_text.result_text), single_case_text.name)
+
+    case_workspace = single_case_text.case_workspace
     single_case_text.test_status = ""
     ret_val = True
     specific_module = ""
@@ -293,7 +295,7 @@ def is_option_supported(option_rule_list):
 
 def test_single_case(current_test, single_case_config, workspace,  suite_root_path):
     single_case_text = case_text(current_test, os.path.join(workspace, "command.tst"),"", 
-                                os.path.join(workspace, current_test, current_test + ".lf"), "",
+                                os.path.join(workspace, current_test + ".lf"), "",
                                 os.path.join(workspace, "result.md"), "", "")
     module = import_test_driver(suite_root_path)
     if single_case_config.platform_rule_list and not is_platform_supported(single_case_config.platform_rule_list):
@@ -309,6 +311,7 @@ def test_single_case(current_test, single_case_config, workspace,  suite_root_pa
         return single_case_text
 
     case_workspace = os.path.join(workspace, current_test)
+    single_case_text.case_workspace = case_workspace
     if not os.path.exists(case_workspace):
         os.makedirs(case_workspace)
     os.chdir(workspace)
@@ -320,7 +323,6 @@ def test_single_case(current_test, single_case_config, workspace,  suite_root_pa
 
 def prepare_test_workspace(root_path, suite_name, opt, case = ""):
     suite_workspace = os.path.join(os.path.abspath(root_path), suite_name, opt)
-    case_workspace = os.path.join(suite_workspace, case)
 
     if os.path.isdir(suite_workspace) and not case:
         shutil.rmtree(suite_workspace)

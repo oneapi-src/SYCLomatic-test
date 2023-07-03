@@ -21,12 +21,12 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
     data = []
     ret = []
-    with open("compile_commands.json", 'r') as f:
+    with open(os.path.join(single_case_text.case_workspace, "compile_commands.json"), 'r') as f:
         data = f.readlines()
         for line in data:
             line = line.replace("directory_placeholder", os.getcwd().replace("\\", "\\\\"))
             ret.append(line)
-    with open("compile_commands.json", 'w') as f:
+    with open(os.path.join(single_case_text.case_workspace, "compile_commands.json"), 'w') as f:
         f.writelines(ret[1:])
 
     call_subprocess(test_config.CT_TOOL + ' -p=./ --cuda-include-path=' + test_config.include_path, single_case_text)

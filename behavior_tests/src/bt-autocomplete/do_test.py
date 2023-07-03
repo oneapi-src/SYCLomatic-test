@@ -27,7 +27,7 @@ def migrate_test(single_case_text):
     reference = '-gen-build-script\n'
     res = res and (reference == single_case_text.print_text)
 
-    call_subprocess(test_config.CT_TOOL + " --autocomplete=foo")
+    call_subprocess(test_config.CT_TOOL + " --autocomplete=foo", single_case_text)
     reference = '\n'
     res = res and (reference == single_case_text.print_text)
 

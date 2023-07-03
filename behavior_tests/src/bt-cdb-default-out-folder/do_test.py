@@ -19,7 +19,7 @@ def setup_test(single_case_text):
     return True
 
 def migrate_test(single_case_text):
-    call_subprocess("intercept-build /usr/bin/make")
+    call_subprocess("intercept-build /usr/bin/make", single_case_text)
     in_root = ""
     extra_args = ""
     return call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " " +

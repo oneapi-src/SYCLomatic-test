@@ -21,7 +21,7 @@ def setup_test(single_case_text):
 def migrate_test(single_case_text):
     data = []
     ret = []
-    with open("compile_commands.json", 'r') as f:
+    with open(os.path.join(single_case_text.case_workspace, "compile_commands.json"), 'r') as f:
         data = f.readlines()
         for line in data:
             line = line.replace("directory_placeholder", os.getcwd().replace("\\", "\\\\"))

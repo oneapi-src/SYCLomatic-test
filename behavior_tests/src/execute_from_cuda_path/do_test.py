@@ -27,7 +27,7 @@ def migrate_test(single_case_text):
     src =os.path.join("include", "vector_types.h")
     in_root = ""
     extra_args = ""
-    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=./include " + src)
+    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=./include " + src, single_case_text)
     print("hello" + single_case_text.print_text, single_case_text)
     if ('option is in the CUDA_PATH folder' in single_case_text.print_text):
         return True
