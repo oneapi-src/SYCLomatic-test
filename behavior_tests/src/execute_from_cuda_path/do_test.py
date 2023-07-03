@@ -16,11 +16,11 @@ from test_utils import *
 
 def setup_test(single_case_text):
     change_dir(single_case_text.name, single_case_text)
-    prepare_execution_folder()
+    prepare_execution_folder(single_case_text)
     return True
 
 
-def prepare_execution_folder():
+def prepare_execution_folder(single_case_text):
     distutils.dir_util.copy_tree(single_case_text.include_path, "include")
 
 def migrate_test(single_case_text):
