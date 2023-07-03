@@ -74,7 +74,7 @@ class case_text:
         self.result_file = result_file
         self.result_text = result_text
         self.print_text = print_text
-        self.test_status = "BADTEST"
+        self.test_status = "SKIPPED"
         self.out_root = ""
         self.run_flag = False
 
@@ -299,12 +299,14 @@ def test_single_case(current_test, single_case_config, workspace,  suite_root_pa
     if single_case_config.platform_rule_list and not is_platform_supported(single_case_config.platform_rule_list):
         single_case_text.result_text += current_test + " Skip " + "\n"
         # append_msg_to_file(test_config.result_text, current_test + " Skip " + "\n")
-        return True
+        single_case_text.run_flag = True
+        return single_case_text
 
     if single_case_config.option_rule_list and not is_option_supported(single_case_config.option_rule_list):
         single_case_text.result_text += current_test + " Skip " + "\n"
         # append_msg_to_file(test_config.result_text, current_test + " Skip " + "\n")
-        return True
+        single_case_text.run_flag = True
+        return single_case_text
 
     case_workspace = os.path.join(workspace, current_test)
     if not os.path.exists(case_workspace):
@@ -345,7 +347,7 @@ def record_msg_case(single_case_text):
     # print(single_case_text.result_file)
     # print(single_case_text.result_text)
     append_msg_to_file(single_case_text.result_file, single_case_text.result_text)
-    if single_case_text.test_status is  "BADTEST":
+    if single_case_text.test_status == "BADTEST" or single_case_text.test_status == "SKIPPED":
         return
     # print(single_case_text.command_file)
     # print(single_case_text.command_text)
@@ -381,10 +383,7 @@ def test_suite(suite_root_path, suite_name, opt):
                                                         suite_root_path,))
             # store all msg
             results.append([result, current_test, single_case_config, test_workspace, suite_root_path])
-        
-        # close process pool and wait all work being flinish
-        pool.close()
-        pool.join()
+    
         for result_iter in results:
             ret = result_iter[0].get()
             record_msg_case(ret)
@@ -392,6 +391,8 @@ def test_suite(suite_root_path, suite_name, opt):
                 # TODO we can add auto rerun 
                 failed_cases.append(ret.name + " " + ret.test_status)
                 suite_result = ret.run_flag & suite_result
+        pool.close()
+        pool.join()
 
     if failed_cases:
         print("===============Failed case(s) ==========================")
