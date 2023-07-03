@@ -112,7 +112,7 @@ segmented_sort_keys(sycl::queue queue, int64_t nsegments, int64_t nsort,
   if (use_io_iterator_pair && algorithm != 3)
   {
     //only public API can use io_iterator_pair
-    return;
+    return false;
   }
   const auto numel = nsort * nsegments;
 
