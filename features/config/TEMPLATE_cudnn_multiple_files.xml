@@ -7,5 +7,7 @@
       <file path="feature_case/dnn/cudnn-sum.cu" />      
       <file path="feature_case/cudnn_multiple_files" />
     </files>
-    <rules />
+    <rules>
+      <optlevelRule excludeOptlevelNameString="cuda_backend" />
+    </rules>
 </test>
