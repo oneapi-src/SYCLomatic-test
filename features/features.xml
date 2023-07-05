@@ -42,13 +42,13 @@
     <test testName="thrust_raw_reference_cast" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_partition_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_stable_partition_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
-    <test testName="thrust_remove_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
-    <test testName="thrust_unique_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_remove_copy" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_unique_copy" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_remove" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_transform_exclusive_scan" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="thrust_set_difference" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
-    <test testName="thrust_set_difference_by_key" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
-    <test testName="thrust_set_intersection_by_key" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_set_difference" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_set_difference_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_set_intersection_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_find_if_not" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_find_if" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_mismatch" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
