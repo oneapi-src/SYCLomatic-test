@@ -15,7 +15,7 @@
 #include <thrust/partition.h>
 
 struct is_even {
-  __host__ __device__ bool operator()(const int &x) { return (x % 2) == 0; }
+  __host__ __device__ bool operator()(const int &x) const { return (x % 2) == 0; }
 };
 
 void test_1() {
