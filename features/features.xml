@@ -46,6 +46,8 @@
     <test testName="thrust_transform_inclusive_scan" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_uninitialized_copy_n" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_uninitialized_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_set_union" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
+    <test testName="thrust_set_union_by_key" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_raw_reference_cast" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_partition_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_stable_partition_copy" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
