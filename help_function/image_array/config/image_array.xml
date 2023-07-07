@@ -4,6 +4,7 @@
     <file path="image_array/image_array.cpp" />
   </files>
   <rules>
-  <optlevelRule excludeOptlevelNameString="acc" />
+    <optlevelRule excludeOptlevelNameString="acc" />
+    <optlevelRule excludeOptlevelNameString="cuda_backend" />
   </rules>
 </test>

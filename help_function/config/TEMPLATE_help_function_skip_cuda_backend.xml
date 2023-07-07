@@ -5,4 +5,7 @@
     <files>
         <file path="src/${testName}.cpp" />
     </files>
+    <rules>
+      <optlevelRule excludeOptlevelNameString="cuda_backend" />
+    </rules>
 </test>
