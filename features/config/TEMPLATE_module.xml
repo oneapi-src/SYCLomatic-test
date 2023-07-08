@@ -6,7 +6,8 @@
       <file path="feature_case/module" />
     </files>
     <rules>
-        <platformRule OSFamily="Windows" runOnThisPlatform="false" />
-	<platformRule OSFamily="Linux" kit="CUDA12.0" kitRange="LATER_OR_EQUAL" runOnThisPlatform="false"/>
+      <platformRule OSFamily="Windows" runOnThisPlatform="false" />
+      <platformRule OSFamily="Linux" kit="CUDA12.0" kitRange="LATER_OR_EQUAL" runOnThisPlatform="false"/>
+      <optlevelRule excludeOptlevelNameString="cuda_backend" />
     </rules>
 </test>
