@@ -14,8 +14,8 @@ import json
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
 def parse_compilation_database(compilation_database_name):
@@ -30,9 +30,9 @@ def parse_compilation_database(compilation_database_name):
       database_source_files.append(os.path.basename(compilation_item))
     return database_source_files
 
-def migrate_test():
+def migrate_test(single_case_text):
 
-    call_subprocess("intercept-build /usr/bin/make --no-linker-entry")
+    call_subprocess("intercept-build /usr/bin/make --no-linker-entry", single_case_text)
     new_database = parse_compilation_database("compile_commands.json")
     reference_database = parse_compilation_database("compile_commands.json_ref")
     new_database = list(set(new_database))
@@ -43,8 +43,8 @@ def migrate_test():
         return True
     return False
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

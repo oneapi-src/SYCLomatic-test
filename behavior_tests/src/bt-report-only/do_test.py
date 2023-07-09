@@ -13,18 +13,18 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
-    call_subprocess(test_config.CT_TOOL + " --report-only  vector_add.cu --out-root=out --cuda-include-path=" + test_config.include_path)
+def migrate_test(single_case_text):
+    call_subprocess(single_case_text.CT_TOOL + " --report-only  vector_add.cu --out-root=out --cuda-include-path=" + single_case_text.include_path, single_case_text)
     if os.path.exists("out"):
         return False
     return True
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

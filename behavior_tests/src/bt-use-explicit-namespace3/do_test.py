@@ -13,19 +13,19 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
-    ret = call_subprocess(test_config.CT_TOOL + " --use-explicit-namespace=sycl-math --out-root=./sycl vector_add.cu --cuda-include-path=" + test_config.include_path)
+def migrate_test(single_case_text):
+    ret = call_subprocess(single_case_text.CT_TOOL + " --use-explicit-namespace=sycl-math --out-root=./sycl vector_add.cu --cuda-include-path=" + single_case_text.include_path, single_case_text)
     return ret
-def build_test():
+def build_test(single_case_text):
     srcs = []
     srcs.append(os.path.join("sycl", "vector_add.dp.cpp"))
-    return compile_and_link(srcs)
+    return compile_and_link(srcs, single_case_text)
     
 
-def run_test():
-    os.environ["ONEAPI_DEVICE_SELECTOR"] = test_config.device_filter
-    return run_binary_with_args()
+def run_test(single_case_text):
+    os.environ["ONEAPI_DEVICE_SELECTOR"] = single_case_text.device_filter
+    return run_binary_with_args(single_case_text)

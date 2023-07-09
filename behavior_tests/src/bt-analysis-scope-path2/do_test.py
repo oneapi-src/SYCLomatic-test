@@ -15,47 +15,47 @@ import shutil
 from test_utils import *
 
 
-def setup_test():
-    cur_dir = os.path.join(os.getcwd(), test_config.current_test)
+def setup_test(single_case_text):
+    cur_dir = os.path.join(os.getcwd(), single_case_text.name)
     if platform.system() == 'Windows':
         # windows current working directory might start with lowercased drive(e.g., "d:\path") in some cases
         # so make the drive symbol in cwd to be upper explicitly to avoid inconsistent paths.
         if cur_dir[1] == ":" and cur_dir[0].islower():
             cur_dir = cur_dir[0].upper() + cur_dir[1:]
-    change_dir(cur_dir)
+    change_dir(cur_dir, single_case_text)
     return True
 
 
-def migrate_test():
+def migrate_test(single_case_text):
     # clean previous migration output
     if (os.path.exists("out")):
         shutil.rmtree("out")
-    migrate_cmd = test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path + " " + os.path.join(
+    migrate_cmd = single_case_text.CT_TOOL + " --cuda-include-path=" + single_case_text.include_path + " " + os.path.join(
         "cuda",
         "call_device_func_outside.cu") + " --in-root=cuda" + " --out-root=out"
     # migrate with implicit --analysis-scope-path which defaults to --in-root
-    call_subprocess(migrate_cmd)
+    call_subprocess(migrate_cmd, single_case_text)
     if (not os.path.exists(
             os.path.join("out", "call_device_func_outside.dp.cpp"))):
         return False
 
     # expect incremental migration with specified --analysis-scope-path which equals --in-root
-    call_subprocess(migrate_cmd + " --analysis-scope-path=cuda")
+    call_subprocess(migrate_cmd + " --analysis-scope-path=cuda", single_case_text)
     if (not os.path.exists(
             os.path.join("out", "call_device_func_outside.dp.cpp"))):
         return False
 
     # not expect incremental migration with specified --analysis-scope-path which is the parent of --in-root
     call_subprocess(migrate_cmd + " --analysis-scope-path=" +
-                    os.path.join("cuda", ".."))
+                    os.path.join("cuda", ".."), single_case_text)
     return is_sub_string(
         f"use the same option set as in previous migration: \"--analysis-scope-path=",
-        test_config.command_output)
+        single_case_text.print_text)
 
 
-def build_test():
+def build_test(single_case_text):
     return True
 
 
-def run_test():
+def run_test(single_case_text):
     return True

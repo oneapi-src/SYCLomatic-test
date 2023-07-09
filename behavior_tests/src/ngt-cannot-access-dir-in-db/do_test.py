@@ -13,12 +13,12 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
-    change_dir("helloworld")
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
+    change_dir("helloworld", single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     cur_dr = os.getcwd()
     if (platform.system() == 'Windows'):
         cur_dr = cur_dr.replace('\\', '/')
@@ -29,12 +29,12 @@ def migrate_test():
     with open("compile_commands.json", 'w') as f:
         f.write(ret)
 
-    call_subprocess(test_config.CT_TOOL + " simple_foo.cu --cuda-include-path=" + test_config.include_path)
+    call_subprocess(single_case_text.CT_TOOL + " simple_foo.cu --cuda-include-path=" + single_case_text.include_path, single_case_text)
 
-    return is_sub_string("Error: Cannot access directory", test_config.command_output)
+    return is_sub_string("Error: Cannot access directory", single_case_text.print_text)
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

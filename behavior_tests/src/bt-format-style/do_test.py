@@ -13,17 +13,17 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     os.mkdir("out_custom")
     os.mkdir("out_llvm")
     os.mkdir("out_google")
-    call_subprocess(test_config.CT_TOOL + " --format-style=custom --out-root=./out_custom vector_add.cu  --cuda-include-path=" + test_config.include_path)
-    call_subprocess(test_config.CT_TOOL + " --format-style=llvm --out-root=./out_llvm vector_add.cu  --cuda-include-path=" + test_config.include_path)
-    call_subprocess(test_config.CT_TOOL + " --format-style=google --out-root=./out_google vector_add.cu  --cuda-include-path=" + test_config.include_path)
+    call_subprocess(single_case_text.CT_TOOL + " --format-style=custom --out-root=./out_custom vector_add.cu  --cuda-include-path=" + single_case_text.include_path, single_case_text)
+    call_subprocess(single_case_text.CT_TOOL + " --format-style=llvm --out-root=./out_llvm vector_add.cu  --cuda-include-path=" + single_case_text.include_path, single_case_text)
+    call_subprocess(single_case_text.CT_TOOL + " --format-style=google --out-root=./out_google vector_add.cu  --cuda-include-path=" + single_case_text.include_path, single_case_text)
     ret = False
     with open(os.path.join("out_llvm", "vector_add.dp.cpp")) as f:
         file_str = f.read()
@@ -38,8 +38,8 @@ def migrate_test():
         ret = is_sub_string("; //", file_str) or ret
 
     return ret
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

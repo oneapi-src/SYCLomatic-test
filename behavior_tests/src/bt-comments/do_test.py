@@ -13,19 +13,19 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     ret_file = ""
-    call_subprocess(test_config.CT_TOOL + " --comments comments.cu --out-root=out --cuda-include-path=" + test_config.include_path)
+    call_subprocess(single_case_text.CT_TOOL + " --comments comments.cu --out-root=out --cuda-include-path=" + single_case_text.include_path, single_case_text)
     with open(os.path.join("out", "comments.dp.cpp"), 'r') as f:
         ret_file = f.read()
     return is_sub_string("//", ret_file)
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

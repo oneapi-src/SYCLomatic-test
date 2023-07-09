@@ -13,19 +13,19 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
-    call_subprocess("mkdir ./read_only_folder")
-    call_subprocess("chmod 0444 ./read_only_folder")
-    call_subprocess(test_config.CT_TOOL + " simple_foo.cu --out-root=./read_only_folder --cuda-include-path=" + test_config.include_path)
-    return is_sub_string("Unable to save the output to the specified directory", test_config.command_output)
-def build_test():
-    call_subprocess("rm -rf ./read_only_folder")
-    call_subprocess("chmod 0777 ./read_only_folder")
+def migrate_test(single_case_text):
+    call_subprocess("mkdir ./read_only_folder", single_case_text)
+    call_subprocess("chmod 0444 ./read_only_folder", single_case_text)
+    call_subprocess(single_case_text.CT_TOOL + " simple_foo.cu --out-root=./read_only_folder --cuda-include-path=" + single_case_text.include_path, single_case_text)
+    return is_sub_string("Unable to save the output to the specified directory", single_case_text.print_text)
+def build_test(single_case_text):
+    call_subprocess("rm -rf ./read_only_folder", single_case_text)
+    call_subprocess("chmod 0777 ./read_only_folder", single_case_text)
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

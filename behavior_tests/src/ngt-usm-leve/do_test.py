@@ -10,22 +10,22 @@ import subprocess
 import platform
 import os
 import sys
-from test_config import CT_TOOL
+
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
 
-    call_subprocess(test_config.CT_TOOL + " --cuda-include-path=" + test_config.include_path +
-        " --usm-leve=abc")
-    return is_sub_string("Unknown command line argument '--usm-leve=abc'", test_config.command_output)
+    call_subprocess(single_case_text.CT_TOOL + " --cuda-include-path=" + single_case_text.include_path +
+        " --usm-leve=abc", single_case_text)
+    return is_sub_string("Unknown command line argument '--usm-leve=abc'", single_case_text.print_text)
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

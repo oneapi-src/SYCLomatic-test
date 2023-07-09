@@ -13,16 +13,16 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     yml_file = os.path.join("out", "test.h.yaml")
     test_file = os.path.join("out", "test.h")
     ret_str = ""
     ret = []
-    call_subprocess(test_config.CT_TOOL + " test.cu --out-root=out --extra-arg=\"-xc\" --cuda-include-path=" + test_config.include_path)
+    call_subprocess(single_case_text.CT_TOOL + " test.cu --out-root=out --extra-arg=\"-xc\" --cuda-include-path=" + single_case_text.include_path, single_case_text)
     if not os.path.exists(yml_file):
         return False
     with open(yml_file, 'r') as f:
@@ -32,14 +32,14 @@ def migrate_test():
             ret.append(line)
     with open(yml_file, 'w') as f:
         f.writelines(ret)
-    call_subprocess(test_config.CT_TOOL + " test.cu --out-root=out --extra-arg=\"-xcuda\" --cuda-include-path=" + test_config.include_path)
+    call_subprocess(single_case_text.CT_TOOL + " test.cu --out-root=out --extra-arg=\"-xcuda\" --cuda-include-path=" + single_case_text.include_path, single_case_text)
     with open(test_file, 'r') as f:
         ret_str = f.read()
     if ret_str.count("DPCT1056") == 1:
         return True
     return False
 
-def build_test():
+def build_test(single_case_text):
     return True
-def run_test():
+def run_test(single_case_text):
     return True

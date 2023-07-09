@@ -13,16 +13,16 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
-    call_subprocess(test_config.CT_TOOL + " test.cu --out-root=out --cuda-include-path=" + test_config.include_path + " --extra-arg=-xc++")
-    return not is_sub_string("warning: '-x c' after last input file has no effect [-Wunused-command-line-argument]", test_config.command_output)
+def migrate_test(single_case_text):
+    call_subprocess(single_case_text.CT_TOOL + " test.cu --out-root=out --cuda-include-path=" + single_case_text.include_path + " --extra-arg=-xc++", single_case_text)
+    return not is_sub_string("warning: '-x c' after last input file has no effect [-Wunused-command-line-argument]", single_case_text.print_text)
 
-def build_test():
-    return call_subprocess("icpx -fsycl out/test.dp.cpp")
+def build_test(single_case_text):
+    return call_subprocess("icpx -fsycl out/test.dp.cpp", single_case_text)
 
-def run_test():
+def run_test(single_case_text):
     return True

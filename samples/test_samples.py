@@ -15,37 +15,37 @@ parent = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.append(parent)
 from test_utils import *
 
-def setup_test():
+def setup_test(single_case_text):
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     src = []
     extra_args = []
-    in_root = os.path.join(os.getcwd(), test_config.current_test)
-    test_config.out_root = os.path.join(in_root, 'out_root')
+    in_root = os.path.join(os.getcwd(), single_case_text.name)
+    single_case_text.out_root = os.path.join(in_root, 'out_root')
 
     for dirpath, dirnames, filenames in os.walk(in_root):
         for filename in [f for f in filenames if re.match('.*(cu|cpp|c)$', f)]:
             src.append(os.path.abspath(os.path.join(dirpath, filename)))
 
-    return do_migrate(src, in_root, test_config.out_root, extra_args)
+    return do_migrate(src, in_root, single_case_text.out_root, single_case_text, extra_args)
 
-def build_test():
-    if (os.path.exists(test_config.current_test)):
-        os.chdir(test_config.current_test)
+def build_test(single_case_text):
+    if (os.path.exists(single_case_text.name)):
+        os.chdir(single_case_text.name)
     srcs = []
     cmp_opts = []
     link_opts = ''
     objects = ''
 
-    for dirpath, dirnames, filenames in os.walk(test_config.out_root):
+    for dirpath, dirnames, filenames in os.walk(single_case_text.out_root):
         for filename in [f for f in filenames if re.match('.*(cpp|c)$', f)]:
             srcs.append(os.path.abspath(os.path.join(dirpath, filename)))
 
     ret = False
-    ret = compile_and_link(srcs, cmp_opts)
+    ret = compile_and_link(srcs, single_case_text, cmp_opts)
     return ret
 
-def run_test():
-    os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
-    return run_binary_with_args()
+def run_test(single_case_text):
+    os.environ['ONEAPI_DEVICE_SELECTOR'] = single_case_text.device_filter
+    return run_binary_with_args(single_case_text)

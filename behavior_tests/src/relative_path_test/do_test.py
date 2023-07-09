@@ -13,18 +13,18 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
-    change_dir("build")
-    call_subprocess(test_config.CT_TOOL + " -in-root ../src -out-root ../sycl -p ./ --cuda-include-path=" + test_config.include_path)
-    change_dir("..")
+def migrate_test(single_case_text):
+    change_dir("build", single_case_text)
+    call_subprocess(single_case_text.CT_TOOL + " -in-root ../src -out-root ../sycl -p ./ --cuda-include-path=" + single_case_text.include_path, single_case_text)
+    change_dir("..", single_case_text)
     return os.path.exists(os.path.join("sycl", "kernel.dp.cpp"))
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

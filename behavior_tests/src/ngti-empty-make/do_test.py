@@ -13,16 +13,16 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
-    call_subprocess("intercept-build make")
-    return is_sub_string("No targets", test_config.command_output)
+def migrate_test(single_case_text):
+    call_subprocess("intercept-build make", single_case_text)
+    return is_sub_string("No targets", single_case_text.print_text)
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

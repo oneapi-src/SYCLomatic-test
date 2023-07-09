@@ -13,16 +13,16 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
-    call_subprocess(test_config.CT_TOOL)
-    return is_sub_string("To get help on the tool usage", test_config.command_output)
+def migrate_test(single_case_text):
+    call_subprocess(single_case_text.CT_TOOL, single_case_text)
+    return is_sub_string("To get help on the tool usage", single_case_text.print_text)
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

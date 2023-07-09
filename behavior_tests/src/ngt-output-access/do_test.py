@@ -13,19 +13,19 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     os.mkdir("dpct_output")
-    call_subprocess("chmod u-r dpct_output")
-    call_subprocess("dpct vector_add.cu --cuda-include-path=" + test_config.include_path    )
-    return is_sub_string("Could not access output directory", test_config.command_output)
+    call_subprocess("chmod u-r dpct_output", single_case_text)
+    call_subprocess("dpct vector_add.cu --cuda-include-path=" + single_case_text.include_path, single_case_text)
+    return is_sub_string("Could not access output directory", single_case_text.print_text)
 
-def build_test():
-    call_subprocess("chmod 777 dpct_output")
+def build_test(single_case_text):
+    call_subprocess("chmod 777 dpct_output", single_case_text)
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

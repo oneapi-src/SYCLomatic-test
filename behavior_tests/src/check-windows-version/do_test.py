@@ -10,19 +10,18 @@ import subprocess
 import platform
 import os
 import sys
-import test_config
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def get_windows_version(arg1, arg2):
-    call_subprocess("powershell \"(Get-Item -path " + arg1 + ").VersionInfo." + arg2 + "\"")
-    return test_config.command_output
+def get_windows_version(arg1, arg2, single_case_text):
+    call_subprocess("powershell \"(Get-Item -path " + arg1 + ").VersionInfo." + arg2 + "\"", single_case_text)
+    return single_case_text.print_text
 
-def migrate_test():
+def migrate_test(single_case_text):
     ct_path = get_ct_path()
     if not ct_path:
         print('Cannot find the path to dpct!')
@@ -33,11 +32,11 @@ def migrate_test():
         return False
     print("dpct's bundled clang version is: {}".format(ct_clang_version))
 
-    file_version = get_windows_version(ct_path, 'FileVersion').strip()
-    product_version = get_windows_version(ct_path, 'ProductVersion').strip()
-    product_name = get_windows_version(ct_path, 'ProductName').strip()
-    file_description = get_windows_version(ct_path, 'FileDescription').strip()
-    legal_copyright = get_windows_version(ct_path, 'LegalCopyright').strip()
+    file_version = get_windows_version(ct_path, 'FileVersion', single_case_text).strip()
+    product_version = get_windows_version(ct_path, 'ProductVersion', single_case_text).strip()
+    product_name = get_windows_version(ct_path, 'ProductName', single_case_text).strip()
+    file_description = get_windows_version(ct_path, 'FileDescription', single_case_text).strip()
+    legal_copyright = get_windows_version(ct_path, 'LegalCopyright', single_case_text).strip()
 
     print("====={}'s VersionInfo properties=====".format(ct_path))
     print("FileVersion: {}".format(file_version))
@@ -50,8 +49,8 @@ def migrate_test():
     return file_version == ct_clang_version and product_version == ct_clang_version and \
         product_name == "SYCLomatic" and file_description == "" and legal_copyright == ""
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True

@@ -24,6 +24,7 @@ from argparse import RawTextHelpFormatter
 
 from test_utils import *
 
+import multiprocessing
 
 class suite_config:
     def __init__(self, suite_name, test_config_map, suite_deps_files):
@@ -61,6 +62,48 @@ class case_config:
         self.option_rule_list = option_rule_list
         self.platform_rule_list = platform_rule_list
         self.split_group = split_group
+
+class case_text:
+    def __init__(self, single_run_config, case_name, command_file = "", command_text = "", log_file = "", log_text = "", 
+                result_file = "", result_text = "", print_text = ""):
+        self.name = case_name
+        self.command_file = command_file
+        self.command_text = command_text
+        self.log_file = log_file
+        self.log_text = log_text
+        self.result_file = result_file
+        self.result_text = result_text
+        self.print_text = print_text
+        self.test_status = "SKIPPED"
+        self.out_root = ""
+        self.run_flag = False
+        self.case_workspace = ""
+        self.mkl_link_opt_lin = ["-lmkl_intel_ilp64", "-lmkl_sequential", "-lmkl_core",
+                    "-lOpenCL", "-lmkl_sycl", "-lpthread", "-ldl"]
+        self.mkl_link_opt_win = ["mkl_sycl_dll.lib", "mkl_intel_ilp64_dll.lib", 
+                    "mkl_sequential_dll.lib", "mkl_core_dll.lib", "OpenCL.lib"]
+        self.DPCXX_COM = single_run_config.DPCXX_COM
+        self.CT_TOOL = single_run_config.CT_TOOL
+        self.include_path = single_run_config.include_path
+        self.migrate_option = single_run_config.migrate_option
+        self.timeout = single_run_config.timeout
+        self.device_filter = single_run_config.device_filter
+        self.cuda_ver = single_run_config.cuda_ver
+        self.test_option = single_run_config.test_option
+        self.device = single_run_config.device
+
+class case_run_config:
+    def __init__(self, DPCXX_COM, CT_TOOL, include_path, migrate_option, timeout, device_filter, cuda_ver, test_option, backend_device):
+        self.DPCXX_COM = DPCXX_COM
+        self.CT_TOOL = CT_TOOL
+        self.include_path = include_path
+        self.migrate_option = migrate_option
+        self.timeout = timeout
+        self.device_filter = device_filter
+        self.cuda_ver = cuda_ver
+        self.test_option = test_option
+        self.device = backend_device
+
 
 def parse_suite_cfg(suite_name, root_path):
     xml_file = os.path.join(os.path.abspath(root_path), suite_name + ".xml")
@@ -156,40 +199,40 @@ def pop_module(workspace):
         sys.path.pop()
     return ""
 
-def test_setup(test_driver_module, specific_module):
+def test_setup(test_driver_module, specific_module, single_case_text):
     if not specific_module:
-        return test_driver_module.setup_test()
+        return test_driver_module.setup_test(single_case_text)
     elif hasattr(specific_module, "setup_test"):
-        return specific_module.setup_test()
+        return specific_module.setup_test(single_case_text)
     return True
 
-def test_migrate(test_driver_module, specific_module):
+def test_migrate(test_driver_module, specific_module, single_case_text):
     if not specific_module:
-        return test_driver_module.migrate_test()
+        return test_driver_module.migrate_test(single_case_text)
     elif hasattr(specific_module, "migrate_test"):
-        return specific_module.migrate_test()
+        return specific_module.migrate_test(single_case_text)
     return True
 
-def test_build(test_driver_module, specific_module):
+def test_build(test_driver_module, specific_module, single_case_text):
     if not specific_module:
-        return test_driver_module.build_test()
+        return test_driver_module.build_test(single_case_text)
     elif hasattr(specific_module, "build_test"):
-        return specific_module.build_test()
+        return specific_module.build_test(single_case_text)
     return True
 
-def run_migrated_binary_test(test_driver_module, specific_module):
+def run_migrated_binary_test(test_driver_module, specific_module, single_case_text):
     if not specific_module:
-        return test_driver_module.run_test()
+        return test_driver_module.run_test(single_case_text)
     elif hasattr(specific_module, "run_test"):
-        return specific_module.run_test()
+        return specific_module.run_test(single_case_text)
     return True
 
 # Execute the test driver to do the validation.
-def run_test_driver(module):
-    with open(test_config.command_file, "a+") as f:
-        f.write("================= " + test_config.current_test + " ==================\n")
-    case_workspace = os.path.join(os.path.dirname(test_config.result_text), test_config.current_test)
-    test_config.test_status = ""
+def run_test_driver(module, single_case_text):
+    single_case_text.command_text += "================= " + single_case_text.name + " ==================\n"
+
+    case_workspace = single_case_text.case_workspace
+    single_case_text.test_status = ""
     ret_val = True
     specific_module = ""
 
@@ -199,37 +242,37 @@ def run_test_driver(module):
     built = False
     run = False
 
-    ret_val = test_setup(module, specific_module)
+    ret_val = test_setup(module, specific_module, single_case_text)
     if ret_val:
-        ret_val = test_migrate(module, specific_module)
+        ret_val = test_migrate(module, specific_module, single_case_text)
         migrated = True
     else:
-        test_config.test_status = "BADTEST"
+        single_case_text.test_status = "BADTEST"
 
     if ret_val:
-        ret_val = test_build(module, specific_module)
+        ret_val = test_build(module, specific_module, single_case_text)
         built = True
     elif migrated:
-        test_config.test_status = "MIGFAIL"
+        single_case_text.test_status = "MIGFAIL"
 
     if ret_val:
-        ret_val = run_migrated_binary_test(module, specific_module)
+        ret_val = run_migrated_binary_test(module, specific_module, single_case_text)
         run = True
     elif migrated and built:
-        test_config.test_status = "COMPFAIL"
+        single_case_text.test_status = "COMPFAIL"
 
     if migrated and built and run and ret_val:
-        test_config.test_status = "PASS"
+        single_case_text.test_status = "PASS"
     elif migrated and built and run:
-        test_config.test_status = "RUNFAIL"
+        single_case_text.test_status = "RUNFAIL"
 
     if is_registered_module(case_workspace):
         pop_module(case_workspace)
 
-    append_msg_to_file(test_config.result_text, test_config.current_test + " " + test_config.test_status + "\n")
-    append_msg_to_file(test_config.log_file, "------------------------------------------------------------------------\n\n" + \
-                "=================== "+ test_config.current_test + " is " + test_config.test_status + " ======================\n ")
-    print_result(test_config.current_test, test_config.test_status, test_config.command_output)
+    single_case_text.result_text += single_case_text.name + " " + single_case_text.test_status + "\n"
+    single_case_text.log_text += "------------------------------------------------------------------------\n\n" + \
+                "=================== "+ single_case_text.name + " is " + single_case_text.test_status + " ======================\n "
+    print_result(single_case_text, single_case_text.print_text)
     return ret_val
 
 # To do: if the API was enabled in CUDA 9.2 version but deprecated in the CUDA 11.4 version,
@@ -239,64 +282,68 @@ def run_test_driver(module):
 # Rule1:skip < CUDA 9.2
 # Rule2:skip > CUDA 11.4
 # Not supported
-def is_platform_supported(platform_rule_list):
+def is_platform_supported(platform_rule_list, single_case_text):
     for platform_rule in platform_rule_list:
         if platform_rule.os_family != platform.system():
             continue
         if platform_rule.cuda_version:
             version = int(float(re.findall("\d+\.?\d*", platform_rule.cuda_version)[0])) * 1000
             print_debug_log("CUDA version is ", version)
-            print_debug_log("default CUDA version is ", test_config.cuda_ver)
+            print_debug_log("default CUDA version is ", single_case_text.cuda_ver)
             print_debug_log("default CUDA range is ", platform_rule.cuda_range)
-            if platform_rule.cuda_range == "LATER_OR_EQUAL" and test_config.cuda_ver >= version and platform_rule.run_on_this_platform.upper() == "FALSE":
+            if platform_rule.cuda_range == "LATER_OR_EQUAL" and single_case_text.cuda_ver >= version and platform_rule.run_on_this_platform.upper() == "FALSE":
                 return False
-            elif platform_rule.cuda_range == "OLDER" and test_config.cuda_ver < version and platform_rule.run_on_this_platform.upper() == "FALSE":
+            elif platform_rule.cuda_range == "OLDER" and single_case_text.cuda_ver < version and platform_rule.run_on_this_platform.upper() == "FALSE":
                 return False
-            elif platform_rule.cuda_range == "LATER" and test_config.cuda_ver > version and platform_rule.run_on_this_platform.upper() == "FALSE":
+            elif platform_rule.cuda_range == "LATER" and single_case_text.cuda_ver > version and platform_rule.run_on_this_platform.upper() == "FALSE":
                 return False
-            elif platform_rule.cuda_range == "OLDER_OR_EQUAL" and test_config.cuda_ver <= version and platform_rule.run_on_this_platform.upper() == "FALSE":
+            elif platform_rule.cuda_range == "OLDER_OR_EQUAL" and single_case_text.cuda_ver <= version and platform_rule.run_on_this_platform.upper() == "FALSE":
                 return False
-            elif platform_rule.cuda_range == "EQUAL" and test_config.cuda_ver == version and platform_rule.run_on_this_platform.upper() == "FALSE":
+            elif platform_rule.cuda_range == "EQUAL" and single_case_text.cuda_ver == version and platform_rule.run_on_this_platform.upper() == "FALSE":
                 return False
         else:
             return platform_rule.run_on_this_platform.upper() == "TRUE"
     return True
 
-def is_option_supported(option_rule_list):
+def is_option_supported(option_rule_list, single_case_text):
     for option_rule in option_rule_list:
-        if option_rule.exclude_option != "" and  option_rule.exclude_option in test_config.test_option and not option_rule.not_double_type_feature:
+        if option_rule.exclude_option != "" and  option_rule.exclude_option in single_case_text.test_option and not option_rule.not_double_type_feature:
             return False
-        elif option_rule.only_option not in test_config.test_option:
+        elif option_rule.only_option not in single_case_text.test_option:
             return False
-        elif option_rule.exclude_option in test_config.test_option and option_rule.not_double_type_feature == "NOT double":
-            if test_config.backend_device not in test_config.support_double_gpu:
+        elif option_rule.exclude_option in single_case_text.test_option and option_rule.not_double_type_feature == "NOT double":
+            if single_case_text.device not in test_config.support_double_gpu:
                 return False
     return True
 
-def test_single_case(current_test, single_case_config, workspace, module, suite_root_path):
-    test_config.current_test = current_test
-    if single_case_config.platform_rule_list and not is_platform_supported(single_case_config.platform_rule_list):
-        append_msg_to_file(test_config.result_text, current_test + " Skip " + "\n")
-        return True
+def test_single_case(current_test, single_case_config, workspace,  suite_root_path, single_run_config):
+    single_case_text = case_text(single_run_config, current_test, os.path.join(workspace, "command.tst"),"", 
+                                os.path.join(workspace, current_test + ".lf"), "",
+                                os.path.join(workspace, "result.md"), "", "")
+    module = import_test_driver(suite_root_path)
+    if single_case_config.platform_rule_list and not is_platform_supported(single_case_config.platform_rule_list, single_case_text):
+        single_case_text.result_text += current_test + " Skip " + "\n"
+        single_case_text.run_flag = True
+        return single_case_text
 
-    if single_case_config.option_rule_list and not is_option_supported(single_case_config.option_rule_list):
-        append_msg_to_file(test_config.result_text, current_test + " Skip " + "\n")
-        return True
+    if single_case_config.option_rule_list and not is_option_supported(single_case_config.option_rule_list, single_case_text):
+        single_case_text.result_text += current_test + " Skip " + "\n"
+        single_case_text.run_flag = True
+        return single_case_text
 
     case_workspace = os.path.join(workspace, current_test)
+    single_case_text.case_workspace = case_workspace
     if not os.path.exists(case_workspace):
         os.makedirs(case_workspace)
     os.chdir(workspace)
 
-    test_config.log_file = os.path.join(workspace, current_test + ".lf")
+    # test_config.log_file = os.path.join(workspace, current_test + ".lf")
     copy_source_to_ws(single_case_config.test_dep_files, case_workspace, suite_root_path)
-    return run_test_driver(module)
+    single_case_text.run_flag =  run_test_driver(module, single_case_text)
+    return single_case_text
 
 def prepare_test_workspace(root_path, suite_name, opt, case = ""):
     suite_workspace = os.path.join(os.path.abspath(root_path), suite_name, opt)
-    case_workspace = os.path.join(suite_workspace, case)
-    test_config.command_file = os.path.join(suite_workspace, "command.tst")
-    test_config.result_text = os.path.join(suite_workspace, "result.md")
 
     if os.path.isdir(suite_workspace) and not case:
         shutil.rmtree(suite_workspace)
@@ -318,20 +365,46 @@ def get_gpu_split_test_suite(suite_cfg):
         elif test_config.backend_device not in test_config.support_double_gpu and not case_config.split_group:
             new_test_config_map[current_test] = case_config
     return new_test_config_map
+
+def record_msg_case(single_case_text):
+    append_msg_to_file(single_case_text.result_file, single_case_text.result_text)
+    if single_case_text.test_status == "BADTEST" or single_case_text.test_status == "SKIPPED":
+        return
+    append_msg_to_file(single_case_text.command_file, single_case_text.command_text)
+    append_msg_to_file(single_case_text.log_file, single_case_text.log_text)
+    return
+
 def test_suite(suite_root_path, suite_name, opt):
     test_ws_root = os.path.join(os.path.dirname(suite_root_path), "test_workspace")
-    # module means the test driver for a test suite.
-    module = import_test_driver(suite_root_path)
-    test_config.suite_cfg = parse_suite_cfg(suite_name, suite_root_path)
+    cfg_suite = parse_suite_cfg(suite_name, suite_root_path)
     test_workspace = prepare_test_workspace(test_ws_root, suite_name, opt)
     suite_result = True
     failed_cases = []
-    test_config.suite_cfg.test_config_map = get_gpu_split_test_suite(test_config.suite_cfg)
-    for current_test, single_case_config in test_config.suite_cfg.test_config_map.items():
-        ret = test_single_case(current_test, single_case_config, test_workspace, module, suite_root_path)
-        if not ret:
-            failed_cases.append(current_test + " " + test_config.test_status)
-        suite_result = ret & suite_result
+    command_data = ""
+    cfg_suite.test_config_map = get_gpu_split_test_suite(cfg_suite)
+    # Enable multi process
+    with multiprocessing.Pool(processes= int(multiprocessing.cpu_count() * 0.8)) as pool:
+        results = []
+        
+        for current_test, single_case_config in cfg_suite.test_config_map.items():
+            single_run_config = case_run_config(test_config.DPCXX_COM, test_config.CT_TOOL, test_config.include_path, 
+                                                test_config.migrate_option, test_config.timeout, test_config.device_filter,
+                                                test_config.cuda_ver, test_config.test_option, test_config.backend_device)
+            result = pool.apply_async(test_single_case, (current_test, single_case_config, test_workspace, 
+                                                        suite_root_path, single_run_config,))
+            # store all msg
+            results.append([result, current_test, single_case_config, test_workspace, suite_root_path, single_run_config])
+    
+        for result_iter in results:
+            ret = result_iter[0].get()
+            record_msg_case(ret)
+            if not ret.run_flag:
+                # TODO we can add auto rerun 
+                failed_cases.append(ret.name + " " + ret.test_status)
+                suite_result = ret.run_flag & suite_result
+        pool.close()
+        pool.join()
+
     if failed_cases:
         print("===============Failed case(s) ==========================")
         for case in failed_cases:
@@ -341,15 +414,20 @@ def test_suite(suite_root_path, suite_name, opt):
 
 def test_single_case_in_suite(suite_root_path, suite_name, case, option):
     test_ws_root = os.path.join(os.path.dirname(suite_root_path), "test_workspace")
-    module = import_test_driver(suite_root_path)
-    test_config.suite_cfg = parse_suite_cfg(suite_name, suite_root_path)
+    suite_cfg = parse_suite_cfg(suite_name, suite_root_path)
     test_workspace = prepare_test_workspace(test_ws_root, suite_name, option, case)
 
     config_running_device(option)
-    if case not in test_config.suite_cfg.test_config_map.keys():
+    if case not in suite_cfg.test_config_map.keys():
         exit("The test case " + case + " is not in the " + suite_name + " test suite! Please double check.")
-    single_case_config = test_config.suite_cfg.test_config_map[case]
-    return test_single_case(case, single_case_config, test_workspace, module, suite_root_path)
+    single_case_config = suite_cfg.test_config_map[case]
+    single_run_config = case_run_config(test_config.DPCXX_COM, test_config.CT_TOOL, test_config.include_path, 
+                                        test_config.migrate_option, test_config.timeout, test_config.device_filter,
+                                        test_config.cuda_ver, test_config.test_option, test_config.backend_device)
+    single_case_text = test_single_case(case,  single_case_config, test_workspace, suite_root_path, single_run_config)
+    record_msg_case(single_case_text)
+    return single_case_text.run_flag
+
 
 # Before run the test:
 # 1. Please specify the CUDA header files with CUDA_INCLUDE_PATH environment variable.
@@ -381,16 +459,6 @@ def import_test_driver(suite_folder):
         for test_driver in root.iter("testDriver"):
             test_config.test_driver = str(test_driver.get("driverID"))
     return importlib.import_module(test_config.test_driver)
-
-def clean_global_setting():
-    test_config.current_test = ""
-    test_config.command_file = ""  # Used to store the executed command.
-    test_config.log_file = ""      # Used to store the executed log for each case.
-    test_config.result_text = ""   # Used to store the executed status for each case.
-    test_config.out_root = ""
-    test_config.subprocess_stdout_log = ""
-    test_config.test_status = ""   # Default: "SKIPPED"
-    test_config.test_driver = ""
 
 # Parse the test suite configuration file and get the supported suite list.
 def get_suite_list():
@@ -429,7 +497,6 @@ def test_suite_with_opts(suite_root_path, suite_name, opts):
 def test_full_suite_list(suite_list):
     ret = True
     for suite_name in suite_list:
-        clean_global_setting()
         os.chdir(test_config.root_path)
         suite_root_path = suite_list[suite_name][0]
         if os.path.exists(suite_root_path):

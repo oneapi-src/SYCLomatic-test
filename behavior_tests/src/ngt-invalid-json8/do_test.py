@@ -10,34 +10,34 @@ import subprocess
 import platform
 import os
 import sys
-from test_config import CT_TOOL
+
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     data = []
     ret = []
-    with open("compile_commands.json", 'r') as f:
+    with open(os.path.join(single_case_text.case_workspace, "compile_commands.json"), 'r') as f:
         data = f.readlines()
         for line in data:
             if "directory_placeholder" in line:
                 ret.append("      \"arguments\": [\"nvcc hello_aaa.c\"],\n")
             line = line.replace("directory_placeholder", os.getcwd().replace("\\", "\\\\"))
             ret.append(line)
-    with open("compile_commands.json", 'w') as f:
+    with open(os.path.join(single_case_text.case_workspace, "compile_commands.json"), 'w') as f:
         f.writelines(ret)
 
-    call_subprocess(test_config.CT_TOOL + ' -p=./ --cuda-include-path=' + test_config.include_path)
-    return is_sub_string("Unknown key: \"\"arguments\"\"", test_config.command_output)
+    call_subprocess(single_case_text.CT_TOOL + ' -p=./ --cuda-include-path=' + single_case_text.include_path, single_case_text)
+    return is_sub_string("Unknown key: \"\"arguments\"\"", single_case_text.print_text)
 
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True
 

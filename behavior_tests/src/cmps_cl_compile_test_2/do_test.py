@@ -13,19 +13,19 @@ import sys
 
 from test_utils import *
 
-def setup_test():
-    change_dir(test_config.current_test)
+def setup_test(single_case_text):
+    change_dir(single_case_text.name, single_case_text)
 
     return True
 
-def migrate_test():
+def migrate_test(single_case_text):
     file_vcxproj = os.path.join(os.getcwd(), "cuda", "file_cu.vcxproj")
     migrated_file = os.path.join(os.getcwd(), "cuda", "file.cu")
     expected_str = ""
     migrated_str = ""
-    call_subprocess(test_config.CT_TOOL + " --report-file-prefix=report --out-root=out --vcxprojfile=\"" + \
+    call_subprocess(single_case_text.CT_TOOL + " --report-file-prefix=report --out-root=out --vcxprojfile=\"" + \
             file_vcxproj +  "\" \"" + migrated_file + "\" --cuda-include-path=" + \
-                   os.environ['CUDA_INCLUDE_PATH'])
+                   os.environ['CUDA_INCLUDE_PATH'], single_case_text)
     with open("expected.cpp", 'r') as f:
         lines = f.readlines()
         for line in lines:
@@ -40,8 +40,8 @@ def migrate_test():
         return True
     return False
 
-def build_test():
+def build_test(single_case_text):
     return True
 
-def run_test():
+def run_test(single_case_text):
     return True
