@@ -88,15 +88,21 @@ class case_text:
         self.migrate_option = single_run_config.migrate_option
         self.timeout = single_run_config.timeout
         self.device_filter = single_run_config.device_filter
+        self.cuda_ver = single_run_config.cuda_ver
+        self.test_option = single_run_config.test_option
+        self.device = single_run_config.device
 
 class case_run_config:
-    def __init__(self, DPCXX_COM, CT_TOOL, include_path, migrate_option, timeout, device_filter):
+    def __init__(self, DPCXX_COM, CT_TOOL, include_path, migrate_option, timeout, device_filter, cuda_ver, test_option, backend_device):
         self.DPCXX_COM = DPCXX_COM
         self.CT_TOOL = CT_TOOL
         self.include_path = include_path
         self.migrate_option = migrate_option
         self.timeout = timeout
         self.device_filter = device_filter
+        self.cuda_ver = cuda_ver
+        self.test_option = test_option
+        self.device = backend_device
 
 
 def parse_suite_cfg(suite_name, root_path):
@@ -276,37 +282,37 @@ def run_test_driver(module, single_case_text):
 # Rule1:skip < CUDA 9.2
 # Rule2:skip > CUDA 11.4
 # Not supported
-def is_platform_supported(platform_rule_list):
+def is_platform_supported(platform_rule_list, single_case_text):
     for platform_rule in platform_rule_list:
         if platform_rule.os_family != platform.system():
             continue
         if platform_rule.cuda_version:
             version = int(float(re.findall("\d+\.?\d*", platform_rule.cuda_version)[0])) * 1000
             print_debug_log("CUDA version is ", version)
-            print_debug_log("default CUDA version is ", test_config.cuda_ver)
+            print_debug_log("default CUDA version is ", single_case_text.cuda_ver)
             print_debug_log("default CUDA range is ", platform_rule.cuda_range)
-            if platform_rule.cuda_range == "LATER_OR_EQUAL" and test_config.cuda_ver >= version and platform_rule.run_on_this_platform.upper() == "FALSE":
+            if platform_rule.cuda_range == "LATER_OR_EQUAL" and single_case_text.cuda_ver >= version and platform_rule.run_on_this_platform.upper() == "FALSE":
                 return False
-            elif platform_rule.cuda_range == "OLDER" and test_config.cuda_ver < version and platform_rule.run_on_this_platform.upper() == "FALSE":
+            elif platform_rule.cuda_range == "OLDER" and single_case_text.cuda_ver < version and platform_rule.run_on_this_platform.upper() == "FALSE":
                 return False
-            elif platform_rule.cuda_range == "LATER" and test_config.cuda_ver > version and platform_rule.run_on_this_platform.upper() == "FALSE":
+            elif platform_rule.cuda_range == "LATER" and single_case_text.cuda_ver > version and platform_rule.run_on_this_platform.upper() == "FALSE":
                 return False
-            elif platform_rule.cuda_range == "OLDER_OR_EQUAL" and test_config.cuda_ver <= version and platform_rule.run_on_this_platform.upper() == "FALSE":
+            elif platform_rule.cuda_range == "OLDER_OR_EQUAL" and single_case_text.cuda_ver <= version and platform_rule.run_on_this_platform.upper() == "FALSE":
                 return False
-            elif platform_rule.cuda_range == "EQUAL" and test_config.cuda_ver == version and platform_rule.run_on_this_platform.upper() == "FALSE":
+            elif platform_rule.cuda_range == "EQUAL" and single_case_text.cuda_ver == version and platform_rule.run_on_this_platform.upper() == "FALSE":
                 return False
         else:
             return platform_rule.run_on_this_platform.upper() == "TRUE"
     return True
 
-def is_option_supported(option_rule_list):
+def is_option_supported(option_rule_list, single_case_text):
     for option_rule in option_rule_list:
-        if option_rule.exclude_option != "" and  option_rule.exclude_option in test_config.test_option and not option_rule.not_double_type_feature:
+        if option_rule.exclude_option != "" and  option_rule.exclude_option in single_case_text.test_option and not option_rule.not_double_type_feature:
             return False
-        elif option_rule.only_option not in test_config.test_option:
+        elif option_rule.only_option not in single_case_text.test_option:
             return False
-        elif option_rule.exclude_option in test_config.test_option and option_rule.not_double_type_feature == "NOT double":
-            if test_config.backend_device not in test_config.support_double_gpu:
+        elif option_rule.exclude_option in single_case_text.test_option and option_rule.not_double_type_feature == "NOT double":
+            if single_case_text.device not in test_config.support_double_gpu:
                 return False
     return True
 
@@ -315,12 +321,12 @@ def test_single_case(current_test, single_case_config, workspace,  suite_root_pa
                                 os.path.join(workspace, current_test + ".lf"), "",
                                 os.path.join(workspace, "result.md"), "", "")
     module = import_test_driver(suite_root_path)
-    if single_case_config.platform_rule_list and not is_platform_supported(single_case_config.platform_rule_list):
+    if single_case_config.platform_rule_list and not is_platform_supported(single_case_config.platform_rule_list, single_case_text):
         single_case_text.result_text += current_test + " Skip " + "\n"
         single_case_text.run_flag = True
         return single_case_text
 
-    if single_case_config.option_rule_list and not is_option_supported(single_case_config.option_rule_list):
+    if single_case_config.option_rule_list and not is_option_supported(single_case_config.option_rule_list, single_case_text):
         single_case_text.result_text += current_test + " Skip " + "\n"
         single_case_text.run_flag = True
         return single_case_text
@@ -382,7 +388,8 @@ def test_suite(suite_root_path, suite_name, opt):
         
         for current_test, single_case_config in test_config.suite_cfg.test_config_map.items():
             single_run_config = case_run_config(test_config.DPCXX_COM, test_config.CT_TOOL, test_config.include_path, 
-                                    test_config.migrate_option, test_config.timeout, test_config.device_filter)
+                                                test_config.migrate_option, test_config.timeout, test_config.device_filter,
+                                                test_config.cuda_ver, test_config.test_option, test_config.backend_device)
             result = pool.apply_async(test_single_case, (current_test, single_case_config, test_workspace, 
                                                         suite_root_path, single_run_config,))
             # store all msg
@@ -415,7 +422,8 @@ def test_single_case_in_suite(suite_root_path, suite_name, case, option):
         exit("The test case " + case + " is not in the " + suite_name + " test suite! Please double check.")
     single_case_config = suite_cfg.test_config_map[case]
     single_run_config = case_run_config(test_config.DPCXX_COM, test_config.CT_TOOL, test_config.include_path, 
-                                    test_config.migrate_option, test_config.timeout, test_config.device_filter)
+                                        test_config.migrate_option, test_config.timeout, test_config.device_filter,
+                                        test_config.cuda_ver, test_config.test_option, test_config.backend_device)
     single_case_text = test_single_case(case,  single_case_config, test_workspace, suite_root_path, single_run_config)
     record_msg_case(single_case_text)
     return single_case_text.run_flag
