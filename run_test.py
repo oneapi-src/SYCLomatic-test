@@ -376,17 +376,17 @@ def record_msg_case(single_case_text):
 
 def test_suite(suite_root_path, suite_name, opt):
     test_ws_root = os.path.join(os.path.dirname(suite_root_path), "test_workspace")
-    test_config.suite_cfg = parse_suite_cfg(suite_name, suite_root_path)
+    cfg_suite = parse_suite_cfg(suite_name, suite_root_path)
     test_workspace = prepare_test_workspace(test_ws_root, suite_name, opt)
     suite_result = True
     failed_cases = []
     command_data = ""
-    test_config.suite_cfg.test_config_map = get_gpu_split_test_suite(test_config.suite_cfg)
+    cfg_suite.test_config_map = get_gpu_split_test_suite(cfg_suite)
     # Enable multi process
     with multiprocessing.Pool(processes= int(multiprocessing.cpu_count() * 0.8)) as pool:
         results = []
         
-        for current_test, single_case_config in test_config.suite_cfg.test_config_map.items():
+        for current_test, single_case_config in cfg_suite.test_config_map.items():
             single_run_config = case_run_config(test_config.DPCXX_COM, test_config.CT_TOOL, test_config.include_path, 
                                                 test_config.migrate_option, test_config.timeout, test_config.device_filter,
                                                 test_config.cuda_ver, test_config.test_option, test_config.backend_device)
