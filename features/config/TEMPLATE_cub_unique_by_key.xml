@@ -9,5 +9,6 @@
         <platformRule OSFamily="Linux" kit="CUDA12.0" kitRange="OLDER" runOnThisPlatform="false"/>
         <platformRule OSFamily="Windows" kit="CUDA12.0" kitRange="OLDER" runOnThisPlatform="false"/>
         <optlevelRule excludeOptlevelNameString="usmnone" />
+        <optlevelRule excludeOptlevelNameString="cuda_backend" />
     </rules>
 </test>

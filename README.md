@@ -71,7 +71,7 @@ The configuration file test_suite_list.xml lists all the test suites target to b
 | ------------ | ------------------------------------------------------------ |
 | dir          | The relative path of the test suite.                         |
 | name         | Name of test suite, also **${dir}/${name}.xml** is configuration file for this suite.           |
-| opts         | Specifies the test option list for each test suite. Test options can be: **option_cpu**, **option_gpu**, **option_usmnone_cpu**, **option_cuda** and so on. Each test option defines the target device to run and extra c2s options during migration, more details in the [Define option for a test suite](#define-option-for-a-test-suite-option_mappingjson). |
+| opts         | Specifies the test option list for each test suite. Test options can be: **option_cpu**, **option_gpu**, **option_usmnone_cpu**, **option_cuda_backend** and so on. Each test option defines the target device to run and extra c2s options during migration, more details in the [Define option for a test suite](#define-option-for-a-test-suite-option_mappingjson). |
 
 
 ### Define option for a test suite: option_mapping.json
@@ -85,7 +85,7 @@ The format of the option map is key and value pairs. The key is the test option 
 | "option_usmnone_cpu" : "--usm-level=none" | a. c2s migrates with usm switching off.  b. The test run on the CPU device. |
 | "option_gpu" : ""                         | a. c2s migrates with default opt. b. The test run on the GPU device. |
 | "option_usmnone_gpu" : "--usm-level=none" | a. c2s migrates with usm switching off. b. The test run on the GPU device.  |
-| "option_cuda" : ""                        | a. c2s migrates with default opt. b. The test run on the CUDA backend. |
+| "option_cuda_backend" : ""                      | a. c2s migrates with default opt. b. The test run on the CUDA backend. |
 
 
 ## Test suite configuration file:

@@ -7,6 +7,7 @@
     </files>
     <rules>
         <platformRule OSFamily="Windows" runOnThisPlatform="false" />
+        <optlevelRule excludeOptlevelNameString="cuda_backend" />
     </rules>
     <attributes>
         <attribute attributeName="skip_virtual_pointer" value="usmnone" />
