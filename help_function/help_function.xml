@@ -18,6 +18,7 @@
     <test testName="memory_management_test3" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" /> -->
     <test testName="global_memory" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="global_memory_usm" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="multi_definition_test" configFile="config/multi_definition_test_lin.xml" />
     <test testName="shared_memory" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="shared_memory_usm" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="test_default_queue_2" configFile="config/test_default_queue_2.xml" />

@@ -67,6 +67,8 @@ def build_test():
 
     if test_config.current_test == "test_default_queue_2":
         srcs.append("test_default_queue_1.cpp")
+    if test_config.current_test == "multi_definition_test":
+        return True
     if test_config.current_test == "kernel_function_lin":
         ret = call_subprocess(test_config.DPCXX_COM + " -shared -fPIC -o module.so kernel_module_lin.cpp")
         if not ret:
@@ -104,6 +106,16 @@ def build_test():
 def run_test():
     os.environ["ONEAPI_DEVICE_SELECTOR"] = test_config.device_filter
     args = []
+
+    if test_config.current_test == "multi_definition_test":
+        change_dir(test_config.current_test)
+        test_driver = test_config.current_test + ".py"
+        os.environ['ONEAPI_DEVICE_SELECTOR'] = test_config.device_filter
+        call_subprocess("python " + test_driver)
+        if "case pass" in test_config.command_output:
+            return True
+        return False
+
     if test_config.current_test == "kernel_function_lin":
         args.append("./module.so")
     if test_config.current_test == "kernel_function_win":
