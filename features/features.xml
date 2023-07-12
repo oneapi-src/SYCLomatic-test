@@ -34,6 +34,7 @@
     <test testName="thrust_partition" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_is_sorted" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_replace_copy" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_scatter_if" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_stable_partition" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_random_type" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_reverse" configFile="config/TEMPLATE_thrust_api.xml" />
