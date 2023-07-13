@@ -76,13 +76,13 @@ The configuration file test_suite_list.xml lists all the test suites target to b
 ### Current test suite in SYCLomatic-test
 | Test suite name | Description| Link with the CI|
 | ------------ | ------------------------------------------------------------ |---|
-|api_coverage | Currently supported migrated APIs are limited to those related to cublas.|test-api_coverage-cpu|
-|behavior_tests | The SYCLomatic tool was tested for both available and negative input or options.|test-behavior_tests|
-|help_function | This suite covers all SYCLomatic-developed help functions that aid in smoother code migration.| test-help_function|
-|features | All new migrated APIs and features must have new tests added to this suite to improve testing coverage.|test-features|
-|regressions| When a regression is caught without any test cases, a new test case must be added to this suite.|test-regressions|
-|samples| Put the small end-to-end test cases in this suite.|test-samples|
-|user_guide_samples|Simple samples that guide users to run basic test cases in SYCLomatic.|test-user_guide_samples|
+|api_coverage | The APIs migrated by SYCLomatic currently include only the relevant APIs for cublas migration. Please visit https://github.com/oneapi-src/SYCLomatic/tree/SYCLomatic/clang/test/dpct to access more migration test cases. |test-api_coverage|
+|behavior_tests | The test suite for the SYCLomatic tool includes both positive and negative behavior tests to validate its expected behavior. |test-behavior_tests|
+|help_function | This test suite encompasses all the help functions developed by SYCLomatic that facilitate smoother code migration. If you have enabled any new help functions, please ensure that corresponding test cases are added to this suite. | test-help_function|
+|features | The existing suite covers all implementation features in SYCLomatic. If you introduce a new feature, please ensure to include corresponding end-to-end test cases in this suite. This will ensure comprehensive coverage of the new feature within SYCLomatic. |test-features|
+|regressions|The suite includes regression test cases that capture any issues encountered during the development process.|test-regressions|
+|samples|The suite consists of small end-to-end samples that cover various functionalities and scenarios.|test-samples|
+|user_guide_samples|The suite includes test cases derived from the SYCLomatic user guide, ensuring that the functionality described in the guide is thoroughly tested.|test-user_guide_samples|
 
 ### Define option for a test suite: option_mapping.json
 
