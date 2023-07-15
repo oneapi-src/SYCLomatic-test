@@ -18,6 +18,7 @@
     <test testName="memory_management_test3" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" /> -->
     <test testName="global_memory" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="global_memory_usm" configFile="config/TEMPLATE_help_function.xml" />
+     <!-- <test testName="multi_definition_test" configFile="config/multi_definition_test_lin.xml" /> -->
     <test testName="shared_memory" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="shared_memory_usm" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="test_default_queue_2" configFile="config/test_default_queue_2.xml" />
@@ -174,7 +175,7 @@
     <test testName="fft_utils_engine_usm" configFile="config/TEMPLATE_help_function_fft_usm.xml"  splitGroup="double" />
     <test testName="fft_set_workspace" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_help_function_skip_double.xml" />
-    <test testName="lapack_utils_buffer" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double" />
+    <test testName="lapack_utils_buffer" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="lapack_utils_usm" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="util_cast_double_from_to_int_test" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="sparse_utils_1" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
