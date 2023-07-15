@@ -404,8 +404,11 @@ void test_cusparseSpMM() {
 }
 
 int main() {
+  // Re-enable below two tests until MKL issue fixed
+#ifndef DPCT_USM_LEVEL_NONE
   test_cusparseSpMV();
   test_cusparseSpMM();
+#endif
 
   if (test_passed)
     return 0;

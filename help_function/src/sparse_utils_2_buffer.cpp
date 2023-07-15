@@ -1145,8 +1145,8 @@ int main() {
   test_cusparseTcsrmv_tr();
   // test_cusparseTcsrmm(); // Re-enable this test until MKL issue fixed
   test_cusparseTcsrsv();
-  test_cusparseSpMV();
-  test_cusparseSpMM();
+  // test_cusparseSpMV(); // Re-enable this test until MKL issue fixed
+  // test_cusparseSpMM(); // Re-enable this test until MKL issue fixed
 
   if (test_passed)
     return 0;
