@@ -30,8 +30,8 @@ exec_tests = ['asm', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 
               'cub_device_inclusive_sum_by_key', 'cub_device_exclusive_sum_by_key', 'cub_device_inclusive_scan_by_key', 'cub_device_exclusive_scan_by_key',
               'cub_device_reduce_arg', 'cub_device_seg_sort_pairs', 'cub_intrinsic', 'cub_device_seg_sort_keys', 'thrust-math1', 'thrust-math2',
               'cub_transform_iterator', 'activemask', 'complex', 'thrust-math', 'libcu_array', 'libcu_complex', 'libcu_tuple',
-              'user_defined_rules', 'math-exec', 'math-habs', 'math-emu-double', 'math-emu-float', 'math-emu-half', 'math-emu-half2', 'math-emu-simd',
-              'math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'math-ext-simd', 'cudnn-activation',
+              'user_defined_rules', 'math-exec', 'math-habs', 'math-emu-double', 'math-emu-float', 'math-emu-half', 'math-emu-half-after11', 'math-emu-half2', 'math-emu-half2-after11', 'math-emu-half2-after12', 'math-emu-simd',
+              'math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half-after11', 'math-ext-half2', 'math-ext-half2-after11', 'math-ext-simd', 'cudnn-activation',
               'cudnn-fill', 'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax',
               'cudnn-sum', 'math-funnelshift', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
               'math-bf16-conv', 'math-half-conv',
@@ -75,7 +75,7 @@ def migrate_test():
     nd_range_bar_exper = ['grid_sync']
     logical_group_exper = ['cooperative_groups']
 
-    math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half2', 'math-ext-simd']
+    math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half-after11', 'math-ext-half2', 'math-ext-half2-after11', 'math-ext-simd']
 
     if test_config.current_test in nd_range_bar_exper:
         src.append(' --use-experimental-features=nd_range_barrier ')
@@ -141,6 +141,8 @@ def build_test():
              'cudnn-types', 'cudnn-version', 'cudnn-dropout'
              ]
 
+    no_fast_math_tests = ['math-emu-half-after11', 'math-emu-half2-after11', 'math-ext-half-after11', 'math-ext-half2-after11']
+
     if test_config.current_test in oneDPL_related:
         cmp_options.append(prepare_oneDPL_specific_macro())
 
@@ -150,6 +152,9 @@ def build_test():
         else:
             link_opts = test_config.mkl_link_opt_win
         cmp_options.append("-DMKL_ILP64")
+
+    if test_config.current_test in no_fast_math_tests:
+        cmp_options.append("-fno-fast-math")
 
     if test_config.current_test.startswith('ccl-test'):
         link_opts.append('-lccl -lmpi')

@@ -1,11 +1,11 @@
-// ====------ math-half-conversion.cu---------- *- CUDA -* ----===////
+// ===-------------- math-half-conv.cu -------=--------- *- CUDA -* -------===//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //
-// ===----------------------------------------------------------------------===//
+// ===---------------------------------------------------------------------===//
 
 #include <iomanip>
 #include <iostream>
@@ -14,6 +14,8 @@
 #include "cuda_fp16.h"
 
 using namespace std;
+
+typedef pair<__half, int> hi_pair;
 
 int passed = 0;
 int failed = 0;
@@ -87,6 +89,24 @@ __global__ void setValue(__half *Input1, const __half Input2) {
 
 __global__ void setValue(__half2 *Input1, const __half2 Input2) {
   *Input1 = Input2;
+}
+
+__global__ void double2half(float *const Result, double Input1) {
+  *Result = __double2half(Input1);
+}
+
+void testDouble2halfCases(const vector<pair<double, hi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    double2half<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("__double2half", {TestCase.first}, TestCase.second.first,
+                *Result, TestCase.second.second);
+    *Result = __double2half(TestCase.first);
+    checkResult("(host)__double2half", {TestCase.first}, TestCase.second.first,
+                *Result, TestCase.second.second);
+  }
 }
 
 __global__ void ldca(float *const Result, __half *Input1) {
@@ -478,6 +498,12 @@ void testStwtCases2(const vector<pair<__half2, int>> &TestCases) {
 }
 
 int main() {
+  testDouble2halfCases({
+      {-0.3, {-0.3, 4}},
+      {0.3, {0.3, 4}},
+      {0.5, {0.5, 16}},
+      {23, {23, 14}},
+  });
   testLdcaCases({
       {-0.3, 16},
       {-0.4, 16},
