@@ -52,7 +52,7 @@ exec_tests = ['asm', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 
               'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce',
               'remove_unnecessary_wait', 'thrust_equal_range', 'thrust_transform_inclusive_scan', 'thrust_uninitialized_copy_n', 'thrust_uninitialized_copy',
               'thrust_random_type', 'thrust_scatter_if', 'thrust_all_of', 'thrust_none_of', 'thrust_is_partitioned',
-              'thrust_is_sorted_until', 'thrust_set_intersection', 'thrust_set_union_by_key', 'thrust_set_union']
+              'thrust_is_sorted_until', 'thrust_set_intersection', 'thrust_set_union_by_key', 'thrust_set_union', 'thrust_equal']
 
 occupancy_calculation_exper = ['occupancy_calculation']
 
