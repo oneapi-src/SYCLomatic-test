@@ -742,6 +742,402 @@ void test_cusparseTcsrsv() {
   test_passed = true;
 }
 
+void test_cusparseSpMV() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a_val_vec = {1, 4, 2, 3, 5, 7, 8, 9, 6};
+  Data<float> a_s_val(a_val_vec.data(), 9);
+  Data<double> a_d_val(a_val_vec.data(), 9);
+  Data<sycl::float2> a_c_val(a_val_vec.data(), 9);
+  Data<sycl::double2> a_z_val(a_val_vec.data(), 9);
+  std::vector<float> a_row_ptr_vec = {0, 2, 4, 7, 9};
+  Data<int> a_row_ptr(a_row_ptr_vec.data(), 5);
+  std::vector<float> a_col_ind_vec = {0, 1, 1, 2, 0, 3, 4, 2, 4};
+  Data<int> a_col_ind(a_col_ind_vec.data(), 9);
+
+  std::vector<float> b_vec = {1, 2, 3, 4, 5};
+  Data<float> b_s(b_vec.data(), 5);
+  Data<double> b_d(b_vec.data(), 5);
+  Data<sycl::float2> b_c(b_vec.data(), 5);
+  Data<sycl::double2> b_z(b_vec.data(), 5);
+
+  Data<float> c_s(4);
+  Data<double> c_d(4);
+  Data<sycl::float2> c_c(4);
+  Data<sycl::double2> c_z(4);
+
+  float alpha = 10;
+  Data<float> alpha_s(&alpha, 1);
+  Data<double> alpha_d(&alpha, 1);
+  Data<sycl::float2> alpha_c(&alpha, 1);
+  Data<sycl::double2> alpha_z(&alpha, 1);
+
+  float beta = 0;
+  Data<float> beta_s(&beta, 1);
+  Data<double> beta_d(&beta, 1);
+  Data<sycl::float2> beta_c(&beta, 1);
+  Data<sycl::double2> beta_z(&beta, 1);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  /*
+  DPCT1026:0: The call to cusparseSetPointerMode was removed because this call
+  is redundant in SYCL.
+  */
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_row_ptr.H2D();
+  a_col_ind.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+  alpha_s.H2D();
+  alpha_d.H2D();
+  alpha_c.H2D();
+  alpha_z.H2D();
+  beta_s.H2D();
+  beta_d.H2D();
+  beta_c.H2D();
+  beta_z.H2D();
+
+  dpct::sparse::sparse_matrix_desc_t a_descr_s;
+  dpct::sparse::sparse_matrix_desc_t a_descr_d;
+  dpct::sparse::sparse_matrix_desc_t a_descr_c;
+  dpct::sparse::sparse_matrix_desc_t a_descr_z;
+  a_descr_s = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      4, 5, 9, a_row_ptr.d_data, a_col_ind.d_data, a_s_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_float,
+      dpct::sparse::matrix_format::csr);
+  a_descr_d = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      4, 5, 9, a_row_ptr.d_data, a_col_ind.d_data, a_d_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_double,
+      dpct::sparse::matrix_format::csr);
+  a_descr_c = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      4, 5, 9, a_row_ptr.d_data, a_col_ind.d_data, a_c_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_float,
+      dpct::sparse::matrix_format::csr);
+  a_descr_z = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      4, 5, 9, a_row_ptr.d_data, a_col_ind.d_data, a_z_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_double,
+      dpct::sparse::matrix_format::csr);
+
+  std::shared_ptr<dpct::sparse::dense_vector_desc> b_descr_s;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> b_descr_d;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> b_descr_c;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> b_descr_z;
+  b_descr_s = std::make_shared<dpct::sparse::dense_vector_desc>(
+      5, b_s.d_data, dpct::library_data_t::real_float);
+  b_descr_d = std::make_shared<dpct::sparse::dense_vector_desc>(
+      5, b_d.d_data, dpct::library_data_t::real_double);
+  b_descr_c = std::make_shared<dpct::sparse::dense_vector_desc>(
+      5, b_c.d_data, dpct::library_data_t::complex_float);
+  b_descr_z = std::make_shared<dpct::sparse::dense_vector_desc>(
+      5, b_z.d_data, dpct::library_data_t::complex_double);
+
+  std::shared_ptr<dpct::sparse::dense_vector_desc> c_descr_s;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> c_descr_d;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> c_descr_c;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> c_descr_z;
+  c_descr_s = std::make_shared<dpct::sparse::dense_vector_desc>(
+      4, c_s.d_data, dpct::library_data_t::real_float);
+  c_descr_d = std::make_shared<dpct::sparse::dense_vector_desc>(
+      4, c_d.d_data, dpct::library_data_t::real_double);
+  c_descr_c = std::make_shared<dpct::sparse::dense_vector_desc>(
+      4, c_c.d_data, dpct::library_data_t::complex_float);
+  c_descr_z = std::make_shared<dpct::sparse::dense_vector_desc>(
+      4, c_z.d_data, dpct::library_data_t::complex_double);
+
+  size_t ws_size_s;
+  size_t ws_size_d;
+  size_t ws_size_c;
+  size_t ws_size_z;
+  ws_size_s = 0;
+  ws_size_d = 0;
+  ws_size_c = 0;
+  ws_size_z = 0;
+
+  void *ws_s;
+  void *ws_d;
+  void *ws_c;
+  void *ws_z;
+  ws_s = dpct::dpct_malloc(ws_size_s);
+  ws_d = dpct::dpct_malloc(ws_size_d);
+  ws_c = dpct::dpct_malloc(ws_size_c);
+  ws_z = dpct::dpct_malloc(ws_size_z);
+
+  dpct::sparse::spmv(*handle, oneapi::mkl::transpose::nontrans, alpha_s.d_data,
+                     a_descr_s, b_descr_s, beta_s.d_data, c_descr_s,
+                     dpct::library_data_t::real_float);
+  dpct::sparse::spmv(*handle, oneapi::mkl::transpose::nontrans, alpha_d.d_data,
+                     a_descr_d, b_descr_d, beta_d.d_data, c_descr_d,
+                     dpct::library_data_t::real_double);
+  if (run_complex_datatype) {
+    dpct::sparse::spmv(*handle, oneapi::mkl::transpose::nontrans,
+                       alpha_c.d_data, a_descr_c, b_descr_c, beta_c.d_data,
+                       c_descr_c, dpct::library_data_t::complex_float);
+    dpct::sparse::spmv(*handle, oneapi::mkl::transpose::nontrans,
+                       alpha_z.d_data, a_descr_z, b_descr_z, beta_z.d_data,
+                       c_descr_z, dpct::library_data_t::complex_double);
+  }
+
+  c_s.D2H();
+  c_d.D2H();
+  c_c.D2H();
+  c_z.D2H();
+
+  q_ct1.wait();
+
+  dpct::dpct_free(ws_s);
+  dpct::dpct_free(ws_d);
+  dpct::dpct_free(ws_c);
+  dpct::dpct_free(ws_z);
+  a_descr_s.reset();
+  a_descr_d.reset();
+  a_descr_c.reset();
+  a_descr_z.reset();
+  b_descr_s.reset();
+  b_descr_d.reset();
+  b_descr_c.reset();
+  b_descr_z.reset();
+  c_descr_s.reset();
+  c_descr_d.reset();
+  c_descr_c.reset();
+  c_descr_z.reset();
+  handle = nullptr;
+
+  float expect_c[4] = {90, 130, 730, 570};
+  if (compare_result(expect_c, c_s.h_data, 4) &&
+      compare_result(expect_c, c_d.h_data, 4)/*&&
+      compare_result(expect_c, c_c.h_data, 4) &&
+      compare_result(expect_c, c_z.h_data, 4)*/)
+    printf("SpMV pass\n");
+  else {
+    printf("SpMV fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusparseSpMM() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a_val_vec = {1, 4, 2, 3, 5, 7, 8, 9, 6};
+  Data<float> a_s_val(a_val_vec.data(), 9);
+  Data<double> a_d_val(a_val_vec.data(), 9);
+  Data<sycl::float2> a_c_val(a_val_vec.data(), 9);
+  Data<sycl::double2> a_z_val(a_val_vec.data(), 9);
+  std::vector<float> a_row_ptr_vec = {0, 2, 4, 7, 9};
+  Data<int> a_row_ptr(a_row_ptr_vec.data(), 5);
+  std::vector<float> a_col_ind_vec = {0, 1, 1, 2, 0, 3, 4, 2, 4};
+  Data<int> a_col_ind(a_col_ind_vec.data(), 9);
+
+  std::vector<float> b_vec = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  Data<float> b_s(b_vec.data(), 10);
+  Data<double> b_d(b_vec.data(), 10);
+  Data<sycl::float2> b_c(b_vec.data(), 10);
+  Data<sycl::double2> b_z(b_vec.data(), 10);
+
+  Data<float> c_s(8);
+  Data<double> c_d(8);
+  Data<sycl::float2> c_c(8);
+  Data<sycl::double2> c_z(8);
+
+  float alpha = 10;
+  Data<float> alpha_s(&alpha, 1);
+  Data<double> alpha_d(&alpha, 1);
+  Data<sycl::float2> alpha_c(&alpha, 1);
+  Data<sycl::double2> alpha_z(&alpha, 1);
+
+  float beta = 0;
+  Data<float> beta_s(&beta, 1);
+  Data<double> beta_d(&beta, 1);
+  Data<sycl::float2> beta_c(&beta, 1);
+  Data<sycl::double2> beta_z(&beta, 1);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  /*
+  DPCT1026:1: The call to cusparseSetPointerMode was removed because this call
+  is redundant in SYCL.
+  */
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_row_ptr.H2D();
+  a_col_ind.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+  alpha_s.H2D();
+  alpha_d.H2D();
+  alpha_c.H2D();
+  alpha_z.H2D();
+  beta_s.H2D();
+  beta_d.H2D();
+  beta_c.H2D();
+  beta_z.H2D();
+
+  dpct::sparse::sparse_matrix_desc_t a_descr_s;
+  dpct::sparse::sparse_matrix_desc_t a_descr_d;
+  dpct::sparse::sparse_matrix_desc_t a_descr_c;
+  dpct::sparse::sparse_matrix_desc_t a_descr_z;
+  a_descr_s = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      4, 5, 9, a_row_ptr.d_data, a_col_ind.d_data, a_s_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_float,
+      dpct::sparse::matrix_format::csr);
+  a_descr_d = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      4, 5, 9, a_row_ptr.d_data, a_col_ind.d_data, a_d_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_double,
+      dpct::sparse::matrix_format::csr);
+  a_descr_c = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      4, 5, 9, a_row_ptr.d_data, a_col_ind.d_data, a_c_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_float,
+      dpct::sparse::matrix_format::csr);
+  a_descr_z = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      4, 5, 9, a_row_ptr.d_data, a_col_ind.d_data, a_z_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_double,
+      dpct::sparse::matrix_format::csr);
+
+  std::shared_ptr<dpct::sparse::dense_matrix_desc> b_descr_s;
+  std::shared_ptr<dpct::sparse::dense_matrix_desc> b_descr_d;
+  std::shared_ptr<dpct::sparse::dense_matrix_desc> b_descr_c;
+  std::shared_ptr<dpct::sparse::dense_matrix_desc> b_descr_z;
+  b_descr_s = std::make_shared<dpct::sparse::dense_matrix_desc>(
+      5, 2, 5, b_s.d_data, dpct::library_data_t::real_float,
+      oneapi::mkl::layout::col_major);
+  b_descr_d = std::make_shared<dpct::sparse::dense_matrix_desc>(
+      5, 2, 5, b_d.d_data, dpct::library_data_t::real_double,
+      oneapi::mkl::layout::col_major);
+  b_descr_c = std::make_shared<dpct::sparse::dense_matrix_desc>(
+      5, 2, 5, b_c.d_data, dpct::library_data_t::complex_float,
+      oneapi::mkl::layout::col_major);
+  b_descr_z = std::make_shared<dpct::sparse::dense_matrix_desc>(
+      5, 2, 5, b_z.d_data, dpct::library_data_t::complex_double,
+      oneapi::mkl::layout::col_major);
+
+  std::shared_ptr<dpct::sparse::dense_matrix_desc> c_descr_s;
+  std::shared_ptr<dpct::sparse::dense_matrix_desc> c_descr_d;
+  std::shared_ptr<dpct::sparse::dense_matrix_desc> c_descr_c;
+  std::shared_ptr<dpct::sparse::dense_matrix_desc> c_descr_z;
+  c_descr_s = std::make_shared<dpct::sparse::dense_matrix_desc>(
+      4, 2, 4, c_s.d_data, dpct::library_data_t::real_float,
+      oneapi::mkl::layout::col_major);
+  c_descr_d = std::make_shared<dpct::sparse::dense_matrix_desc>(
+      4, 2, 4, c_d.d_data, dpct::library_data_t::real_double,
+      oneapi::mkl::layout::col_major);
+  c_descr_c = std::make_shared<dpct::sparse::dense_matrix_desc>(
+      4, 2, 4, c_c.d_data, dpct::library_data_t::complex_float,
+      oneapi::mkl::layout::col_major);
+  c_descr_z = std::make_shared<dpct::sparse::dense_matrix_desc>(
+      4, 2, 4, c_z.d_data, dpct::library_data_t::complex_double,
+      oneapi::mkl::layout::col_major);
+
+  size_t ws_size_s;
+  size_t ws_size_d;
+  size_t ws_size_c;
+  size_t ws_size_z;
+  ws_size_s = 0;
+  ws_size_d = 0;
+  ws_size_c = 0;
+  ws_size_z = 0;
+
+  void *ws_s;
+  void *ws_d;
+  void *ws_c;
+  void *ws_z;
+  ws_s = dpct::dpct_malloc(ws_size_s);
+  ws_d = dpct::dpct_malloc(ws_size_d);
+  ws_c = dpct::dpct_malloc(ws_size_c);
+  ws_z = dpct::dpct_malloc(ws_size_z);
+
+  /*
+  DPCT1026:2: The call to cusparseSpMM_preprocess was removed because this call
+  is redundant in SYCL.
+  */
+  /*
+  DPCT1026:3: The call to cusparseSpMM_preprocess was removed because this call
+  is redundant in SYCL.
+  */
+  /*
+  DPCT1026:4: The call to cusparseSpMM_preprocess was removed because this call
+  is redundant in SYCL.
+  */
+  /*
+  DPCT1026:5: The call to cusparseSpMM_preprocess was removed because this call
+  is redundant in SYCL.
+  */
+  dpct::sparse::spmm(*handle, oneapi::mkl::transpose::nontrans,
+                     oneapi::mkl::transpose::nontrans, alpha_s.d_data,
+                     a_descr_s, b_descr_s, beta_s.d_data, c_descr_s,
+                     dpct::library_data_t::real_float);
+  dpct::sparse::spmm(*handle, oneapi::mkl::transpose::nontrans,
+                     oneapi::mkl::transpose::nontrans, alpha_d.d_data,
+                     a_descr_d, b_descr_d, beta_d.d_data, c_descr_d,
+                     dpct::library_data_t::real_double);
+  if (run_complex_datatype) {
+    dpct::sparse::spmm(*handle, oneapi::mkl::transpose::nontrans,
+                       oneapi::mkl::transpose::nontrans, alpha_c.d_data,
+                       a_descr_c, b_descr_c, beta_c.d_data, c_descr_c,
+                       dpct::library_data_t::complex_float);
+    dpct::sparse::spmm(*handle, oneapi::mkl::transpose::nontrans,
+                       oneapi::mkl::transpose::nontrans, alpha_z.d_data,
+                       a_descr_z, b_descr_z, beta_z.d_data, c_descr_z,
+                       dpct::library_data_t::complex_double);
+  }
+
+  c_s.D2H();
+  c_d.D2H();
+  c_c.D2H();
+  c_z.D2H();
+
+  q_ct1.wait();
+
+  dpct::dpct_free(ws_s);
+  dpct::dpct_free(ws_d);
+  dpct::dpct_free(ws_c);
+  dpct::dpct_free(ws_z);
+  a_descr_s.reset();
+  a_descr_d.reset();
+  a_descr_c.reset();
+  a_descr_z.reset();
+  b_descr_s.reset();
+  b_descr_d.reset();
+  b_descr_c.reset();
+  b_descr_z.reset();
+  c_descr_s.reset();
+  c_descr_d.reset();
+  c_descr_c.reset();
+  c_descr_z.reset();
+  handle = nullptr;
+
+  float expect_c[8] = {90, 130, 730, 570, 340, 380, 1730, 1320};
+  if (compare_result(expect_c, c_s.h_data, 8) &&
+      compare_result(expect_c, c_d.h_data, 8)/* &&
+      compare_result(expect_c, c_c.h_data, 8) &&
+      compare_result(expect_c, c_z.h_data, 8)*/)
+    printf("SpMM pass\n");
+  else {
+    printf("SpMM fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_cusparseSetGetStream();
   test_cusparseTcsrmv_ge();
@@ -749,6 +1145,8 @@ int main() {
   test_cusparseTcsrmv_tr();
   // test_cusparseTcsrmm(); // Re-enable this test until MKL issue fixed
   test_cusparseTcsrsv();
+  // test_cusparseSpMV(); // Re-enable this test until MKL issue fixed
+  // test_cusparseSpMM(); // Re-enable this test until MKL issue fixed
 
   if (test_passed)
     return 0;
