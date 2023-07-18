@@ -84,6 +84,11 @@ int test_device_ptr_manipulation(void)
 
     failing_tests += ASSERT_EQUAL("device_ptr test 8", end - begin, 5);
 
+    dpct::device_iterator<int> iter(begin);
+    *begin = 3;
+    failing_tests += ASSERT_EQUAL("device_ptr test 9", *begin, 3);
+    failing_tests += ASSERT_EQUAL("device_ptr test 10", *iter, 3);
+
     return failing_tests;
 }
 
