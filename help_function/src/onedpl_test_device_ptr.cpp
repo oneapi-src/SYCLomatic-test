@@ -42,7 +42,7 @@ int test_device_ptr_manipulation(void)
     dpct::device_pointer<int> begin(data, 0);
     dpct::device_pointer<int> end(data, 5);
 #else
-    dpct::device_pointer<int> data(5);
+    dpct::device_pointer<int> data(5 * sizeof(T));
     dpct::device_pointer<int> begin(data);
     dpct::device_pointer<int> end(data + 5);
 #endif
