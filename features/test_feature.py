@@ -94,6 +94,8 @@ def migrate_test():
         src.append(' --enable-profiling ')
     if test_config.current_test == 'sync_warp_p2':
         src.append(' --use-experimental-features=masked-sub-group-operation ')
+    if test_config.current_test == 'wmma':
+        src.append(' --use-experimental-features=matrix ')
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
