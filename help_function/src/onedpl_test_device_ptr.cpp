@@ -39,12 +39,12 @@ int test_device_ptr_manipulation(void)
 #ifdef DPCT_USM_LEVEL_NONE
     sycl::buffer<T, 1> data(sycl::range<1>(5));
 
-    dpct::device_pointer<int> begin(data, 0);
-    dpct::device_pointer<int> end(data, 5);
+    dpct::device_pointer<T> begin(data, 0);
+    dpct::device_pointer<T> end(data, 5);
 #else
-    dpct::device_pointer<int> data(5 * sizeof(T));
-    dpct::device_pointer<int> begin(data);
-    dpct::device_pointer<int> end(data + 5);
+    dpct::device_pointer<T> data(5 * sizeof(T));
+    dpct::device_pointer<T> begin(data);
+    dpct::device_pointer<T> end(data + 5);
 #endif
 
     failing_tests += ASSERT_EQUAL("device_ptr test 1", end - begin, 5);
@@ -79,12 +79,12 @@ int test_device_ptr_manipulation(void)
 
     failing_tests += ASSERT_EQUAL("device_ptr test 7", end - begin, 5);
 
-    begin = begin + (dpct::device_pointer<int>::difference_type) 1;
-    begin = begin - (dpct::device_pointer<int>::difference_type) 1;
+    begin = begin + (dpct::device_pointer<T>::difference_type) 1;
+    begin = begin - (dpct::device_pointer<T>::difference_type) 1;
 
     failing_tests += ASSERT_EQUAL("device_ptr test 8", end - begin, 5);
 
-    dpct::device_iterator<int> iter(begin);
+    dpct::device_iterator<T> iter(begin);
     *begin = 3;
     failing_tests += ASSERT_EQUAL("device_ptr test 9", *begin, 3);
     failing_tests += ASSERT_EQUAL("device_ptr test 10", *iter, 3);
