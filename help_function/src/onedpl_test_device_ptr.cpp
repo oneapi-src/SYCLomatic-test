@@ -116,33 +116,6 @@ int test_device_ptr_iteration(void)
 }
 
 int main() {
-    // FPGA device selector:  Emulator or Hardware
-#ifdef FPGA_EMULATOR
-    sycl::intel::fpga_emulator_selector device_selector;
-#elif defined(FPGA)
-    sycl::intel::fpga_selector device_selector;
-#else
-    // Initializing the devices queue with the default selector
-    // The device queue is used to enqueue the kernels and encapsulates
-    // all the states needed for execution
-    sycl::default_selector device_selector;
-#endif
-
-    std::unique_ptr<sycl::queue> device_queue;
-    try {
-        device_queue.reset( new sycl::queue(device_selector) );
-    } catch (sycl::exception const& e) {
-        std::cout << "Caught a synchronous SYCL exception:" << std::endl
-                  << e.what() << std::endl;
-        std::cout << "If you are targeting an FPGA hardware, please ensure that your system is "
-                     "plugged to an FPGA board that is set up correctly and compile with -DFPGA"
-                  << std::endl;
-        std::cout << "If you are targeting the FPGA emulator, compile with -DFPGA_EMULATOR."
-                  << std::endl;
-    }
-
-    std::cout << "Device: " << device_queue->get_device().get_info<sycl::info::device::name>()
-              << std::endl;
     int failed_tests = test_device_ptr_manipulation();
     failed_tests += test_device_ptr_iteration();
 
