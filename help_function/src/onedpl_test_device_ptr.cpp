@@ -92,8 +92,9 @@ int test_device_ptr_manipulation(void)
     return failing_tests;
 }
 
-void test_device_ptr_iteration(void)
+int test_device_ptr_iteration(void)
 {
+    int failing_tests = 0;
     typedef size_t T;
 
 #ifdef DPCT_USM_LEVEL_NONE
@@ -110,7 +111,8 @@ void test_device_ptr_iteration(void)
 
     std::fill(policy, begin, end, 99);
     T result = oneapi::dpl::transform_reduce(policy, begin, end, static_cast<T>(0), std::plus<T>(), oneapi::dpl::identity());
-    std::cout << "iteration result = " << result << ", expected = " << 99 * 1024 << "\n";
+    failing_tests += ASSERT_EQUAL("device_ptr in transform_reduce", result, 1024*99);
+    return failing_tests;
 }
 
 int main() {
@@ -142,7 +144,7 @@ int main() {
     std::cout << "Device: " << device_queue->get_device().get_info<sycl::info::device::name>()
               << std::endl;
     int failed_tests = test_device_ptr_manipulation();
-    test_device_ptr_iteration();
+    failed_tests += test_device_ptr_iteration();
 
     std::cout << std::endl << failed_tests << " failing test(s) detected." << std::endl;
     if (failed_tests == 0) {
