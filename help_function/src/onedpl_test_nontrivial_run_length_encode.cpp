@@ -47,10 +47,10 @@ int main() {
     sycl::buffer<int64_t, 1> dst_lengths_buf{sycl::range<1>(10)};
     sycl::buffer<int64_t, 1> dst_num_runs{sycl::range<1>(1)};
     auto src_it = oneapi::dpl::begin(src_buf);
-    auto src_end_it = oneapi::dpl::end(src_buf);
     auto dst_offsets_it = oneapi::dpl::begin(dst_offsets_buf);
     auto dst_lengths_it = oneapi::dpl::begin(dst_lengths_buf);
     auto dst_num_runs_it = oneapi::dpl::begin(dst_num_runs);
+    int num_items = 10;
     {
       auto src_acc = src_buf.get_host_access();
       src_acc[0] = 4, src_acc[1] = 2, src_acc[2] = 2, src_acc[3] = 2,
@@ -58,8 +58,8 @@ int main() {
       src_acc[8] = 8, src_acc[9] = 4;
     }
     dpct::nontrivial_run_length_encode(oneapi::dpl::execution::dpcpp_default,
-                                       src_it, src_end_it, dst_offsets_it,
-                                       dst_lengths_it, dst_num_runs_it);
+                                       src_it, dst_offsets_it, dst_lengths_it,
+                                       dst_num_runs_it, num_items);
     {
       int offsets_check[2] = {1, 7};
       int lengths_check[2] = {3, 2};
@@ -86,10 +86,10 @@ int main() {
     sycl::buffer<int64_t, 1> dst_lengths_buf{sycl::range<1>(12)};
     sycl::buffer<int64_t, 1> dst_num_runs{sycl::range<1>(1)};
     auto src_it = oneapi::dpl::begin(src_buf);
-    auto src_end_it = oneapi::dpl::end(src_buf);
     auto dst_offsets_it = oneapi::dpl::begin(dst_offsets_buf);
     auto dst_lengths_it = oneapi::dpl::begin(dst_lengths_buf);
     auto dst_num_runs_it = oneapi::dpl::begin(dst_num_runs);
+    int num_items = 12;
     {
       auto src_acc = src_buf.get_host_access();
       src_acc[0] = 4, src_acc[1] = 4, src_acc[2] = 2, src_acc[3] = 2,
@@ -97,8 +97,8 @@ int main() {
       src_acc[8] = 6, src_acc[9] = 3, src_acc[10] = 3, src_acc[11] = 3;
     }
     dpct::nontrivial_run_length_encode(oneapi::dpl::execution::dpcpp_default,
-                                       src_it, src_end_it, dst_offsets_it,
-                                       dst_lengths_it, dst_num_runs_it);
+                                       src_it, dst_offsets_it, dst_lengths_it,
+                                       dst_num_runs_it, num_items);
     {
       int offsets_check[3] = {0, 2, 9};
       int lengths_check[3] = {2, 2, 3};
@@ -125,18 +125,18 @@ int main() {
     sycl::buffer<int64_t, 1> dst_lengths_buf{sycl::range<1>(5)};
     sycl::buffer<int64_t, 1> dst_num_runs{sycl::range<1>(1)};
     auto src_it = oneapi::dpl::begin(src_buf);
-    auto src_end_it = oneapi::dpl::end(src_buf);
     auto dst_offsets_it = oneapi::dpl::begin(dst_offsets_buf);
     auto dst_lengths_it = oneapi::dpl::begin(dst_lengths_buf);
     auto dst_num_runs_it = oneapi::dpl::begin(dst_num_runs);
+    int num_items = 5;
     {
       auto src_acc = src_buf.get_host_access();
       src_acc[0] = 0, src_acc[1] = 1, src_acc[2] = 2, src_acc[3] = 3,
       src_acc[4] = 4;
     }
     dpct::nontrivial_run_length_encode(oneapi::dpl::execution::dpcpp_default,
-                                       src_it, src_end_it, dst_offsets_it,
-                                       dst_lengths_it, dst_num_runs_it);
+                                       src_it, dst_offsets_it, dst_lengths_it,
+                                       dst_num_runs_it, num_items);
     {
       std::string test_name =
           "Call to dpct::nontrivial_run_length_encode with no runs at all";
@@ -153,18 +153,18 @@ int main() {
     sycl::buffer<int64_t, 1> dst_lengths_buf{sycl::range<1>(5)};
     sycl::buffer<int64_t, 1> dst_num_runs{sycl::range<1>(1)};
     auto src_it = oneapi::dpl::begin(src_buf);
-    auto src_end_it = oneapi::dpl::end(src_buf);
     auto dst_offsets_it = oneapi::dpl::begin(dst_offsets_buf);
     auto dst_lengths_it = oneapi::dpl::begin(dst_lengths_buf);
     auto dst_num_runs_it = oneapi::dpl::begin(dst_num_runs);
+    int num_items = 5;
     {
       auto src_acc = src_buf.get_host_access();
       src_acc[0] = 2, src_acc[1] = 2, src_acc[2] = 2, src_acc[3] = 2,
       src_acc[4] = 2;
     }
     dpct::nontrivial_run_length_encode(oneapi::dpl::execution::dpcpp_default,
-                                       src_it, src_end_it, dst_offsets_it,
-                                       dst_lengths_it, dst_num_runs_it);
+                                       src_it, dst_offsets_it, dst_lengths_it,
+                                       dst_num_runs_it, num_items);
     {
       std::string test_name =
           "Call to dpct::nontrivial_run_length_encode with one single run";
@@ -185,10 +185,10 @@ int main() {
     sycl::buffer<std::size_t, 1> dst_lengths_buf{sycl::range<1>(10)};
     sycl::buffer<int64_t, 1> dst_num_runs{sycl::range<1>(1)};
     auto src_it = oneapi::dpl::begin(src_buf);
-    auto src_end_it = oneapi::dpl::end(src_buf);
     auto dst_offsets_it = oneapi::dpl::begin(dst_offsets_buf);
     auto dst_lengths_it = oneapi::dpl::begin(dst_lengths_buf);
     auto dst_num_runs_it = oneapi::dpl::begin(dst_num_runs);
+    int num_items = 10;
     {
       auto src_acc = src_buf.get_host_access();
       src_acc[0] = 0, src_acc[1] = 1, src_acc[2] = 1, src_acc[3] = 0,
@@ -196,8 +196,8 @@ int main() {
       src_acc[8] = 0, src_acc[9] = 1;
     }
     dpct::nontrivial_run_length_encode(oneapi::dpl::execution::dpcpp_default,
-                                       src_it, src_end_it, dst_offsets_it,
-                                       dst_lengths_it, dst_num_runs_it);
+                                       src_it, dst_offsets_it, dst_lengths_it,
+                                       dst_num_runs_it, num_items);
     {
       int offsets_check[4] = {1, 3, 5, 7};
       int lengths_check[4] = {2, 2, 2, 2};
