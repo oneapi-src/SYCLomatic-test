@@ -7,7 +7,7 @@
 //
 // ===----------------------------------------------------------------------===//
 dpct::constant_memory<float, 1> const_angle(360);
-void simple_kernel(float *d_array, float *const_angle) {
+void simple_kernel(float *d_array, float const *const_angle) {
   d_array[0] = const_angle[0];
   return;
 }
