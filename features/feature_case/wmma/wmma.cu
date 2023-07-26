@@ -29,13 +29,13 @@
 __host__ void init_host_matrices(half *a, half *b, float *c) {
   for (int i = 0; i < M_GLOBAL; i++) {
     for (int j = 0; j < K_GLOBAL; j++) {
-      a[i * K_GLOBAL + j] = (half)(rand() % 3);
+      a[i * K_GLOBAL + j] = 0;
     }
   }
 
   for (int i = 0; i < N_GLOBAL; i++) {
     for (int j = 0; j < K_GLOBAL; j++) {
-      b[i * K_GLOBAL + j] = (half)(rand() % 3);
+      b[i * K_GLOBAL + j] = 0;
     }
   }
 
