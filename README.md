@@ -73,6 +73,16 @@ The configuration file test_suite_list.xml lists all the test suites target to b
 | name         | Name of test suite, also **${dir}/${name}.xml** is configuration file for this suite.           |
 | opts         | Specifies the test option list for each test suite. Test options can be: **option_cpu**, **option_gpu**, **option_usmnone_cpu**, **option_cuda_backend** and so on. Each test option defines the target device to run and extra c2s options during migration, more details in the [Define option for a test suite](#define-option-for-a-test-suite-option_mappingjson). |
 
+### Current test suite in SYCLomatic-test
+| Test suite name | Description| Link with the CI|
+| ------------ | ------------------------------------------------------------ |---|
+|api_coverage | The test suite includes API migration tests cases. Also reference to https://github.com/oneapi-src/SYCLomatic/tree/SYCLomatic/clang/test/dpct for more API migration test cases. |test-api_coverage|
+|behavior_tests | The test suite includes both positive and negative behavior tests, target to validate the expected behavior of the SYCLomatic tool. |test-behavior_tests|
+|help_function | The test suite contains the helper function test cases. New test case should be added if you implement a new helper function. The helper function is in https://github.com/oneapi-src/SYCLomatic/tree/SYCLomatic/clang/runtime/dpct-rt/include | test-help_function|
+|features | The current test suite contains test cases for features of SYCLomatic. If a new feature is implemented, like enabling migration for new API(s), adding additional tool functionality, please make sure to include the corresponding end-to-end test cases in the suite. |test-features|
+|regressions| The suite includes regression test cases which are captured during regular test. |test-regressions|
+|samples|The suite consists of small end-to-end samples that cover various functionalities and scenarios.|test-samples|
+|user_guide_samples| The suite includes test cases derived from the SYCLomatic user guide. |test-user_guide_samples|
 
 ### Define option for a test suite: option_mapping.json
 
