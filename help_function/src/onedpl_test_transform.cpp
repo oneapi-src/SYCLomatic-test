@@ -254,9 +254,9 @@ void transform_call6(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2
         policy, first1, last1, first2,
         oneapi::dpl::make_zip_iterator
         (
-            perm_input1, perm_input2,
-            oneapi::dpl::make_permutation_iterator(perm_input1, perm_map_input),
-            oneapi::dpl::make_permutation_iterator(perm_input2, perm_map_input)
+            perm_input1, perm_input2
+            //oneapi::dpl::make_permutation_iterator(perm_input1, perm_map_input),
+            //oneapi::dpl::make_permutation_iterator(perm_input2, perm_map_input)
         ),
         add_to_tuple_components2<TupleT>()
     );
