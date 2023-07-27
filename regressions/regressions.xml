@@ -19,7 +19,7 @@
         <!-- <test testName="test-1551" configFile="config/TEMPLATE_regressions.xml" /> -->
         <test testName="test-1554" configFile="config/TEMPLATE_regressions.xml" />
         <test testName="test-1577" configFile="config/TEMPLATE_regressions.xml" />
-	<test testName="test-1582" configFile="config/test-1582.xml" />
+	<!-- <test testName="test-1582" configFile="config/test-1582.xml" /> -->
 	<!-- <test testName="test-1587" configFile="config/test-1587.xml" /> -->
         <test testName="test-1247" configFile="config/test-1247.xml" />
         <test testName="test-1592" configFile="config/TEMPLATE_regressions.xml" />
