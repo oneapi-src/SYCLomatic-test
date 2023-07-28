@@ -1532,11 +1532,17 @@ int main() {
         {
             test_name = "transform with make_perm_it 3/8";
             auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
+            int expected_transformations[] = { 45, 60, 35, 26 };
             for (int i = 0; i != 8; ++i) {
-                std::cout << src1[i] << " ";
-                std::cout << hostArray[i] << std::endl;
+                if (i < 3 || i > 6) {
+                    num_failing += ASSERT_EQUAL(test_name, src1[i], i);
+                    num_failing += ASSERT_EQUAL(test_name, hostArray[i], i);
+                }
+                else {
+                    num_failing += ASSERT_EQUAL(test_name, src1[i], expected_transformations[i - 3]);
+                    num_failing += ASSERT_EQUAL(test_name, hostArray[i], expected_transformations[i - 3]);
+                }
             }
-
             failed_tests += test_passed(num_failing, test_name);
             num_failing = 0;
         }
