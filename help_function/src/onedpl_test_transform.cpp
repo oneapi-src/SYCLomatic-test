@@ -21,14 +21,12 @@
 // Certain iterator types cannot be currently composed with std::transform and cause compilation failures.
 // The following macros are used to disable these tests that should function but currently do not
 // compile due to known oneDPL limitations. These tests are excluded for the time being
-// and do not effect the passing status of this test.
+// and do not affect the passing status of this test.
 
 // TODO: Reenable these tests in the future once these iterator limitations are addressed in oneDPL.
 
 // transform with buffer 8/15 (transform_call6) and transform with make_zip_it 2/2 (transform_call21)
 #define BROKEN_ZIP_IT_OVER_PERM_IT 1
-// transform with make_perm_it 3/8 (transform_call12)
-#define BROKEN_TRANSFORM_IT_OVER_ZIP_IT 1
 // transform with buffer 11/15 (transform_call9)
 #define BROKEN_ZIP_IT_INPUT_OUTPUT 1
 // transform with make_counting_it 3/4 (transform_call19)
@@ -174,10 +172,16 @@ struct square {
     }
 };
 
-struct assign_square {
+struct tuple_square {
     template<typename T>
-    void operator()(T&& t) const {
-       std::get<1>(t) =std::get<0>(t) *std::get<0>(t);
+    auto operator()(const T& t) const {
+       // The generic workaround of the tuple element constness
+       // is an internal oneDPL utility class that decays elements
+       // within a tuple to deduce the correct return type.
+       using ret_type = oneapi::dpl::__internal::__decay_with_tuple_specialization_t<T>;
+       ret_type ret = t;
+       std::get<1>(ret) = std::get<0>(ret) * std::get<0>(ret);
+       return ret;
     }
 };
 
@@ -255,8 +259,6 @@ void transform_call6(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2
         oneapi::dpl::make_zip_iterator
         (
             perm_input1, perm_input2
-            //oneapi::dpl::make_permutation_iterator(perm_input1, perm_map_input),
-            //oneapi::dpl::make_permutation_iterator(perm_input2, perm_map_input)
         ),
         add_to_tuple_components2<TupleT>()
     );
@@ -352,7 +354,6 @@ void transform_call11(Policy policy, Iterator1 input1, Iterator1 input2, Iterato
     );
 }
 
-#if !BROKEN_TRANSFORM_IT_OVER_ZIP_IT
 // transform(perm_it, perm_it, transform_it<zip_it<buffer x2>, func>, perm_it)
 template <typename Policy, typename Iterator1>
 void transform_call12(Policy policy, Iterator1 input1, Iterator1 input2, Iterator1 input_map) {
@@ -367,13 +368,12 @@ void transform_call12(Policy policy, Iterator1 input1, Iterator1 input2, Iterato
         oneapi::dpl::make_transform_iterator
         (
             oneapi::dpl::make_zip_iterator(input2, input2 + 1),
-            assign_square()
+            tuple_square()
         ),
         perm_begin,
         add_tuple_components2()
     );
 }
-#endif
 
 // transform(perm_it, perm_it, zip_it<perm_it, perm_it>, perm_it)
 template <typename Policy, typename Iterator1>
@@ -1502,7 +1502,6 @@ int main() {
             num_failing = 0;
         }
 
-#if !BROKEN_TRANSFORM_IT_OVER_ZIP_IT
         // test 3/8
         iota_buffer(src1_buf, 0, 8, 0);
 
@@ -1541,7 +1540,6 @@ int main() {
             failed_tests += test_passed(num_failing, test_name);
             num_failing = 0;
         }
-#endif
 
         // test 4/8
 
