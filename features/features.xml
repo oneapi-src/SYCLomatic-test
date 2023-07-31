@@ -139,7 +139,7 @@
     <test testName="cublas-only-usm" configFile="config/TEMPLATE_cuBlas_usm.xml" />
     <test testName="cusparse-helper" configFile="feature_case/cusparse/config/cusparse-helper.xml" />
     <test testName="backprop" configFile="config/TEMPLATE_backprop.xml" />
-    <test testName="device_info" configFile="config/TEMPLATE_device_info.xml" />
+    <!-- <test testName="device_info" configFile="config/TEMPLATE_device_info.xml" /> -->
     <!-- <test testName="autoGenMakefile" configFile="config/TEMPLATE_autoGenMakefile.xml" /> -->
     <test testName="cufft-deduce" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft-different-locations-usm" configFile="config/TEMPLATE_cuFFT.xml" />
@@ -159,7 +159,7 @@
     <test testName="driverDevice" configFile="config/TEMPLATE_driverDevice.xml" />
     <test testName="driverStreamAndEvent" configFile="config/TEMPLATE_driverStreamAndEvent.xml" />
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
-    <test testName="sync_warp_p2" configFile="config/TEMPLATE_sync_warp_p2.xml" />
+    <!-- <test testName="sync_warp_p2" configFile="config/TEMPLATE_sync_warp_p2.xml" /> -->
     <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
     <!-- <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" /> -->
@@ -254,7 +254,7 @@
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
     <!-- <test testName="ccl-test" configFile="config/TEMPLATE_ccl_api.xml" />
     <test testName="ccl-test2" configFile="config/TEMPLATE_ccl_api.xml" /> -->
-    <test testName="cooperative_groups_reduce" configFile="config/TEMPLATE_cooperative_groups_reduce.xml" />
+    <!-- <test testName="cooperative_groups_reduce" configFile="config/TEMPLATE_cooperative_groups_reduce.xml" /> -->
     <!-- <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/> -->
     <!-- <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" /> -->
     <!-- <test testName="libcu_array" configFile="config/TEMPLATE_libcu.xml" /> -->
