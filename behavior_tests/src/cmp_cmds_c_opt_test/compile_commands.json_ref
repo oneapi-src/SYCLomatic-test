@@ -1,0 +1,22 @@
+[
+    {
+        "command": "nvcc  -O2 -DKERNEL_USE_PROFILE=1 -DRUN_ON_GPU=1 -o one -allow-unsupported-compiler -D__CUDACC__=1 one.cu",
+        "directory": "/export/users/dahmed/up/build/tools/clang/test/dpct/compile_commands_c_opt_test/Output/compile_commands_c_opt_test",
+        "file": "/export/users/dahmed/up/build/tools/clang/test/dpct/compile_commands_c_opt_test/Output/compile_commands_c_opt_test/one.cu"
+    },
+    {
+        "command": "nvcc -c  -O2 -DKERNEL_USE_PROFILE=1 -DRUN_ON_GPU=1 -D__CUDACC__=1 two.cu",
+        "directory": "/export/users/dahmed/up/build/tools/clang/test/dpct/compile_commands_c_opt_test/Output/compile_commands_c_opt_test",
+        "file": "/export/users/dahmed/up/build/tools/clang/test/dpct/compile_commands_c_opt_test/Output/compile_commands_c_opt_test/two.cu"
+    },
+    {
+        "command": "nvcc -c  -O2 -DKERNEL_USE_PROFILE=1 -DRUN_ON_GPU=1 -D__CUDACC__=1 three.cu",
+        "directory": "/export/users/dahmed/up/build/tools/clang/test/dpct/compile_commands_c_opt_test/Output/compile_commands_c_opt_test",
+        "file": "/export/users/dahmed/up/build/tools/clang/test/dpct/compile_commands_c_opt_test/Output/compile_commands_c_opt_test/three.cu"
+    },
+    {
+        "command": "nvcc -c  -O2 -DKERNEL_USE_PROFILE=1 -DRUN_ON_GPU=1 -D__CUDACC__=1 four.cu",
+        "directory": "/export/users/dahmed/up/build/tools/clang/test/dpct/compile_commands_c_opt_test/Output/compile_commands_c_opt_test",
+        "file": "/export/users/dahmed/up/build/tools/clang/test/dpct/compile_commands_c_opt_test/Output/compile_commands_c_opt_test/four.cu"
+    }
+]
