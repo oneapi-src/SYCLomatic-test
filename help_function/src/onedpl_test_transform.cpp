@@ -102,6 +102,22 @@ template<typename Queue, typename Array> void device_to_host(Queue &q, Array hos
     q.wait();
 }
 
+// Ported from oneDPL: oneapi/dpl/pstl/tuple_impl.h
+template <typename T>
+struct tuple_decay
+{
+    using type = ::std::decay_t<T>;
+};
+
+template <typename... Args>
+struct tuple_decay<oneapi::dpl::__internal::tuple<Args...>>
+{
+    using type = oneapi::dpl::__internal::tuple<::std::decay_t<Args>...>;
+};
+
+template <typename... Args>
+using tuple_decay_t = typename tuple_decay<Args...>::type;
+
 struct add_tuple_components {
     template <typename Scalar, typename Tuple>
     Scalar operator()(const Scalar& s, const Tuple& t) const {
@@ -178,7 +194,7 @@ struct tuple_square {
        // The generic workaround of the tuple element constness
        // is an internal oneDPL utility class that decays elements
        // within a tuple to deduce the correct return type.
-       using ret_type = oneapi::dpl::__internal::__decay_with_tuple_specialization_t<T>;
+       using ret_type = tuple_decay_t<T>;
        ret_type ret = t;
        std::get<1>(ret) = std::get<0>(ret) * std::get<0>(ret);
        return ret;
