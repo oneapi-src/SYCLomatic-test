@@ -31,6 +31,7 @@ exec_tests = ['asm', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 
               'cub_device_reduce_arg', 'cub_device_seg_sort_pairs', 'cub_intrinsic', 'cub_device_seg_sort_keys', 'thrust-math1', 'thrust-math2',
               'cub_transform_iterator', 'activemask', 'complex', 'thrust-math', 'libcu_array', 'libcu_complex', 'libcu_tuple',
               'user_defined_rules', 'math-exec', 'math-habs', 'math-emu-double', 'math-emu-float', 'math-emu-half', 'math-emu-half-after11', 'math-emu-half2', 'math-emu-half2-after11', 'math-emu-half2-after12', 'math-emu-simd',
+              'math-emu-bf16', 'math-emu-bf162', 'math-experimental-bf16',
               'math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half-after11', 'math-ext-half2', 'math-ext-half2-after11', 'math-ext-simd', 'cudnn-activation',
               'cudnn-fill', 'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax',
               'cudnn-sum', 'math-funnelshift', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
@@ -75,6 +76,7 @@ def migrate_test():
 
     nd_range_bar_exper = ['grid_sync']
     logical_group_exper = ['cooperative_groups']
+    experimental_bfloat16_tests = ['math-experimental-bf16']
 
     math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half-after11', 'math-ext-half2', 'math-ext-half2-after11', 'math-ext-simd']
 
@@ -96,6 +98,8 @@ def migrate_test():
         src.append(' --use-experimental-features=masked-sub-group-operation ')
     if test_config.current_test == 'wmma':
         src.append(' --use-experimental-features=matrix ')
+    if test_config.current_test in experimental_bfloat16_tests:
+        src.append(' --use-experimental-features=bfloat16_math_functions ')
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
