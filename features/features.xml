@@ -129,6 +129,7 @@
     <test testName="cusparse-usm" configFile="config/TEMPLATE_cusparse_before_11.xml" />
     <test testName="perm_byte" configFile="config/TEMPLATE_perm_byte.xml" />
     <!-- <test testName="feature_profiling" configFile="config/TEMPLATE_feature_profiling.xml" /> -->
+    <test testName="system_atomic" configFile="config/TEMPLATE_system_atomic.xml" />
     <test testName="grid_constant" configFile="config/TEMPLATE_grid_constant.xml" />
     <!-- <test testName="grid_sync" configFile="config/TEMPLATE_grid_sync.xml" /> -->
     <!-- <test testName="kernel-launch" configFile="config/TEMPLATE_runtimeAPI.xml" /> -->
