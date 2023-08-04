@@ -57,6 +57,7 @@ __device__ int factorial(int n) {
 __global__ void test_kernel() {
     factorial(10);
     int * size = malloc(sizeof(int));
+    free(size);
 }
 
 
