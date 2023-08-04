@@ -237,7 +237,7 @@
     <!-- <test testName="kernel_library" configFile="config/TEMPLATE_kernel_library.xml" /> -->
     <test testName="cusparse_1" configFile="config/TEMPLATE_cusparse.xml" />
     <test testName="cusparse_2" configFile="config/TEMPLATE_cusparse_before_11_skip_double.xml" splitGroup="double"/>
-    <test testName="cusparse_3" configFile="config/TEMPLATE_cusparse_after_10_skip_double.xml" splitGroup="double"/>
+    <test testName="cusparse_3" configFile="config/TEMPLATE_cusparse_after_112_skip_double.xml" splitGroup="double"/>
     <!-- <test testName="cusolver_test1" configFile="config/TEMPLATE_solver.xml"  splitGroup="double"/> -->
     <!-- <test testName="cusolver_test2" configFile="config/TEMPLATE_solver_skip80.xml"  splitGroup="double"/> -->
     <!-- <test testName="cusolver_test3" configFile="config/TEMPLATE_solver_11.xml"  splitGroup="double"/> -->
