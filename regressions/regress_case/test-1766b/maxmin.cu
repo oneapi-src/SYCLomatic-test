@@ -28,7 +28,7 @@ bool foo1(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result - 9) >= 0.01) {
+  if (result != 10) {
     std::cout << "foo1() failed" << std::endl;
     return false;
   } else {
@@ -42,6 +42,7 @@ bool foo2(){
   int result_h;
   cublasHandle_t handle;
   cublasCreate(&handle);
+  cublasSetPointerMode(handle, CUBLAS_POINTER_MODE_DEVICE);
   cudaMalloc(&d_A, num * sizeof(double));
   cudaMalloc(&result, sizeof(int));
   double *A = new double[num];
@@ -57,7 +58,7 @@ bool foo2(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result_h - 9) >= 0.01) {
+  if (result_h != 10) {
     std::cout << "foo2() failed" << std::endl;
     return false;
   } else {
@@ -81,7 +82,7 @@ bool foo3(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result - 9) >= 0.01) {
+  if (result != 10) {
     std::cout << "foo3() failed" << std::endl;
     return false;
   } else {
@@ -95,6 +96,7 @@ bool foo4(){
   int result_h;
   cublasHandle_t handle;
   cublasCreate(&handle);
+  cublasSetPointerMode(handle, CUBLAS_POINTER_MODE_DEVICE);
   cudaMalloc(&d_A, num * sizeof(float));
   cudaMalloc(&result, sizeof(int));
   float *A = new float[num];
@@ -110,7 +112,7 @@ bool foo4(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result_h - 9) >= 0.01) {
+  if (result_h != 10) {
     std::cout << "foo4() failed" << std::endl;
     return false;
   } else {
@@ -135,7 +137,7 @@ bool foo5(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result - 9) >= 0.01) {
+  if (result != 10) {
     std::cout << "foo5() failed" << std::endl;
     return false;
   } else {
@@ -149,6 +151,7 @@ bool foo6(){
   int result_h;
   cublasHandle_t handle;
   cublasCreate(&handle);
+  cublasSetPointerMode(handle, CUBLAS_POINTER_MODE_DEVICE);
   cudaMalloc(&d_A, num * sizeof(double2));
   cudaMalloc(&result, sizeof(int));
   double2 *A = new double2[num];
@@ -165,7 +168,7 @@ bool foo6(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result_h - 9) >= 0.01) {
+  if (result_h != 10) {
     std::cout << "foo6() failed" << std::endl;
     return false;
   } else {
@@ -190,7 +193,7 @@ bool foo7(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result - 9) >= 0.01) {
+  if (result != 10) {
     std::cout << "foo7() failed" << std::endl;
     return false;
   } else {
@@ -204,6 +207,7 @@ bool foo8(){
   int result_h;
   cublasHandle_t handle;
   cublasCreate(&handle);
+  cublasSetPointerMode(handle, CUBLAS_POINTER_MODE_DEVICE);
   cudaMalloc(&d_A, num * sizeof(float2));
   cudaMalloc(&result, sizeof(int));
   float2 *A = new float2[num];
@@ -220,7 +224,7 @@ bool foo8(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result_h - 9) >= 0.01) {
+  if (result_h != 10) {
     std::cout << "foo8() failed" << std::endl;
     return false;
   } else {
@@ -244,7 +248,7 @@ bool foo1b(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result) >= 0.01) {
+  if (result != 1) {
     std::cout << "foo1b() failed" << std::endl;
     return false;
   } else {
@@ -258,6 +262,7 @@ bool foo2b(){
   int result_h;
   cublasHandle_t handle;
   cublasCreate(&handle);
+  cublasSetPointerMode(handle, CUBLAS_POINTER_MODE_DEVICE);
   cudaMalloc(&d_A, num * sizeof(double));
   cudaMalloc(&result, sizeof(int));
   double *A = new double[num];
@@ -273,7 +278,7 @@ bool foo2b(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result_h) >= 0.01) {
+  if (result_h != 1) {
     std::cout << "foo2b() failed" << std::endl;
     return false;
   } else {
@@ -297,7 +302,7 @@ bool foo3b(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result) >= 0.01) {
+  if (result != 1) {
     std::cout << "foo3b() failed" << std::endl;
     return false;
   } else {
@@ -311,6 +316,7 @@ bool foo4b(){
   int result_h;
   cublasHandle_t handle;
   cublasCreate(&handle);
+  cublasSetPointerMode(handle, CUBLAS_POINTER_MODE_DEVICE);
   cudaMalloc(&d_A, num * sizeof(float));
   cudaMalloc(&result, sizeof(int));
   float *A = new float[num];
@@ -326,7 +332,7 @@ bool foo4b(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result_h) >= 0.01) {
+  if (result_h != 1) {
     std::cout << "foo4b() failed" << std::endl;
     return false;
   } else {
@@ -351,7 +357,7 @@ bool foo5b(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result) >= 0.01) {
+  if (result != 1) {
     std::cout << "foo5b() failed" << std::endl;
     return false;
   } else {
@@ -365,6 +371,7 @@ bool foo6b(){
   int result_h;
   cublasHandle_t handle;
   cublasCreate(&handle);
+  cublasSetPointerMode(handle, CUBLAS_POINTER_MODE_DEVICE);
   cudaMalloc(&d_A, num * sizeof(double2));
   cudaMalloc(&result, sizeof(int));
   double2 *A = new double2[num];
@@ -381,7 +388,7 @@ bool foo6b(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result_h) >= 0.01) {
+  if (result_h != 1) {
     std::cout << "foo6b() failed" << std::endl;
     return false;
   } else {
@@ -406,7 +413,7 @@ bool foo7b(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result) >= 0.01) {
+  if (result != 1) {
     std::cout << "foo7b() failed" << std::endl;
     return false;
   } else {
@@ -420,6 +427,7 @@ bool foo8b(){
   int result_h;
   cublasHandle_t handle;
   cublasCreate(&handle);
+  cublasSetPointerMode(handle, CUBLAS_POINTER_MODE_DEVICE);
   cudaMalloc(&d_A, num * sizeof(float2));
   cudaMalloc(&result, sizeof(int));
   float2 *A = new float2[num];
@@ -436,7 +444,7 @@ bool foo8b(){
   cublasDestroy(handle);
   delete[] A;
   cudaDeviceSynchronize();
-  if (abs(result_h) >= 0.01) {
+  if (result_h != 1) {
     std::cout << "foo8b() failed" << std::endl;
     return false;
   } else {
