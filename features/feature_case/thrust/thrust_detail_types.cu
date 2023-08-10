@@ -57,9 +57,9 @@ int main() {
   float float_val = 3.14f;
   double double_val = 2.71;
 
-  print_info(integer_val); // Output: Integral value: 42
+  print_info(integer_val); // Output: Integral value: 1
   print_info(float_val);   // Output: Floating-point value: 3.14
-  print_info(double_val);  // Output: Floating-point value: 2.71828
+  print_info(double_val);  // Output: Floating-point value: 2.71
 
   thrust::device_vector<int> A(1);
   thrust::device_vector<int> B(1);
