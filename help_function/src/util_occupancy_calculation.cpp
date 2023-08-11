@@ -20,5 +20,11 @@ int main() {
       &num_blocks, block_size,
       dynamic_shared_memory_size, sg_size, used_barrier,
       used_large_grf);
+
+  int block_size_limit = 0;
+  dpct::experimental::calculate_max_potential_wg(
+      &num_blocks, &block_size, block_size_limit,
+      dynamic_shared_memory_size, sg_size, used_barrier,
+      used_large_grf);
   return 0;
 }
