@@ -44,6 +44,36 @@ void checkResult(const string &FuncName, const vector<T> &Inputs,
   check(abs(DeviceResult - Expect) < pow(10, -precision));
 }
 
+__global__ void cylBesselI0f(float *const Result, float Input1) {
+  *Result = cyl_bessel_i0f(Input1);
+}
+
+void testCylBesselI0fCases(const vector<pair<float, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    cylBesselI0f<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("cyl_bessel_i0f", {TestCase.first}, TestCase.second.first,
+                *Result, TestCase.second.second);
+  }
+}
+
+__global__ void cylBesselI1f(float *const Result, float Input1) {
+  *Result = cyl_bessel_i1f(Input1);
+}
+
+void testCylBesselI1fCases(const vector<pair<float, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    cylBesselI1f<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("cyl_bessel_i1f", {TestCase.first}, TestCase.second.first,
+                *Result, TestCase.second.second);
+  }
+}
+
 __global__ void _erfcinvf(float *const DeviceResult, float Input) {
   *DeviceResult = erfcinvf(Input);
 }
@@ -97,6 +127,36 @@ void testErfinvfCases(const vector<pair<float, fi_pair>> &TestCases) {
     testErfinvf(DeviceResult, TestCase.first);
     checkResult("erfinvf", {TestCase.first}, TestCase.second.first,
                 *DeviceResult, TestCase.second.second);
+  }
+}
+
+__global__ void _j0f(float *const Result, float Input1) {
+  *Result = j0f(Input1);
+}
+
+void testJ0fCases(const vector<pair<float, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _j0f<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("j0f", {TestCase.first}, TestCase.second.first, *Result,
+                TestCase.second.second);
+  }
+}
+
+__global__ void _j1f(float *const Result, float Input1) {
+  *Result = j1f(Input1);
+}
+
+void testJ1fCases(const vector<pair<float, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _j1f<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("j1f", {TestCase.first}, TestCase.second.first, *Result,
+                TestCase.second.second);
   }
 }
 
@@ -220,7 +280,51 @@ void testRnormfCases(const vector<pair<f_vector, fi_pair>> &TestCases) {
   }
 }
 
+__global__ void _y0f(float *const Result, float Input1) {
+  *Result = y0f(Input1);
+}
+
+void testY0fCases(const vector<pair<float, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _y0f<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("y0f", {TestCase.first}, TestCase.second.first, *Result,
+                TestCase.second.second);
+  }
+}
+
+__global__ void _y1f(float *const Result, float Input1) {
+  *Result = y1f(Input1);
+}
+
+void testY1fCases(const vector<pair<float, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _y1f<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("y1f", {TestCase.first}, TestCase.second.first, *Result,
+                TestCase.second.second);
+  }
+}
+
 int main() {
+  testCylBesselI0fCases({
+      {0.3, {1.022626876831055, 15}},
+      {0.5, {1.063483357429504, 15}},
+      {0.8, {1.166514992713928, 15}},
+      {1.6, {1.749980688095093, 15}},
+      {-5, {27.23987197875977, 14}},
+  });
+  testCylBesselI1fCases({
+      {0.3, {0.1516939, 7}},
+      {0.5, {0.2578943073749542, 16}},
+      {0.8, {0.4328648149967194, 16}},
+      {1.6, {1.084811, 6}},
+      {-5, {-24.33564186096191, 14}},
+  });
   testErfcinvfCases({
       {0.3, {0.7328690886497498, 16}},
       {0.5, {0.4769362807273865, 16}},
@@ -232,6 +336,20 @@ int main() {
       {-0.5, {-0.4769362807273865, 16}},
       {0, {0, 37}},
       {0.5, {0.4769362807273865, 16}},
+  });
+  testJ0fCases({
+      {0.3, {0.9776262, 7}},
+      {0.5, {0.9384698271751404, 16}},
+      {0.8, {0.8462873, 7}},
+      {1.6, {0.4554022, 7}},
+      {-5, {-0.1775968, 7}},
+  });
+  testJ1fCases({
+      {0.3, {0.1483188, 7}},
+      {0.5, {0.2422684580087662, 16}},
+      {0.8, {0.3688420653343201, 16}},
+      {1.6, {0.569896, 7}},
+      {-5, {0.3275791406631470, 16}},
   });
   testNormcdffCases({
       {-5, {0.0000002866515842470108, 22}},
@@ -256,6 +374,20 @@ int main() {
       {{0.3, 0.34, 0.98}, {0.9260847, 7}},
       {{0.5}, {2, 15}},
       {{23, 432, 23, 456, 23}, {0.001588809420354664, 18}},
+  });
+  testY0fCases({
+      {0.3, {-0.8072735, 7}},
+      {0.5, {-0.4445187, 7}},
+      {0.8, {-0.08680226, 8}},
+      {1.6, {0.4204270, 7}},
+      {5, {-0.3085176050662994, 16}},
+  });
+  testY1fCases({
+      {0.3, {-2.293104887008667, 15}},
+      {0.5, {-1.471472, 6}},
+      {0.8, {-0.9781441, 7}},
+      {1.6, {-0.3475780, 7}},
+      {5, {0.1478631347417831, 16}},
   });
   cout << "passed " << passed << "/" << passed + failed << " cases!" << endl;
   if (failed) {
