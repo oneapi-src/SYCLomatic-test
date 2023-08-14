@@ -5,5 +5,8 @@
     <files>
         <file path="feature_case/system_atomic/${testName}.cu" />
     </files>
-    <rules />
+    <rules>
+      <platformRule OSFamily="Linux" kit="CUDA9.0" kitRange="OLDER" runOnThisPlatform="false"/>
+      <platformRule OSFamily="Windows" kit="CUDA9.0" kitRange="OLDER" runOnThisPlatform="false"/>
+    </rules>
 </test>
