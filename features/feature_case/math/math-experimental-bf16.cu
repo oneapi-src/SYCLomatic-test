@@ -1,4 +1,4 @@
-//====-------- math-experimental-bf16.cu- -------- *- CUDA -* -------------===//
+//====-------- math-experimental-bf16.cu --------- *- CUDA -* -------------===//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
@@ -15,6 +15,7 @@
 
 using namespace std;
 
+typedef vector<__nv_bfloat16> bf16_vector;
 typedef pair<__nv_bfloat16, int> bf16i_pair;
 
 int passed = 0;
@@ -72,6 +73,73 @@ void testHabsCases(const vector<pair<__nv_bfloat16, bf16i_pair>> &TestCases) {
   }
 }
 
+__global__ void hfma(float *const Result, __nv_bfloat16 Input1,
+                     __nv_bfloat16 Input2, __nv_bfloat16 Input3) {
+  *Result = __hfma(Input1, Input2, Input3);
+}
+
+void testHfmaCases(const vector<pair<bf16_vector, bf16i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hfma<<<1, 1>>>(Result, TestCase.first[0], TestCase.first[1],
+                   TestCase.first[2]);
+    cudaDeviceSynchronize();
+    checkResult("__hfma", TestCase.first, TestCase.second.first, *Result,
+                TestCase.second.second);
+    if (TestCase.first.size() != 3) {
+      failed++;
+      cout << " ---- failed" << endl;
+      return;
+    }
+  }
+}
+
+__global__ void hfma_relu(float *const Result, __nv_bfloat16 Input1,
+                          __nv_bfloat16 Input2, __nv_bfloat16 Input3) {
+  *Result = __hfma_relu(Input1, Input2, Input3);
+}
+
+void testHfma_reluCases(
+    const vector<pair<bf16_vector, bf16i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hfma_relu<<<1, 1>>>(Result, TestCase.first[0], TestCase.first[1],
+                        TestCase.first[2]);
+    cudaDeviceSynchronize();
+    checkResult("__hfma_relu", TestCase.first, TestCase.second.first, *Result,
+                TestCase.second.second);
+    if (TestCase.first.size() != 3) {
+      failed++;
+      cout << " ---- failed" << endl;
+      return;
+    }
+  }
+}
+
+__global__ void hfma_sat(float *const Result, __nv_bfloat16 Input1,
+                         __nv_bfloat16 Input2, __nv_bfloat16 Input3) {
+  *Result = __hfma_sat(Input1, Input2, Input3);
+}
+
+void testHfma_satCases(const vector<pair<bf16_vector, bf16i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hfma_sat<<<1, 1>>>(Result, TestCase.first[0], TestCase.first[1],
+                       TestCase.first[2]);
+    cudaDeviceSynchronize();
+    checkResult("__hfma_sat", TestCase.first, TestCase.second.first, *Result,
+                TestCase.second.second);
+    if (TestCase.first.size() != 3) {
+      failed++;
+      cout << " ---- failed" << endl;
+      return;
+    }
+  }
+}
+
 int main() {
   testHabsCases({
       {{-0.3}, {0.30078125, 16}},
@@ -79,6 +147,27 @@ int main() {
       {{0.5}, {0.5, 16}},
       {{0.4}, {0.400390625, 16}},
       {{6}, {6, 15}},
+  });
+  testHfmaCases({
+      {{-0.3, -0.4, -0.2}, {-0.07958984375, 17}},
+      {{0.3, -0.4, -0.1}, {-0.220703125, 16}},
+      {{0.3, 0.4, 0.1}, {0.220703125, 16}},
+      {{0.3, 0.4, 0}, {0.12060546875, 17}},
+      {{3, 4, 5}, {17, 14}},
+  });
+  testHfma_reluCases({
+      {{-0.3, -0.4, -0.2}, {0, 37}},
+      {{0.3, -0.4, -0.1}, {0, 37}},
+      {{0.3, 0.4, 0.1}, {0.220703125, 16}},
+      {{0.3, 0.4, 0}, {0.12060546875, 17}},
+      {{3, 4, 5}, {17, 14}},
+  });
+  testHfma_satCases({
+      {{-0.3, -0.4, -0.2}, {0, 37}},
+      {{0.3, -0.4, -0.1}, {0, 37}},
+      {{0.3, 0.4, 0.1}, {0.220703125, 16}},
+      {{0.3, 0.4, 0}, {0.12060546875, 17}},
+      {{3, 4, 5}, {1, 15}},
   });
   cout << "passed " << passed << "/" << passed + failed << " cases!" << endl;
   if (failed) {
