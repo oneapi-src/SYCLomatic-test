@@ -150,62 +150,6 @@ main()
     }
 
     {
-        std::vector<int> vec({ /*row0*/
-                              1, 1, 0, 1, 
-                              2, 1, 0, 2, 
-                              3, 1, 0, 3,     // skip
-                              5, 88, 0, 5,    // skip
-                               /*row1*/
-                              15, 55, 0, 15,
-                              22, 66, 0, 22,
-                              23, 77, 0, 23,  // skip
-                              24, 88, 0, 24,  // skip
-                               /*row2*/
-                              25, 99, 0, 25,  // skip
-                              99, 99, 0, 25,  // skip
-                              99, 99, 0, 25,  // skip
-                              99, 99, 0, 25});// skip
-
-        dpct::device_vector<int> dvec(vec.begin(), vec.end());
-
-        dpct::device_vector<int> bins[3];
-
-        bins[0].resize(10, 0);
-        bins[1].resize(5, 0);
-        bins[2].resize(9, 0);
-
-        int num_cols = 2;
-        int num_rows = 2;
-        int row_stride_bytes = 4 * 4 * sizeof(int);
-
-        dpct::device_pointer<int> bin_pointers[3] = {bins[0].begin(), bins[1].begin(), bins[2].begin()};
-
-        int sizes[3] = {11, 6, 10};
-
-        int lower_levels[3] = {0, 0, 0};
-        int upper_levels[3] = {100, 100, 100};
-
-        dpct::MultiHistogramEven<4, 3>(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()),
-                                       dvec.begin(), bin_pointers, sizes, lower_levels, upper_levels, num_cols,
-                                       num_rows, row_stride_bytes);
-
-        std::vector<int> expected_bins[3] = {
-            {2, 1, 1, 0, 0, 0, 0, 0, 0, 0}, {2, 0, 1, 1, 0}, {4, 0, 0, 0, 0, 0, 0, 0, 0}};
-
-        std::string test_name = "MultiHistogramEven ROI";
-        int index = 0;
-        for (int b = 0; b < 3; b++)
-        {
-            for (int i = 0; i < sizes[b] - 1; i++)
-            {
-                num_failing += ASSERT_ARRAY_EQUAL(test_name, expected_bins[b][i], bins[b][i], index);
-                index++;
-            }
-        }
-        failed_tests += test_passed(num_failing, test_name);
-    }
-
-    {
         std::vector<int> vec({1,  1,  0, 1,
                               2,  1,  0, 2,
                               3,  1,  0, 3,
@@ -289,6 +233,62 @@ main()
         std::vector<int> expected_bins[3] = {{3, 2, 4, 1}, {3, 0, 0, 0, 7}, {10, 0, 0}};
 
         std::string test_name = "MultiHistogramRange";
+        int index = 0;
+        for (int b = 0; b < 3; b++)
+        {
+            for (int i = 0; i < sizes[b] - 1; i++)
+            {
+                num_failing += ASSERT_ARRAY_EQUAL(test_name, expected_bins[b][i], bins[b][i], index);
+                index++;
+            }
+        }
+        failed_tests += test_passed(num_failing, test_name);
+    }
+
+    {
+        std::vector<int> vec({ /*row0*/
+                              1, 1, 0, 1, 
+                              2, 1, 0, 2, 
+                              3, 1, 0, 3,     // skip
+                              5, 88, 0, 5,    // skip
+                               /*row1*/
+                              15, 55, 0, 15,
+                              22, 66, 0, 22,
+                              23, 77, 0, 23,  // skip
+                              24, 88, 0, 24,  // skip
+                               /*row2*/
+                              25, 99, 0, 25,  // skip
+                              99, 99, 0, 25,  // skip
+                              99, 99, 0, 25,  // skip
+                              99, 99, 0, 25});// skip
+
+        dpct::device_vector<int> dvec(vec.begin(), vec.end());
+
+        dpct::device_vector<int> bins[3];
+
+        bins[0].resize(10, 0);
+        bins[1].resize(5, 0);
+        bins[2].resize(9, 0);
+
+        int num_cols = 2;
+        int num_rows = 2;
+        int row_stride_bytes = 4 * 4 * sizeof(int);
+
+        dpct::device_pointer<int> bin_pointers[3] = {bins[0].begin(), bins[1].begin(), bins[2].begin()};
+
+        int sizes[3] = {11, 6, 10};
+
+        int lower_levels[3] = {0, 0, 0};
+        int upper_levels[3] = {100, 100, 100};
+
+        dpct::MultiHistogramEven<4, 3>(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()),
+                                       dvec.begin(), bin_pointers, sizes, lower_levels, upper_levels, num_cols,
+                                       num_rows, row_stride_bytes);
+
+        std::vector<int> expected_bins[3] = {
+            {2, 1, 1, 0, 0, 0, 0, 0, 0, 0}, {2, 0, 1, 1, 0}, {4, 0, 0, 0, 0, 0, 0, 0, 0}};
+
+        std::string test_name = "MultiHistogramEven ROI";
         int index = 0;
         for (int b = 0; b < 3; b++)
         {
