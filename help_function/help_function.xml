@@ -100,6 +100,7 @@
     <test testName="onedpl_test_maximum" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_merge_by_key" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_min_element" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
+    <test testName="onedpl_test_nontrivial_run_length_encode" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_partition_copy" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_partition" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_partition_point" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
