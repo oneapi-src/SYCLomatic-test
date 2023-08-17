@@ -67,12 +67,12 @@ main()
         std::vector<int> vec({1, 2, 3, 5, 15, 22, 23, 24, 25, 99});
         dpct::device_vector<int> dvec(vec.begin(), vec.end());
         dpct::device_vector<int> bins(10, 0);
-        dpct::HistogramEven(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()), dvec.begin(),
+        dpct::histogram_even(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()), dvec.begin(),
                             bins.begin(), bins.size() + 1, 0, 100, dvec.size());
 
         std::vector<int> expected_bins = {4, 1, 4, 0, 0, 0, 0, 0, 0, 1};
 
-        std::string test_name = "HistogramEven";
+        std::string test_name = "histogram_even";
         for (int i = 0; i < bins.size(); i++)
         {
             num_failing += ASSERT_ARRAY_EQUAL(test_name, expected_bins[i], bins[i], i);
@@ -86,12 +86,12 @@ main()
         std::vector<int> levels({0, 4, 20, 55, 100});
         dpct::device_vector<int> dlevels(levels.begin(), levels.end());
         dpct::device_vector<int> bins(4, 0);
-        dpct::HistogramRange(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()), dvec.begin(),
+        dpct::histogram_range(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()), dvec.begin(),
                              bins.begin(), dlevels.size(), dlevels.begin(), dvec.size());
 
         std::vector<int> expected_bins = {3, 2, 4, 1};
 
-        std::string test_name = "HistogramRange";
+        std::string test_name = "histogram_range";
         for (int i = 0; i < bins.size(); i++)
         {
             num_failing += ASSERT_ARRAY_EQUAL(test_name, expected_bins[i], bins[i], i);
@@ -110,12 +110,12 @@ main()
         int num_rows = 2;
         int row_stride_bytes = 5 * sizeof(int);
 
-        dpct::HistogramEven(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()), dvec.begin(),
+        dpct::histogram_even_roi(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()), dvec.begin(),
                             bins.begin(), bins.size() + 1, 0, 100, num_cols, num_rows, row_stride_bytes);
 
         std::vector<int> expected_bins = {3, 0, 3, 0, 0, 0, 0, 0, 0, 0};
 
-        std::string test_name = "HistogramEven ROI";
+        std::string test_name = "histogram_even_roi";
         for (int i = 0; i < bins.size(); i++)
         {
             num_failing += ASSERT_ARRAY_EQUAL(test_name, expected_bins[i], bins[i], i);
@@ -137,12 +137,12 @@ main()
         int num_rows = 3;
         int row_stride_bytes = 5 * sizeof(int);
 
-        dpct::HistogramRange(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()), dvec.begin(),
+        dpct::histogram_range_roi(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()), dvec.begin(),
                              bins.begin(), 5, dlevels.begin(), num_cols, num_rows, row_stride_bytes);
 
         std::vector<int> expected_bins = {3, 1, 8, 0};
 
-        std::string test_name = "HistogramRange ROI";
+        std::string test_name = "histogram_range_roi";
         for (int i = 0; i < bins.size(); i++)
         {
             num_failing += ASSERT_ARRAY_EQUAL(test_name, expected_bins[i], bins[i], i);
@@ -174,13 +174,13 @@ main()
         int lower_levels[3] = {0, 0, 0};
         int upper_levels[3] = {100, 100, 100};
 
-        dpct::MultiHistogramEven<4, 3>(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()),
+        dpct::multi_histogram_even<4, 3>(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()),
                                        dvec.begin(), bin_pointers, sizes, lower_levels, upper_levels, dvec.size() / 4);
 
         std::vector<int> expected_bins[3] = {
             {4, 1, 4, 0, 0, 0, 0, 0, 0, 1}, {3, 0, 1, 2, 4}, {10, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-        std::string test_name = "MultiHistogramEven";
+        std::string test_name = "multi_histogram_even";
         int index = 0;
         for (int b = 0; b < 3; b++)
         {
@@ -228,12 +228,12 @@ main()
 
         dpct::device_pointer<int> dlevel_pointers[3] = {dlevels_0.begin(), dlevels_1.begin(), dlevels_2.begin()};
 
-        dpct::MultiHistogramRange<4, 3>(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()),
+        dpct::multi_histogram_range<4, 3>(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()),
                                         dvec.begin(), bin_pointers, sizes, dlevel_pointers, dvec.size() / 4);
 
         std::vector<int> expected_bins[3] = {{3, 2, 4, 1}, {3, 0, 0, 0, 7}, {10, 0, 0}};
 
-        std::string test_name = "MultiHistogramRange";
+        std::string test_name = "multi_histogram_range";
         int index = 0;
         for (int b = 0; b < 3; b++)
         {
@@ -282,14 +282,14 @@ main()
         int lower_levels[3] = {0, 0, 0};
         int upper_levels[3] = {100, 100, 100};
 
-        dpct::MultiHistogramEven<4, 3>(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()),
+        dpct::multi_histogram_even_roi<4, 3>(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()),
                                        dvec.begin(), bin_pointers, sizes, lower_levels, upper_levels, num_cols,
                                        num_rows, row_stride_bytes);
 
         std::vector<int> expected_bins[3] = {
             {2, 1, 1, 0, 0, 0, 0, 0, 0, 0}, {2, 0, 1, 1, 0}, {4, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-        std::string test_name = "MultiHistogramEven ROI";
+        std::string test_name = "multi_histogram_even_roi";
         int index = 0;
         for (int b = 0; b < 3; b++)
         {
@@ -348,13 +348,13 @@ main()
 
         dpct::device_pointer<int> dlevel_pointers[3] = {dlevels_0.begin(), dlevels_1.begin(), dlevels_2.begin()};
 
-        dpct::MultiHistogramRange<4, 3>(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()),
+        dpct::multi_histogram_range_roi<4, 3>(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()),
                                         dvec.begin(), bin_pointers, sizes, dlevel_pointers, num_cols, num_rows,
                                         row_stride_bytes);
 
         std::vector<int> expected_bins[3] = {{2, 1, 1, 0}, {2, 0, 0, 0, 2}, {4, 0, 0}};
 
-        std::string test_name = "MultiHistogramRange ROI";
+        std::string test_name = "multi_histogram_range_roi";
         int index = 0;
         for (int b = 0; b < 3; b++)
         {
