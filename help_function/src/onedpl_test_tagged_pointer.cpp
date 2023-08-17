@@ -21,6 +21,11 @@
 
 #include <iostream>
 
+// Used to test operator-> behavior
+struct integer_wrapper {
+  int val;
+};
+
 template <typename String, typename _T1, typename _T2>
 int ASSERT_EQUAL(String msg, _T1 &&X, _T2 &&Y) {
   if (X != Y) {
@@ -40,6 +45,8 @@ template <typename SystemTag> int test_tagged_pointer_manipulation(void) {
                           ? "dpct::host_sys_tag"
                           : "dpct::device_sys_tag";
   std::string int_ptr_name = "dpct::tagged_pointer<" + sys + ", int>";
+  std::string int_wrapper_name =
+      "dpct::tagged_pointer<" + sys + ", integer_wrapper>";
   std::string void_ptr_name = "dpct::tagged_pointer<" + sys + ", void>";
 
   dpct::tagged_pointer<SystemTag, void> void_ptr_beg =
@@ -85,11 +92,28 @@ template <typename SystemTag> int test_tagged_pointer_manipulation(void) {
   // Test conversion to base pointer
   int *int_ptr_beg_raw = int_ptr_beg;
   int *int_ptr_end_raw = int_ptr_end;
-  failing_tests +=
-      ASSERT_EQUAL(int_ptr_name + " tagged_pointer<int> conversion to int*",
-                   int_ptr_end_raw - int_ptr_beg_raw, n);
+  failing_tests += ASSERT_EQUAL(int_ptr_name + " conversion to int*",
+                                int_ptr_end_raw - int_ptr_beg_raw, n);
+
+  // device allocations use malloc_shared so this is safe
+  *int_ptr_beg = 4;
+  failing_tests += ASSERT_EQUAL(int_ptr_name + " dereference operator",
+                                *int_ptr_beg == 4, true);
+  int_ptr_beg[1] = 2;
+  failing_tests += ASSERT_EQUAL(int_ptr_name + " subscript operator",
+                                int_ptr_beg[1] == 2, true);
+
+  failing_tests += ASSERT_EQUAL(int_ptr_name + " subscript operator",
+                                int_ptr_beg[1] == 2, true);
+
+  dpct::tagged_pointer<SystemTag, integer_wrapper> int_wrapper_beg =
+      dpct::malloc<integer_wrapper>(system, 1);
+  int_wrapper_beg->val = 5;
+  failing_tests += ASSERT_EQUAL(int_wrapper_name + " arrow operator",
+                                int_wrapper_beg->val == 5, true);
 
   dpct::free(system, void_ptr_beg);
+  dpct::free(system, int_wrapper_beg);
   return failing_tests;
 }
 
