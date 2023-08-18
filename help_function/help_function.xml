@@ -16,7 +16,7 @@
     <!-- <test testName="memory_management_test1" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="memory_management_test2" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="memory_management_test3" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" /> -->
-    <!-- <test testName="global_memory" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" /> -->
+    <test testName="global_memory" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="global_memory_usm" configFile="config/TEMPLATE_help_function.xml" />
      <!-- <test testName="multi_definition_test" configFile="config/multi_definition_test_lin.xml" /> -->
     <test testName="shared_memory" configFile="config/TEMPLATE_help_function.xml" />
@@ -91,6 +91,7 @@
     <test testName="onedpl_test_copy_if" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_count_if" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_discard_iterator" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
+    <test testName="onedpl_test_equal_range" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_exclusive_scan" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_fill" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_for_each" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
@@ -99,6 +100,7 @@
     <test testName="onedpl_test_maximum" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_merge_by_key" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_min_element" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
+    <test testName="onedpl_test_nontrivial_run_length_encode" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_partition_copy" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_partition" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_partition_point" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
@@ -121,6 +123,7 @@
     <test testName="onedpl_test_stable_partition" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_tabulate" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_transform_if" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
+    <test testName="onedpl_test_transform" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_transform_reduce" configFile="config/TEMPLATE_help_function_skip_double.xml"  splitGroup="double" />
     <test testName="onedpl_test_translate_key" configFile="config/TEMPLATE_help_function_skip_double.xml"  splitGroup="double" />
     <test testName="onedpl_test_uninitialized_fill" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
@@ -137,7 +140,7 @@
     <test testName="util_conj" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double"/>
     <test testName="util_cdiv" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double"/>
     <test testName="util_cmul" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double"/>
-    <test testName="util_calculate_max_active_wg_per_xecore" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
+    <test testName="util_occupancy_calculation" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="lib_common_utils_mkl_get_version" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="rng_generator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="rng_generator_vec_size_1" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
