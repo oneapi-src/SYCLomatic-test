@@ -203,6 +203,20 @@ int main() {
     dpct::free(policy, int64_ptr);
   }
 
+  // Test seven, ensure functionality of dpct::internal::malloc_base internal
+  // utility.
+  {
+    std::size_t num_bytes = sizeof(int64_t) * 10;
+    int64_t *ptr = static_cast<int64_t *>(
+        dpct::internal::malloc_base(dpct::host_sys_tag{}, num_bytes));
+    std::iota(ptr, ptr + 10, 0);
+    std::string test_name = "internal::malloc_base utility with host tag";
+
+    for (int i = 0; i < 10; ++i)
+      failed_tests += ASSERT_EQUAL(test_name, ptr[i], i);
+    std::free(ptr);
+  }
+
   std::cout << std::endl
             << failed_tests << " failing test(s) detected." << std::endl;
   if (failed_tests == 0) {
