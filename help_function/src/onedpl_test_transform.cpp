@@ -18,6 +18,20 @@
 
 #include <iostream>
 
+// Certain iterator types cannot be currently composed with std::transform and cause compilation failures.
+// The following macros are used to disable these tests that should function but currently do not
+// compile due to known oneDPL limitations. These tests are excluded for the time being
+// and do not affect the passing status of this test.
+
+// TODO: Reenable these tests in the future once these iterator limitations are addressed in oneDPL.
+
+// transform with buffer 8/15 (transform_call6) and transform with make_zip_it 2/2 (transform_call21)
+#define BROKEN_ZIP_IT_OVER_PERM_IT 1
+// transform with buffer 11/15 (transform_call9)
+#define BROKEN_ZIP_IT_INPUT_OUTPUT 1
+// transform with make_counting_it 3/4 (transform_call19)
+#define BROKEN_ZIP_IT_INPUT 1
+
 template<typename String, typename _T1, typename _T2>
 int ASSERT_EQUAL(String msg, _T1&& X, _T2&& Y) {
     if(X!=Y) {
@@ -74,9 +88,9 @@ template<typename Array> void iota_reverse_array(Array &arr, int start_index, in
     }
 }
 
-template<typename Queue, typename Array> void host_to_device(Queue &q, Array hostArray, Array &deviceArray) {
+template<typename Queue, typename Array> void host_to_device(Queue &q, Array hostArray, Array &deviceArray, std::size_t num_elements) {
     q.submit([&](sycl::handler& h) {
-        h.memcpy(deviceArray, hostArray, 8 * sizeof(int));
+        h.memcpy(deviceArray, hostArray, num_elements * sizeof(int));
     });
     q.wait();
 }
@@ -87,6 +101,22 @@ template<typename Queue, typename Array> void device_to_host(Queue &q, Array hos
     });
     q.wait();
 }
+
+// Ported from oneDPL: oneapi/dpl/pstl/tuple_impl.h
+template <typename T>
+struct tuple_decay
+{
+    using type = ::std::decay_t<T>;
+};
+
+template <typename... Args>
+struct tuple_decay<oneapi::dpl::__internal::tuple<Args...>>
+{
+    using type = oneapi::dpl::__internal::tuple<::std::decay_t<Args>...>;
+};
+
+template <typename... Args>
+using tuple_decay_t = typename tuple_decay<Args...>::type;
 
 struct add_tuple_components {
     template <typename Scalar, typename Tuple>
@@ -158,10 +188,16 @@ struct square {
     }
 };
 
-struct assign_square {
+struct tuple_square {
     template<typename T>
-    void operator()(T&& t) const {
-       std::get<1>(t) =std::get<0>(t) *std::get<0>(t);
+    auto operator()(const T& t) const {
+       // The generic workaround of the tuple element constness
+       // is an internal oneDPL utility class that decays elements
+       // within a tuple to deduce the correct return type.
+       using ret_type = tuple_decay_t<T>;
+       ret_type ret = t;
+       std::get<1>(ret) = std::get<0>(ret) * std::get<0>(ret);
+       return ret;
     }
 };
 
@@ -194,9 +230,6 @@ void transform_call2(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2
 // transform(buffer, buffer, zip_it<buffer x3>, buffer)
 template <typename Policy, typename Iterator1, typename Iterator2, typename IteratorResult>
 void transform_call3(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2 zip_input1, Iterator2 zip_input2, Iterator2 zip_input3, IteratorResult result) {
-// Comment out test using permutation_iterator until oneDPL is updated to better support use of
-// transform_iterator as a component of the permutation_iterator
-#if 0
     std::transform
     (
         policy, first1, last1,
@@ -204,7 +237,6 @@ void transform_call3(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2
         result,
         add_tuple_components()
     );
-#endif
 }
 
 // transform(buffer, buffer, transform_it<buffer, func>, buffer)
@@ -231,6 +263,7 @@ void transform_call5(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2
 }
 
 // transform(buffer, buffer, buffer, zip_it<perm_it, perm_it>)
+#if !BROKEN_ZIP_IT_OVER_PERM_IT
 template <typename Policy, typename Iterator1, typename Iterator2, typename IteratorResult>
 void transform_call6(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2 first2, IteratorResult perm_input1, IteratorResult perm_input2, IteratorResult perm_map_input) {
     auto tmp = oneapi::dpl::make_zip_iterator(perm_input1, perm_input2);
@@ -242,12 +275,11 @@ void transform_call6(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2
         oneapi::dpl::make_zip_iterator
         (
             perm_input1, perm_input2
-//            oneapi::dpl::make_permutation_iterator(perm_input1, perm_map_input),
-//            oneapi::dpl::make_permutation_iterator(perm_input2, perm_map_input)
         ),
         add_to_tuple_components2<TupleT>()
     );
 }
+#endif
 
 // transform(buffer, buffer, zip_it<perm_it, perm_it>, perm_it)
 template <typename Policy, typename Iterator1, typename Iterator2>
@@ -256,9 +288,6 @@ void transform_call7(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2
     auto perm2 = oneapi::dpl::make_permutation_iterator(perm_input2, perm_map_input);
     auto zip = oneapi::dpl::make_zip_iterator(perm1, perm2);
 
-// Comment out test using permutation_iterator until oneDPL is updated to better support use of
-// transform_iterator as a component of the permutation_iterator
-#if 0
     std::transform
     (
         policy, first1, last1,
@@ -270,15 +299,11 @@ void transform_call7(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2
         oneapi::dpl::make_permutation_iterator(perm_input1, perm_map_input),
         add_tuple_components2()
     );
-#endif
 }
 
 // transform(buffer, buffer, zip_it<perm_it, buffer x4>, buffer)
 template <typename Policy, typename Iterator1>
 void transform_call8(Policy policy, Iterator1 first1, Iterator1 last1, Iterator1 input2, Iterator1 input3, Iterator1 input4, Iterator1 input5, Iterator1 input6, Iterator1 map_input) {
-// Comment out test using permutation_iterator until oneDPL is updated to better support use of
-// transform_iterator as a component of the permutation_iterator
-#if 0
     std::transform
     (
         policy, first1, last1,
@@ -293,15 +318,12 @@ void transform_call8(Policy policy, Iterator1 first1, Iterator1 last1, Iterator1
         input3,
         add_tuple_components3()
     );
-#endif
 }
 
+#if !BROKEN_ZIP_IT_INPUT_OUTPUT
 // transform(buffer, buffer, zip_it<buffer x2>, zip_it<buffer x2>)
 template <typename Policy, typename Iterator1>
 void transform_call9(Policy policy, Iterator1 first1, Iterator1 last1, Iterator1 input2, Iterator1 input3) {
-// Comment out test using permutation_iterator until oneDPL is updated to better support use of
-// transform_iterator as a component of the permutation_iterator
-#if 0
     std::transform
     (
         policy, first1, last1,
@@ -309,8 +331,8 @@ void transform_call9(Policy policy, Iterator1 first1, Iterator1 last1, Iterator1
         oneapi::dpl::make_zip_iterator(input2, input3),
         add_to_tuple_components()
     );
-#endif
 }
+#endif
 
 // transform(perm_it, perm_it, buffer, perm_it)
 template <typename Policy, typename Iterator1>
@@ -354,9 +376,6 @@ void transform_call12(Policy policy, Iterator1 input1, Iterator1 input2, Iterato
     auto perm_begin = oneapi::dpl::make_permutation_iterator(input1, input_map);
     auto perm_end = perm_begin + 4;
 
-// Comment out test using permutation_iterator until oneDPL is updated to better support use of
-// transform_iterator as a component of the permutation_iterator
-#if 0
     std::transform
     (
         policy,
@@ -365,12 +384,11 @@ void transform_call12(Policy policy, Iterator1 input1, Iterator1 input2, Iterato
         oneapi::dpl::make_transform_iterator
         (
             oneapi::dpl::make_zip_iterator(input2, input2 + 1),
-            assign_square()
+            tuple_square()
         ),
         perm_begin,
         add_tuple_components2()
     );
-#endif
 }
 
 // transform(perm_it, perm_it, zip_it<perm_it, perm_it>, perm_it)
@@ -378,10 +396,6 @@ template <typename Policy, typename Iterator1>
 void transform_call13(Policy policy, Iterator1 input1, Iterator1 input2, Iterator1 input3, Iterator1 input_map) {
     auto perm_begin = oneapi::dpl::make_permutation_iterator(input1, input_map);
     auto perm_end = perm_begin + 4;
-
-// Comment out test using permutation_iterator until oneDPL is updated to better support use of
-// transform_iterator as a component of the permutation_iterator
-#if 0
     std::transform
     (
         policy,
@@ -395,7 +409,6 @@ void transform_call13(Policy policy, Iterator1 input1, Iterator1 input2, Iterato
         perm_begin,
         add_tuple_components2()
     );
-#endif
 }
 
 // transform(perm_it, perm_it, transform_it<perm_it, func>, perm_it)
@@ -483,11 +496,9 @@ void transform_call18(Policy policy, Iterator1 first1, Iterator1 last1, Iterator
 }
 
 // transform(counting_it, counting_it, zip_it<buffer x2>, buffer)
+#if !BROKEN_ZIP_IT_INPUT
 template <typename Policy, typename Iterator1, typename Iterator2, typename IteratorResult>
 void transform_call19(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2 zip_input1, Iterator2 zip_input2, IteratorResult result) {
-// Comment out test using permutation_iterator until oneDPL is updated to better support use of
-// transform_iterator as a component of the permutation_iterator
-#if 0
     std::transform
     (
         policy, first1, last1,
@@ -495,8 +506,8 @@ void transform_call19(Policy policy, Iterator1 first1, Iterator1 last1, Iterator
         result,
         add_tuple_components2()
     );
-#endif
 }
+#endif
 
 // transform(zip_it<buffer x2, perm_it x2>, zip_it<buffer x2, perm_it x2>, buffer)
 template <typename Policy, typename Iterator1>
@@ -528,6 +539,7 @@ void transform_call20(Policy policy, Iterator1 input1, Iterator1 input2, Iterato
     );
 }
 
+#if !BROKEN_ZIP_IT_OVER_PERM_IT
 // transform(zip_it<perm_it x2>, zip_it<perm_it x2>, zip_it<perm_it x4>, zip_it<perm_it x2>)
 template <typename Policy, typename Iterator1>
 void transform_call21(Policy policy, Iterator1 input1, Iterator1 input2, Iterator1 input3, Iterator1 input4, Iterator1 input5, Iterator1 input6, Iterator1 input_map) {
@@ -536,9 +548,6 @@ void transform_call21(Policy policy, Iterator1 input1, Iterator1 input2, Iterato
     auto perm_begin2 = oneapi::dpl::make_permutation_iterator(input2, input_map);
     auto perm_end2 = perm_begin2 + 4;
 
-// Comment out test using permutation_iterator until oneDPL is updated to better support use of
-// transform_iterator as a component of the permutation_iterator
-#if 0
     std::transform
     (
         policy,
@@ -566,8 +575,8 @@ void transform_call21(Policy policy, Iterator1 input1, Iterator1 input2, Iterato
         ),
         add_to_tuple_components3()
     );
-#endif
 }
+#endif
 
 // transform(constant_it, constant_it, transform_it<perm_it, func>, perm_it)
 template <typename Policy, typename Iterator1, typename Iterator2>
@@ -612,9 +621,6 @@ void transform_call23(Policy policy, Iterator1 input1, Iterator1 input2, Iterato
 // transform(buffer, buffer, zip_it<device_pointer x2>, device_pointer)
 template <typename Policy, typename Iterator1, typename Iterator2, typename IteratorResult>
 void transform_call24(Policy policy, Iterator1 first1, Iterator1 last1, Iterator2 zip_input1, Iterator2 zip_input2, IteratorResult result) {
-// Comment out test using permutation_iterator until oneDPL is updated to better support use of
-// transform_iterator as a component of the permutation_iterator
-#if 0
     std::transform
     (
         policy, first1, last1,
@@ -622,7 +628,6 @@ void transform_call24(Policy policy, Iterator1 first1, Iterator1 last1, Iterator
         result,
         add_tuple_components2()
     );
-#endif
 }
 
 int main() {
@@ -704,14 +709,14 @@ int main() {
         mapHostArray[0] = 3; mapHostArray[1] = 2; mapHostArray[2] = 0; mapHostArray[3] = 1;
 
         // copy host arrays to device arrays
-        host_to_device(myQueue, hostArray, deviceArray);
-        host_to_device(myQueue, hostArray2, deviceArray2);
-        host_to_device(myQueue, hostArray3, deviceArray3);
-        host_to_device(myQueue, hostArray4, deviceArray4);
-        host_to_device(myQueue, hostArray5, deviceArray5);
-        host_to_device(myQueue, hostArray6, deviceArray6);
-        host_to_device(myQueue, dstHostArray, dstDeviceArray);
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
+        host_to_device(myQueue, hostArray3, deviceArray3, 8);
+        host_to_device(myQueue, hostArray4, deviceArray4, 8);
+        host_to_device(myQueue, hostArray5, deviceArray5, 8);
+        host_to_device(myQueue, hostArray6, deviceArray6, 8);
+        host_to_device(myQueue, dstHostArray, dstDeviceArray, 8);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 4);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -748,7 +753,7 @@ int main() {
 
         iota_buffer(src1_buf, 0, 8, 0);
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -781,17 +786,16 @@ int main() {
         }
 
         // test 3/15
-
         iota_buffer(src1_buf, 0, 8, 0);
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
 
             // transform(buffer, buffer, counting_iterator, buffer)
-            transform_call(oneapi::dpl::execution::dpcpp_default, src1_it + 2, src1_it + 6, dpct::make_counting_iterator(3), src1_it + 4);
-            transform_call(oneapi::dpl::execution::dpcpp_default, dptr + 2, dptr + 6, dpct::make_counting_iterator(3), dptr + 4);
+            transform_call(oneapi::dpl::execution::dpcpp_default, src1_it + 2, src1_it + 6, dpct::make_counting_iterator(3), src1_it + 2);
+            transform_call(oneapi::dpl::execution::dpcpp_default, dptr + 2, dptr + 6, dpct::make_counting_iterator(3), dptr + 2);
 
         }
 
@@ -802,13 +806,13 @@ int main() {
             test_name = "transform with buffer 3/15";
             auto src = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
             for (int i = 0; i != 8; ++i) {
-                if (i < 4) {
+                if (i < 2 || i >= 6) {
                     num_failing += ASSERT_EQUAL(test_name, hostArray[i], i);
                     num_failing += ASSERT_EQUAL(test_name, src[i], i);
                 }
                 else {
-                    num_failing += ASSERT_EQUAL(test_name, hostArray[i], -3 + i*2);
-                    num_failing += ASSERT_EQUAL(test_name, src[i], -3 + i*2);
+                    num_failing += ASSERT_EQUAL(test_name, hostArray[i], 1 + i*2);
+                    num_failing += ASSERT_EQUAL(test_name, src[i], 1 + i*2);
                 }
             }
 
@@ -822,9 +826,9 @@ int main() {
         iota_reverse_buffer(src2_buf, 0, 8, 0);
 
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
         iota_reverse_array(hostArray2, 0, 8, 0);
-        host_to_device(myQueue, hostArray2, deviceArray2);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -872,9 +876,9 @@ int main() {
         iota_buffer(src2_buf, 0, 8, 10);
 
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
         iota_array(hostArray2, 0, 8, 10);
-        host_to_device(myQueue, hostArray2, deviceArray2);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -915,9 +919,9 @@ int main() {
         iota_reverse_buffer(src2_buf, 0, 8, 0);
 
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
         iota_reverse_array(hostArray2, 0, 8, 0);
-        host_to_device(myQueue, hostArray2, deviceArray2);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -955,7 +959,7 @@ int main() {
         iota_buffer(src1_buf, 0, 8, 0);
 
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -963,7 +967,7 @@ int main() {
         }
 
         mapHostArray[0] = 2; mapHostArray[1] = 6; mapHostArray[2] = 7; mapHostArray[3] = 4;
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 4);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -1012,27 +1016,24 @@ int main() {
         iota_buffer(src2_buf, 0, 8, 10);// 0 10 20 30...
 
         iota_array(hostArray, 0, 8, 0); //all 0
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
         iota_array(hostArray2, 0, 8, 10);// 0 10 20 30
-        host_to_device(myQueue, hostArray2, deviceArray2);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
 
         mapHostArray[0] = 5; mapHostArray[1] = 6; mapHostArray[2] = 4; mapHostArray[3] = 7;
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 4);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 5; map[1] = 6; map[2] = 4; map[3] = 7;
         }
-
+#if !BROKEN_ZIP_IT_OVER_PERM_IT
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
             auto dptr2 = dpct::device_pointer<int>(deviceArray2);
             auto dptr3 = dpct::device_pointer<int>(deviceArray3);
             auto dptr_map = dpct::device_pointer<int>(mapDeviceArray);
 
-// Comment out test using permutation_iterator until oneDPL is updated to better support use of
-// permutation_iterator
-#if 0
             // transform(buffer, buffer, buffer, zip_it<perm_it x2>)
             transform_call6(oneapi::dpl::execution::dpcpp_default, src1_it + 4, src1_it + 7, src1_it + 5, src2_it, src3_it, map_it);
             transform_call6(oneapi::dpl::execution::dpcpp_default, dptr + 4, dptr + 7, dptr + 5, dptr2, dptr3, dptr_map);
@@ -1045,7 +1046,6 @@ int main() {
                 num_failing += ASSERT_EQUAL(test_name, src2[i], i+10);
                 num_failing += ASSERT_EQUAL(test_name, hostArray2[i], i+10);
             }
-#endif
         }
 
         // copy device array back to host array
@@ -1066,6 +1066,7 @@ int main() {
             failed_tests += test_passed(num_failing, test_name);
             num_failing = 0;
         }
+#endif
 
         // test 9/15
 
@@ -1074,14 +1075,14 @@ int main() {
         iota_reverse_buffer(src3_buf, 0, 8, 0);
 
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
         iota_array(hostArray2, 0, 8, 10);
-        host_to_device(myQueue, hostArray2, deviceArray2);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
         iota_reverse_array(hostArray3, 0, 8, 0);
-        host_to_device(myQueue, hostArray3, deviceArray3);
+        host_to_device(myQueue, hostArray3, deviceArray3, 8);
 
         mapHostArray[0] = 1; mapHostArray[1] = 2; mapHostArray[2] = 3; mapHostArray[3] = 4;
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 4);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -1130,14 +1131,14 @@ int main() {
         iota_reverse_buffer(src3_buf, 0, 8, 0);
 
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
         iota_array(hostArray2, 0, 8, 10);
-        host_to_device(myQueue, hostArray2, deviceArray2);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
         iota_reverse_array(hostArray3, 0, 8, 0);
-        host_to_device(myQueue, hostArray3, deviceArray3);
+        host_to_device(myQueue, hostArray3, deviceArray3, 8);
 
         mapHostArray[0] = 4; mapHostArray[1] = 2; mapHostArray[2] = 5; mapHostArray[3] = 3;
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 4);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -1193,12 +1194,11 @@ int main() {
         }
 
         // test 11/15
-        // commented out due to zip_iterator as result sequence
-
+#if !BROKEN_ZIP_IT_INPUT_OUTPUT
         iota_reverse_buffer(src3_buf, 0, 8, 0);
 
         iota_reverse_array(hostArray3, 0, 8, 0);
-        host_to_device(myQueue, hostArray3, deviceArray3);
+        host_to_device(myQueue, hostArray3, deviceArray3, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -1235,13 +1235,14 @@ int main() {
             failed_tests += test_passed(num_failing, test_name);
             num_failing = 0;
         }
+#endif
 
         // test 12/15
 
         iota_buffer(src1_buf, 0, 8, 0);
 
         fill_array(hostArray, 0, 8, 5);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -1265,19 +1266,17 @@ int main() {
         }
 
         // test 13/15
-        // runtime fail due to constant_iterator not changing output
-
         iota_buffer(src1_buf, 0, 8, 0);
 
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
 
             // transform(buffer, buffer, constant_it, buffer)
-            transform_call(oneapi::dpl::execution::dpcpp_default, src1_it + 2, src1_it + 6, dpct::constant_iterator<const int>(7), src1_it);
-            transform_call(oneapi::dpl::execution::dpcpp_default, dptr + 2, dptr + 6, dpct::constant_iterator<const int>(7), dptr);
+            transform_call(oneapi::dpl::execution::dpcpp_default, src1_it + 2, src1_it + 6, dpct::constant_iterator<const int>(7), src1_it + 2);
+            transform_call(oneapi::dpl::execution::dpcpp_default, dptr + 2, dptr + 6, dpct::constant_iterator<const int>(7), dptr + 2);
 
         }
 
@@ -1308,9 +1307,9 @@ int main() {
         iota_buffer(src1_buf, 0, 8, 0);
 
         fill_array(hostArray, 0, 8, 5);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
         iota_reverse_array(hostArray2, 0, 8, 0);
-        host_to_device(myQueue, hostArray2, deviceArray2);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
 
         {
             auto dptr1 = dpct::device_pointer<int>(deviceArray);
@@ -1337,11 +1336,11 @@ int main() {
         // test 15/15
 
         fill_array(hostArray, 0, 8, 5);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
         iota_array(hostArray2, 0, 8, 0);
-        host_to_device(myQueue, hostArray2, deviceArray2);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
         iota_reverse_array(hostArray3, 0, 8, 0);
-        host_to_device(myQueue, hostArray3, deviceArray3);
+        host_to_device(myQueue, hostArray3, deviceArray3, 8);
 
         {
             auto dptr1 = dpct::device_pointer<int>(deviceArray);
@@ -1408,8 +1407,8 @@ int main() {
         int *deviceArray = (int*) malloc_device(8 * sizeof(int), dev, ctxt);
         int *deviceArray2 = (int*) malloc_device(8 * sizeof(int), dev, ctxt);
         int *deviceArray3 = (int*) malloc_device(8 * sizeof(int), dev, ctxt);
-        int *mapDeviceArray = (int*) malloc_device(4 * sizeof(int), dev, ctxt);
-        int *mapDeviceArray2 = (int*) malloc_device(4 * sizeof(int), dev, ctxt);
+        int *mapDeviceArray = (int*) malloc_device(8 * sizeof(int), dev, ctxt);
+        int *mapDeviceArray2 = (int*) malloc_device(8 * sizeof(int), dev, ctxt);
 
         // fill host arrays
         iota_array(hostArray, 0, 8, 0);
@@ -1421,11 +1420,11 @@ int main() {
         mapHostArray2[0] = 0; mapHostArray2[1] = 2; mapHostArray2[2] = 1; mapHostArray2[3] = 3; mapHostArray2[4] = 7; mapHostArray2[5] = 4; mapHostArray2[6] = 6; mapHostArray2[7] = 5;
 
         // copy host arrays to device arrays
-        host_to_device(myQueue, hostArray, deviceArray);
-        host_to_device(myQueue, hostArray2, deviceArray2);
-        host_to_device(myQueue, hostArray3, deviceArray3);
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
-        host_to_device(myQueue, mapHostArray2, mapDeviceArray2);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
+        host_to_device(myQueue, hostArray3, deviceArray3, 8);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 8);
+        host_to_device(myQueue, mapHostArray2, mapDeviceArray2, 8);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -1472,7 +1471,7 @@ int main() {
         iota_buffer(src1_buf, 0, 8, 0);
 
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -1520,14 +1519,13 @@ int main() {
         }
 
         // test 3/8
-
         iota_buffer(src1_buf, 0, 8, 0);
 
         iota_array(hostArray, 0, 8, 0);
 
         mapHostArray[0] = 4; mapHostArray[1] = 3; mapHostArray[2] = 5; mapHostArray[3] = 6;
-        host_to_device(myQueue, hostArray, deviceArray);
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 4);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -1550,11 +1548,17 @@ int main() {
         {
             test_name = "transform with make_perm_it 3/8";
             auto src1 = src1_it.get_buffer().template get_access<sycl::access::mode::read>();
+            int expected_transformations[] = { 45, 60, 35, 26 };
             for (int i = 0; i != 8; ++i) {
-                std::cout << src1[i] << " ";
-                std::cout << hostArray[i] << std::endl;
+                if (i < 3 || i > 6) {
+                    num_failing += ASSERT_EQUAL(test_name, src1[i], i);
+                    num_failing += ASSERT_EQUAL(test_name, hostArray[i], i);
+                }
+                else {
+                    num_failing += ASSERT_EQUAL(test_name, src1[i], expected_transformations[i - 3]);
+                    num_failing += ASSERT_EQUAL(test_name, hostArray[i], expected_transformations[i - 3]);
+                }
             }
-
             failed_tests += test_passed(num_failing, test_name);
             num_failing = 0;
         }
@@ -1566,8 +1570,8 @@ int main() {
         iota_array(hostArray, 0, 8, 0);
 
         mapHostArray[0] = 4; mapHostArray[1] = 3; mapHostArray[2] = 1; mapHostArray[3] = 2;
-        host_to_device(myQueue, hostArray, deviceArray);
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 4);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -1613,8 +1617,8 @@ int main() {
         iota_array(hostArray, 0, 8, 0);
 
         mapHostArray[0] = 4; mapHostArray[1] = 3; mapHostArray[2] = 5; mapHostArray[3] = 6;
-        host_to_device(myQueue, hostArray, deviceArray);
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 4);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -1659,8 +1663,8 @@ int main() {
         iota_array(hostArray, 0, 8, 0);
 
         mapHostArray[0] = 1; mapHostArray[1] = 2; mapHostArray[2] = 3; mapHostArray[3] = 0;
-        host_to_device(myQueue, hostArray, deviceArray);
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 4);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -1705,8 +1709,8 @@ int main() {
 
         iota_array(hostArray, 0, 8, 0);
         iota_reverse_array(hostArray2, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
-        host_to_device(myQueue, hostArray2, deviceArray2);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -1754,12 +1758,12 @@ int main() {
         iota_reverse_buffer(src2_buf, 0, 8, 0);
 
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
         iota_reverse_array(hostArray2, 0, 8, 0);
-        host_to_device(myQueue, hostArray2, deviceArray2);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
 
         mapHostArray2[0] = 6; mapHostArray2[1] = 7; mapHostArray2[2] = 5; mapHostArray2[3] = 4;
-        host_to_device(myQueue, mapHostArray2, mapDeviceArray2);
+        host_to_device(myQueue, mapHostArray2, mapDeviceArray2, 4);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -1857,10 +1861,10 @@ int main() {
         mapHostArray[0] = 3; mapHostArray[1] = 5; mapHostArray[2] = 7; mapHostArray[3] = 1;
 
         // copy host arrays to device arrays
-        host_to_device(myQueue, hostArray, deviceArray);
-        host_to_device(myQueue, hostArray2, deviceArray2);
-        host_to_device(myQueue, hostArray3, deviceArray3);
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
+        host_to_device(myQueue, hostArray3, deviceArray3, 8);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 4);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -1910,7 +1914,7 @@ int main() {
         iota_buffer(src1_buf, 0, 8, 0);
 
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -1943,11 +1947,11 @@ int main() {
         }
 
         // test 3/4
-
+#if !BROKEN_ZIP_IT_INPUT
         iota_buffer(src1_buf, 0, 8, 0);
 
         iota_array(hostArray, 0, 8, 0);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -1980,12 +1984,12 @@ int main() {
             failed_tests += test_passed(num_failing, test_name);
             num_failing = 0;
         }
-
+#endif
         // test 4/4
 
         // fill hostArray with 5s
         fill_array(hostArray, 0, 8, 5);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -2026,17 +2030,15 @@ int main() {
 
         // test 1/2
 
-        // runtime hang with zip_it<buffer x2, perm_it x2>
-
         // create buffers
-        sycl::buffer<uint64_t, 1> src1_buf { sycl::range<1>(8) };
-        sycl::buffer<uint64_t, 1> src2_buf { sycl::range<1>(8) };
-        sycl::buffer<uint64_t, 1> src3_buf { sycl::range<1>(8) };
-        sycl::buffer<uint64_t, 1> src4_buf { sycl::range<1>(8) };
-        sycl::buffer<uint64_t, 1> src5_buf { sycl::range<1>(8) };
-        sycl::buffer<uint64_t, 1> src6_buf { sycl::range<1>(8) };
-        sycl::buffer<uint64_t, 1> map_buf { sycl::range<1>(4) };
-        sycl::buffer<uint64_t, 1> map2_buf { sycl::range<1>(4) };
+        sycl::buffer<int, 1> src1_buf { sycl::range<1>(8) };
+        sycl::buffer<int, 1> src2_buf { sycl::range<1>(8) };
+        sycl::buffer<int, 1> src3_buf { sycl::range<1>(8) };
+        sycl::buffer<int, 1> src4_buf { sycl::range<1>(8) };
+        sycl::buffer<int, 1> src5_buf { sycl::range<1>(8) };
+        sycl::buffer<int, 1> src6_buf { sycl::range<1>(8) };
+        sycl::buffer<int, 1> map_buf { sycl::range<1>(8) };
+        sycl::buffer<int, 1> map2_buf { sycl::range<1>(4) };
 
         auto src1_it = oneapi::dpl::begin(src1_buf);
         auto src2_it = oneapi::dpl::begin(src2_buf);
@@ -2045,7 +2047,7 @@ int main() {
         auto src5_it = oneapi::dpl::begin(src5_buf);
         auto src6_it = oneapi::dpl::begin(src6_buf);
         auto map_it = oneapi::dpl::begin(map_buf);
-        auto map2_it = oneapi::dpl::begin(map_buf);
+        auto map2_it = oneapi::dpl::begin(map2_buf);
 
         iota_buffer(src1_buf, 0, 8, 0);
         iota_reverse_buffer(src2_buf, 0, 8, 0);
@@ -2053,6 +2055,7 @@ int main() {
         iota_reverse_buffer(src4_buf, 0, 8, 10);
         iota_buffer(src5_buf, 0, 8, -10);
         iota_reverse_buffer(src6_buf, 0, 8, -10);
+
 
         // create queue
         sycl::queue myQueue;
@@ -2089,14 +2092,14 @@ int main() {
         mapHostArray2[0] = 0; mapHostArray2[1] = 2; mapHostArray2[2] = 1; mapHostArray2[3] = 3;
 
         // copy host arrays to device arrays
-        host_to_device(myQueue, hostArray, deviceArray);
-        host_to_device(myQueue, hostArray2, deviceArray2);
-        host_to_device(myQueue, hostArray3, deviceArray3);
-        host_to_device(myQueue, hostArray4, deviceArray4);
-        host_to_device(myQueue, hostArray5, deviceArray5);
-        host_to_device(myQueue, hostArray6, deviceArray6);
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
-        host_to_device(myQueue, mapHostArray2, mapDeviceArray2);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
+        host_to_device(myQueue, hostArray3, deviceArray3, 8);
+        host_to_device(myQueue, hostArray4, deviceArray4, 8);
+        host_to_device(myQueue, hostArray5, deviceArray5, 8);
+        host_to_device(myQueue, hostArray6, deviceArray6, 8);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 8);
+        host_to_device(myQueue, mapHostArray2, mapDeviceArray2, 4);
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
             map[0] = 5; map[1] = 6; map[2] = 7; map[3] = 4;
@@ -2116,24 +2119,22 @@ int main() {
             // transform(zip_it<buffer x2, perm_it x2>, zip_it<buffer x2, perm_it x2>, buffer)
             transform_call20(oneapi::dpl::execution::dpcpp_default, src1_it, src2_it, src3_it, src4_it, map_it, map2_it);
             transform_call20(oneapi::dpl::execution::dpcpp_default, dptr, dptr2, dptr3, dptr4, dptr_map, dptr_map2);
-
         }
 
         // copy device back to host
         device_to_host(myQueue, hostArray4, deviceArray4);
-
         {
             test_name = "transform with make_zip_it 1/2";
             auto src4 = src4_it.get_buffer().template get_access<sycl::access::mode::read>();
-            for (int i = 0; i != 8; ++i) {
-                std::cout << src4[i] << " ";
-                std::cout << hostArray4[i] << std::endl;
+            for (int i = 0; i != 4; ++i) {
+                num_failing += ASSERT_EQUAL(test_name, src4[i], -1 * i);
+                num_failing += ASSERT_EQUAL(test_name, hostArray4[i], -1 * i);
             }
 
             failed_tests += test_passed(num_failing, test_name);
             num_failing = 0;
         }
-
+#if !BROKEN_ZIP_IT_OVER_PERM_IT
         // test 2/2
 
         // commented out due to zip_iterator as result sequence
@@ -2177,8 +2178,8 @@ int main() {
             failed_tests += test_passed(num_failing, test_name);
             num_failing = 0;
         }
+#endif
     }
-
 
     /*** END OF FOURTH GROUP ***/
 
@@ -2222,9 +2223,9 @@ int main() {
         mapHostArray[0] = 4; mapHostArray[1] = 2; mapHostArray[2] = 3; mapHostArray[3] = 1;
 
         // copy host arrays to device arrays
-        host_to_device(myQueue, hostArray, deviceArray);
-        host_to_device(myQueue, hostArray2, deviceArray2);
-        host_to_device(myQueue, mapHostArray, mapDeviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
+        host_to_device(myQueue, mapHostArray, mapDeviceArray, 4);
 
         {
             auto map = map_it.get_buffer().template get_access<sycl::access::mode::write>();
@@ -2251,8 +2252,8 @@ int main() {
 
             for (int i = 0; i != 8; ++i) {
                 if (i > 0 && i < 5) {
-                    num_failing += ASSERT_EQUAL(test_name, src2[i], 30);
-                    num_failing += ASSERT_EQUAL(test_name, hostArray2[i], 30);
+                    num_failing += ASSERT_EQUAL(test_name, src2[i], 6 + i * i - 1);
+                    num_failing += ASSERT_EQUAL(test_name, hostArray2[i], 6 + i * i - 1);
                 }
                 else {
                     num_failing += ASSERT_EQUAL(test_name, src2[i], i+10);
@@ -2312,10 +2313,10 @@ int main() {
         iota_reverse_array(hostArray4, 0, 8, 10);
 
         // copy host arrays to device arrays
-        host_to_device(myQueue, hostArray, deviceArray);
-        host_to_device(myQueue, hostArray2, deviceArray2);
-        host_to_device(myQueue, hostArray3, deviceArray3);
-        host_to_device(myQueue, hostArray4, deviceArray4);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
+        host_to_device(myQueue, hostArray2, deviceArray2, 8);
+        host_to_device(myQueue, hostArray3, deviceArray3, 8);
+        host_to_device(myQueue, hostArray4, deviceArray4, 8);
 
         {
             auto dptr = dpct::device_pointer<int>(deviceArray);
@@ -2373,7 +2374,7 @@ int main() {
 
         // fill hostArray
         fill_array(hostArray, 0, 8, 5);
-        host_to_device(myQueue, hostArray, deviceArray);
+        host_to_device(myQueue, hostArray, deviceArray, 8);
 
         {
             auto dptr_begin = dpct::device_pointer<int>(deviceArray);

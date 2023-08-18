@@ -1,4 +1,4 @@
-# ====------------------ do_test.py ---------- *- Python -* ----------------===#
+# ===------------------- do_test.py ---------- *- Python -* ----------------===#
 #
 # Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 # See https://llvm.org/LICENSE.txt for license information.
@@ -15,11 +15,30 @@ def setup_test():
     return True
 
 
-def test_api(api_name, reference):
-    call_subprocess(test_config.CT_TOOL + " -query-api-mapping=" + api_name)
-    if "CUDA API: " + api_name + "\n" + reference + "\n" != test_config.command_output:
+def test_api(api_name, source_code, options, migrated_code):
+    call_subprocess(
+        test_config.CT_TOOL
+        + " --cuda-include-path="
+        + test_config.include_path
+        + " --query-api-mapping="
+        + api_name
+    )
+    expect = "CUDA API:\n"
+    for code in source_code:
+        expect += code + "\n"
+    expect += "Is migrated to"
+    if options.__len__() > 0:
+        expect += " (with the option"
+        for option in options:
+            expect += " " + option
+        expect += ")"
+    expect += ":\n"
+    for code in migrated_code:
+        expect += code + "\n"
+    if expect != test_config.command_output:
         print("API query message check failed: ", api_name)
-        print(test_config.command_output)
+        print("output:\n", test_config.command_output, "===end===\n")
+        print("expect:\n", expect, "===end===\n")
         return False
     print("API query message check passed: ", api_name)
     return True
@@ -28,28 +47,26 @@ def test_api(api_name, reference):
 def migrate_test():
     test_cases = [
         [
-            "cudaStreamGetFlags",
-            "Is migrated to: an expression statement which set the output parameter 'flags' to 0",
-        ],
-        [
             "cudaEventDestroy",
-            "Is migrated to: dpct::destroy_event(event_ptr event)",
+            [
+                "  cudaEventDestroy(e /*cudaEvent_t*/);",
+            ],
+            [],
+            ["  dpct::destroy_event(e);"],
         ],
         [
-            "__hfma",
-            "Is migrated to: sycl::fma(genfloat a, genfloat b, genfloat c)",
-        ],
-        [
-            "__hfma_sat",
-            "Is migrated to: sycl::ext::intel::math::hfma_sat(sycl::half x, sycl::half y, sycl::half z)\n"
-            + "There are multi kinds of migrations for this API with different migration options,\n"
-            + "suggest to use the tool to migrate a API usage code to see more detail of the migration.",
+            "cudaStreamGetFlags",
+            [
+                "  cudaStreamGetFlags(s /*cudaStream_t*/, f /*unsigned int **/);",
+            ],
+            [],
+            ["  *(f) = 0;"],
         ],
     ]
 
     res = True
     for test_case in test_cases:
-        res = res and test_api(test_case[0], test_case[1])
+        res = res and test_api(test_case[0], test_case[1], test_case[2], test_case[3])
     return res
 
 

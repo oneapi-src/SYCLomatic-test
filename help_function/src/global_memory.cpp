@@ -104,7 +104,7 @@ void test2(volatile int &a) {
   a = 3;
 }
 
-void test1(volatile int *acc_d1, int *acc_d2, int *c1, int c2) {
+void test1(volatile int *acc_d1, int *acc_d2, int const *c1, int c2) {
   unsigned d_a = 1;
   *acc_d1 = 0;
   *acc_d2 = d_a;

@@ -23,6 +23,7 @@ def migrate_test():
 
     ret = is_sub_string("Recursive functions cannot be called in SYCL device code", test_config.command_output)
     ret = is_sub_string("Virtual functions cannot be called in SYCL device code", test_config.command_output) and ret
+    ret = is_sub_string("The usage of dynamic memory allocation and deallocation APIs cannot be called in SYCL device code.", test_config.command_output) and ret
     return ret
 def build_test():
     return True

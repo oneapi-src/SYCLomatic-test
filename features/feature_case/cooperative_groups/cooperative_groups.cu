@@ -40,9 +40,17 @@ __global__ void kernel(unsigned int *data, unsigned int *result) {
   }
 }
 
+__global__ void test_group_thread_index(unsigned int *data) {
+  cg::thread_block ttb = cg::this_thread_block();
+  auto group_x = ttb.group_index().x;
+  auto thread_x = ttb.thread_index().x;
+  data[threadIdx.x] = group_x + thread_x;
+}
+
 int main() {
   unsigned int result_host[3];
   unsigned int data_host[56];
+  unsigned int data_ret[56];
   result_host[2] = 0;
   for (int i = 0; i < 56; i++) {
     data_host[i] = i;
@@ -92,7 +100,27 @@ int main() {
     printf("%d, %d\n", result_host[0], result_host[1]);
   }
 
-  if (checker1 && checker2)
+  unsigned int *result_device_kernel_2;
+  cudaMalloc(&result_device_kernel_2, sizeof(unsigned int) * 56);
+  test_group_thread_index<<<2, 56>>>(result_device_kernel_2);
+  cudaMemcpy(data_ret, result_device_kernel_2, sizeof(unsigned int) * 56, cudaMemcpyDeviceToHost);
+  unsigned int expected_ret[56] = {
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+    16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+    29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41,
+    42, 43, 44, 45, 46, 47, 48, 49, 50,
+    51, 52, 53, 54, 55, 56
+  };
+  bool checker3 = false;
+
+  if (verify_array(expected_ret, data_ret, 56)) {
+    checker3 = true;
+  } else {
+    printf("checker3 failed\n");
+  }
+
+
+  if (checker1 && checker2 && checker3)
     return 0;
   return -1;
 }

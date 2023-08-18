@@ -15,5 +15,9 @@ int main() {
   cudaOccupancyMaxActiveBlocksPerMultiprocessor(&num_blocks, k, block_size, dynamic_shared_memory_size);
   CUfunction func;
   cuOccupancyMaxActiveBlocksPerMultiprocessor(&num_blocks, func, block_size, dynamic_shared_memory_size);
+
+  int min_grid_size;
+  int block_size_limit;
+  cudaOccupancyMaxPotentialBlockSize(&min_grid_size, &block_size, k, dynamic_shared_memory_size, block_size_limit);
   return 0;
 }

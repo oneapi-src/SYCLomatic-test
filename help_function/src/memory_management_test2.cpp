@@ -80,8 +80,6 @@ void test2() {
   float *h_B = (float*)malloc(Num*sizeof(float));
   float *h_C = (float*)malloc(Num*sizeof(float));
 
-  //dpct::dev_mgr::instance().select_device(0);
-
   for (int i = 0; i < Num; i++) {
     h_A[i] = 1.0f;
     h_B[i] = 2.0f;
@@ -151,8 +149,6 @@ void test3() {
   float *h_A = (float*)malloc(Num*sizeof(float));
   float *h_B = (float*)malloc(Num*sizeof(float));
   float *h_C = (float*)malloc(Num*sizeof(float));
-
-  //dpct::dev_mgr::instance().select_device(0);
 
   for (int i = 0; i < Num; i++) {
     h_A[i] = 1.0f;
@@ -227,8 +223,6 @@ void test4() {
   float *h_A = (float*)malloc(Num*sizeof(float));
   float *h_B = (float*)malloc(Num*sizeof(float));
   float *h_C = (float*)malloc(Num*sizeof(float));
-
-  //dpct::dev_mgr::instance().select_device(0);
 
   for (int i = 0; i < Num; i++) {
     h_A[i] = 1.0f;
@@ -468,58 +462,10 @@ void test7() {
   }
   printf("Test7 Passed\n");
 }
-/*
-dpct::shared_memory<float, 2> s_A(DataW, DataH);
-dpct::shared_memory<float, 2> s_B(DataW, DataH);
-dpct::shared_memory<float, 2> s_C(DataW, DataH);
-
-void test8() {
-
-  s_A.init();
-  s_B.init();
-  s_C.init();
-  for (int i = 0; i < DataW; i++) {
-    for (int j = 0; j < DataH; j++) {
-      s_A[i][j] = 1.0f;
-      s_B[i][j] = 2.0f;
-    }
-  }
-
-  {
-    dpct::get_default_queue().submit(
-      [&](sycl::handler &cgh) {
-      auto s_A_acc = s_A.get_access(cgh);
-      auto s_B_acc = s_B.get_access(cgh);
-      auto s_C_acc = s_C.get_access(cgh);
-        cgh.parallel_for(
-          sycl::range<2>(DataW, DataH),
-          [=](sycl::id<2> id) {
-            dpct::accessor<float, dpct::shared, 2> A(s_A_acc);
-            dpct::accessor<float, dpct::shared, 2> B(s_B_acc);
-            dpct::accessor<float, dpct::shared, 2> C(s_C_acc);
-            int i = id[0], j = id[1];
-            C[i][j] = A[i][j] + B[i][j];
-          });
-      });
-      dpct::get_default_queue().wait_and_throw();
-  }
-
-  // verify hostD
-  for (int i = 0; i < DataW; i++) {
-    for (int j = 0; j < DataH; j++) {
-      if (fabs(s_C[i][j] - s_A[i][j] - s_B[i][j]) > 1e-5) {
-        fprintf(stderr, "Result verification failed at element [%d][%d]:\n", i, j);
-        exit(EXIT_FAILURE);
-      }
-    }
-  }
-  printf("Test8 Passed\n");
-}
-*/
 
 void test9() {
 
-  int Num = 50;
+  int Num = 16;
 
   float *h_A = (float*)malloc(Num * Num * sizeof(float));
   float *h_B = (float*)malloc(Num * Num * sizeof(float));
@@ -544,12 +490,12 @@ void test9() {
       auto A = buffer_A.get_access<sycl::access::mode::read_write>(cgh);
 
         cgh.parallel_for(
-          sycl::range<2>(Num, Num),
-          [=](sycl::id<2> id) {
+          sycl::nd_range<2>(sycl::range<2>(Num, Num), sycl::range<2>(Num, Num)),
+          [=](sycl::nd_item<2> id) {
             //test_feature:accessor
             //test_feature:memory_region
             dpct::accessor<float, dpct::local, 2> C_local(C_local_acc, acc_range);
-            int i = id[0], j = id[1];
+            int i = id.get_local_id(0), j = id.get_local_id(1);
             C_local[i][j] = 1;
             A[i * Num + j] = C_local[i][j] * 2;
           });
@@ -631,7 +577,6 @@ int main() {
   test5();
   test6();
   test7();
-  //test8();
   test9();
 
   sycl::queue q;
