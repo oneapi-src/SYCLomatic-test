@@ -62,6 +62,18 @@ def migrate_test():
             [],
             ["  *(f) = 0;"],
         ],
+        [
+            "cublasSgemm",
+            [
+                "  cublasSgemm(handle /*cublasHandle_t*/, transa /*cublasOperation_t*/,",
+                "              transb /*cublasOperation_t*/, m /*int*/, n /*int*/, k /*int*/,",
+                "              alpha /*const float **/, a /*const float **/, lda /*int*/,",
+                "              b /*const float **/, ldb /*int*/, beta /*const float **/,",
+                "              c /*float **/, ldc /*int*/);",
+            ],
+            [],
+            ["  oneapi::mkl::blas::column_major::gemm(*handle, transa, transb, m, n, k, dpct::get_value(alpha, *handle), a, lda, b, ldb, dpct::get_value(beta, *handle), c, ldc);"],
+        ],
     ]
 
     res = True
