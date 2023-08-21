@@ -134,7 +134,8 @@ void test_engine_with_skip(host_rng_ptr rng0, engine_type &rng1) {
         output_d_1);
 }
 
-void test_sobol_with_set_direction_numbers(host_rng_ptr rng0, oneapi::mkl::rng::sobol &rng1) {
+void test_sobol_with_set_direction_numbers(host_rng_ptr rng0,
+                                           oneapi::mkl::rng::sobol &rng1) {
   unsigned int *output_i_0 =
       sycl::malloc_host<unsigned int>(num, dpct::get_default_queue());
   unsigned int *output_i_1 =
@@ -153,26 +154,30 @@ void test_sobol_with_set_direction_numbers(host_rng_ptr rng0, oneapi::mkl::rng::
   rng0->generate_lognormal(output_f_0, num, 0.5, 0.5);
   oneapi::mkl::rng::generate(oneapi::mkl::rng::lognormal<float>(0.5, 0.5), rng1,
                              num, dpct::detail::get_memory(output_f_1));
-  check("oneapi::mkl::rng::sobol::generate_lognormal_f with set_direction_numbers",
+  check("oneapi::mkl::rng::sobol::generate_lognormal_f with "
+        "set_direction_numbers",
         output_f_0, output_f_1);
 
   rng0->generate_lognormal(output_d_0, num, 0.5, 0.5);
   oneapi::mkl::rng::generate(oneapi::mkl::rng::lognormal<double>(0.5, 0.5),
                              rng1, num, dpct::detail::get_memory(output_d_1));
-  check("oneapi::mkl::rng::sobol::generate_lognormal_d with set_direction_numbers",
+  check("oneapi::mkl::rng::sobol::generate_lognormal_d with "
+        "set_direction_numbers",
         output_d_0, output_d_1);
 
   rng0->generate_gaussian(output_f_0, num, 0.5, 0.5);
   oneapi::mkl::rng::generate(oneapi::mkl::rng::gaussian<float>(0.5, 0.5), rng1,
                              num, dpct::detail::get_memory(output_f_1));
-  check("oneapi::mkl::rng::sobol::generate_gaussian_f with set_direction_numbers",
-        output_f_0, output_f_1);
+  check(
+      "oneapi::mkl::rng::sobol::generate_gaussian_f with set_direction_numbers",
+      output_f_0, output_f_1);
 
   rng0->generate_gaussian(output_d_0, num, 0.5, 0.5);
   oneapi::mkl::rng::generate(oneapi::mkl::rng::gaussian<double>(0.5, 0.5), rng1,
                              num, dpct::detail::get_memory(output_d_1));
-  check("oneapi::mkl::rng::sobol::generate_gaussian_d with set_direction_numbers",
-        output_d_0, output_d_1);
+  check(
+      "oneapi::mkl::rng::sobol::generate_gaussian_d with set_direction_numbers",
+      output_d_0, output_d_1);
 
   rng0->generate_poisson(output_i_0, num, 0.5);
   oneapi::mkl::rng::generate(oneapi::mkl::rng::poisson<unsigned int>(0.5), rng1,
@@ -183,14 +188,16 @@ void test_sobol_with_set_direction_numbers(host_rng_ptr rng0, oneapi::mkl::rng::
   rng0->generate_uniform(output_f_0, num);
   oneapi::mkl::rng::generate(oneapi::mkl::rng::uniform<float>(), rng1, num,
                              dpct::detail::get_memory(output_f_1));
-  check("oneapi::mkl::rng::sobol::generate_uniform_f with set_direction_numbers",
-        output_f_0, output_f_1);
+  check(
+      "oneapi::mkl::rng::sobol::generate_uniform_f with set_direction_numbers",
+      output_f_0, output_f_1);
 
   rng0->generate_uniform(output_d_0, num);
   oneapi::mkl::rng::generate(oneapi::mkl::rng::uniform<double>(), rng1, num,
                              dpct::detail::get_memory(output_d_1));
-  check("oneapi::mkl::rng::sobol::generate_uniform_d with set_direction_numbers",
-        output_d_0, output_d_1);
+  check(
+      "oneapi::mkl::rng::sobol::generate_uniform_d with set_direction_numbers",
+      output_d_0, output_d_1);
 }
 
 int main() {
