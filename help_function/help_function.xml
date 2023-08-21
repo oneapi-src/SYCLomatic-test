@@ -9,7 +9,7 @@
     <test testName="atomic_add_float" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="atomic_fetch_compare_inc" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="async_exception" configFile="config/TEMPLATE_help_function.xml" />
-    <!-- <test testName="dpct_device_info" configFile="config/TEMPLATE_help_function.xml" /> -->
+    <test testName="dpct_device_info" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="max" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="memcpy3D" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="memcpy3D_2" configFile="config/TEMPLATE_help_function.xml" />
@@ -77,7 +77,7 @@
     <test testName="util_DataType_test" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="device_util" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="device_dev_mgr" configFile="config/TEMPLATE_help_function.xml" />
-    <!-- <test testName="device_device_ext" configFile="config/TEMPLATE_help_function.xml" /> -->
+    <test testName="device_device_ext" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="device_device_info" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="image_image_channel" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="image_image_matrix" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
@@ -86,6 +86,7 @@
     <test testName="image_image_wrapper" configFile="config/image_image_wrapper.xml" />
     <!-- <test testName="kernel_function_win" configFile="config/kernel_function_win.xml" />
     <test testName="kernel_function_lin" configFile="config/kernel_function_lin.xml" /> -->
+    <test testName="onedpl_test_arg_index_input_iterator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="onedpl_test_copy" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_copy_if" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_count_if" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
@@ -162,7 +163,7 @@
     <test testName="dnnl_utils_convolution_1" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_convolution_2" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_convolution_3" configFile="config/TEMPLATE_help_function_usmnone.xml" />
-    <!-- <test testName="dnnl_utils_convolution_4" configFile="config/TEMPLATE_help_function_usmnone.xml" /> -->
+    <test testName="dnnl_utils_convolution_4" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_convolution_5" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_batch_normalization_1" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double" />
     <test testName="dnnl_utils_batch_normalization_2" configFile="config/TEMPLATE_help_function_usmnone_skip_double.xml" splitGroup="double" />

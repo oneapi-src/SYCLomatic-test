@@ -36,6 +36,7 @@
     <test testName="thrust_is_sorted" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_replace_copy" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_scatter_if" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_system" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust_stable_partition" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_random_type" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_uninitialized_fill_n" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -59,6 +60,9 @@
     <test testName="thrust_remove" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_transform_exclusive_scan" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_set_difference" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="operator_eq" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="operator_neq" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="operator_lege" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_set_difference_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_set_intersection_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_find_if_not" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
@@ -146,7 +150,7 @@
     <test testName="cublas-only-usm" configFile="config/TEMPLATE_cuBlas_usm.xml" />
     <test testName="cusparse-helper" configFile="feature_case/cusparse/config/cusparse-helper.xml" />
     <test testName="backprop" configFile="config/TEMPLATE_backprop.xml" />
-    <!-- <test testName="device_info" configFile="config/TEMPLATE_device_info.xml" /> -->
+    <test testName="device_info" configFile="config/TEMPLATE_device_info.xml" />
     <!-- <test testName="autoGenMakefile" configFile="config/TEMPLATE_autoGenMakefile.xml" /> -->
     <test testName="cufft-deduce" configFile="config/TEMPLATE_cuFFT.xml" />
     <test testName="cufft-different-locations-usm" configFile="config/TEMPLATE_cuFFT.xml" />
@@ -166,7 +170,7 @@
     <test testName="driverDevice" configFile="config/TEMPLATE_driverDevice.xml" />
     <test testName="driverStreamAndEvent" configFile="config/TEMPLATE_driverStreamAndEvent.xml" />
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
-    <!-- <test testName="sync_warp_p2" configFile="config/TEMPLATE_sync_warp_p2.xml" /> -->
+    <test testName="sync_warp_p2" configFile="config/TEMPLATE_sync_warp_p2.xml" />
     <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
