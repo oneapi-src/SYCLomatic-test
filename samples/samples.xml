@@ -10,6 +10,6 @@
         <test testName="duplicated_report" configFile="config/TEMPLATE_samples.xml" />
         <!-- <test testName="memcpy_test" configFile="config/TEMPLATE_samples.xml" /> -->
         <!-- <test testName="math_func" configFile="config/math_func.xml" splitGroup="double" /> -->
-        <!-- <test testName="queryDevInfo" configFile="config/TEMPLATE_samples.xml" /> -->
+        <test testName="queryDevInfo" configFile="config/TEMPLATE_samples.xml" />
     </tests>
 </suite>
