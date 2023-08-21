@@ -239,10 +239,7 @@ int main() {
 
   std::vector<std::uint32_t> vec = {2, 3, 5, 7};
   rng0 = create_host_rng(random_engine_type::sobol);
-  dynamic_cast<
-      dpct::rng::host::detail::rng_generator<oneapi::mkl::rng::sobol> *>(
-      rng0.get())
-      ->set_direction_numbers(vec);
+  rng0->set_direction_numbers(vec);
   rng0->set_queue(&q);
   oneapi::mkl::rng::sobol rng6(q, vec);
   test_sobol_with_set_direction_numbers(rng0, rng6);
