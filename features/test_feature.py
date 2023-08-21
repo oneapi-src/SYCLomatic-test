@@ -55,7 +55,7 @@ exec_tests = ['asm', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 
               'thrust_random_type', 'thrust_scatter_if', 'thrust_all_of', 'thrust_none_of', 'thrust_is_partitioned',
               'thrust_is_sorted_until', 'thrust_set_intersection', 'thrust_set_union_by_key', 'thrust_set_union',
               'thrust_swap_ranges', 'thrust_uninitialized_fill_n', 'thrust_equal', 'system_atomic', 'thrust_detail_types',
-              'operator_eq', 'operator_neq''operator_lege']
+              'operator_eq', 'operator_neq', 'operator_lege', 'thrust_system']
 
 occupancy_calculation_exper = ['occupancy_calculation']
 
