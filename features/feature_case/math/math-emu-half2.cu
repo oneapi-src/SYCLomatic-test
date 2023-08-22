@@ -680,6 +680,262 @@ void testHneu2Cases(const vector<pair<half2_pair, h2i_pair>> &TestCases) {
   }
 }
 
+// Half2 Math Functions
+
+__global__ void _h2ceil(float *const Result, __half2 Input1) {
+  auto ret = h2ceil(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2ceilCases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2ceil<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2ceil", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+__global__ void _h2cos(float *const Result, __half2 Input1) {
+  auto ret = h2cos(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2cosCases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2cos<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2cos", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2exp(float *const Result, __half2 Input1) {
+  auto ret = h2exp(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2expCases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2exp<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2exp", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2exp10(float *const Result, __half2 Input1) {
+  auto ret = h2exp10(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2exp10Cases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2exp10<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2exp10", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2exp2(float *const Result, __half2 Input1) {
+  auto ret = h2exp2(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2exp2Cases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2exp2<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2exp2", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2floor(float *const Result, __half2 Input1) {
+  auto ret = h2floor(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2floorCases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2floor<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2floor", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2log(float *const Result, __half2 Input1) {
+  auto ret = h2log(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2logCases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2log<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2log", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2log10(float *const Result, __half2 Input1) {
+  auto ret = h2log10(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2log10Cases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2log10<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2log10", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2log2(float *const Result, __half2 Input1) {
+  auto ret = h2log2(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2log2Cases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2log2<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2log2", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2rcp(float *const Result, __half2 Input1) {
+  auto ret = h2rcp(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2rcpCases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2rcp<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2rcp", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2rint(float *const Result, __half2 Input1) {
+  auto ret = h2rint(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2rintCases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2rint<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2rint", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2rsqrt(float *const Result, __half2 Input1) {
+  auto ret = h2rsqrt(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2rsqrtCases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2rsqrt<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2rsqrt", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2sin(float *const Result, __half2 Input1) {
+  auto ret = h2sin(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2sinCases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2sin<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2sin", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2sqrt(float *const Result, __half2 Input1) {
+  auto ret = h2sqrt(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2sqrtCases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2sqrt<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2sqrt", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
+__global__ void _h2trunc(float *const Result, __half2 Input1) {
+  auto ret = h2trunc(Input1);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+
+void testH2truncCases(const vector<pair<__half2, h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    _h2trunc<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("h2trunc", {TestCase.first}, TestCase.second.first,
+                {Result[0], Result[1]}, TestCase.second.second);
+  }
+}
+
 int main() {
   testHadd2_satCases({
       {{{-0.3, -0.5}, {-0.4, -0.6}}, {{0, 0}, 37}},
@@ -885,6 +1141,111 @@ int main() {
       {{{0.7, 2}, {0.7, 2}}, {{0, 0}, 37}},
       {{{1, 1}, {4, 6}}, {{1, 1}, 15}},
       {{{NAN, 1}, {1, 1}}, {{1, 0}, 15}},
+  });
+  testH2ceilCases({
+      {{-0.3, -0.6}, {{0, 0}, 37}},
+      {{0.34, 0.7}, {{1, 1}, 15}},
+      {{0.8, 2}, {{1, 2}, 15}},
+      {{23, 6}, {{23, 6}, 14}},
+      {{-12, 1}, {{-12, 1}, 15}},
+  });
+  testH2cosCases({
+      {{-0.3, -0.6}, {{0.955, 0.825}, 3}},
+      {{0.34, 0.7}, {{0.943, 0.765}, 3}},
+      {{0.8, 2}, {{0.697, -0.416}, 3}},
+      {{23, 6}, {{-0.533, 0.96}, 3}},
+      {{-12, 1}, {{0.844, 0.541}, 3}},
+  });
+  testH2expCases({
+      {{-0.3, -0.6}, {{0.74072265625, 0.548828125}, 16}},
+      {{0.34, 0.7}, {{1.4052734375, 2.013671875}, 15}},
+      {{0.8, 2}, {{2.224609375, 7.390625}, 15}},
+      {{10, 6}, {{22032, 403.5}, 11}},
+      {{-12, 1}, {{0.000006139278412, 2.71875}, 15}},
+  });
+  testH2exp10Cases({
+      {{-0.3, -0.6}, {{0.501, 0.251}, 3}},
+      {{0.34, 0.7}, {{2.19, 5.02}, 2}},
+      {{0.8, 2}, {{6.31, 100}, 2}},
+      {{4, 3}, {{10000, 1000}, 12}},
+      {{-12, 1}, {{0, 10}, 11}},
+  });
+  testH2exp2Cases({
+      {{-0.3, -0.6}, {{0.812, 0.66}, 3}},
+      {{0.34, 0.7}, {{1.266, 1.625}, 3}},
+      {{0.8, 2}, {{1.741, 4}, 3}},
+      {{12, 6}, {{4096, 64}, 12}},
+      {{-12, 1}, {{0.000244140625, 2}, 15}},
+  });
+  testH2floorCases({
+      {{-0.3, -0.6}, {{-1, -1}, 15}},
+      {{0.34, 0.7}, {{0, 0}, 37}},
+      {{0.8, 2}, {{0, 2}, 15}},
+      {{23, 6}, {{23, 6}, 14}},
+      {{-12, 1}, {{-12, 1}, 15}},
+  });
+  testH2logCases({
+      {{0.3, 0.6}, {{-1.204, -0.511}, 3}},
+      {{0.34, 0.7}, {{-1.078, -0.356}, 3}},
+      {{0.8, 2}, {{-0.223, 0.693}, 3}},
+      {{23, 6}, {{3.135, 1.792}, 3}},
+      {{12, 1}, {{2.484, 0}, 3}},
+  });
+  testH2log10Cases({
+      {{0.3, 0.6}, {{-0.523, -0.222}, 3}},
+      {{0.34, 0.7}, {{-0.4685, -0.1548}, 4}},
+      {{0.8, 2}, {{-0.097, 0.301}, 4}},
+      {{23, 6}, {{1.361, 0.778}, 3}},
+      {{12, 1}, {{1.0791, 0}, 4}},
+  });
+  testH2log2Cases({
+      {{0.3, 0.6}, {{-1.736, -0.737}, 3}},
+      {{0.34, 0.7}, {{-1.556, -0.514}, 3}},
+      {{0.8, 2}, {{-0.3223, 1}, 4}},
+      {{23, 6}, {{4.523, 2.586}, 3}},
+      {{12, 1}, {{3.586, 0}, 3}},
+  });
+  testH2rcpCases({
+      {{-0.3, -0.6}, {{-3.33203125, -1.666015625}, 15}},
+      {{0.34, 0.7}, {{2.939453125, 1.427734375}, 15}},
+      {{0.8, 2}, {{1.25, 0.5}, 15}},
+      {{23, 6}, {{0.0435, 0.1666}, 4}},
+      {{-12, 1}, {{-0.08331298828125, 1}, 15}},
+  });
+  testH2rintCases({
+      {{-0.3, -0.6}, {{0, -1}, 15}},
+      {{0.34, 0.7}, {{0, 1}, 15}},
+      {{0.8, 2}, {{1, 2}, 15}},
+      {{23, 6}, {{23, 6}, 14}},
+      {{-12, 1}, {{-12, 1}, 14}},
+  });
+  testH2rsqrtCases({
+      {{0.3, 0.6}, {{1.8251953125, 1.291015625}, 15}},
+      {{0.34, 0.7}, {{1.71484375, 1.1953125}, 15}},
+      {{0.8, 2}, {{1.1181640625, 0.70703125}, 15}},
+      {{23, 6}, {{0.20849609375, 0.408203125}, 16}},
+      {{12, 1}, {{0.28857421875, 1}, 15}},
+  });
+  testH2sinCases({
+      {{-0.3, -0.6}, {{-0.296, -0.565}, 3}},
+      {{0.34, 0.7}, {{0.333, 0.645}, 3}},
+      {{0.8, 2}, {{0.717, 0.909}, 3}},
+      {{23, 6}, {{-0.846, -0.279}, 3}},
+      {{-12, 1}, {{0.537, 0.841}, 3}},
+  });
+  testH2sqrtCases({
+      {{0.3, 0.6}, {{0.548, 0.775}, 3}},
+      {{0.34, 0.7}, {{0.583, 0.837}, 3}},
+      {{0.8, 2}, {{0.895, 1.414}, 3}},
+      {{23, 6}, {{4.8, 2.45}, 2}},
+      {{12, 1}, {{3.465, 1}, 3}},
+  });
+  testH2truncCases({
+      {{-0.3, -0.6}, {{0, 0}, 37}},
+      {{0.34, 0.7}, {{0, 0}, 37}},
+      {{0.8, 2}, {{0, 2}, 15}},
+      {{23, 6}, {{23, 6}, 14}},
+      {{-12, 1}, {{-12, 1}, 15}},
   });
   cout << "passed " << passed << "/" << passed + failed << " cases!" << endl;
   if (failed) {
