@@ -1,4 +1,4 @@
 // RUN: echo 0
-void foo(){
+void foo3(){
     
 }
