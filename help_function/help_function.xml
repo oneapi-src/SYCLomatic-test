@@ -41,28 +41,28 @@
     <test testName="atomic_atomic_fetch_sub" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="atomics_noneusm_verification" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="atomics_usm_verification" configFile="config/TEMPLATE_help_function.xml" />
-    <!-- <test testName="blas_utils_getrf" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/> -->
+    <test testName="blas_utils_getrf" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_getrf-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
-    <!-- <test testName="blas_utils_getrf-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/> -->
+    <test testName="blas_utils_getrf-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_getrf-complex-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
-    <!-- <test testName="blas_utils_getrfnp" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/> -->
+    <test testName="blas_utils_getrfnp" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_getrfnp-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
-    <!-- <test testName="blas_utils_getrfnp-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/> -->
+    <test testName="blas_utils_getrfnp-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_getrfnp-complex-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
-    <!-- <test testName="blas_utils_getrs" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/> -->
+    <test testName="blas_utils_getrs" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_getrs-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
-    <!-- <test testName="blas_utils_getrs-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/> -->
+    <test testName="blas_utils_getrs-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_getrs-complex-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
-    <!-- <test testName="blas_utils_getri" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/> -->
+    <test testName="blas_utils_getri" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_getri-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
-    <!-- <test testName="blas_utils_getri-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/> -->
+    <test testName="blas_utils_getri-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_getri-complex-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
-    <!-- <test testName="blas_utils_geqrf" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/> -->
+    <test testName="blas_utils_geqrf" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_geqrf-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
-    <!-- <test testName="blas_utils_geqrf-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/> -->
+    <test testName="blas_utils_geqrf-complex" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_utils_geqrf-complex-usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
     <test testName="blas_utils_get_transpose" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
-    <!-- <test testName="blas_utils_get_value" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double" /> -->
+    <test testName="blas_utils_get_value" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double" />
     <test testName="blas_utils_get_value_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double" />
     <test testName="util_cast_value_test" configFile="config/TEMPLATE_help_function_skip_double.xml"  splitGroup="double" />
     <test testName="util_fast_length_test" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
@@ -84,9 +84,9 @@
     <test testName="image_image_data" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="image_sampling_info" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="image_image_wrapper" configFile="config/image_image_wrapper.xml" />
-    <test testName="kernel_function_win" configFile="config/kernel_function_win.xml" />
-    <!-- <test testName="kernel_function_lin" configFile="config/kernel_function_lin.xml" /> -->
- <!--   <test testName="onedpl_test_arg_index_input_iterator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />-->
+    <!-- <test testName="kernel_function_win" configFile="config/kernel_function_win.xml" />
+    <test testName="kernel_function_lin" configFile="config/kernel_function_lin.xml" /> -->
+    <test testName="onedpl_test_arg_index_input_iterator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="onedpl_test_copy" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_copy_if" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_count_if" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
@@ -145,7 +145,7 @@
     <test testName="rng_generator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="rng_generator_vec_size_1" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="rng_host" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
-    <!-- <test testName="blas_extension_api_buffer" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/> -->
+    <test testName="blas_extension_api_buffer" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
     <test testName="dnnl_utils_version" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="dnnl_utils_rnn" configFile="config/TEMPLATE_help_function_dnnl_usmnone_v8.xml" />
@@ -174,12 +174,12 @@
     <test testName="dnnl_utils_dropout" configFile="config/TEMPLATE_help_function_usmnone.xml" />
     <test testName="util_logical_group" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="fft_workspace_interface" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" splitGroup="double"/>
-    <!-- <test testName="fft_utils_engine_buffer" configFile="config/TEMPLATE_help_function_fft_buffer.xml"  splitGroup="double" /> -->
-    <!-- <test testName="fft_utils_engine_usm" configFile="config/TEMPLATE_help_function_fft_usm.xml"  splitGroup="double" /> -->
-    <!-- <test testName="fft_set_workspace" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/> -->
+    <test testName="fft_utils_engine_buffer" configFile="config/TEMPLATE_help_function_fft_buffer.xml"  splitGroup="double" />
+    <test testName="fft_utils_engine_usm" configFile="config/TEMPLATE_help_function_fft_usm.xml"  splitGroup="double" />
+    <test testName="fft_set_workspace" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_help_function_skip_double.xml" />
-    <!-- <test testName="lapack_utils_buffer" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" /> -->
-    <!-- <test testName="lapack_utils_usm" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" /> -->
+    <test testName="lapack_utils_buffer" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
+    <test testName="lapack_utils_usm" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="util_cast_double_from_to_int_test" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="sparse_utils_1" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="sparse_utils_2_buffer" configFile="config/TEMPLATE_help_function_before_11_skip_double.xml" splitGroup="double" />
