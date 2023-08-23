@@ -14,10 +14,6 @@ ARCH      = sm_60
 
 program = main
 
-source = one.cu two.cu three.c four.c 
-
-obj = $(source:.cu=.o)
-
 #===============================================================================
 # Sets Flags
 #===============================================================================
@@ -42,8 +38,8 @@ endif
 # Targets to Build
 #===============================================================================
 
-$(program): $(obj) 
-	$(CC) $(CFLAGS) $(obj) -o $@ $(LDFLAGS)
+$(program): one.o two.o three.c four.c 
+	$(CC) $(CFLAGS) one.o two.o three.c four.c -o $@ $(LDFLAGS)
 
 %.o: %.cu 
 	$(CC) $(CFLAGS) -c $< -o $@
