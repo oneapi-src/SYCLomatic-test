@@ -271,6 +271,7 @@
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="libcu_array" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="libcu_complex" configFile="config/TEMPLATE_libcu.xml" />
+    <test testName="match" configFile="config/TEMPLATE_match.xml" />
     <test testName="libcu_tuple" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="constant_attr" configFile="config/TEMPLATE_constant_attr.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
