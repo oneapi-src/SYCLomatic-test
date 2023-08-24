@@ -236,7 +236,7 @@ int main() {
   MatchAnyKernel3<<<GridSize, BlockSize>>>(dev_data_u);
 
   cudaDeviceSynchronize();
-  if(!verify_data<unsigned int>(dev_data_u, expect5, DATA_NUM, 2)) {
+  if(!verify_data<unsigned int>(dev_data_u, expect5, DATA_NUM)) {
     std::cout << "MatchAnyKernel3" << " verify failed" << std::endl;
     Result = false;
     std::cout << "expect:" << std::endl;
