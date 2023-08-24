@@ -18,12 +18,12 @@ def setup_test():
     return True
 
 def migrate_test():
-
-    call_subprocess(test_config.CT_TOOL +" --helper-function-dir")
-    helper_function_dir_root = os.path.abspath(os.path.join(get_ct_path(), os.pardir , os.pardir , "include"))
+    call_subprocess(test_config.CT_TOOL + " --helper-function-dir")
+    helper_function_dir_root = os.path.realpath(
+        os.path.join(get_ct_path(), os.pardir, os.pardir, "include"))
     print("Helper functions directory: ", helper_function_dir_root)
     return is_sub_string(helper_function_dir_root, test_config.command_output)
-    
+
 def build_test():
     return True
 

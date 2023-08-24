@@ -1,0 +1,26 @@
+[
+    {
+        "command": "nvcc -c  -std=c++14 -Wall --cuda-gpu-arch=sm_60 -O3 -o one.o -D__CUDACC__=1 one.cu",
+        "directory": "/export/users/dahmed/up/SYCLomatic-test/behavior_tests/src/cmp-cmds-linker-entry-src-files",
+        "file": "/export/users/dahmed/up/SYCLomatic-test/behavior_tests/src/cmp-cmds-linker-entry-src-files/one.cu"
+    },
+    {
+        "command": "nvcc -c  -std=c++14 -Wall --cuda-gpu-arch=sm_60 -O3 -o two.o -D__CUDACC__=1 two.cu",
+        "directory": "/export/users/dahmed/up/SYCLomatic-test/behavior_tests/src/cmp-cmds-linker-entry-src-files",
+        "file": "/export/users/dahmed/up/SYCLomatic-test/behavior_tests/src/cmp-cmds-linker-entry-src-files/two.cu"
+    },
+    {
+        "command": "nvcc -c  -std=c++14 -Wall --cuda-gpu-arch=sm_60 -O3 -D__CUDACC__=1 -o four.o four.c",
+        "directory": "/export/users/dahmed/up/SYCLomatic-test/behavior_tests/src/cmp-cmds-linker-entry-src-files",
+        "file": "/export/users/dahmed/up/SYCLomatic-test/behavior_tests/src/cmp-cmds-linker-entry-src-files/four.c"
+    },
+    {
+        "command": "nvcc -c  -std=c++14 -Wall --cuda-gpu-arch=sm_60 -O3 -D__CUDACC__=1 -o three.o three.c",
+        "directory": "/export/users/dahmed/up/SYCLomatic-test/behavior_tests/src/cmp-cmds-linker-entry-src-files",
+        "file": "/export/users/dahmed/up/SYCLomatic-test/behavior_tests/src/cmp-cmds-linker-entry-src-files/three.c"
+    },
+    {
+        "command": "nvcc  -std=c++14 -Wall --cuda-gpu-arch=sm_60 -O3 one.o two.o -o main -D__CUDACC__=1 four.o three.o",
+        "directory": "/export/users/dahmed/up/SYCLomatic-test/behavior_tests/src/cmp-cmds-linker-entry-src-files"
+    }
+]
