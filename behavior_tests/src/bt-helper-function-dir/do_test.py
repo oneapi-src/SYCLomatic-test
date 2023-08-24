@@ -22,6 +22,8 @@ def migrate_test():
     helper_function_dir_root = os.path.realpath(
         os.path.join(get_ct_path(), os.pardir, os.pardir, "include"))
     print("Helper functions directory: ", helper_function_dir_root)
+    if (platform.system() == 'Windows'):
+        return is_sub_string(helper_function_dir_root.lower(), test_config.command_output.lower())
     return is_sub_string(helper_function_dir_root, test_config.command_output)
 
 def build_test():
