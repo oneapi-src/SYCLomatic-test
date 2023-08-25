@@ -12,7 +12,7 @@
 #include "dpct/dpl_utils.hpp"
 #include <iostream>
 
-//#define LONG_TEST
+#define LONG_TEST
 
 template <typename _T>
 using Vector = dpct::device_vector<_T>;
