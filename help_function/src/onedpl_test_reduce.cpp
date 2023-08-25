@@ -232,6 +232,47 @@ int main() {
 
         test_name = "std::reduce with make_transform_iterator 3";
         failed_tests += ASSERT_EQUAL(test_name, result, 77);
+    } 
+    // Third Group: Testing calls to dpct::reduce_argmin and dpct::reduce_argmax
+
+    {
+        // test 1/1
+
+        // create input data
+        std::vector<uint64_t> input(10);
+        input[0] = 7;
+        input[1] = 4;
+        input[2] = 7;
+        input[3] = 9;
+        input[4] = 0;
+        input[5] = 9;
+        input[6] = 3;
+        input[7] = 1;
+        input[8] = 0;
+        input[9] = 1;
+        auto queue = dpct::get_default_queue();
+        uint64_t* dev_input = sycl::malloc_device<uint64_t>(10, queue);
+        dpct::key_value_pair<int, uint64_t> output(0,0);
+        dpct::key_value_pair<int, uint64_t>* dev_output = sycl::malloc_device<dpct::key_value_pair<int, uint64_t>>(1, queue);
+
+        queue.memcpy(dev_input, input.data(), 10 * sizeof(uint64_t)).wait();
+
+        // call algorithm
+        dpct::reduce_argmax(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 10);
+
+        queue.memcpy(&output, dev_output, 1 * sizeof(dpct::key_value_pair<int_fast64_t, uint64_t>)).wait();
+
+        test_name = "dpct::reduce_argmax with uint64_t";
+        failed_tests += ASSERT_EQUAL(test_name, output.key, 3) || ASSERT_EQUAL(test_name, output.value, 9);
+
+        // call algorithm
+        dpct::reduce_argmin(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 10);
+
+        queue.memcpy(&output, dev_output, 1 * sizeof(dpct::key_value_pair<int, uint64_t>)).wait();
+
+        test_name = "dpct::reduce_argmin with uint64_t";
+        failed_tests += ASSERT_EQUAL(test_name, output.key, 4) || ASSERT_EQUAL(test_name, output.value, 0);
+
     }
 
     // Third Group: Testing calls to dpct::segmented_argmin 
