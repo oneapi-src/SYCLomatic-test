@@ -138,7 +138,7 @@
     <test testName="feature_profiling" configFile="config/TEMPLATE_feature_profiling.xml" />
     <test testName="system_atomic" configFile="config/TEMPLATE_system_atomic.xml" />
     <test testName="grid_constant" configFile="config/TEMPLATE_grid_constant.xml" />
-    <!-- <test testName="grid_sync" configFile="config/TEMPLATE_grid_sync.xml" /> -->
+    <test testName="grid_sync" configFile="config/TEMPLATE_grid_sync.xml" />
     <test testName="kernel-launch" configFile="config/TEMPLATE_runtimeAPI.xml" />
     <test testName="cusolver_range" configFile="config/TEMPLATE_cusolver_range.xml" />
     <test testName="cusolverDnEi" configFile="config/TEMPLATE_cusolver.xml" />
@@ -171,9 +171,9 @@
     <test testName="driverStreamAndEvent" configFile="config/TEMPLATE_driverStreamAndEvent.xml" />
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
     <test testName="sync_warp_p2" configFile="config/TEMPLATE_sync_warp_p2.xml" />
-    <!-- <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" /> -->
-    <!-- <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" /> -->
-    <!-- <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" /> -->
+    <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" />
+    <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
+    <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_min" configFile="config/TEMPLATE_cub_device.xml"/>
