@@ -366,7 +366,7 @@ void test_cusparseSpGEMM() {
 }
 
 int main() {
-  // Re-enable below two tests until MKL issue fixed
+  // Re-enable below test until MKL issue fixed
 #ifndef DPCT_USM_LEVEL_NONE
   test_cusparseSpGEMM();
 #endif

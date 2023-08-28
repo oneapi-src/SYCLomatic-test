@@ -110,7 +110,6 @@ const bool run_complex_datatype = false;
 // | 1 1 2 |   | 1 |   | 9  |  
 // | 0 1 3 | * | 2 | = | 11 |
 // | 0 0 1 |   | 3 |   | 3  |
-
 void test_cusparseSpSV() {
   std::vector<float> a_val_vec = {1, 1, 2, 1, 3, 1};
   Data<float> a_s_val(a_val_vec.data(), 6);
@@ -282,7 +281,7 @@ void test_cusparseSpSV() {
 }
 
 int main() {
-  // Re-enable below two tests until MKL issue fixed
+  // Re-enable below test until MKL issue fixed
 #ifndef DPCT_USM_LEVEL_NONE
   test_cusparseSpSV();
 #endif
