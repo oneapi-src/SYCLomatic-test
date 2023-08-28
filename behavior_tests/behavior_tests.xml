@@ -132,7 +132,7 @@
         <test testName="change-filename-extension" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="check-device-unsupport-aspect" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="check-windows-version" configFile="config/TEMPLATE_behavior_tests_win.xml" />
-        <test testName="query-api-mapping" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="query-api-mapping" configFile="config/TEMPLATE_behavior_tests_after_11.5.xml" />
         <test testName="ngt-invalid-experimental-features" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-UDR-path" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-UDR-keyword" configFile="config/TEMPLATE_behavior_tests.xml" />
@@ -154,6 +154,7 @@
         <test testName="bt-gen-helper-function" configFile="config/TEMPLATE_behavior_tests_win.xml" />
         <test testName="bt-language-warning" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-unexpected-message" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="cmp-cmds-linker-entry-src-files" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
     </tests>
 
 </suite>

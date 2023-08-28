@@ -17,7 +17,7 @@ sys.path.append(parent)
 
 from test_utils import *
 
-exec_tests = ['asm', 'asm_vinst', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust-copy',
+exec_tests = ['asm', 'asm_arith', 'asm_vinst', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust-copy',
               'thrust-qmc', 'thrust-transform-if', 'thrust-policy', 'thrust-list', 'module-kernel',
               'kernel-launch', 'thrust-gather', 'thrust-gather_if',
               'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre', 'thrust-merge_by_key',
@@ -42,7 +42,7 @@ exec_tests = ['asm', 'asm_vinst', 'thrust-vector-2', 'thrust-binary-search', 'th
               'cudnn-GetErrorString',
               'cudnn-types', 'cudnn-version', 'cudnn-dropout',
               'constant_attr', 'sync_warp_p2', 'occupancy_calculation',
-              'text_obj_linear', 'text_obj_pitch2d',
+              'text_obj_linear', 'text_obj_pitch2d', 'match',
               'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
               'cusolver_test1', 'cusolver_test2', 'cusolver_test3', 'cusolver_test4', 'cusolver_test5', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
               'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',

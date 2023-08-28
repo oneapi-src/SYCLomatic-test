@@ -6,6 +6,7 @@
   <tests>
     <test testName="asm" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_vinst" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_arith" configFile="config/TEMPLATE_asm.xml" />
     <test testName="thrust-op" configFile="config/TEMPLATE_thrust_op.xml" />
     <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -139,7 +140,7 @@
     <test testName="feature_profiling" configFile="config/TEMPLATE_feature_profiling.xml" />
     <test testName="system_atomic" configFile="config/TEMPLATE_system_atomic.xml" />
     <test testName="grid_constant" configFile="config/TEMPLATE_grid_constant.xml" />
-    <!-- <test testName="grid_sync" configFile="config/TEMPLATE_grid_sync.xml" /> -->
+    <test testName="grid_sync" configFile="config/TEMPLATE_grid_sync.xml" />
     <test testName="kernel-launch" configFile="config/TEMPLATE_runtimeAPI.xml" />
     <test testName="cusolver_range" configFile="config/TEMPLATE_cusolver_range.xml" />
     <test testName="cusolverDnEi" configFile="config/TEMPLATE_cusolver.xml" />
@@ -172,9 +173,9 @@
     <test testName="driverStreamAndEvent" configFile="config/TEMPLATE_driverStreamAndEvent.xml" />
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
     <test testName="sync_warp_p2" configFile="config/TEMPLATE_sync_warp_p2.xml" />
-    <!-- <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" /> -->
-    <!-- <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" /> -->
-    <!-- <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" /> -->
+    <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" />
+    <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
+    <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_min" configFile="config/TEMPLATE_cub_device.xml"/>
@@ -231,7 +232,7 @@
     <test testName="cudnn-convp1" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp2" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp3" configFile="config/TEMPLATE_cuDNN.xml" />
-    <test testName="cudnn-convp4" configFile="config/TEMPLATE_cuDNN_lin.xml" />
+    <test testName="cudnn-convp4" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp5" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp6" configFile="config/TEMPLATE_cuDNN_v8.xml" />
     <test testName="cudnn-conv_v7" configFile="config/TEMPLATE_cuDNN_v7.xml" />
@@ -265,13 +266,14 @@
     <test testName="cublas_v1_runable" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
-    <!--   <test testName="ccl-test" configFile="config/TEMPLATE_ccl_api.xml" />
-    <test testName="ccl-test2" configFile="config/TEMPLATE_ccl_api.xml" /> -->
+    <test testName="ccl-test" configFile="config/TEMPLATE_ccl_api.xml" />
+    <test testName="ccl-test2" configFile="config/TEMPLATE_ccl_api.xml" />
     <test testName="cooperative_groups_reduce" configFile="config/TEMPLATE_cooperative_groups_reduce.xml" />
     <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="libcu_array" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="libcu_complex" configFile="config/TEMPLATE_libcu.xml" />
+    <test testName="match" configFile="config/TEMPLATE_match.xml" />
     <test testName="libcu_tuple" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="constant_attr" configFile="config/TEMPLATE_constant_attr.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
