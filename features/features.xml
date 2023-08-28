@@ -61,9 +61,9 @@
     <test testName="thrust_remove" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_transform_exclusive_scan" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_set_difference" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="operator_eq" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="operator_neq" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="operator_lege" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="operator_eq" configFile="config/TEMPLATE_thrust_operator.xml" />
+    <test testName="operator_neq" configFile="config/TEMPLATE_thrust_operator.xml" />
+    <test testName="operator_lege" configFile="config/TEMPLATE_thrust_operator.xml" />
     <test testName="thrust_set_difference_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_set_intersection_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_find_if_not" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
