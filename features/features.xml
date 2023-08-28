@@ -168,6 +168,8 @@
     <test testName="driverCtx" configFile="config/TEMPLATE_driverCtx.xml" />
     <test testName="driverTex" configFile="config/TEMPLATE_driverTex.xml" />
     <test testName="driverDevice" configFile="config/TEMPLATE_driverDevice.xml" />
+    <test testName="driverArray" configFile="config/TEMPLATE_driverArray.xml" />
+    <test testName="driverMemset" configFile="config/TEMPLATE_driverMemset.xml" />
     <test testName="driverStreamAndEvent" configFile="config/TEMPLATE_driverStreamAndEvent.xml" />
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
     <test testName="sync_warp_p2" configFile="config/TEMPLATE_sync_warp_p2.xml" />
