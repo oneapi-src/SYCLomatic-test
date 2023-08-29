@@ -17,7 +17,7 @@ sys.path.append(parent)
 
 from test_utils import *
 
-exec_tests = ['asm', 'asm_arith', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust-copy',
+exec_tests = ['asm', 'asm_arith', 'asm_vinst', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust-copy',
               'thrust-qmc', 'thrust-transform-if', 'thrust-policy', 'thrust-list', 'module-kernel',
               'kernel-launch', 'thrust-gather', 'thrust-gather_if',
               'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre', 'thrust-merge_by_key',
