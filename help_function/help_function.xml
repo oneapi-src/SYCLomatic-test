@@ -3,6 +3,7 @@
 <suite>
   <description>Test the helper function</description>
   <tests>
+    <test testName="asm" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="array_copy" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="assign_device_vector" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="move_device_vector" configFile="config/TEMPLATE_help_function.xml" />
