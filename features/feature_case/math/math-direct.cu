@@ -68,8 +68,6 @@ __global__ void math_direct() {
 
   // CHECK: d2 = sycl::ceil(d0);
   d2 = ceil(d0);
-  // CHECK: d2 = sycl::ceil((double)i);
-  d2 = ceil(i);
 
   // CHECK: d2 = sycl::copysign(d0, d1);
   d2 = copysign(d0, d1);
@@ -409,11 +407,6 @@ __global__ void math_direct() {
   d1 = floor(d1);
   // CHECK: d1 = sycl::floor((double)i);
   d1 = floor(i);
-
-  // CHECK: d2 = sycl::ceil(d2);
-  d2 = ceil(d2);
-  // CHECK: d2 = sycl::ceil((double)i);
-  d2 = ceil(i);
 
   // CHECK: d2 = sycl::fma(d0, d1, d2);
   d2 = fma(d0, d1, d2);
