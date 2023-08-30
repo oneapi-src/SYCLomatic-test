@@ -79,3 +79,13 @@
   In: OldType
   Out: NewType
   Includes: []
+- Rule: rule_post
+  Kind: PatternRewriter
+  Priority: Takeover
+  In: my_max(${args});
+  Out: my_min(${args});
+  Includes: []
+  Subrules:
+    args:
+      In: a
+      Out: b
