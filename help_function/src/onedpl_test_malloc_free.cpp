@@ -9,16 +9,12 @@
 
 #include "oneapi/dpl/algorithm"
 #include "oneapi/dpl/execution"
-#include "oneapi/dpl/iterator"
 
 #include "dpct/dpct.hpp"
 #include "dpct/dpl_utils.hpp"
 
 #include <iostream>
-
-#include <sycl/sycl.hpp>
-
-#include <sys/resource.h>
+#include <vector>
 
 template <typename String, typename _T1, typename _T2>
 int ASSERT_EQUAL(String msg, _T1 &&X, _T2 &&Y) {
@@ -37,170 +33,135 @@ int test_passed(int failing_elems, std::string test_name) {
   return 1;
 }
 
-int main() {
-
-  // used to detect failures
+template <typename T, typename PolicyOrTag, typename TestVoidMalloc>
+int test_malloc_free_on_device(sycl::queue q, PolicyOrTag policy_or_tag,
+                               std::string test_name, std::size_t num_elements,
+                               TestVoidMalloc) {
+  using alloc_t = std::conditional_t<TestVoidMalloc::value, void, T>;
   int failed_tests = 0;
-  int num_failing = 0;
+  dpct::tagged_pointer<dpct::device_sys_tag, alloc_t> double_ptr;
+  if constexpr (TestVoidMalloc::value) {
+    double_ptr = dpct::malloc(policy_or_tag, num_elements * sizeof(T));
+  } else {
+    double_ptr = dpct::malloc<T>(policy_or_tag, num_elements);
+  }
+  std::vector<T> num_data(num_elements);
+  std::iota(num_data.begin(), num_data.end(), 0);
+  std::vector<T> out_num_data(num_elements);
+  q.submit([&](sycl::handler &h) {
+     h.memcpy(double_ptr, num_data.data(), sizeof(T) * num_elements);
+   })
+      .wait();
+  for (std::size_t i = 0; i != num_elements; ++i) {
+    if constexpr (TestVoidMalloc::value)
+      failed_tests += ASSERT_EQUAL(test_name, static_cast<T *>(double_ptr)[i],
+                                   static_cast<T>(i));
+    else
+      failed_tests += ASSERT_EQUAL(test_name, double_ptr[i], static_cast<T>(i));
+  }
+  q.submit([&](sycl::handler &h) {
+     h.memcpy(out_num_data.data(), double_ptr, num_elements * sizeof(T));
+   })
+      .wait();
+  for (std::size_t i = 0; i != num_elements; ++i)
+    failed_tests += ASSERT_EQUAL(test_name, out_num_data[i], static_cast<T>(i));
+
+  test_passed(failed_tests, test_name);
+  dpct::free(policy_or_tag, double_ptr);
+
+  return failed_tests;
+}
+
+template <typename T, typename PolicyOrTag, typename TestVoidMalloc>
+int test_malloc_free_on_host(PolicyOrTag policy_or_tag, std::string test_name,
+                             std::size_t num_elements, TestVoidMalloc) {
+  using alloc_t = std::conditional_t<TestVoidMalloc::value, void, T>;
+  dpct::tagged_pointer<dpct::host_sys_tag, alloc_t> double_ptr;
+  if constexpr (TestVoidMalloc::value) {
+    double_ptr = dpct::malloc(policy_or_tag, num_elements * sizeof(T));
+  } else {
+    double_ptr = dpct::malloc<T>(policy_or_tag, num_elements);
+  }
+  int failed_tests = 0;
+  std::vector<T> num_data(num_elements);
+  std::iota(num_data.begin(), num_data.end(), 0);
+  std::vector<T> out_num_data(num_elements);
+  ::std::memcpy(double_ptr, num_data.data(), num_elements * sizeof(T));
+  for (std::size_t i = 0; i != num_elements; ++i)
+    failed_tests += ASSERT_EQUAL(test_name, static_cast<T *>(double_ptr)[i],
+                                 static_cast<T>(i));
+  ::std::memcpy(out_num_data.data(), double_ptr, num_elements * sizeof(T));
+  for (std::size_t i = 0; i != num_elements; ++i)
+    failed_tests += ASSERT_EQUAL(test_name, static_cast<T *>(double_ptr)[i],
+                                 static_cast<T>(i));
+  test_passed(failed_tests, test_name);
+  dpct::free(policy_or_tag, double_ptr);
+
+  return failed_tests;
+}
+
+int main() {
+  int failed_tests = 0;
 
   // Test One, test normal calls for dpct::malloc and dpct::free by allocating a
   // certain number of bytes on device.
   {
-    std::size_t num_elements = 5;
     dpct::device_sys_tag device_exec;
-    dpct::tagged_pointer<dpct::device_sys_tag, void> double_ptr =
-        dpct::malloc(device_exec, num_elements * sizeof(double));
-    double num_data[] = {0.0, 1.0, 2.0, 3.0, 4.0};
-
-    dpct::get_default_queue().submit([&](sycl::handler &h) {
-      h.memcpy(double_ptr, &num_data, sizeof(double) * num_elements);
-    });
-    dpct::get_default_queue().wait();
-
-    dpct::get_default_queue().submit([&](sycl::handler &h) {
-      h.memcpy(&num_data, double_ptr, num_elements * sizeof(double));
-    });
-    dpct::get_default_queue().wait();
-
     std::string test_name =
         "malloc and free byte array allocation - device memory with tag";
-    for (std::size_t i = 0; i != num_elements; ++i)
-      failed_tests +=
-          ASSERT_EQUAL(test_name, num_data[i], static_cast<double>(i));
-
-    test_passed(failed_tests, test_name);
-
-    dpct::free(device_exec, double_ptr);
+    failed_tests += test_malloc_free_on_device<double>(
+        dpct::get_default_queue(), device_exec, test_name, 5, std::true_type{});
   }
 
   // Test Two, test normal calls for dpct::malloc and dpct::free by allocating a
   // certain number of bytes on host.
   {
-    std::size_t num_elements = 5;
     dpct::host_sys_tag host_exec;
-    dpct::tagged_pointer<dpct::host_sys_tag, void> double_ptr =
-        dpct::malloc(host_exec, num_elements * sizeof(double));
-    double num_data[] = {0.0, 1.0, 2.0, 3.0, 4.0};
-
-    ::std::memcpy(double_ptr, &num_data, num_elements * sizeof(double));
-
     std::string test_name =
         "malloc and free byte array allocation - host memory with tag";
-    for (std::size_t i = 0; i != num_elements; ++i)
-      failed_tests +=
-          ASSERT_EQUAL(test_name, static_cast<double *>(double_ptr)[i],
-                       static_cast<double>(i));
-    test_passed(failed_tests, test_name);
-
-    dpct::free(host_exec, double_ptr);
+    failed_tests += test_malloc_free_on_host<double>(host_exec, test_name, 5,
+                                                     std::true_type{});
   }
 
   // Test three, dpct::malloc and dpct::free allocation for a certain number of
   // int64_t elements on device
   {
-    std::size_t num_elements = 10;
     dpct::device_sys_tag device_exec;
-    dpct::tagged_pointer<dpct::device_sys_tag, int64_t> int64_ptr =
-        dpct::malloc<int64_t>(device_exec, num_elements);
-    int64_t num_data[10];
-    std::iota(std::rbegin(num_data), std::rend(num_data), 1);
-
-    dpct::get_default_queue().submit([&](sycl::handler &h) {
-      h.memcpy(int64_ptr, &num_data, sizeof(int64_t) * num_elements);
-    });
-    dpct::get_default_queue().wait();
-
-    dpct::get_default_queue().submit([&](sycl::handler &h) {
-      h.memcpy(&num_data, int64_ptr, num_elements * sizeof(int64_t));
-    });
-    dpct::get_default_queue().wait();
-
     std::string test_name =
         "malloc and free int64_t array allocation - device memory with tag";
-    for (std::size_t i = 0; i != num_elements; ++i)
-      failed_tests += ASSERT_EQUAL(test_name, num_data[i],
-                                   static_cast<int64_t>(num_elements - i));
-
-    test_passed(failed_tests, test_name);
-
-    dpct::free(device_exec, int64_ptr);
+    failed_tests += test_malloc_free_on_device<int64_t>(
+        dpct::get_default_queue(), device_exec, test_name, 10,
+        std::false_type{});
   }
 
   // Test four, dpct::malloc and dpct::free allocation for a certain number of
   // int64_t elements on host
   {
-    std::size_t num_elements = 10;
     dpct::host_sys_tag host_exec;
-    dpct::tagged_pointer<dpct::host_sys_tag, int64_t> int64_ptr =
-        dpct::malloc<int64_t>(host_exec, num_elements);
-    int64_t num_data[10];
-    std::iota(std::rbegin(num_data), std::rend(num_data), 1);
-
-    ::std::memcpy(int64_ptr, &num_data, sizeof(int64_t) * num_elements);
-
     std::string test_name =
         "malloc and free int64_t array allocation - host memory with tag";
-    for (std::size_t i = 0; i != num_elements; ++i)
-      failed_tests += ASSERT_EQUAL(test_name, int64_ptr[i],
-                                   static_cast<int64_t>(num_elements - i));
-
-    test_passed(failed_tests, test_name);
-
-    dpct::free(host_exec, int64_ptr);
+    failed_tests += test_malloc_free_on_host<int64_t>(host_exec, test_name, 10,
+                                                      std::false_type{});
   }
 
   // Test five, dpct::malloc and dpct::free allocation for a certain number of
   // int64_t elements on device. oneDPL device policy passed as location
   {
-    std::size_t num_elements = 10;
-    auto policy = oneapi::dpl::execution::dpcpp_default;
-    dpct::tagged_pointer<dpct::device_sys_tag, int64_t> int64_ptr =
-        dpct::malloc<int64_t>(policy, num_elements);
-    int64_t num_data[10];
-    std::iota(std::rbegin(num_data), std::rend(num_data), 1);
-
-    dpct::get_default_queue().submit([&](sycl::handler &h) {
-      h.memcpy(int64_ptr, &num_data, sizeof(int64_t) * num_elements);
-    });
-    dpct::get_default_queue().wait();
-
-    dpct::get_default_queue().submit([&](sycl::handler &h) {
-      h.memcpy(&num_data, int64_ptr, num_elements * sizeof(int64_t));
-    });
-    dpct::get_default_queue().wait();
-
+    sycl::queue q = dpct::get_default_queue();
+    auto policy = oneapi::dpl::execution::make_device_policy(q);
     std::string test_name =
         "malloc and free int64_t array allocation - device memory with policy";
-    for (std::size_t i = 0; i != num_elements; ++i)
-      failed_tests += ASSERT_EQUAL(test_name, num_data[i],
-                                   static_cast<int64_t>(num_elements - i));
-
-    test_passed(failed_tests, test_name);
-
-    dpct::free(policy, int64_ptr);
+    failed_tests += test_malloc_free_on_device<int64_t>(q, policy, test_name,
+                                                        10, std::false_type{});
   }
 
   // Test six, dpct::malloc and dpct::free allocation for a certain number of
   // int64_t elements on device. oneDPL host policy passed as location
   {
-    std::size_t num_elements = 10;
-    auto policy = oneapi::dpl::execution::seq;
-    dpct::tagged_pointer<dpct::host_sys_tag, int64_t> int64_ptr =
-        dpct::malloc<int64_t>(policy, num_elements);
-    int64_t num_data[10];
-    ::std::iota(std::rbegin(num_data), std::rend(num_data), 1);
-
-    ::std::memcpy(int64_ptr, &num_data, sizeof(int64_t) * num_elements);
-
     std::string test_name =
         "malloc and free int64_t array allocation - host memory with policy";
-    for (std::size_t i = 0; i != num_elements; ++i)
-      failed_tests += ASSERT_EQUAL(test_name, int64_ptr[i],
-                                   static_cast<int64_t>(num_elements - i));
-
-    test_passed(failed_tests, test_name);
-
-    dpct::free(policy, int64_ptr);
+    failed_tests += test_malloc_free_on_host<int64_t>(
+        oneapi::dpl::execution::seq, test_name, 10, std::false_type{});
   }
 
   // Test seven, ensure functionality of dpct::internal::malloc_base internal
