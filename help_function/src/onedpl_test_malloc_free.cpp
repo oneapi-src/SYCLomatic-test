@@ -39,35 +39,35 @@ int test_malloc_free_on_device(sycl::queue q, PolicyOrTag policy_or_tag,
                                TestVoidMalloc) {
   using alloc_t = std::conditional_t<TestVoidMalloc::value, void, T>;
   int failed_tests = 0;
-  dpct::tagged_pointer<dpct::device_sys_tag, alloc_t> double_ptr;
+  dpct::tagged_pointer<dpct::device_sys_tag, alloc_t> ptr;
   if constexpr (TestVoidMalloc::value) {
-    double_ptr = dpct::malloc(policy_or_tag, num_elements * sizeof(T));
+    ptr = dpct::malloc(policy_or_tag, num_elements * sizeof(T));
   } else {
-    double_ptr = dpct::malloc<T>(policy_or_tag, num_elements);
+    ptr = dpct::malloc<T>(policy_or_tag, num_elements);
   }
   std::vector<T> num_data(num_elements);
   std::iota(num_data.begin(), num_data.end(), 0);
   std::vector<T> out_num_data(num_elements);
   q.submit([&](sycl::handler &h) {
-     h.memcpy(double_ptr, num_data.data(), sizeof(T) * num_elements);
+     h.memcpy(ptr, num_data.data(), sizeof(T) * num_elements);
    })
       .wait();
   for (std::size_t i = 0; i != num_elements; ++i) {
     if constexpr (TestVoidMalloc::value)
-      failed_tests += ASSERT_EQUAL(test_name, static_cast<T *>(double_ptr)[i],
+      failed_tests += ASSERT_EQUAL(test_name, static_cast<T *>(ptr)[i],
                                    static_cast<T>(i));
     else
-      failed_tests += ASSERT_EQUAL(test_name, double_ptr[i], static_cast<T>(i));
+      failed_tests += ASSERT_EQUAL(test_name, ptr[i], static_cast<T>(i));
   }
   q.submit([&](sycl::handler &h) {
-     h.memcpy(out_num_data.data(), double_ptr, num_elements * sizeof(T));
+     h.memcpy(out_num_data.data(), ptr, num_elements * sizeof(T));
    })
       .wait();
   for (std::size_t i = 0; i != num_elements; ++i)
     failed_tests += ASSERT_EQUAL(test_name, out_num_data[i], static_cast<T>(i));
 
   test_passed(failed_tests, test_name);
-  dpct::free(policy_or_tag, double_ptr);
+  dpct::free(policy_or_tag, ptr);
 
   return failed_tests;
 }
@@ -76,26 +76,26 @@ template <typename T, typename PolicyOrTag, typename TestVoidMalloc>
 int test_malloc_free_on_host(PolicyOrTag policy_or_tag, std::string test_name,
                              std::size_t num_elements, TestVoidMalloc) {
   using alloc_t = std::conditional_t<TestVoidMalloc::value, void, T>;
-  dpct::tagged_pointer<dpct::host_sys_tag, alloc_t> double_ptr;
+  dpct::tagged_pointer<dpct::host_sys_tag, alloc_t> ptr;
   if constexpr (TestVoidMalloc::value) {
-    double_ptr = dpct::malloc(policy_or_tag, num_elements * sizeof(T));
+    ptr = dpct::malloc(policy_or_tag, num_elements * sizeof(T));
   } else {
-    double_ptr = dpct::malloc<T>(policy_or_tag, num_elements);
+    ptr = dpct::malloc<T>(policy_or_tag, num_elements);
   }
   int failed_tests = 0;
   std::vector<T> num_data(num_elements);
   std::iota(num_data.begin(), num_data.end(), 0);
   std::vector<T> out_num_data(num_elements);
-  ::std::memcpy(double_ptr, num_data.data(), num_elements * sizeof(T));
+  ::std::memcpy(ptr, num_data.data(), num_elements * sizeof(T));
   for (std::size_t i = 0; i != num_elements; ++i)
-    failed_tests += ASSERT_EQUAL(test_name, static_cast<T *>(double_ptr)[i],
+    failed_tests += ASSERT_EQUAL(test_name, static_cast<T *>(ptr)[i],
                                  static_cast<T>(i));
-  ::std::memcpy(out_num_data.data(), double_ptr, num_elements * sizeof(T));
+  ::std::memcpy(out_num_data.data(), ptr, num_elements * sizeof(T));
   for (std::size_t i = 0; i != num_elements; ++i)
-    failed_tests += ASSERT_EQUAL(test_name, static_cast<T *>(double_ptr)[i],
+    failed_tests += ASSERT_EQUAL(test_name, static_cast<T *>(ptr)[i],
                                  static_cast<T>(i));
   test_passed(failed_tests, test_name);
-  dpct::free(policy_or_tag, double_ptr);
+  dpct::free(policy_or_tag, ptr);
 
   return failed_tests;
 }
