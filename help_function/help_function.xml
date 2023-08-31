@@ -27,6 +27,7 @@
     <test testName="thrust_test-pennet_simple_pstl" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="image_array" configFile="image_array/config/image_array.xml" />
     <test testName="test_complex" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
+    <test testName="math_extend_func" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="math_function" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="math" configFile="config/TEMPLATE_help_function.xml" />
     <test testName="cpu_device_index_initializaion_test" configFile="config/cpu_device_index_initializaion_test.xml" />
