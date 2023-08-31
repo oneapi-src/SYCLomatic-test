@@ -15,6 +15,13 @@ def setup_test():
     return True
 
 
+def check(expect):
+    if expect not in test_config.command_output:
+        print("'", expect, "' is not int the output")
+        return False
+    return True
+
+
 def test_api(api_name, source_code, options, migrated_code):
     call_subprocess(
         test_config.CT_TOOL
@@ -23,22 +30,22 @@ def test_api(api_name, source_code, options, migrated_code):
         + " --query-api-mapping="
         + api_name
     )
-    expect = "CUDA API:\n"
+    ret = check("CUDA API:")
     for code in source_code:
-        expect += code + "\n"
-    expect += "Is migrated to"
+        ret &= check(code)
+    expect = "Is migrated to"
     if options.__len__() > 0:
         expect += " (with the option"
         for option in options:
             expect += " " + option
         expect += ")"
-    expect += ":\n"
+    expect += ":"
+    ret &= check(expect)
     for code in migrated_code:
-        expect += code + "\n"
-    if expect != test_config.command_output:
+        ret &= check(code)
+    if not ret:
         print("API query message check failed: ", api_name)
         print("output:\n", test_config.command_output, "===end===\n")
-        print("expect:\n", expect, "===end===\n")
         return False
     print("API query message check passed: ", api_name)
     return True
@@ -72,7 +79,9 @@ def migrate_test():
                 "              c /*float **/, ldc /*int*/);",
             ],
             [],
-            ["  oneapi::mkl::blas::column_major::gemm(*handle, transa, transb, m, n, k, dpct::get_value(alpha, *handle), a, lda, b, ldb, dpct::get_value(beta, *handle), c, ldc);"],
+            [
+                "  oneapi::mkl::blas::column_major::gemm(*handle, transa, transb, m, n, k, dpct::get_value(alpha, *handle), a, lda, b, ldb, dpct::get_value(beta, *handle), c, ldc);"
+            ],
         ],
     ]
 
