@@ -128,6 +128,7 @@
         <test testName="bt-invalid-cuda-version" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-modified-yaml" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-warning1083" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-check-warning1118" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-unsupported-type-function" configFile="config/TEMPLATE_behavior_tests_after_9.2.xml" />
         <test testName="change-filename-extension" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="helper_function_preference_no_queue_device" configFile="config/TEMPLATE_behavior_tests.xml" />
