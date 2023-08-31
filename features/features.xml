@@ -5,6 +5,8 @@
 
   <tests>
     <test testName="asm" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_vinst" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_arith" configFile="config/TEMPLATE_asm.xml" />
     <test testName="thrust-op" configFile="config/TEMPLATE_thrust_op.xml" />
     <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -60,9 +62,9 @@
     <test testName="thrust_remove" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust_transform_exclusive_scan" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_set_difference" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="operator_eq" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="operator_neq" configFile="config/TEMPLATE_thrust_api.xml" />
-    <test testName="operator_lege" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="operator_eq" configFile="config/TEMPLATE_thrust_operator.xml" />
+    <test testName="operator_neq" configFile="config/TEMPLATE_thrust_operator.xml" />
+    <test testName="operator_lege" configFile="config/TEMPLATE_thrust_operator.xml" />
     <test testName="thrust_set_difference_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_set_intersection_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_find_if_not" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
@@ -168,6 +170,8 @@
     <test testName="driverCtx" configFile="config/TEMPLATE_driverCtx.xml" />
     <test testName="driverTex" configFile="config/TEMPLATE_driverTex.xml" />
     <test testName="driverDevice" configFile="config/TEMPLATE_driverDevice.xml" />
+    <test testName="driverArray" configFile="config/TEMPLATE_driverArray.xml" />
+    <test testName="driverMemset" configFile="config/TEMPLATE_driverMemset.xml" />
     <test testName="driverStreamAndEvent" configFile="config/TEMPLATE_driverStreamAndEvent.xml" />
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
     <test testName="sync_warp_p2" configFile="config/TEMPLATE_sync_warp_p2.xml" />
@@ -175,6 +179,7 @@
     <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_histgram" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_min" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_max" configFile="config/TEMPLATE_cub_device.xml"/>
@@ -264,8 +269,10 @@
     <test testName="cublas_v1_runable" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
-    <!--   <test testName="ccl-test" configFile="config/TEMPLATE_ccl_api.xml" />
-    <test testName="ccl-test2" configFile="config/TEMPLATE_ccl_api.xml" /> -->
+    <test testName="cooperative_groups_thread_group" configFile="config/TEMPLATE_cooperative_groups.xml" />
+    <test testName="ccl-test" configFile="config/TEMPLATE_ccl_api.xml" />
+    <test testName="ccl-test2" configFile="config/TEMPLATE_ccl_api.xml" />
+    <test testName="ccl-test3" configFile="config/TEMPLATE_ccl_api.xml" />
     <test testName="cooperative_groups_reduce" configFile="config/TEMPLATE_cooperative_groups_reduce.xml" />
     <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_libcu.xml" />
