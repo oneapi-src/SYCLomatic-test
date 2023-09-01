@@ -6,8 +6,8 @@
         <file path="feature_case/thrust/${testName}.cu" />
     </files>
     <rules>
-        <platformRule OSFamily="Linux" kit="CUDA10.0" kitRange="OLDER" runOnThisPlatform="false"/>
-        <platformRule OSFamily="Windows" kit="CUDA10.0" kitRange="OLDER" runOnThisPlatform="false"/>
+        <platformRule OSFamily="Linux" kit="CUDA10.2" kitRange="OLDER" runOnThisPlatform="false"/>
+        <platformRule OSFamily="Windows" kit="CUDA10.2" kitRange="OLDER" runOnThisPlatform="false"/>
         <optlevelRule excludeOptlevelNameString="cuda_backend" />
     </rules>
 </test>
