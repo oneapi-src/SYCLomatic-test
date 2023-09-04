@@ -126,6 +126,7 @@ def migrate_test():
             '--help\n',
             '--in-root\n',
             '--in-root-exclude\n',
+            '--intercept-build\n',
             '--keep-original-code\n',
             '--no-cl-namespace-inline\n',
             '--no-dpcpp-extensions=\n',

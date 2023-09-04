@@ -1,0 +1,12 @@
+[
+    {
+        "command": "nvcc -c  -o test.o -D__CUDACC__=1 kernels/test.cu",
+        "directory": "${TEST_DIRECTORY}",
+        "file": "${TEST_DIRECTORY}/kernels/test.cu"
+    },
+    {
+        "command": "nvcc -c  test.o -o all -D__CUDACC__=1 main.cpp",
+        "directory": "${TEST_DIRECTORY}",
+        "file": "${TEST_DIRECTORY}/main.cpp"
+    }
+]
