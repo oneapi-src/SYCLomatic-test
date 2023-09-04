@@ -66,24 +66,24 @@ def migrate_test():
         "out_no_q_d/kernel2.dp.cpp", "dpct::get_current_device", False
     )
 
-    # Check "dpct::get_default_queue" without option.
-    # res = res and check_file_contain_or_not(
-    #     "out_default/kernel1.dp.cpp", "dpct::get_default_queue", True
-    # )
-    # res = res and check_file_contain_or_not(
-    #     "out_default/kernel2.dp.cpp", "dpct::get_default_queue", True
-    # )
+    # Check "dpct::get_in_order_queue" without option.
+    res = res and check_file_contain_or_not(
+        "out_default/kernel1.dp.cpp", "dpct::get_in_order_queue", True
+    )
+    res = res and check_file_contain_or_not(
+        "out_default/kernel2.dp.cpp", "dpct::get_in_order_queue", True
+    )
 
-    # Check "dpct::get_default_queue" with option --helper-function-preference=no-queue-device.
-    # res = res and check_file_contain_or_not(
-    #     "out_no_q_d/main.dp.cpp", "dpct::get_default_queue", False
-    # )
-    # res = res and check_file_contain_or_not(
-    #     "out_no_q_d/kernel1.dp.cpp", "dpct::get_default_queue", False
-    # )
-    # res = res and check_file_contain_or_not(
-    #     "out_no_q_d/kernel2.dp.cpp", "dpct::get_default_queue", False
-    # )
+    # Check "dpct::get_in_order_queue" with option --helper-function-preference=no-queue-device.
+    res = res and check_file_contain_or_not(
+        "out_no_q_d/main.dp.cpp", "dpct::get_in_order_queue", False
+    )
+    res = res and check_file_contain_or_not(
+        "out_no_q_d/kernel1.dp.cpp", "dpct::get_in_order_queue", False
+    )
+    res = res and check_file_contain_or_not(
+        "out_no_q_d/kernel2.dp.cpp", "dpct::get_in_order_queue", False
+    )
 
     # Check "dpct::device_ext" without option.
     res = res and check_file_contain_or_not(
