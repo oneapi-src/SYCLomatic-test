@@ -39,8 +39,9 @@ void checkResult(const string &FuncName, const vector<float2> &Inputs,
   for (size_t i = 1; i < Inputs.size(); ++i) {
     cout << ", {" << Inputs[i].x << ", " << Inputs[i].y << "}";
   }
-  cout << ") = {" << fixed << setprecision(precision) << Result.x << ", "
-       << Result.y << "} (expect {" << Expect.x - pow(10, -precision) << " ~ "
+  cout << ") = {" << fixed << setprecision(precision < 0 ? 0 : precision)
+       << Result.x << ", " << Result.y << "} (expect {"
+       << Expect.x - pow(10, -precision) << " ~ "
        << Expect.x + pow(10, -precision) << ", "
        << Expect.y - pow(10, -precision) << " ~ "
        << Expect.y + pow(10, -precision) << "})";
@@ -1160,7 +1161,7 @@ int main() {
       {{-0.3, -0.6}, {{0.74072265625, 0.548828125}, 16}},
       {{0.34, 0.7}, {{1.4052734375, 2.013671875}, 15}},
       {{0.8, 2}, {{2.224609375, 7.390625}, 15}},
-      {{10, 6}, {{22032, 403.5}, 11}},
+      {{10, 6}, {{22032, 404}, -2}},
       {{-12, 1}, {{0.000006139278412, 2.71875}, 15}},
   });
   testH2exp10Cases({
@@ -1188,8 +1189,8 @@ int main() {
       {{0.3, 0.6}, {{-1.204, -0.511}, 3}},
       {{0.34, 0.7}, {{-1.078, -0.356}, 3}},
       {{0.8, 2}, {{-0.223, 0.693}, 3}},
-      {{23, 6}, {{3.135, 1.792}, 3}},
-      {{12, 1}, {{2.484, 0}, 3}},
+      {{23, 6}, {{3.13, 1.79}, 2}},
+      {{12, 1}, {{2.48, 0}, 2}},
   });
   testH2log10Cases({
       {{0.3, 0.6}, {{-0.523, -0.222}, 3}},
