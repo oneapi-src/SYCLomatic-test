@@ -18,12 +18,13 @@ def setup_test():
     return True
 
 def migrate_test():
-    call_subprocess(test_config.CT_TOOL + " --version")
-    ct_clang_version = get_ct_clang_version()
-    expected_output = "dpct version {0}".format(ct_clang_version)
-    print("expected dpct version output: {0}".format(expected_output))
-    print("\n'dpct --version' outputs {0}".format(test_config.command_output))
-    return is_sub_string(expected_output, test_config.command_output)
+    call_subprocess(test_config.CT_TOOL + " --helper-function-dir")
+    helper_function_dir_root = os.path.realpath(
+        os.path.join(get_ct_path(), os.pardir, os.pardir, "include"))
+    print("Helper functions directory: ", helper_function_dir_root)
+    if (platform.system() == 'Windows'):
+        return is_sub_string(helper_function_dir_root.lower(), test_config.command_output.lower())
+    return is_sub_string(helper_function_dir_root, test_config.command_output)
 
 def build_test():
     return True
