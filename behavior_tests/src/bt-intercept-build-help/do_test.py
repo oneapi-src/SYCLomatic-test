@@ -19,6 +19,7 @@ def setup_test():
 
 def migrate_test():
     call_subprocess(test_config.CT_TOOL + " --intercept-build --help")
+    print(test_config.command_output)
     return is_sub_string("usage: intercept-build", test_config.command_output)
 
 def build_test():
