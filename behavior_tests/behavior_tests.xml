@@ -136,6 +136,7 @@
         <test testName="check-device-unsupport-aspect" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="check-windows-version" configFile="config/TEMPLATE_behavior_tests_win.xml" />
         <test testName="query-api-mapping" configFile="config/TEMPLATE_behavior_tests_after_11.5.xml" />
+        <test testName="query-api-mapping-linux" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="ngt-invalid-experimental-features" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-UDR-path" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-UDR-keyword" configFile="config/TEMPLATE_behavior_tests.xml" />
