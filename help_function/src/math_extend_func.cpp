@@ -29,7 +29,7 @@ const auto UINT32MAX = std::numeric_limits<uint32_t>::max();
 const auto UINT32MIN = std::numeric_limits<uint32_t>::min();
 const int b = 4, c = 5, d = 6;
 
-std::pair<char *, int> vadd() {
+std::pair<const char *, int> vadd() {
   CHECK(dpct::extend_add<int32_t>(3, 4), 7);
   CHECK(dpct::extend_add<uint32_t>(b, c), 9);
   CHECK(dpct::extend_add_sat<int32_t>(b, INT32MAX), INT32MAX);
@@ -41,7 +41,7 @@ std::pair<char *, int> vadd() {
   return {nullptr, 0};
 }
 
-std::pair<char *, int> vsub() {
+std::pair<const char *, int> vsub() {
   CHECK(dpct::extend_sub<int32_t>(3, 4), -1);
   CHECK(dpct::extend_sub<uint32_t>(c, b), 1);
   CHECK(dpct::extend_sub_sat<int32_t>(10, INT32MIN), INT32MAX);
@@ -53,7 +53,7 @@ std::pair<char *, int> vsub() {
   return {nullptr, 0};
 }
 
-std::pair<char *, int> vabsdiff() {
+std::pair<const char *, int> vabsdiff() {
   CHECK(dpct::extend_absdiff<int32_t>(3, 4), 1);
   CHECK(dpct::extend_absdiff<uint32_t>(c, b), 1);
   CHECK(dpct::extend_absdiff_sat<int32_t>(10, INT32MIN), INT32MAX);
@@ -65,7 +65,7 @@ std::pair<char *, int> vabsdiff() {
   return {nullptr, 0};
 }
 
-std::pair<char *, int> vmin() {
+std::pair<const char *, int> vmin() {
   CHECK(dpct::extend_min<int32_t>(3, 4), 3);
   CHECK(dpct::extend_min<uint32_t>(c, b), 4);
   CHECK(dpct::extend_min_sat<int32_t>(UINT32MAX, 1), 1);
@@ -77,7 +77,7 @@ std::pair<char *, int> vmin() {
   return {nullptr, 0};
 }
 
-std::pair<char *, int> vmax() {
+std::pair<const char *, int> vmax() {
   CHECK(dpct::extend_max<int32_t>(3, 4), 4);
   CHECK(dpct::extend_max<uint32_t>(c, b), 5);
   CHECK(dpct::extend_max_sat<int32_t>(UINT32MAX, 1), INT32MAX);
@@ -92,7 +92,7 @@ std::pair<char *, int> vmax() {
 void test(const sycl::stream &s, int *ec) {
   {
     auto res = vadd();
-    if (res.first != nullptr) {
+    if (res.first) {
       s << res.first << " = " << res.second << " check failed!\n";
       *ec = 1;
       return;
@@ -101,40 +101,41 @@ void test(const sycl::stream &s, int *ec) {
   }
   {
     auto res = vsub();
-    if (res.first != nullptr) {
+    if (res.first) {
       s << res.first << " = " << res.second << " check failed!\n";
-      *ec = 1;
+      *ec = 2;
       return;
     }
     s << "vsub check passed!\n";
   }
   {
     auto res = vabsdiff();
-    if (res.first != nullptr) {
+    if (res.first) {
       s << res.first << " = " << res.second << " check failed!\n";
-      *ec = 1;
+      *ec = 3;
       return;
     }
     s << "vabsdiff check passed!\n";
   }
   {
     auto res = vmin();
-    if (res.first != nullptr) {
+    if (res.first) {
       s << res.first << " = " << res.second << " check failed!\n";
-      *ec = 1;
+      *ec = 4;
       return;
     }
     s << "vmin check passed!\n";
   }
   {
     auto res = vmax();
-    if (res.first != nullptr) {
+    if (res.first) {
       s << res.first << " = " << res.second << " check failed!\n";
-      *ec = 1;
+      *ec = 5;
       return;
     }
     s << "vmax check passed!\n";
   }
+  *ec = 0;
 }
 
 int main() {
