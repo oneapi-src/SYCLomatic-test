@@ -94,3 +94,13 @@ template<typename T>struct NewType{};
 __device__ void foo5(){
   OldType<int> *cu_st;
 }
+
+int my_max(int a, int b) {
+  return 0;
+}
+
+void foo7() {
+  int a, b;
+  //CHECK: my_min(b, b);
+  my_max(a, b);
+}

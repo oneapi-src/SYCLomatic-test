@@ -39,12 +39,12 @@ int test_device_ptr_manipulation(void)
 #ifdef DPCT_USM_LEVEL_NONE
     sycl::buffer<T, 1> data(sycl::range<1>(5));
 
-    dpct::device_pointer<int> begin(data, 0);
-    dpct::device_pointer<int> end(data, 5);
+    dpct::device_pointer<T> begin(data, 0);
+    dpct::device_pointer<T> end(data, 5);
 #else
-    dpct::device_pointer<int> data(5);
-    dpct::device_pointer<int> begin(data);
-    dpct::device_pointer<int> end(data + 5);
+    dpct::device_pointer<T> data(5 * sizeof(T));
+    dpct::device_pointer<T> begin(data);
+    dpct::device_pointer<T> end(data + 5);
 #endif
 
     failing_tests += ASSERT_EQUAL("device_ptr test 1", end - begin, 5);
@@ -79,16 +79,22 @@ int test_device_ptr_manipulation(void)
 
     failing_tests += ASSERT_EQUAL("device_ptr test 7", end - begin, 5);
 
-    begin = begin + (dpct::device_pointer<int>::difference_type) 1;
-    begin = begin - (dpct::device_pointer<int>::difference_type) 1;
+    begin = begin + (dpct::device_pointer<T>::difference_type) 1;
+    begin = begin - (dpct::device_pointer<T>::difference_type) 1;
 
     failing_tests += ASSERT_EQUAL("device_ptr test 8", end - begin, 5);
+
+    dpct::device_iterator<T> iter(begin);
+    *begin = 3;
+    failing_tests += ASSERT_EQUAL("device_ptr test 9", *begin, 3);
+    failing_tests += ASSERT_EQUAL("device_ptr test 10", *iter, 3);
 
     return failing_tests;
 }
 
-void test_device_ptr_iteration(void)
+int test_device_ptr_iteration(void)
 {
+    int failing_tests = 0;
     typedef size_t T;
 
 #ifdef DPCT_USM_LEVEL_NONE
@@ -105,39 +111,13 @@ void test_device_ptr_iteration(void)
 
     std::fill(policy, begin, end, 99);
     T result = oneapi::dpl::transform_reduce(policy, begin, end, static_cast<T>(0), std::plus<T>(), oneapi::dpl::identity());
-    std::cout << "iteration result = " << result << ", expected = " << 99 * 1024 << "\n";
+    failing_tests += ASSERT_EQUAL("device_ptr in transform_reduce", result, 1024*99);
+    return failing_tests;
 }
 
 int main() {
-    // FPGA device selector:  Emulator or Hardware
-#ifdef FPGA_EMULATOR
-    sycl::intel::fpga_emulator_selector device_selector;
-#elif defined(FPGA)
-    sycl::intel::fpga_selector device_selector;
-#else
-    // Initializing the devices queue with the default selector
-    // The device queue is used to enqueue the kernels and encapsulates
-    // all the states needed for execution
-    sycl::default_selector device_selector;
-#endif
-
-    std::unique_ptr<sycl::queue> device_queue;
-    try {
-        device_queue.reset( new sycl::queue(device_selector) );
-    } catch (sycl::exception const& e) {
-        std::cout << "Caught a synchronous SYCL exception:" << std::endl
-                  << e.what() << std::endl;
-        std::cout << "If you are targeting an FPGA hardware, please ensure that your system is "
-                     "plugged to an FPGA board that is set up correctly and compile with -DFPGA"
-                  << std::endl;
-        std::cout << "If you are targeting the FPGA emulator, compile with -DFPGA_EMULATOR."
-                  << std::endl;
-    }
-
-    std::cout << "Device: " << device_queue->get_device().get_info<sycl::info::device::name>()
-              << std::endl;
     int failed_tests = test_device_ptr_manipulation();
-    test_device_ptr_iteration();
+    failed_tests += test_device_ptr_iteration();
 
     std::cout << std::endl << failed_tests << " failing test(s) detected." << std::endl;
     if (failed_tests == 0) {

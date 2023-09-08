@@ -17,6 +17,10 @@
 #include <sycl/sycl.hpp>
 
 #include <iostream>
+#include <vector>
+
+
+
 
 template<typename String, typename _T1, typename _T2>
 int ASSERT_EQUAL(String msg, _T1&& X, _T2&& Y) {
@@ -228,6 +232,150 @@ int main() {
 
         test_name = "std::reduce with make_transform_iterator 3";
         failed_tests += ASSERT_EQUAL(test_name, result, 77);
+    } 
+    // Third Group: Testing calls to dpct::reduce_argmin and dpct::reduce_argmax
+
+    {
+        // test 1/1
+
+        // create input data
+        std::vector<uint64_t> input(10);
+        input[0] = 7;
+        input[1] = 4;
+        input[2] = 7;
+        input[3] = 9;
+        input[4] = 0;
+        input[5] = 9;
+        input[6] = 3;
+        input[7] = 1;
+        input[8] = 0;
+        input[9] = 1;
+        auto queue = dpct::get_default_queue();
+        uint64_t* dev_input = sycl::malloc_device<uint64_t>(10, queue);
+        dpct::key_value_pair<int, uint64_t> output(0,0);
+        dpct::key_value_pair<int, uint64_t>* dev_output = sycl::malloc_device<dpct::key_value_pair<int, uint64_t>>(1, queue);
+
+        queue.memcpy(dev_input, input.data(), 10 * sizeof(uint64_t)).wait();
+
+        // call algorithm
+        dpct::reduce_argmax(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 10);
+
+        queue.memcpy(&output, dev_output, 1 * sizeof(dpct::key_value_pair<int_fast64_t, uint64_t>)).wait();
+
+        test_name = "dpct::reduce_argmax with uint64_t";
+        failed_tests += ASSERT_EQUAL(test_name, output.key, 3) || ASSERT_EQUAL(test_name, output.value, 9);
+
+        // call algorithm
+        dpct::reduce_argmin(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 10);
+
+        queue.memcpy(&output, dev_output, 1 * sizeof(dpct::key_value_pair<int, uint64_t>)).wait();
+
+        test_name = "dpct::reduce_argmin with uint64_t";
+        failed_tests += ASSERT_EQUAL(test_name, output.key, 4) || ASSERT_EQUAL(test_name, output.value, 0);
+
+    }
+
+    // Third Group: Testing calls to dpct::segmented_argmin 
+    {
+        // test 1/1
+
+        // create input data
+        ::std::vector<::std::uint64_t> input(30);
+        input[0] = 7; //0
+        input[1] = 4; //1
+        input[2] = 7; //1
+        input[3] = 9; //1
+        input[4] = 0; //1
+        input[5] = 9; //1
+        input[6] = 3; //1
+        input[7] = 1; //2
+        input[8] = 0; //2
+        input[9] = 1; //2
+        input[10] = 3; //3
+        input[11] = 3; //4
+        input[12] = 3; //4
+        input[13] = 4; //4
+        input[14] = 8; //4
+        input[15] = 2; //4
+        input[16] = 1; //4
+        input[17] = 0; //5
+        input[18] = 0; //5
+        input[19] = 6; //5
+        input[20] = 5; //5
+        input[21] = 3; //5
+        input[22] = 3; //6
+        input[23] = 4; //6
+        input[24] = 7; //6
+        input[25] = 7; //7
+        input[26] = 1; //7
+        input[27] = 0; //7
+        input[28] = 6; //7
+        input[29] = 2; //7
+
+        ::std::vector<::std::uint64_t> offsets(10);
+        offsets[0] = 0;
+        offsets[1] = 1;
+        offsets[2] = 7;
+        offsets[3] = 10;
+        offsets[4] = 11;
+        offsets[5] = 17;
+        offsets[6] = 22;
+        offsets[7] = 25;
+        offsets[8] = 25;
+        offsets[9] = 30;
+
+        auto queue = dpct::get_default_queue();
+        ::std::uint64_t* dev_input = sycl::malloc_device<::std::uint64_t>(30, queue);
+        ::std::uint64_t* dev_offsets = sycl::malloc_device<::std::uint64_t>(10, queue);
+        ::std::vector<dpct::key_value_pair<int, ::std::uint64_t>> output(9);
+
+        dpct::key_value_pair<int, ::std::uint64_t>* dev_output = 
+                sycl::malloc_device<dpct::key_value_pair<int, ::std::uint64_t>>(9, queue);
+
+        queue.memcpy(dev_input, input.data(), 30 * sizeof(::std::uint64_t)).wait();
+        queue.memcpy(dev_offsets, offsets.data(), 10 * sizeof(::std::uint64_t)).wait();
+        queue.memcpy(dev_output, output.data(), 9 * sizeof(dpct::key_value_pair<int, ::std::uint64_t>)).wait();
+
+        // call algorithm
+        dpct::segmented_reduce_argmax(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 
+                                      9, dev_offsets, dev_offsets+1);
+        
+        queue.memcpy(output.data(), dev_output, 9 * sizeof(dpct::key_value_pair<int, ::std::uint64_t>)).wait();
+
+        test_name = "dpct::segmented_reduce_argmax with ::std::uint64_t";
+        failed_tests += ASSERT_EQUAL(test_name, output[0].key, 0) || ASSERT_EQUAL(test_name, output[0].value, 7);
+        failed_tests += ASSERT_EQUAL(test_name, output[1].key, 2) || ASSERT_EQUAL(test_name, output[1].value, 9);
+        failed_tests += ASSERT_EQUAL(test_name, output[2].key, 0) || ASSERT_EQUAL(test_name, output[2].value, 1);
+        failed_tests += ASSERT_EQUAL(test_name, output[3].key, 0) || ASSERT_EQUAL(test_name, output[3].value, 3);
+        failed_tests += ASSERT_EQUAL(test_name, output[4].key, 3) || ASSERT_EQUAL(test_name, output[4].value, 8);
+        failed_tests += ASSERT_EQUAL(test_name, output[5].key, 2) || ASSERT_EQUAL(test_name, output[5].value, 6);
+        failed_tests += ASSERT_EQUAL(test_name, output[6].key, 2) || ASSERT_EQUAL(test_name, output[6].value, 7);
+        failed_tests += ASSERT_EQUAL(test_name, output[7].key, 1) || 
+                        ASSERT_EQUAL(test_name, output[7].value, ::std::numeric_limits<::std::uint64_t>::lowest());
+        failed_tests += ASSERT_EQUAL(test_name, output[8].key, 0) || ASSERT_EQUAL(test_name, output[8].value, 7);
+
+        // call algorithm
+        dpct::segmented_reduce_argmin(oneapi::dpl::execution::make_device_policy(queue), dev_input, dev_output, 9, 
+                                      dev_offsets, dev_offsets+1);
+
+        queue.memcpy(output.data(), dev_output, 9 * sizeof(dpct::key_value_pair<int, ::std::uint64_t>)).wait();
+
+        test_name = "dpct::segmented_reduce_argmin with ::std::uint64_t";
+        failed_tests += ASSERT_EQUAL(test_name, output[0].key, 0) || ASSERT_EQUAL(test_name, output[0].value, 7);
+        failed_tests += ASSERT_EQUAL(test_name, output[1].key, 3) || ASSERT_EQUAL(test_name, output[1].value, 0);
+        failed_tests += ASSERT_EQUAL(test_name, output[2].key, 1) || ASSERT_EQUAL(test_name, output[2].value, 0);
+        failed_tests += ASSERT_EQUAL(test_name, output[3].key, 0) || ASSERT_EQUAL(test_name, output[3].value, 3);
+        failed_tests += ASSERT_EQUAL(test_name, output[4].key, 5) || ASSERT_EQUAL(test_name, output[4].value, 1);
+        failed_tests += ASSERT_EQUAL(test_name, output[5].key, 0) || ASSERT_EQUAL(test_name, output[5].value, 0);
+        failed_tests += ASSERT_EQUAL(test_name, output[6].key, 0) || ASSERT_EQUAL(test_name, output[6].value, 3);
+        failed_tests += ASSERT_EQUAL(test_name, output[7].key, 1) || 
+                        ASSERT_EQUAL(test_name, output[7].value, ::std::numeric_limits<::std::uint64_t>::max());
+        failed_tests += ASSERT_EQUAL(test_name, output[8].key, 2) || ASSERT_EQUAL(test_name, output[8].value, 0);
+
+        sycl::free(dev_input, queue);
+        sycl::free(dev_offsets, queue);
+        sycl::free(dev_output, queue);
+        
     }
 
     std::cout << std::endl << failed_tests << " failing test(s) detected." << std::endl;

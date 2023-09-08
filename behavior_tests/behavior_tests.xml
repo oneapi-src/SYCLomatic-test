@@ -84,6 +84,7 @@
         <test testName="bt-suppress-warnings" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-report-only" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-help" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-helper-function-dir" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-autocomplete" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="bt-suppress-warnings-all" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-comments" configFile="config/TEMPLATE_behavior_tests.xml" />
@@ -128,11 +129,13 @@
         <test testName="bt-invalid-cuda-version" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-modified-yaml" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-warning1083" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-check-warning1118" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-unsupported-type-function" configFile="config/TEMPLATE_behavior_tests_after_9.2.xml" />
         <test testName="change-filename-extension" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="helper_function_preference_no_queue_device" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="check-device-unsupport-aspect" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="check-windows-version" configFile="config/TEMPLATE_behavior_tests_win.xml" />
-        <test testName="query-api-mapping" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="query-api-mapping" configFile="config/TEMPLATE_behavior_tests_after_11.5.xml" />
         <test testName="ngt-invalid-experimental-features" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-UDR-path" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-UDR-keyword" configFile="config/TEMPLATE_behavior_tests.xml" />
@@ -154,6 +157,7 @@
         <test testName="bt-gen-helper-function" configFile="config/TEMPLATE_behavior_tests_win.xml" />
         <test testName="bt-language-warning" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-unexpected-message" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="cmp-cmds-linker-entry-src-files" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
     </tests>
 
 </suite>
