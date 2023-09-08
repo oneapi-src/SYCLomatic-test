@@ -1152,7 +1152,7 @@ void test_cusparseSpMM() {
 // | 4 0 0 |   | 0 0 5 6 |   | 4 0 0  0  |
 void test_cusparseSpGEMM() {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
-  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  sycl::queue &q_ct1 = dev_ct1.in_order_queue();
   std::vector<float> a_val_vec = {1, 2, 3, 4};
   Data<float> a_s_val(a_val_vec.data(), 4);
   Data<double> a_d_val(a_val_vec.data(), 4);
@@ -1264,26 +1264,35 @@ void test_cusparseSpGEMM() {
       oneapi::mkl::index_base::zero, dpct::library_data_t::complex_double,
       dpct::sparse::matrix_format::csr);
 
+  Data<int> c_s_row_ptr(4);
+  Data<int> c_d_row_ptr(4);
+  Data<int> c_c_row_ptr(4);
+  Data<int> c_z_row_ptr(4);
+
   dpct::sparse::sparse_matrix_desc_t c_descr_s;
   dpct::sparse::sparse_matrix_desc_t c_descr_d;
   dpct::sparse::sparse_matrix_desc_t c_descr_c;
   dpct::sparse::sparse_matrix_desc_t c_descr_z;
   c_descr_s = std::make_shared<dpct::sparse::sparse_matrix_desc>(
-      3, 4, 0, nullptr, nullptr, nullptr, dpct::library_data_t::real_int32,
-      dpct::library_data_t::real_int32, oneapi::mkl::index_base::zero,
-      dpct::library_data_t::real_float, dpct::sparse::matrix_format::csr);
+      3, 4, 0, c_s_row_ptr.d_data, nullptr, nullptr,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_float,
+      dpct::sparse::matrix_format::csr);
   c_descr_d = std::make_shared<dpct::sparse::sparse_matrix_desc>(
-      3, 4, 0, nullptr, nullptr, nullptr, dpct::library_data_t::real_int32,
-      dpct::library_data_t::real_int32, oneapi::mkl::index_base::zero,
-      dpct::library_data_t::real_double, dpct::sparse::matrix_format::csr);
+      3, 4, 0, c_d_row_ptr.d_data, nullptr, nullptr,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_double,
+      dpct::sparse::matrix_format::csr);
   c_descr_c = std::make_shared<dpct::sparse::sparse_matrix_desc>(
-      3, 4, 0, nullptr, nullptr, nullptr, dpct::library_data_t::real_int32,
-      dpct::library_data_t::real_int32, oneapi::mkl::index_base::zero,
-      dpct::library_data_t::complex_float, dpct::sparse::matrix_format::csr);
+      3, 4, 0, c_c_row_ptr.d_data, nullptr, nullptr,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_float,
+      dpct::sparse::matrix_format::csr);
   c_descr_z = std::make_shared<dpct::sparse::sparse_matrix_desc>(
-      3, 4, 0, nullptr, nullptr, nullptr, dpct::library_data_t::real_int32,
-      dpct::library_data_t::real_int32, oneapi::mkl::index_base::zero,
-      dpct::library_data_t::complex_double, dpct::sparse::matrix_format::csr);
+      3, 4, 0, c_z_row_ptr.d_data, nullptr, nullptr,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_double,
+      dpct::sparse::matrix_format::csr);
 
   oneapi::mkl::sparse::matmat_descr_t SpGEMMDescr_s;
   oneapi::mkl::sparse::matmat_descr_t SpGEMMDescr_d;
@@ -1417,10 +1426,6 @@ void test_cusparseSpGEMM() {
   Data<double> c_d_val(c_nnz_d);
   Data<sycl::float2> c_c_val(c_nnz_c);
   Data<sycl::double2> c_z_val(c_nnz_z);
-  Data<int> c_s_row_ptr(4);
-  Data<int> c_d_row_ptr(4);
-  Data<int> c_c_row_ptr(4);
-  Data<int> c_z_row_ptr(4);
   Data<int> c_s_col_ind(c_nnz_s);
   Data<int> c_d_col_ind(c_nnz_d);
   Data<int> c_c_col_ind(c_nnz_c);

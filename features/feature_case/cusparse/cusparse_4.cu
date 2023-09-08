@@ -187,14 +187,19 @@ void test_cusparseSpGEMM() {
   cusparseCreateCsr(&b_descr_c, 3, 4, 5, b_row_ptr.d_data, b_col_ind.d_data, b_c_val.d_data, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_BASE_ZERO, CUDA_C_32F);
   cusparseCreateCsr(&b_descr_z, 3, 4, 5, b_row_ptr.d_data, b_col_ind.d_data, b_z_val.d_data, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_BASE_ZERO, CUDA_C_64F);
 
+  Data<int> c_s_row_ptr(4);
+  Data<int> c_d_row_ptr(4);
+  Data<int> c_c_row_ptr(4);
+  Data<int> c_z_row_ptr(4);
+
   cusparseSpMatDescr_t c_descr_s;
   cusparseSpMatDescr_t c_descr_d;
   cusparseSpMatDescr_t c_descr_c;
   cusparseSpMatDescr_t c_descr_z;
-  cusparseCreateCsr(&c_descr_s, 3, 4, 0, NULL, NULL, NULL, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_BASE_ZERO, CUDA_R_32F);
-  cusparseCreateCsr(&c_descr_d, 3, 4, 0, NULL, NULL, NULL, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_BASE_ZERO, CUDA_R_64F);
-  cusparseCreateCsr(&c_descr_c, 3, 4, 0, NULL, NULL, NULL, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_BASE_ZERO, CUDA_C_32F);
-  cusparseCreateCsr(&c_descr_z, 3, 4, 0, NULL, NULL, NULL, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_BASE_ZERO, CUDA_C_64F);
+  cusparseCreateCsr(&c_descr_s, 3, 4, 0, c_s_row_ptr.d_data, NULL, NULL, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_BASE_ZERO, CUDA_R_32F);
+  cusparseCreateCsr(&c_descr_d, 3, 4, 0, c_d_row_ptr.d_data, NULL, NULL, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_BASE_ZERO, CUDA_R_64F);
+  cusparseCreateCsr(&c_descr_c, 3, 4, 0, c_c_row_ptr.d_data, NULL, NULL, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_BASE_ZERO, CUDA_C_32F);
+  cusparseCreateCsr(&c_descr_z, 3, 4, 0, c_z_row_ptr.d_data, NULL, NULL, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_32I, CUSPARSE_INDEX_BASE_ZERO, CUDA_C_64F);
 
   cusparseSpGEMMDescr_t SpGEMMDescr_s;
   cusparseSpGEMMDescr_t SpGEMMDescr_d;
@@ -280,10 +285,6 @@ void test_cusparseSpGEMM() {
   Data<double> c_d_val(c_nnz_d);
   Data<float2> c_c_val(c_nnz_c);
   Data<double2> c_z_val(c_nnz_z);
-  Data<int> c_s_row_ptr(4);
-  Data<int> c_d_row_ptr(4);
-  Data<int> c_c_row_ptr(4);
-  Data<int> c_z_row_ptr(4);
   Data<int> c_s_col_ind(c_nnz_s);
   Data<int> c_d_col_ind(c_nnz_d);
   Data<int> c_c_col_ind(c_nnz_c);
