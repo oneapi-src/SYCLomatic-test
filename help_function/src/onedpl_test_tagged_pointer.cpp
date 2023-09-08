@@ -11,13 +11,10 @@
 
 #include <oneapi/dpl/algorithm>
 #include <oneapi/dpl/execution>
-#include <oneapi/dpl/iterator>
 #include <oneapi/dpl/numeric>
 
 #include "dpct/dpct.hpp"
 #include "dpct/dpl_utils.hpp"
-
-#include <sycl/sycl.hpp>
 
 #include <iostream>
 
@@ -72,21 +69,32 @@ template <typename SystemTag> int test_tagged_pointer_manipulation(void) {
                                 int_ptr_end - int_ptr_beg, n);
 
   expect_beg++;
+  failing_tests +=
+      ASSERT_EQUAL(int_ptr_name + " postfix increment",
+                   (int_ptr_beg + 1) == expect_beg, true);
+
   expect_beg--;
   failing_tests +=
-      ASSERT_EQUAL(int_ptr_name + " postfix increment and decrement",
+      ASSERT_EQUAL(int_ptr_name + " postfix decrement",
                    int_ptr_beg == expect_beg, true);
 
   ++expect_beg;
+  failing_tests +=
+      ASSERT_EQUAL(int_ptr_name + " prefix increment",
+                   (int_ptr_beg + 1) == expect_beg, true);
   --expect_beg;
   failing_tests +=
-      ASSERT_EQUAL(int_ptr_name + " prefix increment and decrement",
+      ASSERT_EQUAL(int_ptr_name + " prefix decrement",
                    int_ptr_beg == expect_beg, true);
 
   expect_beg += 2;
+  failing_tests +=
+      ASSERT_EQUAL(int_ptr_name + " addition assignment",
+                   (int_ptr_beg + 2) == expect_beg, true);
+
   expect_beg -= 2;
   failing_tests +=
-      ASSERT_EQUAL(int_ptr_name + " addition and subtraction assignment",
+      ASSERT_EQUAL(int_ptr_name + " subtraction assignment",
                    int_ptr_beg == expect_beg, true);
 
   // Test conversion to base pointer
@@ -103,14 +111,11 @@ template <typename SystemTag> int test_tagged_pointer_manipulation(void) {
   failing_tests += ASSERT_EQUAL(int_ptr_name + " subscript operator",
                                 int_ptr_beg[1] == 2, true);
 
-  failing_tests += ASSERT_EQUAL(int_ptr_name + " subscript operator",
-                                int_ptr_beg[1] == 2, true);
-
   dpct::tagged_pointer<SystemTag, integer_wrapper> int_wrapper_beg =
       dpct::malloc<integer_wrapper>(system, 1);
   int_wrapper_beg->val = 5;
   failing_tests += ASSERT_EQUAL(int_wrapper_name + " arrow operator",
-                                int_wrapper_beg->val == 5, true);
+                                (*int_wrapper_beg).val == 5, true);
 
   dpct::free(system, void_ptr_beg);
   dpct::free(system, int_wrapper_beg);
