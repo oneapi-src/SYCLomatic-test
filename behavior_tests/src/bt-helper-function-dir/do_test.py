@@ -21,10 +21,10 @@ def migrate_test():
     call_subprocess(test_config.CT_TOOL + " --helper-function-dir")
     helper_function_dir_root = os.path.realpath(
         os.path.join(get_ct_path(), os.pardir, os.pardir, "include"))
-    print("Helper functions directory: ", helper_function_dir_root)
-    if (platform.system() == 'Windows'):
-        return is_sub_string(helper_function_dir_root.lower(), test_config.command_output.lower())
-    return is_sub_string(helper_function_dir_root, test_config.command_output)
+    helper_function_cmd_output = test_config.command_output.replace("\n","")
+    print("Helper function directory: ", helper_function_dir_root)
+    print("Helper function command output: ", helper_function_cmd_output)
+    return os.path.samefile(helper_function_dir_root, helper_function_cmd_output)
 
 def build_test():
     return True
