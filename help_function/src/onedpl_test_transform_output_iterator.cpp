@@ -185,9 +185,9 @@ struct test_zip_iterator
     {
 
         float init = 2.0f;
-        std::vector<int> source(buffer_size, init);
-        std::vector<int> res1(buffer_size, 0.0f);
-        std::vector<int> res2(buffer_size, 0.0f);
+        std::vector<float> source(buffer_size, init);
+        std::vector<float> res1(buffer_size, 0.0f);
+        std::vector<float> res2(buffer_size, 0.0f);
 
         dpct::device_vector<float> sycl_source(source.begin(), source.end());
         dpct::device_vector<float> sycl_result1(res1.begin(), res1.end());
