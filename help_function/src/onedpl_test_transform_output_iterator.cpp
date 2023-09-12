@@ -89,10 +89,8 @@ struct test_simple_copy
 
         ::std::vector<int> expected_res(buffer_size, identity + 1);
 
-        return test_copy(oneapi::dpl::execution::make_device_policy(
-                             oneapi::dpl::execution::make_device_policy(dpct::get_default_queue())),
-                         sycl_source.begin(), sycl_source.end(), tr_host_result_begin, sycl_result.begin(),
-                         expected_res.begin());
+        return test_copy(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue()), sycl_source.begin(),
+                         sycl_source.end(), tr_host_result_begin, sycl_result.begin(), expected_res.begin());
     }
 };
 
@@ -119,8 +117,7 @@ struct test_multi_transform_copy
 
         ::std::vector<int> expected_res(buffer_size, ((identity + 3) * 2) + 1);
 
-        return test_copy(oneapi::dpl::execution::make_device_policy(
-                             oneapi::dpl::execution::make_device_policy(dpct::get_default_queue())),
+        return test_copy(oneapi::dpl::execution::make_device_policy(dpct::get_default_queue())),
                          sycl_source.begin(), sycl_source.end(), tr3_sycl_result_begin, sycl_result.begin(),
                          expected_res.begin());
     }
