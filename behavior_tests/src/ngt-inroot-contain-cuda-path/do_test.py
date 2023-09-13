@@ -18,7 +18,7 @@ def setup_test():
     return True
 
 def migrate_test():
-    shutil.copytree(test_config.include_path, "cc")
+    shutil.copytree(test_config.include_path, "cc", symlinks=True)
     call_subprocess(test_config.CT_TOOL + " --in-root=./ ./simple_foo.cu --cuda-include-path=./cc")
     return is_sub_string("Error: Input folder specified by --in-root or --analysis-scope-path is the parent of, or the same folder", test_config.command_output)
 
@@ -28,3 +28,4 @@ def build_test():
 
 def run_test():
     return True
+

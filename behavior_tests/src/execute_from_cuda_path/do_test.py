@@ -21,7 +21,7 @@ def setup_test():
 
 
 def prepare_execution_folder():
-    distutils.dir_util.copy_tree(test_config.include_path, "include")
+    distutils.dir_util.copy_tree(test_config.include_path, "include", preserve_symlinks=True)
 
 def migrate_test():
     src =os.path.join("include", "vector_types.h")
@@ -38,3 +38,4 @@ def build_test():
 
 def run_test():
     return True
+
