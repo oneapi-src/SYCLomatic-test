@@ -154,16 +154,16 @@ struct test_type_shift
     operator()(size_t buffer_size)
     {
 
-        double init = 0.5;
-        std::vector<double> source(buffer_size, init);
+        float init = 0.5f;
+        std::vector<float> source(buffer_size, init);
         std::vector<int> res(buffer_size, 0);
 
-        dpct::device_vector<double> sycl_source(source.begin(), source.end());
+        dpct::device_vector<float> sycl_source(source.begin(), source.end());
         dpct::device_vector<int> sycl_result(res.begin(), res.end());
 
         // 3. run algorithms
         auto transformation1 = [](float item) { return (int)(item * 2.0f); };
-        auto transformation2 = [](double item) { return (float)(item + 1.0); };
+        auto transformation2 = [](float item) { return item + 1.0f; };
 
         auto tr1_host_result_begin = dpct::make_transform_output_iterator(sycl_result.begin(), transformation1);
         auto tr2_host_result_begin = dpct::make_transform_output_iterator(tr1_host_result_begin, transformation2);
