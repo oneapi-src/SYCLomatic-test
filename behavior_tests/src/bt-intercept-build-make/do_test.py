@@ -19,7 +19,7 @@ def setup_test():
     return True
 
 def migrate_test():
-    call_subprocess(test_config.CT_TOOL + " --intercept-build make")
+    call_subprocess(test_config.CT_TOOL + " --intercept-build -vvv make")
     test_dir = os.path.join(os.getcwd())
     ref_cmp_db_file = open(test_dir+"/compile_commands.json_ref", "rt")
     cmp_cmds = ref_cmp_db_file.read()
