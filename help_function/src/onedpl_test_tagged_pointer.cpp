@@ -69,33 +69,27 @@ template <typename SystemTag> int test_tagged_pointer_manipulation(void) {
                                 int_ptr_end - int_ptr_beg, n);
 
   expect_beg++;
-  failing_tests +=
-      ASSERT_EQUAL(int_ptr_name + " postfix increment",
-                   (int_ptr_beg + 1) == expect_beg, true);
+  failing_tests += ASSERT_EQUAL(int_ptr_name + " postfix increment",
+                                (int_ptr_beg + 1) == expect_beg, true);
 
   expect_beg--;
-  failing_tests +=
-      ASSERT_EQUAL(int_ptr_name + " postfix decrement",
-                   int_ptr_beg == expect_beg, true);
+  failing_tests += ASSERT_EQUAL(int_ptr_name + " postfix decrement",
+                                int_ptr_beg == expect_beg, true);
 
   ++expect_beg;
-  failing_tests +=
-      ASSERT_EQUAL(int_ptr_name + " prefix increment",
-                   (int_ptr_beg + 1) == expect_beg, true);
+  failing_tests += ASSERT_EQUAL(int_ptr_name + " prefix increment",
+                                (int_ptr_beg + 1) == expect_beg, true);
   --expect_beg;
-  failing_tests +=
-      ASSERT_EQUAL(int_ptr_name + " prefix decrement",
-                   int_ptr_beg == expect_beg, true);
+  failing_tests += ASSERT_EQUAL(int_ptr_name + " prefix decrement",
+                                int_ptr_beg == expect_beg, true);
 
   expect_beg += 2;
-  failing_tests +=
-      ASSERT_EQUAL(int_ptr_name + " addition assignment",
-                   (int_ptr_beg + 2) == expect_beg, true);
+  failing_tests += ASSERT_EQUAL(int_ptr_name + " addition assignment",
+                                (int_ptr_beg + 2) == expect_beg, true);
 
   expect_beg -= 2;
-  failing_tests +=
-      ASSERT_EQUAL(int_ptr_name + " subtraction assignment",
-                   int_ptr_beg == expect_beg, true);
+  failing_tests += ASSERT_EQUAL(int_ptr_name + " subtraction assignment",
+                                int_ptr_beg == expect_beg, true);
 
   // Test conversion to base pointer
   int *int_ptr_beg_raw = int_ptr_beg;
@@ -122,23 +116,19 @@ template <typename SystemTag> int test_tagged_pointer_manipulation(void) {
   return failing_tests;
 }
 
-template <typename SystemTag> int test_tagged_pointer_iteration(void) {
+template <typename Policy>
+int test_tagged_pointer_iteration(Policy policy, std::string test_name) {
   constexpr ::std::size_t n = 1024;
   int return_fail_code = 0;
-  SystemTag system;
-  bool is_host = ::std::is_same_v<dpct::host_sys_tag, SystemTag>;
-  ::std::string sys = is_host ? "dpct::host_sys_tag" : "dpct::device_sys_tag";
-  std::string int_ptr_name = "dpct::tagged_pointer<" + sys + ", int>";
 
-  auto policy = oneapi::dpl::execution::dpcpp_default;
-  dpct::tagged_pointer<SystemTag, int> ptr_beg = dpct::malloc<int>(system, n);
-  dpct::tagged_pointer<SystemTag, int> ptr_end = ptr_beg + n;
+  auto ptr_beg = dpct::malloc<int>(policy, n);
+  auto ptr_end = ptr_beg + n;
 
   std::fill(policy, ptr_beg, ptr_end, 99);
   int result = oneapi::dpl::reduce(policy, ptr_beg, ptr_beg + n);
   return_fail_code +=
-      ASSERT_EQUAL(int_ptr_name + " reduce algorithm test", result, n * 99);
-  dpct::free(system, ptr_beg);
+      ASSERT_EQUAL(test_name + " reduce algorithm test", result, n * 99);
+  dpct::free(policy, ptr_beg);
   return return_fail_code;
 }
 
@@ -146,8 +136,11 @@ int main() {
   int failed_tests = test_tagged_pointer_manipulation<dpct::host_sys_tag>();
   failed_tests += test_tagged_pointer_manipulation<dpct::device_sys_tag>();
 
-  failed_tests += test_tagged_pointer_iteration<dpct::host_sys_tag>();
-  failed_tests += test_tagged_pointer_iteration<dpct::device_sys_tag>();
+  failed_tests += test_tagged_pointer_iteration(
+      dpl::execution::seq, "dpct::tagged_pointer<dpct::host_sys_tag, int>");
+  failed_tests += test_tagged_pointer_iteration(
+      dpl::execution::make_device_policy(dpct::get_default_queue()),
+      "dpct::tagged_pointer<dpct::device_sys_tag, int>");
 
   std::cout << std::endl
             << failed_tests << " failing test(s) detected." << std::endl;
