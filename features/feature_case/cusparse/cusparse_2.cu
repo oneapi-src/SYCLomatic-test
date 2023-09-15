@@ -538,6 +538,214 @@ void test_cusparseTcsrsv() {
   test_passed = true;
 }
 
+void test_cusparseTcsrmv_mp() {
+  std::vector<float> a_val_vec = {1, 4, 2, 3, 5, 7, 8, 9, 6};
+  Data<float> a_s_val(a_val_vec.data(), 9);
+  Data<double> a_d_val(a_val_vec.data(), 9);
+  Data<float2> a_c_val(a_val_vec.data(), 9);
+  Data<double2> a_z_val(a_val_vec.data(), 9);
+  std::vector<float> a_row_ptr_vec = {0, 2, 4, 7, 9};
+  Data<int> a_row_ptr(a_row_ptr_vec.data(), 5);
+  std::vector<float> a_col_ind_vec = {0, 1, 1, 2, 0, 3, 4, 2, 4};
+  Data<int> a_col_ind(a_col_ind_vec.data(), 9);
+
+  std::vector<float> b_vec = {1, 2, 3, 4, 5};
+  Data<float> b_s(b_vec.data(), 5);
+  Data<double> b_d(b_vec.data(), 5);
+  Data<float2> b_c(b_vec.data(), 5);
+  Data<double2> b_z(b_vec.data(), 5);
+
+  Data<float> c_s(4);
+  Data<double> c_d(4);
+  Data<float2> c_c(4);
+  Data<double2> c_z(4);
+
+  float alpha = 10;
+  Data<float> alpha_s(&alpha, 1);
+  Data<double> alpha_d(&alpha, 1);
+  Data<float2> alpha_c(&alpha, 1);
+  Data<double2> alpha_z(&alpha, 1);
+
+  float beta = 0;
+  Data<float> beta_s(&beta, 1);
+  Data<double> beta_d(&beta, 1);
+  Data<float2> beta_c(&beta, 1);
+  Data<double2> beta_z(&beta, 1);
+
+  cusparseHandle_t handle;
+  cusparseCreate(&handle);
+
+  cusparseSetPointerMode(handle, CUSPARSE_POINTER_MODE_DEVICE);
+
+  cusparseMatDescr_t descrA;
+  cusparseCreateMatDescr(&descrA);
+  cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
+  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_row_ptr.H2D();
+  a_col_ind.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+  alpha_s.H2D();
+  alpha_d.H2D();
+  alpha_c.H2D();
+  alpha_z.H2D();
+  beta_s.H2D();
+  beta_d.H2D();
+  beta_c.H2D();
+  beta_z.H2D();
+
+  cusparseScsrmv_mp(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, (float *)alpha_s.d_data, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (float *)b_s.d_data, (float *)beta_s.d_data, (float *)c_s.d_data);
+  cusparseDcsrmv_mp(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, (double *)alpha_d.d_data, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (double *)b_d.d_data, (double *)beta_d.d_data, (double *)c_d.d_data);
+  if (run_complex_datatype) {
+    cusparseCcsrmv_mp(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, (float2 *)alpha_c.d_data, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (float2 *)b_c.d_data, (float2 *)beta_c.d_data, (float2 *)c_c.d_data);
+    cusparseZcsrmv_mp(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, (double2 *)alpha_z.d_data, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, (double2 *)b_z.d_data, (double2 *)beta_z.d_data, (double2 *)c_z.d_data);
+  }
+
+  c_s.D2H();
+  c_d.D2H();
+  c_c.D2H();
+  c_z.D2H();
+
+  cudaStreamSynchronize(0);
+  cusparseDestroyMatDescr(descrA);
+  cusparseDestroy(handle);
+
+  float expect_c[4] = {90, 130, 730, 570};
+  if (compare_result(expect_c, c_s.h_data, 4) &&
+      compare_result(expect_c, c_d.h_data, 4)/* &&
+      compare_result(expect_c, c_c.h_data, 4) &&
+      compare_result(expect_c, c_z.h_data, 4)*/)
+    printf("Tcsrmv_mp pass\n");
+  else {
+    printf("Tcsrmv_mp fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusparseCsrmvEx() {
+  std::vector<float> a_val_vec = {1, 4, 2, 3, 5, 7, 8, 9, 6};
+  Data<float> a_s_val(a_val_vec.data(), 9);
+  Data<double> a_d_val(a_val_vec.data(), 9);
+  Data<float2> a_c_val(a_val_vec.data(), 9);
+  Data<double2> a_z_val(a_val_vec.data(), 9);
+  std::vector<float> a_row_ptr_vec = {0, 2, 4, 7, 9};
+  Data<int> a_row_ptr(a_row_ptr_vec.data(), 5);
+  std::vector<float> a_col_ind_vec = {0, 1, 1, 2, 0, 3, 4, 2, 4};
+  Data<int> a_col_ind(a_col_ind_vec.data(), 9);
+
+  std::vector<float> b_vec = {1, 2, 3, 4, 5};
+  Data<float> b_s(b_vec.data(), 5);
+  Data<double> b_d(b_vec.data(), 5);
+  Data<float2> b_c(b_vec.data(), 5);
+  Data<double2> b_z(b_vec.data(), 5);
+
+  Data<float> c_s(4);
+  Data<double> c_d(4);
+  Data<float2> c_c(4);
+  Data<double2> c_z(4);
+
+  float alpha = 10;
+  Data<float> alpha_s(&alpha, 1);
+  Data<double> alpha_d(&alpha, 1);
+  Data<float2> alpha_c(&alpha, 1);
+  Data<double2> alpha_z(&alpha, 1);
+
+  float beta = 0;
+  Data<float> beta_s(&beta, 1);
+  Data<double> beta_d(&beta, 1);
+  Data<float2> beta_c(&beta, 1);
+  Data<double2> beta_z(&beta, 1);
+
+  cusparseHandle_t handle;
+  cusparseCreate(&handle);
+
+  cusparseSetPointerMode(handle, CUSPARSE_POINTER_MODE_DEVICE);
+
+  cusparseMatDescr_t descrA;
+  cusparseCreateMatDescr(&descrA);
+  cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
+  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_row_ptr.H2D();
+  a_col_ind.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+  alpha_s.H2D();
+  alpha_d.H2D();
+  alpha_c.H2D();
+  alpha_z.H2D();
+  beta_s.H2D();
+  beta_d.H2D();
+  beta_c.H2D();
+  beta_z.H2D();
+
+  cusparseAlgMode_t alg;
+
+  size_t ws_size_s;
+  size_t ws_size_d;
+  size_t ws_size_c;
+  size_t ws_size_z;
+  cusparseCsrmvEx_bufferSize(handle, alg, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, alpha_s.d_data, CUDA_R_32F, descrA, a_s_val.d_data, CUDA_R_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, b_s.d_data, CUDA_R_32F, beta_s.d_data, CUDA_R_32F, c_s.d_data, CUDA_R_32F, CUDA_R_32F, &ws_size_s);
+  cusparseCsrmvEx_bufferSize(handle, alg, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, alpha_d.d_data, CUDA_R_64F, descrA, a_d_val.d_data, CUDA_R_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, b_d.d_data, CUDA_R_64F, beta_d.d_data, CUDA_R_64F, c_d.d_data, CUDA_R_64F, CUDA_R_64F, &ws_size_d);
+  if (run_complex_datatype) {
+    cusparseCsrmvEx_bufferSize(handle, alg, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, alpha_c.d_data, CUDA_C_32F, descrA, a_c_val.d_data, CUDA_C_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, b_c.d_data, CUDA_C_32F, beta_c.d_data, CUDA_C_32F, c_c.d_data, CUDA_C_32F, CUDA_C_32F, &ws_size_c);
+    cusparseCsrmvEx_bufferSize(handle, alg, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, alpha_z.d_data, CUDA_C_64F, descrA, a_z_val.d_data, CUDA_C_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, b_z.d_data, CUDA_C_64F, beta_z.d_data, CUDA_C_64F, c_z.d_data, CUDA_C_64F, CUDA_C_64F, &ws_size_z);
+  }
+
+  void *ws_s;
+  void *ws_d;
+  void *ws_c;
+  void *ws_z;
+  cudaMalloc(&ws_s, ws_size_s);
+  cudaMalloc(&ws_d, ws_size_d);
+  cudaMalloc(&ws_c, ws_size_c);
+  cudaMalloc(&ws_z, ws_size_z);
+
+  cusparseCsrmvEx(handle, alg, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, alpha_s.d_data, CUDA_R_32F, descrA, a_s_val.d_data, CUDA_R_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, b_s.d_data, CUDA_R_32F, beta_s.d_data, CUDA_R_32F, c_s.d_data, CUDA_R_32F, CUDA_R_32F, ws_s);
+  cusparseCsrmvEx(handle, alg, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, alpha_d.d_data, CUDA_R_64F, descrA, a_d_val.d_data, CUDA_R_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, b_d.d_data, CUDA_R_64F, beta_d.d_data, CUDA_R_64F, c_d.d_data, CUDA_R_64F, CUDA_R_64F, ws_d);
+  if (run_complex_datatype) {
+    cusparseCsrmvEx(handle, alg, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, alpha_c.d_data, CUDA_C_32F, descrA, a_c_val.d_data, CUDA_C_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, b_c.d_data, CUDA_C_32F, beta_c.d_data, CUDA_C_32F, c_c.d_data, CUDA_C_32F, CUDA_C_32F, ws_c);
+    cusparseCsrmvEx(handle, alg, CUSPARSE_OPERATION_NON_TRANSPOSE, 4, 5, 9, alpha_z.d_data, CUDA_C_64F, descrA, a_z_val.d_data, CUDA_C_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, b_z.d_data, CUDA_C_64F, beta_z.d_data, CUDA_C_64F, c_z.d_data, CUDA_C_64F, CUDA_C_64F, ws_z);
+  }
+
+  c_s.D2H();
+  c_d.D2H();
+  c_c.D2H();
+  c_z.D2H();
+
+  cudaFree(ws_s);
+  cudaFree(ws_d);
+  cudaFree(ws_c);
+  cudaFree(ws_z);
+  cudaStreamSynchronize(0);
+  cusparseDestroyMatDescr(descrA);
+  cusparseDestroy(handle);
+
+  float expect_c[4] = {90, 130, 730, 570};
+  if (compare_result(expect_c, c_s.h_data, 4) &&
+      compare_result(expect_c, c_d.h_data, 4)/* &&
+      compare_result(expect_c, c_c.h_data, 4) &&
+      compare_result(expect_c, c_z.h_data, 4)*/)
+    printf("CsrmvEx pass\n");
+  else {
+    printf("CsrmvEx fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_cusparseSetGetStream();
   test_cusparseTcsrmv_ge();
@@ -545,6 +753,8 @@ int main() {
   test_cusparseTcsrmv_tr();
   // test_cusparseTcsrmm(); // Re-enable this test until MKL issue fixed
   test_cusparseTcsrsv();
+  test_cusparseTcsrmv_mp();
+  test_cusparseCsrmvEx();
 
   if (test_passed)
     return 0;
