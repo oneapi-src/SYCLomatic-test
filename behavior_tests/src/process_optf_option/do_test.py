@@ -22,7 +22,7 @@ def migrate_test():
     call_subprocess(test_config.CT_TOOL + ' -in-root ./ -out-root out -gen-build-script -p ./compile_commands.json --cuda-include-path=' + \
                    os.environ['CUDA_INCLUDE_PATH'])
     change_dir("./out")
-    call_subprocess("make -f Makefile.dpct")
+    call_subprocess("make -f Makefile.dpct -B")
 
    
     if os.path.isfile("./test1.dp.o") and os.path.isfile("./test1.dp.o"):
