@@ -13,13 +13,23 @@ using namespace std;
 
 #define SIZE 4
 
-__global__ void kernal(int *output, cudaTextureObject_t tex) {
+struct TexStruct {
+  cudaTextureObject_t tex1;
+
+  __device__ void read() {
+    int4 a;
+    tex1Dfetch(&a, tex1, 1);
+  }
+};
+
+__global__ void kernal(int *output, cudaTextureObject_t tex, TexStruct t) {
   for (int i = 0; i < SIZE; ++i) {
     auto ret = tex1Dfetch<int4>(tex, i);
     output[4 * i] = ret.x;
     output[4 * i + 1] = ret.y;
     output[4 * i + 2] = ret.z;
     output[4 * i + 3] = ret.w;
+    t.read();
   }
 }
 
@@ -46,11 +56,15 @@ int main() {
   texDesc.addressMode[0] = cudaAddressModeClamp;
   texDesc.addressMode[1] = cudaAddressModeClamp;
   texDesc.filterMode = cudaFilterModePoint;
+  texDesc.readMode = cudaReadModeElementType;
 
   cudaTextureObject_t tex;
   cudaCreateTextureObject(&tex, &resDesc, &texDesc, NULL);
 
-  kernal<<<1, 1>>>(output, tex);
+  TexStruct s;
+  s.tex1 = tex;
+
+  kernal<<<1, 1>>>(output, tex, s);
   cudaDeviceSynchronize();
   cudaDestroyTextureObject(tex);
   cudaFree(input);
