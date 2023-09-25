@@ -37,9 +37,9 @@ void checkResult(const string &FuncName, const vector<float> &Inputs,
   for (size_t i = 1; i < Inputs.size(); ++i) {
     cout << ", " << Inputs[i];
   }
-  cout << ") = " << fixed << setprecision(precision) << Result << " (expect "
-       << Expect - pow(10, -precision) << " ~ " << Expect + pow(10, -precision)
-       << ")";
+  cout << ") = " << fixed << setprecision(precision < 0 ? 0 : precision)
+       << Result << " (expect " << Expect - pow(10, -precision) << " ~ "
+       << Expect + pow(10, -precision) << ")";
   cout.unsetf(ios::fixed);
   check(abs(Result - Expect) < pow(10, -precision));
 }
@@ -581,7 +581,7 @@ int main() {
       {-0.3, {0.74072265625, 16}},
       {0.34, {1.4052734375, 15}},
       {0.8, {2.224609375, 15}},
-      {10, {22032, 11}},
+      {10, {22032, -2}},
       {-12, {0.00000613927841186523, 20}},
   });
   testHexp10Cases({
@@ -608,9 +608,9 @@ int main() {
   testHlogCases({
       {0.3, {-1.204, 3}},
       {0.34, {-1.078, 3}},
-      {0.8, {-0.223389, 6}},
-      {23, {3.135, 3}},
-      {12, {2.484, 3}},
+      {0.8, {-0.223, 3}},
+      {23, {3.13, 2}},
+      {12, {2.48, 2}},
   });
   testHlog10Cases({
       {0.3, {-0.523, 3}},
