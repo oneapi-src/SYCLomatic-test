@@ -103,7 +103,7 @@ bool compare_result(float *expect, float *result, std::vector<int> indices) {
 
 bool test_passed = true;
 
-const bool run_complex_datatype = false;
+const bool run_complex_datatype = true;
 
 // A * B = C
 //
@@ -348,16 +348,16 @@ void test_cusparseSpGEMM() {
   float expect_c_col_ind[7] = {0.000000, 1.000000, 2.000000, 3.000000, 2.000000, 3.000000, 0.000000};
   if (compare_result(expect_c_val, c_s_val.h_data, 7) &&
       compare_result(expect_c_val, c_d_val.h_data, 7) &&
-      /*compare_result(expect_c_val, c_c_val.h_data, 7) &&
-      compare_result(expect_c_val, c_z_val.h_data, 7) &&*/
+      compare_result(expect_c_val, c_c_val.h_data, 7) &&
+      compare_result(expect_c_val, c_z_val.h_data, 7) &&
       compare_result(expect_c_row_ptr, c_s_row_ptr.h_data, 4) &&
       compare_result(expect_c_row_ptr, c_d_row_ptr.h_data, 4) &&
-      /*compare_result(expect_c_row_ptr, c_c_row_ptr.h_data, 4) &&
-      compare_result(expect_c_row_ptr, c_z_row_ptr.h_data, 4) &&*/
+      compare_result(expect_c_row_ptr, c_c_row_ptr.h_data, 4) &&
+      compare_result(expect_c_row_ptr, c_z_row_ptr.h_data, 4) &&
       compare_result(expect_c_col_ind, c_s_col_ind.h_data, 7) &&
-      compare_result(expect_c_col_ind, c_d_col_ind.h_data, 7) /*&&
+      compare_result(expect_c_col_ind, c_d_col_ind.h_data, 7) &&
       compare_result(expect_c_col_ind, c_c_col_ind.h_data, 7) &&
-      compare_result(expect_c_col_ind, c_z_col_ind.h_data, 7)*/
+      compare_result(expect_c_col_ind, c_z_col_ind.h_data, 7)
     )
     printf("SpGEMM pass\n");
   else {
@@ -367,10 +367,7 @@ void test_cusparseSpGEMM() {
 }
 
 int main() {
-  // Re-enable below test until MKL issue fixed
-#ifndef DPCT_USM_LEVEL_NONE
   test_cusparseSpGEMM();
-#endif
 
   if (test_passed)
     return 0;

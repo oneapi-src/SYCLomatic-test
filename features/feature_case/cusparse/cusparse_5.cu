@@ -103,7 +103,7 @@ bool compare_result(float *expect, float *result, std::vector<int> indices) {
 
 bool test_passed = true;
 
-const bool run_complex_datatype = false;
+const bool run_complex_datatype = true;
 
 // A * C = B
 //
@@ -270,9 +270,9 @@ void test_cusparseSpSV() {
 
   float expect_c[4] = {1, 2, 3};
   if (compare_result(expect_c, c_s.h_data, 3) &&
-      compare_result(expect_c, c_d.h_data, 3)/*&&
+      compare_result(expect_c, c_d.h_data, 3) &&
       compare_result(expect_c, c_c.h_data, 3) &&
-      compare_result(expect_c, c_z.h_data, 3)*/)
+      compare_result(expect_c, c_z.h_data, 3))
     printf("SpSV pass\n");
   else {
     printf("SpSV fail\n");
@@ -281,10 +281,7 @@ void test_cusparseSpSV() {
 }
 
 int main() {
-  // Re-enable below test until MKL issue fixed
-#ifndef DPCT_USM_LEVEL_NONE
   test_cusparseSpSV();
-#endif
 
   if (test_passed)
     return 0;
