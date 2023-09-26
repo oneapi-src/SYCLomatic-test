@@ -45,6 +45,16 @@ void checkResult(const string &FuncName, const vector<float> &Inputs,
   check(abs(Result - Expect) < pow(10, -precision));
 }
 
+void checkResult(const string &FuncName, const vector<float> &Inputs,
+                 const bool &Expect, const bool &Result) {
+  cout << FuncName << "(" << Inputs[0];
+  for (size_t i = 1; i < Inputs.size(); ++i) {
+    cout << ", " << Inputs[i];
+  }
+  cout << ") = " << Result << " (expect " << Expect << ")";
+  check(Result == Expect);
+}
+
 void checkResult(const string &FuncName, const vector<__nv_bfloat16> &Inputs,
                  const __nv_bfloat16 &Expect, const float &Result,
                  const int precision) {
@@ -309,6 +319,348 @@ void testHsub_satCases(
     cudaDeviceSynchronize();
     checkResult("__hsub_sat", {TestCase.first.first, TestCase.first.second},
                 TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+// Bfloat16 Comparison Functions
+
+__global__ void heq(bool *const Result, __nv_bfloat16 Input1,
+                    __nv_bfloat16 Input2) {
+  *Result = __heq(Input1, Input2);
+}
+
+void testHeqCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    heq<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__heq", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
+  }
+}
+
+__global__ void hequ(bool *const Result, __nv_bfloat16 Input1,
+                     __nv_bfloat16 Input2) {
+  *Result = __hequ(Input1, Input2);
+}
+
+void testHequCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hequ<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hequ", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
+  }
+}
+
+__global__ void hge(bool *const Result, __nv_bfloat16 Input1,
+                    __nv_bfloat16 Input2) {
+  *Result = __hge(Input1, Input2);
+}
+
+void testHgeCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hge<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hge", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
+  }
+}
+
+__global__ void hgeu(bool *const Result, __nv_bfloat16 Input1,
+                     __nv_bfloat16 Input2) {
+  *Result = __hgeu(Input1, Input2);
+}
+
+void testHgeuCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hgeu<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hgeu", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
+  }
+}
+
+__global__ void hgt(bool *const Result, __nv_bfloat16 Input1,
+                    __nv_bfloat16 Input2) {
+  *Result = __hgt(Input1, Input2);
+}
+
+void testHgtCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hgt<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hgt", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
+  }
+}
+
+__global__ void hgtu(bool *const Result, __nv_bfloat16 Input1,
+                     __nv_bfloat16 Input2) {
+  *Result = __hgtu(Input1, Input2);
+}
+
+void testHgtuCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hgtu<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hgtu", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
+  }
+}
+
+__global__ void hisinf(bool *const Result, __nv_bfloat16 Input1) {
+  *Result = __hisinf(Input1);
+}
+
+void testHisinfCases(const vector<pair<__nv_bfloat16, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hisinf<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("__hisinf", {TestCase.first}, TestCase.second, *Result);
+  }
+}
+
+__global__ void hisnan(bool *const Result, __nv_bfloat16 Input1) {
+  *Result = __hisnan(Input1);
+}
+
+void testHisnanCases(const vector<pair<__nv_bfloat16, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hisnan<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("__hisnan", {TestCase.first}, TestCase.second, *Result);
+  }
+}
+
+__global__ void hle(bool *const Result, __nv_bfloat16 Input1,
+                    __nv_bfloat16 Input2) {
+  *Result = __hle(Input1, Input2);
+}
+
+void testHleCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hle<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hle", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
+  }
+}
+
+__global__ void hleu(bool *const Result, __nv_bfloat16 Input1,
+                     __nv_bfloat16 Input2) {
+  *Result = __hleu(Input1, Input2);
+}
+
+void testHleuCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hleu<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hleu", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
+  }
+}
+
+__global__ void hlt(bool *const Result, __nv_bfloat16 Input1,
+                    __nv_bfloat16 Input2) {
+  *Result = __hlt(Input1, Input2);
+}
+
+void testHltCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hlt<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hlt", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
+  }
+}
+
+__global__ void hltu(bool *const Result, __nv_bfloat16 Input1,
+                     __nv_bfloat16 Input2) {
+  *Result = __hltu(Input1, Input2);
+}
+
+void testHltuCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hltu<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hltu", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
+  }
+}
+
+__global__ void hmax(float *const Result, __nv_bfloat16 Input1,
+                     __nv_bfloat16 Input2) {
+  *Result = __hmax(Input1, Input2);
+}
+
+void testHmaxCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bf16i_pair>>
+        &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  // Boundary values.
+  hmax<<<1, 1>>>(Result, NAN, NAN);
+  cudaDeviceSynchronize();
+  cout << "__hmax(nan, nan) = " << *Result << " (expect nan)";
+  check(isnan(*Result));
+  for (const auto &TestCase : TestCases) {
+    hmax<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hmax", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void hmax_nan(float *const Result, __nv_bfloat16 Input1,
+                         __nv_bfloat16 Input2) {
+  *Result = __hmax_nan(Input1, Input2);
+}
+
+void testHmax_nanCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bf16i_pair>>
+        &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  // Boundary values.
+  hmax_nan<<<1, 1>>>(Result, NAN, NAN);
+  cudaDeviceSynchronize();
+  cout << "__hmax_nan(nan, nan) = " << *Result << " (expect nan)";
+  check(isnan(*Result));
+  hmax_nan<<<1, 1>>>(Result, NAN, 1);
+  cudaDeviceSynchronize();
+  cout << "__hmax_nan(nan, 1) = " << *Result << " (expect nan)";
+  check(isnan(*Result));
+  hmax_nan<<<1, 1>>>(Result, 1, NAN);
+  cudaDeviceSynchronize();
+  cout << "__hmax_nan(1, nan) = " << *Result << " (expect nan)";
+  check(isnan(*Result));
+  for (const auto &TestCase : TestCases) {
+    hmax_nan<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hmax_nan", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void hmin(float *const Result, __nv_bfloat16 Input1,
+                     __nv_bfloat16 Input2) {
+  *Result = __hmin(Input1, Input2);
+}
+
+void testHminCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bf16i_pair>>
+        &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  // Boundary values.
+  hmin<<<1, 1>>>(Result, NAN, NAN);
+  cudaDeviceSynchronize();
+  cout << "__hmin(nan, nan) = " << *Result << " (expect nan)";
+  check(isnan(*Result));
+  for (const auto &TestCase : TestCases) {
+    hmin<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hmin", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void hmin_nan(float *const Result, __nv_bfloat16 Input1,
+                         __nv_bfloat16 Input2) {
+  *Result = __hmin_nan(Input1, Input2);
+}
+
+void testHmin_nanCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bf16i_pair>>
+        &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  // Boundary values.
+  hmin_nan<<<1, 1>>>(Result, NAN, NAN);
+  cudaDeviceSynchronize();
+  cout << "__hmin_nan(nan, nan) = " << *Result << " (expect nan)";
+  check(isnan(*Result));
+  hmin_nan<<<1, 1>>>(Result, NAN, 1);
+  cudaDeviceSynchronize();
+  cout << "__hmin_nan(nan, 1) = " << *Result << " (expect nan)";
+  check(isnan(*Result));
+  hmin_nan<<<1, 1>>>(Result, 1, NAN);
+  cudaDeviceSynchronize();
+  cout << "__hmin_nan(1, nan) = " << *Result << " (expect nan)";
+  check(isnan(*Result));
+  for (const auto &TestCase : TestCases) {
+    hmin_nan<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hmin_nan", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void hne(bool *const Result, __nv_bfloat16 Input1,
+                    __nv_bfloat16 Input2) {
+  *Result = __hne(Input1, Input2);
+}
+
+void testHneCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hne<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hne", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
+  }
+}
+
+__global__ void hneu(bool *const Result, __nv_bfloat16 Input1,
+                     __nv_bfloat16 Input2) {
+  *Result = __hneu(Input1, Input2);
+}
+
+void testHneuCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hneu<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hneu", {TestCase.first.first, TestCase.first.second},
+                TestCase.second, *Result);
   }
 }
 
@@ -637,6 +989,128 @@ int main() {
       {{0.3, 0.4}, {0, 37}},
       {{0.3, -0.8}, {1, 15}},
       {{3, 4}, {0, 37}},
+  });
+  testHeqCases({
+      {{0, -0.4}, false},
+      {{0.7, 0.4}, false},
+      {{0.7, 0.7}, true},
+      {{1, 4}, false},
+      {{NAN, 1}, false},
+  });
+  testHequCases({
+      {{0, -0.4}, false},
+      {{0.7, 0.4}, false},
+      {{0.7, 0.7}, true},
+      {{1, 4}, false},
+      {{NAN, 1}, true},
+  });
+  testHgeCases({
+      {{0, -0.4}, true},
+      {{0.7, 0.4}, true},
+      {{0.7, 0.7}, true},
+      {{1, 4}, false},
+      {{NAN, 1}, false},
+  });
+  testHgeuCases({
+      {{0, -0.4}, true},
+      {{0.7, 0.4}, true},
+      {{0.7, 0.7}, true},
+      {{1, 4}, false},
+      {{NAN, 1}, true},
+  });
+  testHgtCases({
+      {{0, -0.4}, true},
+      {{0.7, 0.4}, true},
+      {{0.7, 0.7}, false},
+      {{1, 4}, false},
+      {{NAN, 1}, false},
+  });
+  testHgtuCases({
+      {{0, -0.4}, true},
+      {{0.7, 0.4}, true},
+      {{0.7, 0.7}, false},
+      {{1, 4}, false},
+      {{NAN, 1}, true},
+  });
+  testHisinfCases({
+      {-0.3, false},
+      {0.34, false},
+      {0.8, false},
+      {INFINITY, true},
+      {NAN, false},
+  });
+  testHisnanCases({
+      {-0.3, false},
+      {0.34, false},
+      {0.8, false},
+      {INFINITY, false},
+      {NAN, true},
+  });
+  testHleCases({
+      {{0, -0.4}, false},
+      {{0.7, 0.4}, false},
+      {{0.7, 0.7}, true},
+      {{1, 4}, true},
+      {{NAN, 1}, false},
+  });
+  testHleuCases({
+      {{0, -0.4}, false},
+      {{0.7, 0.4}, false},
+      {{0.7, 0.7}, true},
+      {{1, 4}, true},
+      {{NAN, 1}, true},
+  });
+  testHltCases({
+      {{0, -0.4}, false},
+      {{0.7, 0.4}, false},
+      {{0.7, 0.7}, false},
+      {{1, 4}, true},
+      {{NAN, 1}, false},
+  });
+  testHltuCases({
+      {{0, -0.4}, false},
+      {{0.7, 0.4}, false},
+      {{0.7, 0.7}, false},
+      {{1, 4}, true},
+      {{NAN, 1}, true},
+  });
+  testHmaxCases({
+      {{0, -0.4}, {0, 37}},
+      {{0.7, 0.7}, {0.69921875, 16}},
+      {{1, 4}, {4, 15}},
+      {{NAN, 1}, {1, 15}},
+      {{1, NAN}, {1, 15}},
+  });
+  testHmax_nanCases({
+      {{0, -0.4}, {0, 37}},
+      {{0.7, 0.7}, {0.69921875, 16}},
+      {{1, 4}, {4, 15}},
+  });
+  testHminCases({
+      {{0, -0.4}, {-0.400390625, 16}},
+      {{0.7, 0.7}, {0.69921875, 16}},
+      {{1, 4}, {1, 15}},
+      {{NAN, 1}, {1, 15}},
+      {{1, NAN}, {1, 15}},
+  });
+  testHmin_nanCases({
+      {{0, -0.4}, {-0.400390625, 16}},
+      {{0.7, 0.7}, {0.69921875, 16}},
+      {{1, 4}, {1, 15}},
+  });
+  testHneCases({
+      {{0, -0.4}, true},
+      {{0.7, 0.4}, true},
+      {{0.7, 0.7}, false},
+      {{1, 4}, true},
+      {{NAN, 1}, false},
+  });
+  testHneuCases({
+      {{0, -0.4}, true},
+      {{0.7, 0.4}, true},
+      {{0.7, 0.7}, false},
+      {{1, 4}, true},
+      {{NAN, 1}, true},
   });
   testHceilCases({
       {-0.3, {0, 37}},
