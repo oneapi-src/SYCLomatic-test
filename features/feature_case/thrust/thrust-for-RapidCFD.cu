@@ -11,6 +11,7 @@
 #include <thrust/host_vector.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <thrust/uninitialized_fill.h>
 // for cuda 12.0
 #include <thrust/extrema.h>
 #include <thrust/unique.h>
