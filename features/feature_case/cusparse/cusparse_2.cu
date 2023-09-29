@@ -103,7 +103,7 @@ bool compare_result(float *expect, float *result, std::vector<int> indices) {
 
 bool test_passed = true;
 
-const bool run_complex_datatype = false;
+const bool run_complex_datatype = true;
 
 void test_cusparseSetGetStream() {
   cusparseHandle_t handle;
@@ -619,9 +619,9 @@ void test_cusparseTcsrmv_mp() {
 
   float expect_c[4] = {90, 130, 730, 570};
   if (compare_result(expect_c, c_s.h_data, 4) &&
-      compare_result(expect_c, c_d.h_data, 4)/* &&
+      compare_result(expect_c, c_d.h_data, 4) &&
       compare_result(expect_c, c_c.h_data, 4) &&
-      compare_result(expect_c, c_z.h_data, 4)*/)
+      compare_result(expect_c, c_z.h_data, 4))
     printf("Tcsrmv_mp pass\n");
   else {
     printf("Tcsrmv_mp fail\n");
@@ -736,9 +736,9 @@ void test_cusparseCsrmvEx() {
 
   float expect_c[4] = {90, 130, 730, 570};
   if (compare_result(expect_c, c_s.h_data, 4) &&
-      compare_result(expect_c, c_d.h_data, 4)/* &&
+      compare_result(expect_c, c_d.h_data, 4) &&
       compare_result(expect_c, c_c.h_data, 4) &&
-      compare_result(expect_c, c_z.h_data, 4)*/)
+      compare_result(expect_c, c_z.h_data, 4))
     printf("CsrmvEx pass\n");
   else {
     printf("CsrmvEx fail\n");

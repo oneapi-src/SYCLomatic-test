@@ -1145,6 +1145,306 @@ void test_cusparseSpMM() {
   }
 }
 
+void test_cusparseTcsrmv_mp() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.in_order_queue();
+  std::vector<float> a_val_vec = {1, 4, 2, 3, 5, 7, 8, 9, 6};
+  Data<float> a_s_val(a_val_vec.data(), 9);
+  Data<double> a_d_val(a_val_vec.data(), 9);
+  Data<sycl::float2> a_c_val(a_val_vec.data(), 9);
+  Data<sycl::double2> a_z_val(a_val_vec.data(), 9);
+  std::vector<float> a_row_ptr_vec = {0, 2, 4, 7, 9};
+  Data<int> a_row_ptr(a_row_ptr_vec.data(), 5);
+  std::vector<float> a_col_ind_vec = {0, 1, 1, 2, 0, 3, 4, 2, 4};
+  Data<int> a_col_ind(a_col_ind_vec.data(), 9);
+
+  std::vector<float> b_vec = {1, 2, 3, 4, 5};
+  Data<float> b_s(b_vec.data(), 5);
+  Data<double> b_d(b_vec.data(), 5);
+  Data<sycl::float2> b_c(b_vec.data(), 5);
+  Data<sycl::double2> b_z(b_vec.data(), 5);
+
+  Data<float> c_s(4);
+  Data<double> c_d(4);
+  Data<sycl::float2> c_c(4);
+  Data<sycl::double2> c_z(4);
+
+  float alpha = 10;
+  Data<float> alpha_s(&alpha, 1);
+  Data<double> alpha_d(&alpha, 1);
+  Data<sycl::float2> alpha_c(&alpha, 1);
+  Data<sycl::double2> alpha_z(&alpha, 1);
+
+  float beta = 0;
+  Data<float> beta_s(&beta, 1);
+  Data<double> beta_d(&beta, 1);
+  Data<sycl::float2> beta_c(&beta, 1);
+  Data<sycl::double2> beta_z(&beta, 1);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  /*
+  DPCT1026:25: The call to cusparseSetPointerMode was removed because this call
+  is redundant in SYCL.
+  */
+
+  std::shared_ptr<dpct::sparse::matrix_info> descrA;
+  descrA = std::make_shared<dpct::sparse::matrix_info>();
+  descrA->set_index_base(oneapi::mkl::index_base::zero);
+  descrA->set_matrix_type(dpct::sparse::matrix_info::matrix_type::ge);
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_row_ptr.H2D();
+  a_col_ind.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+  alpha_s.H2D();
+  alpha_d.H2D();
+  alpha_c.H2D();
+  alpha_z.H2D();
+  beta_s.H2D();
+  beta_d.H2D();
+  beta_c.H2D();
+  beta_z.H2D();
+
+  /*
+  DPCT1045:26: Migration is only supported for this API for the
+  general/symmetric/triangular sparse matrix type. You may need to adjust the
+  code.
+  */
+  dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 5,
+                      (float *)alpha_s.d_data, descrA, (float *)a_s_val.d_data,
+                      (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data,
+                      (float *)b_s.d_data, (float *)beta_s.d_data,
+                      (float *)c_s.d_data);
+  /*
+  DPCT1045:27: Migration is only supported for this API for the
+  general/symmetric/triangular sparse matrix type. You may need to adjust the
+  code.
+  */
+  dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 5,
+                      (double *)alpha_d.d_data, descrA,
+                      (double *)a_d_val.d_data, (int *)a_row_ptr.d_data,
+                      (int *)a_col_ind.d_data, (double *)b_d.d_data,
+                      (double *)beta_d.d_data, (double *)c_d.d_data);
+  if (run_complex_datatype) {
+    /*
+    DPCT1045:29: Migration is only supported for this API for the
+    general/symmetric/triangular sparse matrix type. You may need to adjust the
+    code.
+    */
+    dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 5,
+                        (sycl::float2 *)alpha_c.d_data, descrA,
+                        (sycl::float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data,
+                        (int *)a_col_ind.d_data, (sycl::float2 *)b_c.d_data,
+                        (sycl::float2 *)beta_c.d_data,
+                        (sycl::float2 *)c_c.d_data);
+    /*
+    DPCT1045:30: Migration is only supported for this API for the
+    general/symmetric/triangular sparse matrix type. You may need to adjust the
+    code.
+    */
+    dpct::sparse::csrmv(
+        *handle, oneapi::mkl::transpose::nontrans, 4, 5,
+        (sycl::double2 *)alpha_z.d_data, descrA,
+        (sycl::double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data,
+        (int *)a_col_ind.d_data, (sycl::double2 *)b_z.d_data,
+        (sycl::double2 *)beta_z.d_data, (sycl::double2 *)c_z.d_data);
+  }
+
+  c_s.D2H();
+  c_d.D2H();
+  c_c.D2H();
+  c_z.D2H();
+
+  q_ct1.wait();
+  /*
+  DPCT1026:28: The call to cusparseDestroyMatDescr was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+
+  float expect_c[4] = {90, 130, 730, 570};
+  if (compare_result(expect_c, c_s.h_data, 4) &&
+      compare_result(expect_c, c_d.h_data, 4) &&
+      compare_result(expect_c, c_c.h_data, 4) &&
+      compare_result(expect_c, c_z.h_data, 4))
+    printf("Tcsrmv_mp pass\n");
+  else {
+    printf("Tcsrmv_mp fail\n");
+    test_passed = false;
+  }
+}
+
+void test_cusparseCsrmvEx() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.in_order_queue();
+  std::vector<float> a_val_vec = {1, 4, 2, 3, 5, 7, 8, 9, 6};
+  Data<float> a_s_val(a_val_vec.data(), 9);
+  Data<double> a_d_val(a_val_vec.data(), 9);
+  Data<sycl::float2> a_c_val(a_val_vec.data(), 9);
+  Data<sycl::double2> a_z_val(a_val_vec.data(), 9);
+  std::vector<float> a_row_ptr_vec = {0, 2, 4, 7, 9};
+  Data<int> a_row_ptr(a_row_ptr_vec.data(), 5);
+  std::vector<float> a_col_ind_vec = {0, 1, 1, 2, 0, 3, 4, 2, 4};
+  Data<int> a_col_ind(a_col_ind_vec.data(), 9);
+
+  std::vector<float> b_vec = {1, 2, 3, 4, 5};
+  Data<float> b_s(b_vec.data(), 5);
+  Data<double> b_d(b_vec.data(), 5);
+  Data<sycl::float2> b_c(b_vec.data(), 5);
+  Data<sycl::double2> b_z(b_vec.data(), 5);
+
+  Data<float> c_s(4);
+  Data<double> c_d(4);
+  Data<sycl::float2> c_c(4);
+  Data<sycl::double2> c_z(4);
+
+  float alpha = 10;
+  Data<float> alpha_s(&alpha, 1);
+  Data<double> alpha_d(&alpha, 1);
+  Data<sycl::float2> alpha_c(&alpha, 1);
+  Data<sycl::double2> alpha_z(&alpha, 1);
+
+  float beta = 0;
+  Data<float> beta_s(&beta, 1);
+  Data<double> beta_d(&beta, 1);
+  Data<sycl::float2> beta_c(&beta, 1);
+  Data<sycl::double2> beta_z(&beta, 1);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  /*
+  DPCT1026:31: The call to cusparseSetPointerMode was removed because this call
+  is redundant in SYCL.
+  */
+
+  std::shared_ptr<dpct::sparse::matrix_info> descrA;
+  descrA = std::make_shared<dpct::sparse::matrix_info>();
+  descrA->set_index_base(oneapi::mkl::index_base::zero);
+  descrA->set_matrix_type(dpct::sparse::matrix_info::matrix_type::ge);
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_row_ptr.H2D();
+  a_col_ind.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+  alpha_s.H2D();
+  alpha_d.H2D();
+  alpha_c.H2D();
+  alpha_z.H2D();
+  beta_s.H2D();
+  beta_d.H2D();
+  beta_c.H2D();
+  beta_z.H2D();
+
+  int alg;
+
+  size_t ws_size_s;
+  size_t ws_size_d;
+  size_t ws_size_c;
+  size_t ws_size_z;
+  /*
+  DPCT1026:32: The call to cusparseCsrmvEx_bufferSize was removed because this
+  call is redundant in SYCL.
+  */
+  /*
+  DPCT1026:33: The call to cusparseCsrmvEx_bufferSize was removed because this
+  call is redundant in SYCL.
+  */
+  if (run_complex_datatype) {
+    /*
+    DPCT1026:35: The call to cusparseCsrmvEx_bufferSize was removed because this
+    call is redundant in SYCL.
+    */
+    /*
+    DPCT1026:36: The call to cusparseCsrmvEx_bufferSize was removed because this
+    call is redundant in SYCL.
+    */
+  }
+
+  void *ws_s;
+  void *ws_d;
+  void *ws_c;
+  void *ws_z;
+  ws_s = (void *)sycl::malloc_device(ws_size_s, q_ct1);
+  ws_d = (void *)sycl::malloc_device(ws_size_d, q_ct1);
+  ws_c = (void *)sycl::malloc_device(ws_size_c, q_ct1);
+  ws_z = (void *)sycl::malloc_device(ws_size_z, q_ct1);
+
+  dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 5,
+                      alpha_s.d_data, dpct::library_data_t::real_float, descrA,
+                      a_s_val.d_data, dpct::library_data_t::real_float,
+                      (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data,
+                      b_s.d_data, dpct::library_data_t::real_float,
+                      beta_s.d_data, dpct::library_data_t::real_float,
+                      c_s.d_data, dpct::library_data_t::real_float);
+  dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 5,
+                      alpha_d.d_data, dpct::library_data_t::real_double, descrA,
+                      a_d_val.d_data, dpct::library_data_t::real_double,
+                      (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data,
+                      b_d.d_data, dpct::library_data_t::real_double,
+                      beta_d.d_data, dpct::library_data_t::real_double,
+                      c_d.d_data, dpct::library_data_t::real_double);
+  if (run_complex_datatype) {
+    dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 5,
+                        alpha_c.d_data, dpct::library_data_t::complex_float,
+                        descrA, a_c_val.d_data,
+                        dpct::library_data_t::complex_float,
+                        (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data,
+                        b_c.d_data, dpct::library_data_t::complex_float,
+                        beta_c.d_data, dpct::library_data_t::complex_float,
+                        c_c.d_data, dpct::library_data_t::complex_float);
+    dpct::sparse::csrmv(*handle, oneapi::mkl::transpose::nontrans, 4, 5,
+                        alpha_z.d_data, dpct::library_data_t::complex_double,
+                        descrA, a_z_val.d_data,
+                        dpct::library_data_t::complex_double,
+                        (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data,
+                        b_z.d_data, dpct::library_data_t::complex_double,
+                        beta_z.d_data, dpct::library_data_t::complex_double,
+                        c_z.d_data, dpct::library_data_t::complex_double);
+  }
+
+  c_s.D2H();
+  c_d.D2H();
+  c_c.D2H();
+  c_z.D2H();
+
+  sycl::free(ws_s, q_ct1);
+  sycl::free(ws_d, q_ct1);
+  sycl::free(ws_c, q_ct1);
+  sycl::free(ws_z, q_ct1);
+  q_ct1.wait();
+  /*
+  DPCT1026:34: The call to cusparseDestroyMatDescr was removed because this call
+  is redundant in SYCL.
+  */
+  handle = nullptr;
+
+  float expect_c[4] = {90, 130, 730, 570};
+  if (compare_result(expect_c, c_s.h_data, 4) &&
+      compare_result(expect_c, c_d.h_data, 4) &&
+      compare_result(expect_c, c_c.h_data, 4) &&
+      compare_result(expect_c, c_z.h_data, 4))
+    printf("CsrmvEx pass\n");
+  else {
+    printf("CsrmvEx fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_cusparseSetGetStream();
   test_cusparseTcsrmv_ge();
@@ -1154,6 +1454,8 @@ int main() {
   test_cusparseTcsrsv();
   test_cusparseSpMV();
   test_cusparseSpMM();
+  test_cusparseTcsrmv_mp();
+  test_cusparseCsrmvEx();
 
   if (test_passed)
     return 0;
