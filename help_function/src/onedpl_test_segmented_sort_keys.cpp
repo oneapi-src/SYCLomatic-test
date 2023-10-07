@@ -134,12 +134,7 @@ segmented_sort_keys(sycl::queue queue, int64_t nsegments, int64_t nsort,
         oneapi::dpl::execution::make_device_policy(queue), self_ptr, values_ptr,
         n, nsegments, offset_generator_starts, offset_generator_ends,
         descending, begin_bit, end_bit);
-  } else if (algorithm == 2) {
-    dpct::internal::segmented_sort_keys_by_two_pair_sorts(
-        oneapi::dpl::execution::make_device_policy(queue), self_ptr, values_ptr,
-        n, nsegments, offset_generator_starts, offset_generator_ends,
-        descending, begin_bit, end_bit);
-  } else if (algorithm == 3) // this will be the one used for the mapping,
+  } else if (algorithm == 2) // this will be the one used for the mapping,
                              // others are for timing purposes
   {
     if (use_io_iterator_pair)
@@ -170,8 +165,7 @@ segmented_sort_keys(sycl::queue queue, int64_t nsegments, int64_t nsort,
 // Algorithm:
 //   0: parallel_for of serial sorts
 //   1: for loop of parallel sorts
-//   2: segmented sort with 2 sorts
-//   3: let the device characteristics decide
+//   2: let the device characteristics decide
 template <typename scalar_t>
 int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
                                 const int64_t n, const bool descending,
@@ -184,7 +178,7 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
                    << (descending ? "descending" : "ascending") << " order"
                    << ::std::endl;
 
-  if (use_io_iterator_pair && algorithm != 3)
+  if (use_io_iterator_pair && algorithm != 2)
   {
     ::std::cout<<"io_iterator_pair interface only available with public dpct API"<<::std::endl;
     return 1;
@@ -271,8 +265,6 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
   } else if (alg == 1) {
     test_name_stream << "for loop of parallel sorts.";
   } else if (alg == 2) {
-    test_name_stream << "two full pair sorts.";
-  } else if (alg == 3) {
     test_name_stream << "algorithm based on device and data.";
   }
 
@@ -306,11 +298,7 @@ int test_with_device_offsets(bool descending, int algorithm) {
     dpct::internal::segmented_sort_keys_by_parallel_sorts(
         oneapi::dpl::execution::make_device_policy(q), d_keys, d_out_keys,
         num_items, num_segs, d_offsets, d_offsets + 1, descending);
-  } else if (algorithm == 2) {
-    dpct::internal::segmented_sort_keys_by_two_pair_sorts(
-        oneapi::dpl::execution::make_device_policy(q), d_keys, d_out_keys,
-        num_items, num_segs, d_offsets, d_offsets + 1, descending);
-  } else if (algorithm == 3) // this will be the one used for the mapping,
+  } else if (algorithm == 2) // this will be the one used for the mapping,
                              // others are for timing purposes
   {
     dpct::segmented_sort_keys(oneapi::dpl::execution::make_device_policy(q),
@@ -358,7 +346,7 @@ int test_with_device_offsets(bool descending, int algorithm) {
 int main() {
 
   int alg_start = 0;
-  int alg_end = 4;
+  int alg_end = 3;
   int test_suites_failed = 0;
     int64_t nsegments = 100;
     int64_t nsort = 100;

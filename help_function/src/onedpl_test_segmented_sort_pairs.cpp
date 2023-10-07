@@ -141,12 +141,7 @@ segmented_sort_pairs(sycl::queue queue, int64_t nsegments, int64_t nsort,
         oneapi::dpl::execution::make_device_policy(queue), self_ptr, values_ptr,
         reverse_indices_ptr, indices_ptr, n, nsegments, offset_generator_starts,
         offset_generator_ends, descending, begin_bit, end_bit);
-  } else if (algorithm == 2) {
-    dpct::internal::segmented_sort_pairs_by_two_pair_sorts(
-        oneapi::dpl::execution::make_device_policy(queue), self_ptr, values_ptr,
-        reverse_indices_ptr, indices_ptr, n, nsegments, offset_generator_starts,
-        offset_generator_ends, descending, begin_bit, end_bit);
-  } else if (algorithm == 3) // this will be the one used for the mapping,
+  } else if (algorithm == 2) // this will be the one used for the mapping,
                              // others are for timing purposes
   {
     if (use_io_iterator_pair)
@@ -305,8 +300,6 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
   } else if (alg == 1) {
     test_name_stream << "for loop of parallel sorts.";
   } else if (alg == 2) {
-    test_name_stream << "two full pair sorts.";
-  } else if (alg == 3) {
     test_name_stream << "algorithm based on device and data.";
   }
 
@@ -346,12 +339,7 @@ int test_with_device_offsets(bool descending, int algorithm) {
         oneapi::dpl::execution::make_device_policy(q), d_keys, d_out_keys,
         d_vals, d_out_vals, num_items, num_segs, d_offsets, d_offsets + 1,
         descending);
-  } else if (algorithm == 2) {
-    dpct::internal::segmented_sort_pairs_by_two_pair_sorts(
-        oneapi::dpl::execution::make_device_policy(q), d_keys, d_out_keys,
-        d_vals, d_out_vals, num_items, num_segs, d_offsets, d_offsets + 1,
-        descending);
-  } else if (algorithm == 3) // this will be the one used for the mapping,
+  } else if (algorithm == 2) // this will be the one used for the mapping,
                              // others are for timing purposes
   {
     dpct::segmented_sort_pairs(oneapi::dpl::execution::make_device_policy(q),
@@ -419,7 +407,7 @@ int test_with_device_offsets(bool descending, int algorithm) {
 int main() {
 
   int alg_start = 0;
-  int alg_end = 4;
+  int alg_end = 3;
   int test_suites_failed = 0;
     int64_t nsegments = 100;
     int64_t nsort = 100;
