@@ -190,7 +190,7 @@ int test_with_generated_offsets(const int64_t nsegments, const int64_t nsort,
                    << (descending ? "descending" : "ascending") << " order"
                    << std::endl;
 
-  if (use_io_iterator_pair && algorithm != 3)
+  if (use_io_iterator_pair && algorithm != 2)
   {
     std::cout<<"io_iterator_pair interface only available with public dpct API"<<std::endl;
     return 1;
@@ -430,7 +430,7 @@ int main() {
   {
     //test with io_iterator_pair
     int tests_failed = 0;
-    tests_failed += test_with_generated_offsets<float>(nsegments, nsort, n, false, 3, true);
+    tests_failed += test_with_generated_offsets<float>(nsegments, nsort, n, false, 2, true);
   
       test_suites_failed +=
           test_passed(tests_failed, "Test segmented sort with io_iterator_pair");

@@ -369,7 +369,7 @@ int main() {
   {
     //test with io_iterator_pair
     int tests_failed = 0;
-    tests_failed += test_with_generated_offsets<float>(nsegments, nsort, n, false, 3, true);
+    tests_failed += test_with_generated_offsets<float>(nsegments, nsort, n, false, 2, true);
   
       test_suites_failed +=
           test_passed(tests_failed, "Test segmented sort with io_iterator_pair");
