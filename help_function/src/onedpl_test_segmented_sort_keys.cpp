@@ -109,7 +109,7 @@ segmented_sort_keys(sycl::queue queue, int64_t nsegments, int64_t nsort,
                      bool use_io_iterator_pair = false, int begin_bit = 0,
                      int end_bit = sizeof(self_ptr) * 8) {
   bool ret = true;
-  if (use_io_iterator_pair && algorithm != 3)
+  if (use_io_iterator_pair && algorithm != 2)
   {
     //only public API can use io_iterator_pair
     return false;
