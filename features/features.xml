@@ -107,6 +107,7 @@
     <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml"  splitGroup="double" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-emu-bf16" configFile="config/TEMPLATE_math_after_11.xml" />
+    <test testName="math-emu-bf162-after12" configFile="config/TEMPLATE_math_after_12.xml" />
     <test testName="math-emu-bf162" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-emu-double" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-emu-float" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>

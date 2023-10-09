@@ -45,6 +45,16 @@ void checkResult(const string &FuncName, const vector<float> &Inputs,
   check(abs(Result - Expect) < pow(10, -precision));
 }
 
+void checkResult(const string &FuncName, const vector<float> &Inputs,
+                 const bool &Expect, const bool &Result) {
+  cout << FuncName << "(" << Inputs[0];
+  for (size_t i = 1; i < Inputs.size(); ++i) {
+    cout << ", " << Inputs[i];
+  }
+  cout << ") = " << Result << " (expect " << Expect << ")";
+  check(Result == Expect);
+}
+
 void checkResult(const string &FuncName, const vector<__nv_bfloat16> &Inputs,
                  const __nv_bfloat16 &Expect, const float &Result,
                  const int precision) {
@@ -137,6 +147,68 @@ void testHfma_satCases(const vector<pair<bf16_vector, bf16i_pair>> &TestCases) {
       cout << " ---- failed" << endl;
       return;
     }
+  }
+}
+
+// Bfloat16 Comparison Functions
+
+__global__ void hisnan(bool *const Result, __nv_bfloat16 Input1) {
+  *Result = __hisnan(Input1);
+}
+
+void testHisnanCases(const vector<pair<__nv_bfloat16, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hisnan<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("__hisnan", {TestCase.first}, TestCase.second, *Result);
+  }
+}
+
+__global__ void hmax(float *const Result, __nv_bfloat16 Input1,
+                     __nv_bfloat16 Input2) {
+  *Result = __hmax(Input1, Input2);
+}
+
+void testHmaxCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bf16i_pair>>
+        &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  // Boundary values.
+  hmax<<<1, 1>>>(Result, NAN, NAN);
+  cudaDeviceSynchronize();
+  cout << "__hmax(nan, nan) = " << *Result << " (expect nan)";
+  check(isnan(*Result));
+  for (const auto &TestCase : TestCases) {
+    hmax<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hmax", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void hmin(float *const Result, __nv_bfloat16 Input1,
+                     __nv_bfloat16 Input2) {
+  *Result = __hmin(Input1, Input2);
+}
+
+void testHminCases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, bf16i_pair>>
+        &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  // Boundary values.
+  hmin<<<1, 1>>>(Result, NAN, NAN);
+  cudaDeviceSynchronize();
+  cout << "__hmin(nan, nan) = " << *Result << " (expect nan)";
+  check(isnan(*Result));
+  for (const auto &TestCase : TestCases) {
+    hmin<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hmin", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
   }
 }
 
@@ -380,6 +452,27 @@ int main() {
       {{0.3, 0.4, 0.1}, {0.220703125, 16}},
       {{0.3, 0.4, 0}, {0.12060546875, 17}},
       {{3, 4, 5}, {1, 15}},
+  });
+  testHisnanCases({
+      {-0.3, false},
+      {0.34, false},
+      {0.8, false},
+      {INFINITY, false},
+      {NAN, true},
+  });
+  testHmaxCases({
+      {{0, -0.4}, {0, 37}},
+      {{0.7, 0.7}, {0.69921875, 16}},
+      {{1, 4}, {4, 15}},
+      {{NAN, 1}, {1, 15}},
+      {{1, NAN}, {1, 15}},
+  });
+  testHminCases({
+      {{0, -0.4}, {-0.400390625, 16}},
+      {{0.7, 0.7}, {0.69921875, 16}},
+      {{1, 4}, {1, 15}},
+      {{NAN, 1}, {1, 15}},
+      {{1, NAN}, {1, 15}},
   });
   testHceilCases({
       {-0.3, {0, 37}},
