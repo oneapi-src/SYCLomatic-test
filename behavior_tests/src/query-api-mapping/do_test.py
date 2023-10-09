@@ -22,6 +22,21 @@ def check(expect):
     return True
 
 
+def test_auto_complete(api_name):
+    call_subprocess(
+        test_config.CT_TOOL
+        + " --cuda-include-path="
+        + test_config.include_path
+        + " --query-api-mapping=-"
+    )
+    if api_name not in test_config.command_output:
+        print("error message check failed:\n", api_name)
+        print("output:\n", test_config.command_output, "===end===\n")
+        return False
+    print("auto complete check passed:", api_name)
+    return True
+
+
 def test_api(api_name, source_code, options, migrated_code):
     call_subprocess(
         test_config.CT_TOOL
@@ -180,6 +195,7 @@ def migrate_test():
 
     res = True
     for test_case in test_cases:
+        res = res and test_auto_complete(test_case[0])
         res = res and test_api(test_case[0], test_case[1], test_case[2], test_case[3])
     res = res and test_error()
     return res
