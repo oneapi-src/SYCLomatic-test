@@ -1445,6 +1445,644 @@ void test_cusparseCsrmvEx() {
   }
 }
 
+// A * B = C
+//
+// | 0 1 2 |   | 1 0 0 0 |   | 2 3 10 12 |  
+// | 0 0 3 | * | 2 3 0 0 | = | 0 0 15 18 |
+// | 4 0 0 |   | 0 0 5 6 |   | 4 0 0  0  |
+void test_cusparseSpGEMM() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.in_order_queue();
+  std::vector<float> a_val_vec = {1, 2, 3, 4};
+  Data<float> a_s_val(a_val_vec.data(), 4);
+  Data<double> a_d_val(a_val_vec.data(), 4);
+  Data<sycl::float2> a_c_val(a_val_vec.data(), 4);
+  Data<sycl::double2> a_z_val(a_val_vec.data(), 4);
+  std::vector<float> a_row_ptr_vec = {0, 2, 3, 4};
+  Data<int> a_row_ptr(a_row_ptr_vec.data(), 4);
+  std::vector<float> a_col_ind_vec = {1, 2, 2, 0};
+  Data<int> a_col_ind(a_col_ind_vec.data(), 4);
+
+  std::vector<float> b_val_vec = {1, 2, 3, 5, 6};
+  Data<float> b_s_val(b_val_vec.data(), 5);
+  Data<double> b_d_val(b_val_vec.data(), 5);
+  Data<sycl::float2> b_c_val(b_val_vec.data(), 5);
+  Data<sycl::double2> b_z_val(b_val_vec.data(), 5);
+  std::vector<float> b_row_ptr_vec = {0, 1, 3, 5};
+  Data<int> b_row_ptr(b_row_ptr_vec.data(), 4);
+  std::vector<float> b_col_ind_vec = {0, 0, 1, 2, 3};
+  Data<int> b_col_ind(b_col_ind_vec.data(), 5);
+
+  float alpha = 1;
+  Data<float> alpha_s(&alpha, 1);
+  Data<double> alpha_d(&alpha, 1);
+  Data<sycl::float2> alpha_c(&alpha, 1);
+  Data<sycl::double2> alpha_z(&alpha, 1);
+
+  float beta = 0;
+  Data<float> beta_s(&beta, 1);
+  Data<double> beta_d(&beta, 1);
+  Data<sycl::float2> beta_c(&beta, 1);
+  Data<sycl::double2> beta_z(&beta, 1);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  /*
+  DPCT1026:0: The call to cusparseSetPointerMode was removed because this call
+  is redundant in SYCL.
+  */
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_row_ptr.H2D();
+  a_col_ind.H2D();
+  b_s_val.H2D();
+  b_d_val.H2D();
+  b_c_val.H2D();
+  b_z_val.H2D();
+  b_row_ptr.H2D();
+  b_col_ind.H2D();
+  alpha_s.H2D();
+  alpha_d.H2D();
+  alpha_c.H2D();
+  alpha_z.H2D();
+  beta_s.H2D();
+  beta_d.H2D();
+  beta_c.H2D();
+  beta_z.H2D();
+
+  dpct::sparse::sparse_matrix_desc_t a_descr_s;
+  dpct::sparse::sparse_matrix_desc_t a_descr_d;
+  dpct::sparse::sparse_matrix_desc_t a_descr_c;
+  dpct::sparse::sparse_matrix_desc_t a_descr_z;
+  a_descr_s = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 3, 4, a_row_ptr.d_data, a_col_ind.d_data, a_s_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_float,
+      dpct::sparse::matrix_format::csr);
+  a_descr_d = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 3, 4, a_row_ptr.d_data, a_col_ind.d_data, a_d_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_double,
+      dpct::sparse::matrix_format::csr);
+  a_descr_c = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 3, 4, a_row_ptr.d_data, a_col_ind.d_data, a_c_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_float,
+      dpct::sparse::matrix_format::csr);
+  a_descr_z = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 3, 4, a_row_ptr.d_data, a_col_ind.d_data, a_z_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_double,
+      dpct::sparse::matrix_format::csr);
+
+  dpct::sparse::sparse_matrix_desc_t b_descr_s;
+  dpct::sparse::sparse_matrix_desc_t b_descr_d;
+  dpct::sparse::sparse_matrix_desc_t b_descr_c;
+  dpct::sparse::sparse_matrix_desc_t b_descr_z;
+  b_descr_s = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 4, 5, b_row_ptr.d_data, b_col_ind.d_data, b_s_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_float,
+      dpct::sparse::matrix_format::csr);
+  b_descr_d = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 4, 5, b_row_ptr.d_data, b_col_ind.d_data, b_d_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_double,
+      dpct::sparse::matrix_format::csr);
+  b_descr_c = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 4, 5, b_row_ptr.d_data, b_col_ind.d_data, b_c_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_float,
+      dpct::sparse::matrix_format::csr);
+  b_descr_z = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 4, 5, b_row_ptr.d_data, b_col_ind.d_data, b_z_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_double,
+      dpct::sparse::matrix_format::csr);
+
+  Data<int> c_s_row_ptr(4);
+  Data<int> c_d_row_ptr(4);
+  Data<int> c_c_row_ptr(4);
+  Data<int> c_z_row_ptr(4);
+
+  dpct::sparse::sparse_matrix_desc_t c_descr_s;
+  dpct::sparse::sparse_matrix_desc_t c_descr_d;
+  dpct::sparse::sparse_matrix_desc_t c_descr_c;
+  dpct::sparse::sparse_matrix_desc_t c_descr_z;
+  c_descr_s = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 4, 0, c_s_row_ptr.d_data, nullptr, nullptr,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_float,
+      dpct::sparse::matrix_format::csr);
+  c_descr_d = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 4, 0, c_d_row_ptr.d_data, nullptr, nullptr,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_double,
+      dpct::sparse::matrix_format::csr);
+  c_descr_c = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 4, 0, c_c_row_ptr.d_data, nullptr, nullptr,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_float,
+      dpct::sparse::matrix_format::csr);
+  c_descr_z = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 4, 0, c_z_row_ptr.d_data, nullptr, nullptr,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_double,
+      dpct::sparse::matrix_format::csr);
+
+  oneapi::mkl::sparse::matmat_descr_t SpGEMMDescr_s;
+  oneapi::mkl::sparse::matmat_descr_t SpGEMMDescr_d;
+  oneapi::mkl::sparse::matmat_descr_t SpGEMMDescr_c;
+  oneapi::mkl::sparse::matmat_descr_t SpGEMMDescr_z;
+  oneapi::mkl::sparse::init_matmat_descr(&SpGEMMDescr_s);
+  oneapi::mkl::sparse::init_matmat_descr(&SpGEMMDescr_d);
+  oneapi::mkl::sparse::init_matmat_descr(&SpGEMMDescr_c);
+  oneapi::mkl::sparse::init_matmat_descr(&SpGEMMDescr_z);
+
+  size_t ws_1_size_s = 0;
+  size_t ws_1_size_d = 0;
+  size_t ws_1_size_c = 0;
+  size_t ws_1_size_z = 0;
+  dpct::sparse::spgemm_work_estimation(
+      *handle, oneapi::mkl::transpose::nontrans,
+      oneapi::mkl::transpose::nontrans, alpha_s.d_data, a_descr_s, b_descr_s,
+      beta_s.d_data, c_descr_s, SpGEMMDescr_s, &ws_1_size_s, NULL);
+  dpct::sparse::spgemm_work_estimation(
+      *handle, oneapi::mkl::transpose::nontrans,
+      oneapi::mkl::transpose::nontrans, alpha_d.d_data, a_descr_d, b_descr_d,
+      beta_d.d_data, c_descr_d, SpGEMMDescr_d, &ws_1_size_d, NULL);
+  if (run_complex_datatype) {
+    dpct::sparse::spgemm_work_estimation(
+        *handle, oneapi::mkl::transpose::nontrans,
+        oneapi::mkl::transpose::nontrans, alpha_c.d_data, a_descr_c, b_descr_c,
+        beta_c.d_data, c_descr_c, SpGEMMDescr_c, &ws_1_size_c, NULL);
+    dpct::sparse::spgemm_work_estimation(
+        *handle, oneapi::mkl::transpose::nontrans,
+        oneapi::mkl::transpose::nontrans, alpha_z.d_data, a_descr_z, b_descr_z,
+        beta_z.d_data, c_descr_z, SpGEMMDescr_z, &ws_1_size_z, NULL);
+  }
+
+  void *ws_1_s;
+  void *ws_1_d;
+  void *ws_1_c;
+  void *ws_1_z;
+  ws_1_s = (void *)sycl::malloc_device(ws_1_size_s, q_ct1);
+  ws_1_d = (void *)sycl::malloc_device(ws_1_size_d, q_ct1);
+  ws_1_c = (void *)sycl::malloc_device(ws_1_size_c, q_ct1);
+  ws_1_z = (void *)sycl::malloc_device(ws_1_size_z, q_ct1);
+
+  dpct::sparse::spgemm_work_estimation(
+      *handle, oneapi::mkl::transpose::nontrans,
+      oneapi::mkl::transpose::nontrans, alpha_s.d_data, a_descr_s, b_descr_s,
+      beta_s.d_data, c_descr_s, SpGEMMDescr_s, &ws_1_size_s, ws_1_s);
+  dpct::sparse::spgemm_work_estimation(
+      *handle, oneapi::mkl::transpose::nontrans,
+      oneapi::mkl::transpose::nontrans, alpha_d.d_data, a_descr_d, b_descr_d,
+      beta_d.d_data, c_descr_d, SpGEMMDescr_d, &ws_1_size_d, ws_1_d);
+  if (run_complex_datatype) {
+    dpct::sparse::spgemm_work_estimation(
+        *handle, oneapi::mkl::transpose::nontrans,
+        oneapi::mkl::transpose::nontrans, alpha_c.d_data, a_descr_c, b_descr_c,
+        beta_c.d_data, c_descr_c, SpGEMMDescr_c, &ws_1_size_c, ws_1_c);
+    dpct::sparse::spgemm_work_estimation(
+        *handle, oneapi::mkl::transpose::nontrans,
+        oneapi::mkl::transpose::nontrans, alpha_z.d_data, a_descr_z, b_descr_z,
+        beta_z.d_data, c_descr_z, SpGEMMDescr_z, &ws_1_size_z, ws_1_z);
+  }
+
+  size_t ws_2_size_s = 0;
+  size_t ws_2_size_d = 0;
+  size_t ws_2_size_c = 0;
+  size_t ws_2_size_z = 0;
+  dpct::sparse::spgemm_compute(*handle, oneapi::mkl::transpose::nontrans,
+                               oneapi::mkl::transpose::nontrans, alpha_s.d_data,
+                               a_descr_s, b_descr_s, beta_s.d_data, c_descr_s,
+                               SpGEMMDescr_s, &ws_2_size_s, NULL);
+  dpct::sparse::spgemm_compute(*handle, oneapi::mkl::transpose::nontrans,
+                               oneapi::mkl::transpose::nontrans, alpha_d.d_data,
+                               a_descr_d, b_descr_d, beta_d.d_data, c_descr_d,
+                               SpGEMMDescr_d, &ws_2_size_d, NULL);
+  if (run_complex_datatype) {
+    dpct::sparse::spgemm_compute(
+        *handle, oneapi::mkl::transpose::nontrans,
+        oneapi::mkl::transpose::nontrans, alpha_c.d_data, a_descr_c, b_descr_c,
+        beta_c.d_data, c_descr_c, SpGEMMDescr_c, &ws_2_size_c, NULL);
+    dpct::sparse::spgemm_compute(
+        *handle, oneapi::mkl::transpose::nontrans,
+        oneapi::mkl::transpose::nontrans, alpha_z.d_data, a_descr_z, b_descr_z,
+        beta_z.d_data, c_descr_z, SpGEMMDescr_z, &ws_2_size_z, NULL);
+  }
+
+  void *ws_2_s;
+  void *ws_2_d;
+  void *ws_2_c;
+  void *ws_2_z;
+  ws_2_s = (void *)sycl::malloc_device(ws_2_size_s, q_ct1);
+  ws_2_d = (void *)sycl::malloc_device(ws_2_size_d, q_ct1);
+  ws_2_c = (void *)sycl::malloc_device(ws_2_size_c, q_ct1);
+  ws_2_z = (void *)sycl::malloc_device(ws_2_size_z, q_ct1);
+
+  dpct::sparse::spgemm_compute(*handle, oneapi::mkl::transpose::nontrans,
+                               oneapi::mkl::transpose::nontrans, alpha_s.d_data,
+                               a_descr_s, b_descr_s, beta_s.d_data, c_descr_s,
+                               SpGEMMDescr_s, &ws_2_size_s, ws_2_s);
+  dpct::sparse::spgemm_compute(*handle, oneapi::mkl::transpose::nontrans,
+                               oneapi::mkl::transpose::nontrans, alpha_d.d_data,
+                               a_descr_d, b_descr_d, beta_d.d_data, c_descr_d,
+                               SpGEMMDescr_d, &ws_2_size_d, ws_2_d);
+  if (run_complex_datatype) {
+    dpct::sparse::spgemm_compute(
+        *handle, oneapi::mkl::transpose::nontrans,
+        oneapi::mkl::transpose::nontrans, alpha_c.d_data, a_descr_c, b_descr_c,
+        beta_c.d_data, c_descr_c, SpGEMMDescr_c, &ws_2_size_c, ws_2_c);
+    dpct::sparse::spgemm_compute(
+        *handle, oneapi::mkl::transpose::nontrans,
+        oneapi::mkl::transpose::nontrans, alpha_z.d_data, a_descr_z, b_descr_z,
+        beta_z.d_data, c_descr_z, SpGEMMDescr_z, &ws_2_size_z, ws_2_z);
+  }
+
+  int64_t c_row_s;
+  int64_t c_row_d;
+  int64_t c_row_c;
+  int64_t c_row_z;
+  int64_t c_col_s;
+  int64_t c_col_d;
+  int64_t c_col_c;
+  int64_t c_col_z;
+  int64_t c_nnz_s;
+  int64_t c_nnz_d;
+  int64_t c_nnz_c;
+  int64_t c_nnz_z;
+  c_descr_s->get_size(&c_row_s, &c_col_s, &c_nnz_s);
+  c_descr_d->get_size(&c_row_d, &c_col_d, &c_nnz_d);
+  c_descr_c->get_size(&c_row_c, &c_col_c, &c_nnz_c);
+  c_descr_z->get_size(&c_row_z, &c_col_z, &c_nnz_z);
+
+  Data<float> c_s_val(c_nnz_s);
+  Data<double> c_d_val(c_nnz_d);
+  Data<sycl::float2> c_c_val(c_nnz_c);
+  Data<sycl::double2> c_z_val(c_nnz_z);
+  Data<int> c_s_col_ind(c_nnz_s);
+  Data<int> c_d_col_ind(c_nnz_d);
+  Data<int> c_c_col_ind(c_nnz_c);
+  Data<int> c_z_col_ind(c_nnz_z);
+
+  c_descr_s->set_pointers(c_s_row_ptr.d_data, c_s_col_ind.d_data,
+                          c_s_val.d_data);
+  c_descr_d->set_pointers(c_d_row_ptr.d_data, c_d_col_ind.d_data,
+                          c_d_val.d_data);
+  c_descr_c->set_pointers(c_c_row_ptr.d_data, c_c_col_ind.d_data,
+                          c_c_val.d_data);
+  c_descr_z->set_pointers(c_z_row_ptr.d_data, c_z_col_ind.d_data,
+                          c_z_val.d_data);
+
+  dpct::sparse::spgemm_finalize(*handle, oneapi::mkl::transpose::nontrans,
+                                oneapi::mkl::transpose::nontrans,
+                                alpha_s.d_data, a_descr_s, b_descr_s,
+                                beta_s.d_data, c_descr_s, SpGEMMDescr_s);
+  dpct::sparse::spgemm_finalize(*handle, oneapi::mkl::transpose::nontrans,
+                                oneapi::mkl::transpose::nontrans,
+                                alpha_d.d_data, a_descr_d, b_descr_d,
+                                beta_d.d_data, c_descr_d, SpGEMMDescr_d);
+  if (run_complex_datatype) {
+    dpct::sparse::spgemm_finalize(*handle, oneapi::mkl::transpose::nontrans,
+                                  oneapi::mkl::transpose::nontrans,
+                                  alpha_c.d_data, a_descr_c, b_descr_c,
+                                  beta_c.d_data, c_descr_c, SpGEMMDescr_c);
+    dpct::sparse::spgemm_finalize(*handle, oneapi::mkl::transpose::nontrans,
+                                  oneapi::mkl::transpose::nontrans,
+                                  alpha_z.d_data, a_descr_z, b_descr_z,
+                                  beta_z.d_data, c_descr_z, SpGEMMDescr_z);
+  }
+
+  q_ct1.wait();
+
+  sycl::free(ws_1_s, q_ct1);
+  sycl::free(ws_1_d, q_ct1);
+  sycl::free(ws_1_c, q_ct1);
+  sycl::free(ws_1_z, q_ct1);
+  sycl::free(ws_2_s, q_ct1);
+  sycl::free(ws_2_d, q_ct1);
+  sycl::free(ws_2_c, q_ct1);
+  sycl::free(ws_2_z, q_ct1);
+  a_descr_s.reset();
+  a_descr_d.reset();
+  a_descr_c.reset();
+  a_descr_z.reset();
+  b_descr_s.reset();
+  b_descr_d.reset();
+  b_descr_c.reset();
+  b_descr_z.reset();
+  c_descr_s.reset();
+  c_descr_d.reset();
+  c_descr_c.reset();
+  c_descr_z.reset();
+  oneapi::mkl::sparse::release_matmat_descr(&SpGEMMDescr_s);
+  oneapi::mkl::sparse::release_matmat_descr(&SpGEMMDescr_d);
+  oneapi::mkl::sparse::release_matmat_descr(&SpGEMMDescr_c);
+  oneapi::mkl::sparse::release_matmat_descr(&SpGEMMDescr_z);
+  handle = nullptr;
+
+  c_s_val.D2H();
+  c_d_val.D2H();
+  c_c_val.D2H();
+  c_z_val.D2H();
+  c_s_row_ptr.D2H();
+  c_d_row_ptr.D2H();
+  c_c_row_ptr.D2H();
+  c_z_row_ptr.D2H();
+  c_s_col_ind.D2H();
+  c_d_col_ind.D2H();
+  c_c_col_ind.D2H();
+  c_z_col_ind.D2H();
+
+  float expect_c_val[7] = {2.000000, 3.000000, 10.000000, 12.000000, 15.000000, 18.000000, 4.000000};
+  float expect_c_row_ptr[4] = {0.000000, 4.000000, 6.000000, 7.000000};
+  float expect_c_col_ind[7] = {0.000000, 1.000000, 2.000000, 3.000000, 2.000000, 3.000000, 0.000000};
+  if (compare_result(expect_c_val, c_s_val.h_data, 7) &&
+      compare_result(expect_c_val, c_d_val.h_data, 7) &&
+      compare_result(expect_c_val, c_c_val.h_data, 7) &&
+      compare_result(expect_c_val, c_z_val.h_data, 7) &&
+      compare_result(expect_c_row_ptr, c_s_row_ptr.h_data, 4) &&
+      compare_result(expect_c_row_ptr, c_d_row_ptr.h_data, 4) &&
+      compare_result(expect_c_row_ptr, c_c_row_ptr.h_data, 4) &&
+      compare_result(expect_c_row_ptr, c_z_row_ptr.h_data, 4) &&
+      compare_result(expect_c_col_ind, c_s_col_ind.h_data, 7) &&
+      compare_result(expect_c_col_ind, c_d_col_ind.h_data, 7) &&
+      compare_result(expect_c_col_ind, c_c_col_ind.h_data, 7) &&
+      compare_result(expect_c_col_ind, c_z_col_ind.h_data, 7)
+    )
+    printf("SpGEMM pass\n");
+  else {
+    printf("SpGEMM fail\n");
+    test_passed = false;
+  }
+}
+
+// A * C = B
+//
+// | 1 1 2 |   | 1 |   | 9  |  
+// | 0 1 3 | * | 2 | = | 11 |
+// | 0 0 1 |   | 3 |   | 3  |
+void test_cusparseSpSV() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.default_queue();
+  std::vector<float> a_val_vec = {1, 1, 2, 1, 3, 1};
+  Data<float> a_s_val(a_val_vec.data(), 6);
+  Data<double> a_d_val(a_val_vec.data(), 6);
+  Data<sycl::float2> a_c_val(a_val_vec.data(), 6);
+  Data<sycl::double2> a_z_val(a_val_vec.data(), 6);
+  std::vector<float> a_row_ptr_vec = {0, 3, 5, 6};
+  Data<int> a_row_ptr(a_row_ptr_vec.data(), 4);
+  std::vector<float> a_col_ind_vec = {0, 1, 2, 1, 2, 3};
+  Data<int> a_col_ind(a_col_ind_vec.data(), 6);
+
+  std::vector<float> b_vec = {9, 11, 3};
+  Data<float> b_s(b_vec.data(), 3);
+  Data<double> b_d(b_vec.data(), 3);
+  Data<sycl::float2> b_c(b_vec.data(), 3);
+  Data<sycl::double2> b_z(b_vec.data(), 3);
+
+  Data<float> c_s(3);
+  Data<double> c_d(3);
+  Data<sycl::float2> c_c(3);
+  Data<sycl::double2> c_z(3);
+
+  float alpha = 1;
+  Data<float> alpha_s(&alpha, 1);
+  Data<double> alpha_d(&alpha, 1);
+  Data<sycl::float2> alpha_c(&alpha, 1);
+  Data<sycl::double2> alpha_z(&alpha, 1);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  /*
+  DPCT1026:1: The call to cusparseSetPointerMode was removed because this call
+  is redundant in SYCL.
+  */
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_row_ptr.H2D();
+  a_col_ind.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+  alpha_s.H2D();
+  alpha_d.H2D();
+  alpha_c.H2D();
+  alpha_z.H2D();
+
+  dpct::sparse::sparse_matrix_desc_t a_descr_s;
+  dpct::sparse::sparse_matrix_desc_t a_descr_d;
+  dpct::sparse::sparse_matrix_desc_t a_descr_c;
+  dpct::sparse::sparse_matrix_desc_t a_descr_z;
+  a_descr_s = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 3, 4, a_row_ptr.d_data, a_col_ind.d_data, a_s_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_float,
+      dpct::sparse::matrix_format::csr);
+  a_descr_d = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 3, 4, a_row_ptr.d_data, a_col_ind.d_data, a_d_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::real_double,
+      dpct::sparse::matrix_format::csr);
+  a_descr_c = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 3, 4, a_row_ptr.d_data, a_col_ind.d_data, a_c_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_float,
+      dpct::sparse::matrix_format::csr);
+  a_descr_z = std::make_shared<dpct::sparse::sparse_matrix_desc>(
+      3, 3, 4, a_row_ptr.d_data, a_col_ind.d_data, a_z_val.d_data,
+      dpct::library_data_t::real_int32, dpct::library_data_t::real_int32,
+      oneapi::mkl::index_base::zero, dpct::library_data_t::complex_double,
+      dpct::sparse::matrix_format::csr);
+
+  std::shared_ptr<dpct::sparse::dense_vector_desc> b_descr_s;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> b_descr_d;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> b_descr_c;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> b_descr_z;
+  b_descr_s = std::make_shared<dpct::sparse::dense_vector_desc>(
+      3, b_s.d_data, dpct::library_data_t::real_float);
+  b_descr_d = std::make_shared<dpct::sparse::dense_vector_desc>(
+      3, b_d.d_data, dpct::library_data_t::real_double);
+  b_descr_c = std::make_shared<dpct::sparse::dense_vector_desc>(
+      3, b_c.d_data, dpct::library_data_t::complex_float);
+  b_descr_z = std::make_shared<dpct::sparse::dense_vector_desc>(
+      3, b_z.d_data, dpct::library_data_t::complex_double);
+
+  std::shared_ptr<dpct::sparse::dense_vector_desc> c_descr_s;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> c_descr_d;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> c_descr_c;
+  std::shared_ptr<dpct::sparse::dense_vector_desc> c_descr_z;
+  c_descr_s = std::make_shared<dpct::sparse::dense_vector_desc>(
+      3, c_s.d_data, dpct::library_data_t::real_float);
+  c_descr_d = std::make_shared<dpct::sparse::dense_vector_desc>(
+      3, c_d.d_data, dpct::library_data_t::real_double);
+  c_descr_c = std::make_shared<dpct::sparse::dense_vector_desc>(
+      3, c_c.d_data, dpct::library_data_t::complex_float);
+  c_descr_z = std::make_shared<dpct::sparse::dense_vector_desc>(
+      3, c_z.d_data, dpct::library_data_t::complex_double);
+
+  oneapi::mkl::uplo uplo = oneapi::mkl::uplo::upper;
+  a_descr_s->set_attribute(dpct::sparse::matrix_attribute::uplo, &uplo,
+                           sizeof(uplo));
+  a_descr_d->set_attribute(dpct::sparse::matrix_attribute::uplo, &uplo,
+                           sizeof(uplo));
+  a_descr_c->set_attribute(dpct::sparse::matrix_attribute::uplo, &uplo,
+                           sizeof(uplo));
+  a_descr_z->set_attribute(dpct::sparse::matrix_attribute::uplo, &uplo,
+                           sizeof(uplo));
+  oneapi::mkl::diag diag = oneapi::mkl::diag::unit;
+  a_descr_s->set_attribute(dpct::sparse::matrix_attribute::diag, &diag,
+                           sizeof(diag));
+  a_descr_d->set_attribute(dpct::sparse::matrix_attribute::diag, &diag,
+                           sizeof(diag));
+  a_descr_c->set_attribute(dpct::sparse::matrix_attribute::diag, &diag,
+                           sizeof(diag));
+  a_descr_z->set_attribute(dpct::sparse::matrix_attribute::diag, &diag,
+                           sizeof(diag));
+
+  int SpSVDescr_s;
+  int SpSVDescr_d;
+  int SpSVDescr_c;
+  int SpSVDescr_z;
+  /*
+  DPCT1026:2: The call to cusparseSpSV_createDescr was removed because this call
+  is redundant in SYCL.
+  */
+  /*
+  DPCT1026:3: The call to cusparseSpSV_createDescr was removed because this call
+  is redundant in SYCL.
+  */
+  /*
+  DPCT1026:4: The call to cusparseSpSV_createDescr was removed because this call
+  is redundant in SYCL.
+  */
+  /*
+  DPCT1026:5: The call to cusparseSpSV_createDescr was removed because this call
+  is redundant in SYCL.
+  */
+
+  size_t ws_size_s = 0;
+  size_t ws_size_d = 0;
+  size_t ws_size_c = 0;
+  size_t ws_size_z = 0;
+  /*
+  DPCT1026:6: The call to cusparseSpSV_bufferSize was removed because this call
+  is redundant in SYCL.
+  */
+  /*
+  DPCT1026:7: The call to cusparseSpSV_bufferSize was removed because this call
+  is redundant in SYCL.
+  */
+  if (run_complex_datatype) {
+    /*
+    DPCT1026:12: The call to cusparseSpSV_bufferSize was removed because this
+    call is redundant in SYCL.
+    */
+    /*
+    DPCT1026:13: The call to cusparseSpSV_bufferSize was removed because this
+    call is redundant in SYCL.
+    */
+  }
+
+  void *ws_s;
+  void *ws_d;
+  void *ws_c;
+  void *ws_z;
+  ws_s = (void *)sycl::malloc_device(ws_size_s, q_ct1);
+  ws_d = (void *)sycl::malloc_device(ws_size_d, q_ct1);
+  ws_c = (void *)sycl::malloc_device(ws_size_c, q_ct1);
+  ws_z = (void *)sycl::malloc_device(ws_size_z, q_ct1);
+
+  dpct::sparse::spsv_optimize(*handle, oneapi::mkl::transpose::nontrans,
+                              a_descr_s);
+  dpct::sparse::spsv_optimize(*handle, oneapi::mkl::transpose::nontrans,
+                              a_descr_d);
+  if (run_complex_datatype) {
+    dpct::sparse::spsv_optimize(*handle, oneapi::mkl::transpose::nontrans,
+                                a_descr_c);
+    dpct::sparse::spsv_optimize(*handle, oneapi::mkl::transpose::nontrans,
+                                a_descr_z);
+  }
+
+  dpct::sparse::spsv(*handle, oneapi::mkl::transpose::nontrans, alpha_s.d_data,
+                     a_descr_s, b_descr_s, c_descr_s,
+                     dpct::library_data_t::real_float);
+  dpct::sparse::spsv(*handle, oneapi::mkl::transpose::nontrans, alpha_d.d_data,
+                     a_descr_d, b_descr_d, c_descr_d,
+                     dpct::library_data_t::real_double);
+  if (run_complex_datatype) {
+    dpct::sparse::spsv(*handle, oneapi::mkl::transpose::nontrans,
+                       alpha_c.d_data, a_descr_c, b_descr_c, c_descr_c,
+                       dpct::library_data_t::complex_float);
+    dpct::sparse::spsv(*handle, oneapi::mkl::transpose::nontrans,
+                       alpha_z.d_data, a_descr_z, b_descr_z, c_descr_z,
+                       dpct::library_data_t::complex_double);
+  }
+
+  c_s.D2H();
+  c_d.D2H();
+  c_c.D2H();
+  c_z.D2H();
+
+  q_ct1.wait();
+
+  sycl::free(ws_s, q_ct1);
+  sycl::free(ws_d, q_ct1);
+  sycl::free(ws_c, q_ct1);
+  sycl::free(ws_z, q_ct1);
+  a_descr_s.reset();
+  a_descr_d.reset();
+  a_descr_c.reset();
+  a_descr_z.reset();
+  b_descr_s.reset();
+  b_descr_d.reset();
+  b_descr_c.reset();
+  b_descr_z.reset();
+  c_descr_s.reset();
+  c_descr_d.reset();
+  c_descr_c.reset();
+  c_descr_z.reset();
+  /*
+  DPCT1026:8: The call to cusparseSpSV_destroyDescr was removed because this
+  call is redundant in SYCL.
+  */
+  /*
+  DPCT1026:9: The call to cusparseSpSV_destroyDescr was removed because this
+  call is redundant in SYCL.
+  */
+  /*
+  DPCT1026:10: The call to cusparseSpSV_destroyDescr was removed because this
+  call is redundant in SYCL.
+  */
+  /*
+  DPCT1026:11: The call to cusparseSpSV_destroyDescr was removed because this
+  call is redundant in SYCL.
+  */
+  handle = nullptr;
+
+  float expect_c[4] = {1, 2, 3};
+  if (compare_result(expect_c, c_s.h_data, 3) &&
+      compare_result(expect_c, c_d.h_data, 3) &&
+      compare_result(expect_c, c_c.h_data, 3) &&
+      compare_result(expect_c, c_z.h_data, 3))
+    printf("SpSV pass\n");
+  else {
+    printf("SpSV fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_cusparseSetGetStream();
   test_cusparseTcsrmv_ge();
@@ -1456,6 +2094,8 @@ int main() {
   test_cusparseSpMM();
   test_cusparseTcsrmv_mp();
   test_cusparseCsrmvEx();
+  test_cusparseSpGEMM();
+  test_cusparseSpSV();
 
   if (test_passed)
     return 0;

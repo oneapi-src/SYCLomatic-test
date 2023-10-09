@@ -38,7 +38,7 @@ exec_tests = ['asm', 'asm_arith', 'asm_vinst', 'thrust-vector-2', 'thrust-binary
               'math-bf16-conv', 'math-half-conv',
               'math-bfloat16', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
               'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5', 'cudnn-convp6',
-              'cudnn_mutilple_files', "cusparse_1", "cusparse_2", "cusparse_3",
+              'cudnn_mutilple_files', "cusparse_1", "cusparse_2", "cusparse_3", "cusparse_4", "cusparse_5",
               'cudnn-GetErrorString', 'cub_device_histgram',
               'cudnn-types', 'cudnn-version', 'cudnn-dropout',
               'constant_attr', 'sync_warp_p2', 'occupancy_calculation',
