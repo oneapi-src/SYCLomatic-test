@@ -208,6 +208,34 @@ void testHgtuCases(const vector<pair<pair<__half, __half>, bool>> &TestCases) {
   }
 }
 
+__global__ void hisinf(bool *const Result, __half Input1) {
+  *Result = __hisinf(Input1);
+}
+
+void testHisinfCases(const vector<pair<__half, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hisinf<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("__hisinf", {TestCase.first}, TestCase.second, *Result);
+  }
+}
+
+__global__ void hisnan(bool *const Result, __half Input1) {
+  *Result = __hisnan(Input1);
+}
+
+void testHisnanCases(const vector<pair<__half, bool>> &TestCases) {
+  bool *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hisnan<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("__hisnan", {TestCase.first}, TestCase.second, *Result);
+  }
+}
+
 __global__ void hleu(bool *const Result, __half Input1, __half Input2) {
   *Result = __hleu(Input1, Input2);
 }
@@ -541,6 +569,20 @@ int main() {
       {{0.7, 0.7}, false},
       {{1, 4}, false},
       {{NAN, 1}, true},
+  });
+  testHisinfCases({
+      {-0.3, false},
+      {0.34, false},
+      {0.8, false},
+      {INFINITY, true},
+      {NAN, false},
+  });
+  testHisnanCases({
+      {-0.3, false},
+      {0.34, false},
+      {0.8, false},
+      {INFINITY, false},
+      {NAN, true},
   });
   testHleuCases({
       {{0, -0.4}, false},

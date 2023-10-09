@@ -250,9 +250,9 @@ void test_cusparseTcsrmv_ge() {
 
   float expect_c[4] = {90, 130, 730, 570};
   if (compare_result(expect_c, c_s.h_data, 4) &&
-      compare_result(expect_c, c_d.h_data, 4)/* &&
+      compare_result(expect_c, c_d.h_data, 4) &&
       compare_result(expect_c, c_c.h_data, 4) &&
-      compare_result(expect_c, c_z.h_data, 4)*/)
+      compare_result(expect_c, c_z.h_data, 4))
     printf("Tcsrmv_ge pass\n");
   else {
     printf("Tcsrmv_ge fail\n");
@@ -393,9 +393,9 @@ void test_cusparseTcsrmv_sy() {
 
   float expect_c[4] = {130, 170, 340, 220};
   if (compare_result(expect_c, c_s.h_data, 4) &&
-      compare_result(expect_c, c_d.h_data, 4)/* &&
+      compare_result(expect_c, c_d.h_data, 4) &&
       compare_result(expect_c, c_c.h_data, 4) &&
-      compare_result(expect_c, c_z.h_data, 4)*/)
+      compare_result(expect_c, c_z.h_data, 4))
     printf("Tcsrmv_sy pass\n");
   else {
     printf("Tcsrmv_sy fail\n");
@@ -538,9 +538,9 @@ void test_cusparseTcsrmv_tr() {
 
   float expect_c[4] = {130, 130, 280, 40};
   if (compare_result(expect_c, c_s.h_data, 4) &&
-      compare_result(expect_c, c_d.h_data, 4)/* &&
+      compare_result(expect_c, c_d.h_data, 4) &&
       compare_result(expect_c, c_c.h_data, 4) &&
-      compare_result(expect_c, c_z.h_data, 4)*/)
+      compare_result(expect_c, c_z.h_data, 4))
     printf("Tcsrmv_tr pass\n");
   else {
     printf("Tcsrmv_tr fail\n");
@@ -671,9 +671,9 @@ void test_cusparseTcsrmm() {
 
   float expect_c[8] = {90, 130, 730, 570, 340, 380, 1730, 1320};
   if (compare_result(expect_c, c_s.h_data, 8) &&
-      compare_result(expect_c, c_d.h_data, 8)/* &&
+      compare_result(expect_c, c_d.h_data, 8) &&
       compare_result(expect_c, c_c.h_data, 8) &&
-      compare_result(expect_c, c_z.h_data, 8)*/)
+      compare_result(expect_c, c_z.h_data, 8))
     printf("Tcsrmm pass\n");
   else {
     printf("Tcsrmm fail\n");
@@ -916,9 +916,9 @@ void test_cusparseSpMV() {
 
   float expect_c[4] = {90, 130, 730, 570};
   if (compare_result(expect_c, c_s.h_data, 4) &&
-      compare_result(expect_c, c_d.h_data, 4)/*&&
+      compare_result(expect_c, c_d.h_data, 4) &&
       compare_result(expect_c, c_c.h_data, 4) &&
-      compare_result(expect_c, c_z.h_data, 4)*/)
+      compare_result(expect_c, c_z.h_data, 4))
     printf("SpMV pass\n");
   else {
     printf("SpMV fail\n");
@@ -1128,9 +1128,9 @@ void test_cusparseSpMM() {
 
   float expect_c[8] = {90, 130, 730, 570, 340, 380, 1730, 1320};
   if (compare_result(expect_c, c_s.h_data, 8) &&
-      compare_result(expect_c, c_d.h_data, 8)/* &&
+      compare_result(expect_c, c_d.h_data, 8) &&
       compare_result(expect_c, c_c.h_data, 8) &&
-      compare_result(expect_c, c_z.h_data, 8)*/)
+      compare_result(expect_c, c_z.h_data, 8))
     printf("SpMM pass\n");
   else {
     printf("SpMM fail\n");
