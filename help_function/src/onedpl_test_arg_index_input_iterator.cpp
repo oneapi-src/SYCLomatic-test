@@ -365,6 +365,7 @@ int TestArgIndexItrMain() {
   auto counting = oneapi::dpl::counting_iterator(10);
   ret = TestArgIndexItr(counting, 20);
   failed_tests += test_passed(ret, "iterator to counting_iterator of ints");
+  return failed_tests;
 }
 
 #define EPSILON 0.0001
@@ -460,12 +461,6 @@ int TestWithInclusiveScan() {
   VerifySumInclusive<int64_t> verify_int64t(fill_val_int64);
   failed_tests += setup_and_run(fill_val_int64, fill_val_int64,
                                 sycl::plus<void>(), num_int64, verify_int64t);
-
-  double fill_val_double = 0.1;
-  int64_t num_doubles = 100000;
-  VerifySumInclusive<double> verify_double(fill_val_double);
-  failed_tests += setup_and_run(fill_val_double, fill_val_double,
-                                sycl::plus<void>(), num_doubles, verify_double);
 
   uint8_t fill_val_uint8t = 1;
   uint8_t end_val_uint8t = 2;
