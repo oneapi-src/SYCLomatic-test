@@ -61,6 +61,7 @@
         <test testName="ngt-invalid-cuda-include-path" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-empty-cdb-default-out-folder" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="cannot-acc-dir-in-db" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
+        <test testName="process_optf_option" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="ngt-invalid-yaml-for-format1" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-yaml-for-format2" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-yaml-for-format3" configFile="config/TEMPLATE_behavior_tests.xml" />
