@@ -26,10 +26,6 @@ int main(int argc, char **argv) {
 
     std::vector<cudaMemcpy3DParms *> vc3dp;
 
-    std::vector<cusparseSolvePolicy_t> vsp;
-
-    volatile cusparseSolvePolicy_t SP;
-
     CUexternalMemory cum;
 
     CUexternalSemaphore cus;
