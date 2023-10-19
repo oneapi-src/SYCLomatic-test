@@ -1,0 +1,3 @@
+/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/bitcracker.dir
+/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/edit_cache.dir
+/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/rebuild_cache.dir
