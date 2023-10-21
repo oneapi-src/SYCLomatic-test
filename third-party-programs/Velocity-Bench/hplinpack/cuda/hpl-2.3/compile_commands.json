@@ -1,0 +1,724 @@
+[
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_dlacpy.o HPL_dlatcpy.o HPL_fprintf.o HPL_warn.o HPL_abort.o HPL_dlaprnt.o HPL_dlange.o HPL_dlamch.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_dlacpy.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlacpy.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/HPL_dlacpy.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlatcpy.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlatcpy.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/HPL_dlatcpy.c"
+    },
+    {
+        "command": "cc -c -o HPL_fprintf.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_fprintf.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/HPL_fprintf.c"
+    },
+    {
+        "command": "cc -c -o HPL_warn.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_warn.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/HPL_warn.c"
+    },
+    {
+        "command": "cc -c -o HPL_abort.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_abort.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/HPL_abort.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaprnt.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaprnt.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/HPL_dlaprnt.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlange.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlange.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/HPL_dlange.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlamch.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlamch.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/auxil/HPL_dlamch.c"
+    },
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_dcopy.o HPL_daxpy.o HPL_dscal.o HPL_idamax.o HPL_dgemv.o HPL_dtrsv.o HPL_dger.o HPL_dgemm.o HPL_dtrsm.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_dcopy.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dcopy.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/HPL_dcopy.c"
+    },
+    {
+        "command": "cc -c -o HPL_daxpy.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_daxpy.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/HPL_daxpy.c"
+    },
+    {
+        "command": "cc -c -o HPL_dscal.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dscal.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/HPL_dscal.c"
+    },
+    {
+        "command": "cc -c -o HPL_idamax.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_idamax.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/HPL_idamax.c"
+    },
+    {
+        "command": "cc -c -o HPL_dgemv.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dgemv.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/HPL_dgemv.c"
+    },
+    {
+        "command": "cc -c -o HPL_dtrsv.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dtrsv.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/HPL_dtrsv.c"
+    },
+    {
+        "command": "cc -c -o HPL_dger.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dger.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/HPL_dger.c"
+    },
+    {
+        "command": "cc -c -o HPL_dgemm.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dgemm.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/HPL_dgemm.c"
+    },
+    {
+        "command": "cc -c -o HPL_dtrsm.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dtrsm.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/blas/HPL_dtrsm.c"
+    },
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_1ring.o HPL_1rinM.o HPL_2ring.o HPL_2rinM.o HPL_blong.o HPL_blonM.o HPL_packL.o HPL_copyL.o HPL_binit.o HPL_bcast.o HPL_bwait.o HPL_send.o HPL_recv.o HPL_sdrv.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_1ring.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_1ring.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_1ring.c"
+    },
+    {
+        "command": "cc -c -o HPL_1rinM.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_1rinM.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_1rinM.c"
+    },
+    {
+        "command": "cc -c -o HPL_2ring.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_2ring.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_2ring.c"
+    },
+    {
+        "command": "cc -c -o HPL_2rinM.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_2rinM.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_2rinM.c"
+    },
+    {
+        "command": "cc -c -o HPL_blong.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_blong.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_blong.c"
+    },
+    {
+        "command": "cc -c -o HPL_blonM.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_blonM.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_blonM.c"
+    },
+    {
+        "command": "cc -c -o HPL_packL.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_packL.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_packL.c"
+    },
+    {
+        "command": "cc -c -o HPL_copyL.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_copyL.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_copyL.c"
+    },
+    {
+        "command": "cc -c -o HPL_binit.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_binit.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_binit.c"
+    },
+    {
+        "command": "cc -c -o HPL_bcast.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_bcast.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_bcast.c"
+    },
+    {
+        "command": "cc -c -o HPL_bwait.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_bwait.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_bwait.c"
+    },
+    {
+        "command": "cc -c -o HPL_send.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_send.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_send.c"
+    },
+    {
+        "command": "cc -c -o HPL_recv.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_recv.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_recv.c"
+    },
+    {
+        "command": "cc -c -o HPL_sdrv.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_sdrv.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/comm/HPL_sdrv.c"
+    },
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_grid_init.o HPL_pnum.o HPL_grid_info.o HPL_grid_exit.o HPL_broadcast.o HPL_reduce.o HPL_all_reduce.o HPL_barrier.o HPL_min.o HPL_max.o HPL_sum.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_grid_init.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_grid_init.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/HPL_grid_init.c"
+    },
+    {
+        "command": "cc -c -o HPL_pnum.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pnum.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/HPL_pnum.c"
+    },
+    {
+        "command": "cc -c -o HPL_grid_info.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_grid_info.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/HPL_grid_info.c"
+    },
+    {
+        "command": "cc -c -o HPL_grid_exit.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_grid_exit.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/HPL_grid_exit.c"
+    },
+    {
+        "command": "cc -c -o HPL_broadcast.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_broadcast.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/HPL_broadcast.c"
+    },
+    {
+        "command": "cc -c -o HPL_reduce.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_reduce.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/HPL_reduce.c"
+    },
+    {
+        "command": "cc -c -o HPL_all_reduce.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_all_reduce.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/HPL_all_reduce.c"
+    },
+    {
+        "command": "cc -c -o HPL_barrier.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_barrier.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/HPL_barrier.c"
+    },
+    {
+        "command": "cc -c -o HPL_min.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_min.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/HPL_min.c"
+    },
+    {
+        "command": "cc -c -o HPL_max.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_max.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/HPL_max.c"
+    },
+    {
+        "command": "cc -c -o HPL_sum.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_sum.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/grid/HPL_sum.c"
+    },
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_pdpanel_new.o HPL_pdpanel_init.o HPL_pdpanel_disp.o HPL_pdpanel_free.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/panel/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_pdpanel_new.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdpanel_new.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/panel/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/panel/HPL_pdpanel_new.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdpanel_init.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdpanel_init.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/panel/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/panel/HPL_pdpanel_init.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdpanel_disp.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdpanel_disp.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/panel/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/panel/HPL_pdpanel_disp.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdpanel_free.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdpanel_free.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/panel/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/panel/HPL_pdpanel_free.c"
+    },
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_indxg2l.o HPL_indxg2lp.o HPL_indxg2p.o HPL_indxl2g.o HPL_infog2l.o HPL_numroc.o HPL_numrocI.o HPL_dlaswp00N.o HPL_dlaswp10N.o HPL_dlaswp01N.o HPL_dlaswp01T.o HPL_dlaswp02N.o HPL_dlaswp03N.o HPL_dlaswp03T.o HPL_dlaswp04N.o HPL_dlaswp04T.o HPL_dlaswp05N.o HPL_dlaswp05T.o HPL_dlaswp06N.o HPL_dlaswp06T.o HPL_pwarn.o HPL_pabort.o HPL_pdlaprnt.o HPL_pdlamch.o HPL_pdlange.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_indxg2l.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_indxg2l.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_indxg2l.c"
+    },
+    {
+        "command": "cc -c -o HPL_indxg2lp.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_indxg2lp.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_indxg2lp.c"
+    },
+    {
+        "command": "cc -c -o HPL_indxg2p.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_indxg2p.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_indxg2p.c"
+    },
+    {
+        "command": "cc -c -o HPL_indxl2g.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_indxl2g.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_indxl2g.c"
+    },
+    {
+        "command": "cc -c -o HPL_infog2l.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_infog2l.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_infog2l.c"
+    },
+    {
+        "command": "cc -c -o HPL_numroc.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_numroc.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_numroc.c"
+    },
+    {
+        "command": "cc -c -o HPL_numrocI.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_numrocI.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_numrocI.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp00N.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp00N.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp00N.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp10N.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp10N.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp10N.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp01N.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp01N.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp01N.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp01T.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp01T.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp01T.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp02N.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp02N.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp02N.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp03N.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp03N.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp03N.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp03T.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp03T.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp03T.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp04N.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp04N.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp04N.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp04T.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp04T.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp04T.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp05N.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp05N.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp05N.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp05T.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp05T.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp05T.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp06N.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp06N.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp06N.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlaswp06T.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlaswp06T.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_dlaswp06T.c"
+    },
+    {
+        "command": "cc -c -o HPL_pwarn.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pwarn.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_pwarn.c"
+    },
+    {
+        "command": "cc -c -o HPL_pabort.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pabort.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_pabort.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdlaprnt.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdlaprnt.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_pdlaprnt.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdlamch.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdlamch.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_pdlamch.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdlange.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdlange.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pauxil/HPL_pdlange.c"
+    },
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_dlocmax.o HPL_dlocswpN.o HPL_dlocswpT.o HPL_pdmxswp.o HPL_pdpancrN.o HPL_pdpancrT.o HPL_pdpanllN.o HPL_pdpanllT.o HPL_pdpanrlN.o HPL_pdpanrlT.o HPL_pdrpanllN.o HPL_pdrpanllT.o HPL_pdrpancrN.o HPL_pdrpancrT.o HPL_pdrpanrlN.o HPL_pdrpanrlT.o HPL_pdfact.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_dlocmax.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlocmax.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_dlocmax.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlocswpN.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlocswpN.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_dlocswpN.c"
+    },
+    {
+        "command": "cc -c -o HPL_dlocswpT.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dlocswpT.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_dlocswpT.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdmxswp.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdmxswp.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdmxswp.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdpancrN.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdpancrN.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdpancrN.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdpancrT.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdpancrT.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdpancrT.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdpanllN.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdpanllN.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdpanllN.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdpanllT.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdpanllT.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdpanllT.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdpanrlN.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdpanrlN.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdpanrlN.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdpanrlT.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdpanrlT.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdpanrlT.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdrpanllN.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdrpanllN.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdrpanllN.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdrpanllT.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdrpanllT.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdrpanllT.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdrpancrN.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdrpancrN.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdrpancrN.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdrpancrT.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdrpancrT.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdrpancrT.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdrpanrlN.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdrpanrlN.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdrpanrlN.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdrpanrlT.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdrpanrlT.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdrpanrlT.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdfact.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdfact.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pfact/HPL_pdfact.c"
+    },
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_pipid.o HPL_plindx0.o HPL_pdlaswp00N.o HPL_pdlaswp00T.o HPL_perm.o HPL_logsort.o HPL_plindx10.o HPL_plindx1.o HPL_spreadN.o HPL_spreadT.o HPL_rollN.o HPL_rollT.o HPL_equil.o HPL_pdlaswp01N.o HPL_pdlaswp01T.o HPL_pdupdateNN.o HPL_pdupdateNT.o HPL_pdupdateTN.o HPL_pdupdateTT.o HPL_pdtrsv.o HPL_pdgesv0.o HPL_pdgesvK1.o HPL_pdgesvK2.o HPL_pdgesv.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_pipid.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pipid.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pipid.c"
+    },
+    {
+        "command": "cc -c -o HPL_plindx0.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_plindx0.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_plindx0.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdlaswp00N.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdlaswp00N.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdlaswp00N.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdlaswp00T.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdlaswp00T.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdlaswp00T.c"
+    },
+    {
+        "command": "cc -c -o HPL_perm.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_perm.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_perm.c"
+    },
+    {
+        "command": "cc -c -o HPL_logsort.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_logsort.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_logsort.c"
+    },
+    {
+        "command": "cc -c -o HPL_plindx10.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_plindx10.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_plindx10.c"
+    },
+    {
+        "command": "cc -c -o HPL_plindx1.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_plindx1.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_plindx1.c"
+    },
+    {
+        "command": "cc -c -o HPL_spreadN.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_spreadN.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_spreadN.c"
+    },
+    {
+        "command": "cc -c -o HPL_spreadT.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_spreadT.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_spreadT.c"
+    },
+    {
+        "command": "cc -c -o HPL_rollN.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_rollN.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_rollN.c"
+    },
+    {
+        "command": "cc -c -o HPL_rollT.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_rollT.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_rollT.c"
+    },
+    {
+        "command": "cc -c -o HPL_equil.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_equil.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_equil.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdlaswp01N.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdlaswp01N.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdlaswp01N.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdlaswp01T.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdlaswp01T.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdlaswp01T.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdupdateNN.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdupdateNN.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdupdateNN.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdupdateNT.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdupdateNT.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdupdateNT.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdupdateTN.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdupdateTN.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdupdateTN.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdupdateTT.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdupdateTT.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdupdateTT.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdtrsv.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdtrsv.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdtrsv.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdgesv0.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdgesv0.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdgesv0.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdgesvK1.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdgesvK1.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdgesvK1.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdgesvK2.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdgesvK2.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdgesvK2.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdgesv.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdgesv.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/pgesv/HPL_pdgesv.c"
+    },
+    {
+        "command": "cc -c -O0 -fPIC -DMPI -o cuda_dgemm.o -I/usr/local/cuda/include -I/opt/intel/oneapi/mpi/2021.10.0/include cuda_dgemm.cpp",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/cuda",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/cuda/cuda_dgemm.cpp"
+    },
+    {
+        "command": "c++ -O3 -shared -o libdgemm.so.1.0.1 cuda_dgemm.o -I/opt/intel/oneapi/mpi/2021.10.0/include -lmpi",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/cuda"
+    },
+    {
+        "command": "c++ -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccevCa71.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -melf_x86_64 --hash-style=gnu --as-needed -shared -o libdgemm.so.1.0.1 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -soname libdgemm.so.1 cuda_dgemm.o --enable-new-dtags -rpath /opt/intel/oneapi/mpi/2021.10.0/lib/release -rpath /opt/intel/oneapi/mpi/2021.10.0/lib -lmpi --enable-new-dtags --push-state --as-needed --pop-state --push-state --as-needed --pop-state /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/cuda"
+    },
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_dmatgen.o HPL_ladd.o HPL_lmul.o HPL_xjumpm.o HPL_jumpit.o HPL_rand.o HPL_setran.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_dmatgen.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_dmatgen.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/HPL_dmatgen.c"
+    },
+    {
+        "command": "cc -c -o HPL_ladd.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_ladd.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/HPL_ladd.c"
+    },
+    {
+        "command": "cc -c -o HPL_lmul.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_lmul.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/HPL_lmul.c"
+    },
+    {
+        "command": "cc -c -o HPL_xjumpm.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_xjumpm.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/HPL_xjumpm.c"
+    },
+    {
+        "command": "cc -c -o HPL_jumpit.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_jumpit.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/HPL_jumpit.c"
+    },
+    {
+        "command": "cc -c -o HPL_rand.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_rand.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/HPL_rand.c"
+    },
+    {
+        "command": "cc -c -o HPL_setran.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_setran.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/matgen/HPL_setran.c"
+    },
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_timer.o HPL_timer_cputime.o HPL_timer_walltime.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/timer/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_timer.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_timer.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/timer/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/timer/HPL_timer.c"
+    },
+    {
+        "command": "cc -c -o HPL_timer_cputime.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_timer_cputime.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/timer/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/timer/HPL_timer_cputime.c"
+    },
+    {
+        "command": "cc -c -o HPL_timer_walltime.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_timer_walltime.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/timer/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/timer/HPL_timer_walltime.c"
+    },
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_pdmatgen.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/pmatgen/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_pdmatgen.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdmatgen.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/pmatgen/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/pmatgen/HPL_pdmatgen.c"
+    },
+    {
+        "command": "ar r /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a HPL_ptimer.o HPL_ptimer_cputime.o HPL_ptimer_walltime.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptimer/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_ptimer.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_ptimer.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptimer/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptimer/HPL_ptimer.c"
+    },
+    {
+        "command": "cc -c -o HPL_ptimer_cputime.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_ptimer_cputime.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptimer/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptimer/HPL_ptimer_cputime.c"
+    },
+    {
+        "command": "cc -c -o HPL_ptimer_walltime.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_ptimer_walltime.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptimer/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptimer/HPL_ptimer_walltime.c"
+    },
+    {
+        "command": "c++ -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -o /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/bin/intel64/xhpl HPL_pddriver.o HPL_pdinfo.o HPL_pdtest.o /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/cuda/ -lmpi",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptest/intel64"
+    },
+    {
+        "command": "cc -c -o HPL_pddriver.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pddriver.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptest/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptest/HPL_pddriver.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdinfo.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdinfo.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptest/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptest/HPL_pdinfo.c"
+    },
+    {
+        "command": "cc -c -o HPL_pdtest.o -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -I/opt/intel/oneapi/mpi/2021.10.0/include ../HPL_pdtest.c",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptest/intel64",
+        "file": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptest/HPL_pdtest.c"
+    },
+    {
+        "command": "c++ -cc=gcc -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -o /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/bin/intel64/xhpl HPL_pddriver.o HPL_pdinfo.o HPL_pdtest.o /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/cuda/ -lmpi",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptest/intel64"
+    },
+    {
+        "command": "c++ -DAdd__ -DF77_INTEGER=int -DStringSunStyle -DHPL_CALL_CBLAS -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/include/intel64 -fomit-frame-pointer -O3 -funroll-loops -W -Wall -fopenmp -o /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/bin/intel64/xhpl HPL_pddriver.o HPL_pdinfo.o HPL_pdtest.o /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a -I/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/src/cuda/ -lmpi -I/opt/intel/oneapi/mpi/2021.10.0/include -lmpi",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptest/intel64"
+    },
+    {
+        "command": "c++ -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccANGnqv.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -melf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/bin/intel64/xhpl /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o /usr/lib/gcc/x86_64-linux-gnu/11/crtoffloadbegin.o HPL_pddriver.o HPL_pdinfo.o HPL_pdtest.o /home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/lib/intel64/libhpl.a -lmpi --enable-new-dtags -rpath /opt/intel/oneapi/mpi/2021.10.0/lib/release -rpath /opt/intel/oneapi/mpi/2021.10.0/lib -lmpi --enable-new-dtags --push-state --as-needed --pop-state --push-state --as-needed --pop-state /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o /usr/lib/gcc/x86_64-linux-gnu/11/crtoffloadend.o",
+        "directory": "/home/local_user/sandbox/Velocity-Bench/hplinpack/cuda/hpl-2.3/testing/ptest/intel64"
+    }
+]

@@ -58,18 +58,18 @@ endif()
 
 # Set these up as variables to make reading the generated file easier
 set(CMAKE_COMMAND "/usr/bin/cmake") # path
-set(source_file "/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/attack.cu") # path
-set(NVCC_generated_dependency_file "/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/bitcracker.dir/src/bitcracker_generated_attack.cu.o.NVCC-depend") # path
-set(cmake_dependency_file "/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/bitcracker.dir/src/bitcracker_generated_attack.cu.o.depend") # path
+set(source_file "/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/attack.cu") # path
+set(NVCC_generated_dependency_file "/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/bitcracker.dir/src/bitcracker_generated_attack.cu.o.NVCC-depend") # path
+set(cmake_dependency_file "/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/bitcracker.dir/src/bitcracker_generated_attack.cu.o.depend") # path
 set(CUDA_make2cmake "/usr/share/cmake-3.22/Modules/FindCUDA/make2cmake.cmake") # path
 set(CUDA_parse_cubin "/usr/share/cmake-3.22/Modules/FindCUDA/parse_cubin.cmake") # path
 set(build_cubin OFF) # bool
 set(CUDA_HOST_COMPILER "") # path
 # We won't actually use these variables for now, but we need to set this, in
 # order to force this file to be run again if it changes.
-set(generated_file_path "/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/bitcracker.dir/src/.") # path
-set(generated_file_internal "/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/bitcracker.dir/src/./bitcracker_generated_attack.cu.o") # path
-set(generated_cubin_file_internal "/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/bitcracker.dir/src/./bitcracker_generated_attack.cu.o.cubin.txt") # path
+set(generated_file_path "/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/bitcracker.dir/src/.") # path
+set(generated_file_internal "/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/bitcracker.dir/src/./bitcracker_generated_attack.cu.o") # path
+set(generated_cubin_file_internal "/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles/bitcracker.dir/src/./bitcracker_generated_attack.cu.o.cubin.txt") # path
 
 set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda/bin/nvcc") # path
 set(CUDA_NVCC_FLAGS -gencode;arch=compute_80,code=sm_80 ;; ) # list
@@ -79,7 +79,7 @@ set(CUDA_NVCC_FLAGS_MINSIZEREL  ; )
 set(CUDA_NVCC_FLAGS_RELEASE  ; )
 set(CUDA_NVCC_FLAGS_RELWITHDEBINFO  ; )
 set(nvcc_flags -m64) # list
-set(CUDA_NVCC_INCLUDE_DIRS [==[/usr/local/cuda/include;/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src;/usr/local/cuda/include]==]) # list (needs to be in lua quotes to address backslashes)
+set(CUDA_NVCC_INCLUDE_DIRS [==[/usr/local/cuda/include;/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src;/usr/local/cuda/include]==]) # list (needs to be in lua quotes to address backslashes)
 string(REPLACE "\\" "/" CUDA_NVCC_INCLUDE_DIRS "${CUDA_NVCC_INCLUDE_DIRS}")
 set(CUDA_NVCC_COMPILE_DEFINITIONS [==[]==]) # list (needs to be in lua quotes see #16510 ).
 set(format_flag "-c") # string

@@ -1,7 +1,7 @@
 ---
-MainSourceFile:  '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/out/src/sha256.h'
+MainSourceFile:  '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/out/src/sha256.h'
 Replacements:
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Offset:          0
     Length:          0
     ReplacementText: "#include <sycl/sycl.hpp>\n#include <dpct/dpct.hpp>\n"
@@ -10,7 +10,7 @@ Replacements:
     InitStr:         ''
     NewHostVarName:  ''
     BlockLevelFormatFlag: false
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Offset:          1819
     Length:          13
     ReplacementText: DPCT_COMPATIBILITY_TEMP
@@ -19,7 +19,7 @@ Replacements:
     InitStr:         ''
     NewHostVarName:  ''
     BlockLevelFormatFlag: false
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Offset:          1850
     Length:          11
     ReplacementText: ''
@@ -28,7 +28,7 @@ Replacements:
     InitStr:         ''
     NewHostVarName:  ''
     BlockLevelFormatFlag: false
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Offset:          1861
     Length:          15
     ReplacementText: __dpct_inline__
@@ -37,7 +37,7 @@ Replacements:
     InitStr:         ''
     NewHostVarName:  ''
     BlockLevelFormatFlag: false
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Offset:          1954
     Length:          72
     ReplacementText: 'd = a ^ b ^ c'
@@ -46,7 +46,7 @@ Replacements:
     InitStr:         ''
     NewHostVarName:  ''
     BlockLevelFormatFlag: true
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Offset:          2055
     Length:          11
     ReplacementText: ''
@@ -55,7 +55,7 @@ Replacements:
     InitStr:         ''
     NewHostVarName:  ''
     BlockLevelFormatFlag: false
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Offset:          2066
     Length:          15
     ReplacementText: __dpct_inline__
@@ -64,7 +64,7 @@ Replacements:
     InitStr:         ''
     NewHostVarName:  ''
     BlockLevelFormatFlag: false
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Offset:          2162
     Length:          72
     ReplacementText: 'd = (a ^ (b & (c ^ a)))'
@@ -73,7 +73,7 @@ Replacements:
     InitStr:         ''
     NewHostVarName:  ''
     BlockLevelFormatFlag: true
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Offset:          2263
     Length:          11
     ReplacementText: ''
@@ -82,7 +82,7 @@ Replacements:
     InitStr:         ''
     NewHostVarName:  ''
     BlockLevelFormatFlag: false
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Offset:          2274
     Length:          15
     ReplacementText: __dpct_inline__
@@ -91,7 +91,7 @@ Replacements:
     InitStr:         ''
     NewHostVarName:  ''
     BlockLevelFormatFlag: false
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Offset:          2369
     Length:          72
     ReplacementText: 'd = ((a & (b | c)) | (b & c))'
@@ -101,7 +101,7 @@ Replacements:
     NewHostVarName:  ''
     BlockLevelFormatFlag: true
 MainSourceFilesDigest:
-  - MainSourceFile:  '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
+  - MainSourceFile:  '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/src/sha256.h'
     Digest:          d6bf5df3b793bedc87d8c4197f8ce069
 DpctVersion:     18.0.0
 MainHelperFileName: ''
@@ -110,7 +110,7 @@ FeatureMap:      {}
 CompileTargets:  {}
 OptionMap:
   AnalysisScopePath:
-    Value:           '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA'
+    Value:           '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA'
     Specified:       false
   AsyncHandler:
     Value:           'false'
@@ -119,7 +119,7 @@ OptionMap:
     Value:           'false'
     Specified:       false
   CompilationsDir:
-    Value:           '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build'
+    Value:           '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build'
     Specified:       true
   CtadEnabled:
     Value:           'false'

@@ -1,7 +1,7 @@
 ---
-MainSourceFile:  '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src/out/mpi_stubs_internal.hh'
+MainSourceFile:  '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src/out/mpi_stubs_internal.hh'
 Replacements:
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src/mpi_stubs_internal.hh'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src/mpi_stubs_internal.hh'
     Offset:          1159
     Length:          0
     ReplacementText: ' dpct_type_241340'
@@ -10,7 +10,7 @@ Replacements:
     InitStr:         ''
     NewHostVarName:  ''
     BlockLevelFormatFlag: false
-  - FilePath:        '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src/mpi_stubs_internal.hh'
+  - FilePath:        '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src/mpi_stubs_internal.hh'
     Offset:          1248
     Length:          0
     ReplacementText: ' dpct_type_811906'
@@ -20,7 +20,7 @@ Replacements:
     NewHostVarName:  ''
     BlockLevelFormatFlag: false
 MainSourceFilesDigest:
-  - MainSourceFile:  '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src/mpi_stubs_internal.hh'
+  - MainSourceFile:  '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src/mpi_stubs_internal.hh'
     Digest:          a1fef4b40b5db866c7e27de918dbe7ea
 DpctVersion:     18.0.0
 MainHelperFileName: ''
@@ -29,7 +29,7 @@ FeatureMap:      {}
 CompileTargets:  {}
 OptionMap:
   AnalysisScopePath:
-    Value:           '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src'
+    Value:           '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src'
     Specified:       false
   AsyncHandler:
     Value:           'false'
@@ -38,7 +38,7 @@ OptionMap:
     Value:           'false'
     Specified:       false
   CompilationsDir:
-    Value:           '/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src'
+    Value:           '/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/QuickSilver/CUDA/src'
     Specified:       true
   CtadEnabled:
     Value:           'false'

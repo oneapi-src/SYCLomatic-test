@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA
+CMAKE_SOURCE_DIR = /home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build
+CMAKE_BINARY_DIR = /home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -81,14 +81,14 @@ clean: CMakeFiles/bitcracker.dir/clean
 CMakeFiles/bitcracker.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bitcracker.dir/build.make CMakeFiles/bitcracker.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bitcracker.dir/build.make CMakeFiles/bitcracker.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target bitcracker"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target bitcracker"
 .PHONY : CMakeFiles/bitcracker.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/bitcracker.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/bitcracker.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/chenshe1/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/local_user/sandbox/SYCLomatic-test/third-party-programs/Velocity-Bench/bitcracker/CUDA/build/CMakeFiles 0
 .PHONY : CMakeFiles/bitcracker.dir/rule
 
 # Convenience name for target.

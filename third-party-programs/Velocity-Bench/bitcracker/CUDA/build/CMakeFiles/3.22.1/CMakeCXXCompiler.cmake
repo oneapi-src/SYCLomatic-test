@@ -77,7 +77,7 @@ endif()
 
 
 
-set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "/home/chenshe1/sandbox/dpct_install/include;/opt/intel/oneapi/tbb/2021.10.0/include;/opt/intel/oneapi/mpi/2021.10.0/include;/opt/intel/oneapi/dev-utilities/2021.10.0/include;/opt/intel/oneapi/compiler/2023.2.0/linux/lib/oclfpga/include;/usr/include/c++/11;/usr/include/x86_64-linux-gnu/c++/11;/usr/include/c++/11/backward;/usr/lib/gcc/x86_64-linux-gnu/11/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include")
+set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "/home/local_user/sandbox/dpct_install/include;/opt/intel/oneapi/tbb/2021.10.0/include;/opt/intel/oneapi/mpi/2021.10.0/include;/opt/intel/oneapi/dev-utilities/2021.10.0/include;/opt/intel/oneapi/compiler/2023.2.0/linux/lib/oclfpga/include;/usr/include/c++/11;/usr/include/x86_64-linux-gnu/c++/11;/usr/include/c++/11/backward;/usr/lib/gcc/x86_64-linux-gnu/11/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include")
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "stdc++;m;gcc_s;gcc;c;gcc_s;gcc")
 set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "/opt/intel/oneapi/mpi/2021.10.0/libfabric/lib;/opt/intel/oneapi/mpi/2021.10.0/lib;/opt/intel/oneapi/compiler/2023.2.0/linux/lib;/usr/lib/gcc/x86_64-linux-gnu/11;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib;/opt/intel/oneapi/tbb/2021.10.0/lib/intel64/gcc4.8;/opt/intel/oneapi/mpi/2021.10.0/lib/release;/opt/intel/oneapi/compiler/2023.2.0/linux/compiler/lib/intel64_lin")
 set(CMAKE_CXX_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")
