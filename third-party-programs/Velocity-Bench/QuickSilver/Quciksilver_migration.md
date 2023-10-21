@@ -243,6 +243,14 @@ printf("coordiante:          %g\t%g\t%g\n", coordinate.x, coordinate.y,
 }
 ```
 
+For this case, the ```#ifnedf DPCT_COMPATIBILITY_TEMP``` needs to be updated:
+```
+#ifndef DPCT_COMPATIBILITY_TEMP
+changed to 
+#ifdef DPCT_COMPATIBILITY_TEMP
+```
+due to the ```#ifndef __CUDA_ARCH__``` is used to seperatly executing for the host and device code, after the migration, the ```DPCT_COMPATIBILITY_TEMP``` will be always defined in the migration code. So to run the device function, the ```#ifndef``` should be changed to ```#ifdef``` and recompiled the applications.
+
 ## Rebuild the migrated code
 After manually addressing the warning error, need to rebuild the application.
 ```
@@ -270,7 +278,7 @@ Simulation:
    dt: 1e-08
    fMax: 0.1
    inputFile: ../../../Examples/AllScattering/scatteringOnly.inp
-   energySpectrum:
+   energySpectrum: 
    boundaryCondition: octant
    loadBalance: 1
    cycleTimers: 0
@@ -331,6 +339,11 @@ CrossSection:
    D: 0
    E: 1
    nuBar: 2.4
+
+WARNING: The enviroment variable SYCL_DEVICE_FILTER is deprecated. Please use ONEAPI_DEVICE_SELECTOR instead.
+For more details, please refer to:
+https://github.com/intel/llvm/blob/sycl/sycl/doc/EnvironmentVariables.md#oneapi_device_selector
+
 Building partition 0
 Building partition 1
 Building partition 2
@@ -343,28 +356,28 @@ Starting Consistency Check
 Finished Consistency Check
 Finished initMesh
    cycle  start  source     rr  split     absorb    scatter fission    produce    collisn   escape     census    num_seg   scalar_flux      cycleInit  cycleTracking  cycleFinalize
-       0      0       0      0      0          0          0       0          0          0        0          0          0  0.000000e+00   2.607000e-03   1.297000e-03   1.000000e-06
-       1      0       0      0      0          0          0       0          0          0        0          0          0  0.000000e+00   1.180000e-04   1.000000e-06   0.000000e+00
-       2      0       0      0      0          0          0       0          0          0        0          0          0  0.000000e+00   5.600000e-05   1.000000e-06   0.000000e+00
-       3      0       0      0      0          0          0       0          0          0        0          0          0  0.000000e+00   3.600000e-05   1.000000e-06   0.000000e+00
-       4      0       0      0      0          0          0       0          0          0        0          0          0  0.000000e+00   3.600000e-05   1.000000e-06   0.000000e+00
-       5      0       0      0      0          0          0       0          0          0        0          0          0  0.000000e+00   3.600000e-05   1.000000e-06   0.000000e+00
-       6      0       0      0      0          0          0       0          0          0        0          0          0  0.000000e+00   3.600000e-05   1.000000e-06   0.000000e+00
-       7      0       0      0      0          0          0       0          0          0        0          0          0  0.000000e+00   3.600000e-05   1.000000e-06   0.000000e+00
-       8      0       0      0      0          0          0       0          0          0        0          0          0  0.000000e+00   4.100000e-05   1.000000e-06   0.000000e+00
-       9      0       0      0      0          0          0       0          0          0        0          0          0  0.000000e+00   3.600000e-05   1.000000e-06   0.000000e+00
+       0      0  999000      0 9000911          0   18533102       0          0   18533102  1151713    8848198   55527552  1.853054e+09   3.941620e-01   4.599402e+00   1.000000e-06
+       1 8848198  999000      0 152496          0   34283265       0          0   34283265  1664199    8335495   94636539  5.042460e+09   2.619460e-01   6.905509e+00   1.000000e-06
+       2 8335495  999000      0 664828          0   34355643       0          0   34355643  1366796    8632527   95014421  7.698305e+09   2.519900e-01   7.205290e+00   2.000000e-06
+       3 8632527  999000      0 368918          0   34304499       0          0   34304499  1242218    8758227   94957812  9.981711e+09   2.782180e-01   7.377506e+00   1.000000e-06
+       4 8758227  999000      0 243133          0   34142788       0          0   34142788  1168494    8831866   94602592  1.198623e+10   2.527620e-01   7.409457e+00   1.000000e-06
+       5 8831866  999000      0 169147          0   33951332       0          0   33951332  1121053    8878960   94154708  1.376283e+10   2.558220e-01   7.424416e+00   1.000000e-06
+       6 8878960  999000      0 121378          0   33761535       0          0   33761535  1088931    8910407   93691628  1.534119e+10   2.562770e-01   7.463845e+00   1.000000e-06
+       7 8910407  999000      0  90638          0   33552845       0          0   33552845  1065102    8934943   93219723  1.675345e+10   2.657750e-01   7.471188e+00   1.000000e-06
+       8 8934943  999000      0  66353          0   33384900       0          0   33384900  1047516    8952780   92770771  1.802717e+10   2.571480e-01   7.569291e+00   2.000000e-06
+       9 8952780  999000      0  48021          0   33199785       0          0   33199785  1033858    8965943   92326431  1.918272e+10   2.796770e-01   7.676362e+00   1.000000e-06
 
 Timer                       Cumulative   Cumulative   Cumulative   Cumulative   Cumulative   Cumulative
 Name                            number    microSecs    microSecs    microSecs    microSecs   Efficiency
                               of calls          min          avg          max       stddev       Rating
-main                                 1    6.015e+03    6.015e+03    6.015e+03    0.000e+00       100.00
-cycleInit                           10    3.038e+03    3.038e+03    3.038e+03    0.000e+00       100.00
-cycleTracking                       10    1.306e+03    1.306e+03    1.306e+03    0.000e+00       100.00
-cycleTracking_Kernel               100    0.000e+00    0.000e+00    0.000e+00    0.000e+00         0.00
-cycleTracking_MPI                  110    1.294e+03    1.294e+03    1.294e+03    0.000e+00       100.00
+main                                 1    7.386e+07    7.386e+07    7.386e+07    0.000e+00       100.00
+cycleInit                           10    2.754e+06    2.754e+06    2.754e+06    0.000e+00       100.00
+cycleTracking                       10    7.110e+07    7.110e+07    7.110e+07    0.000e+00       100.00
+cycleTracking_Kernel               107    7.093e+07    7.093e+07    7.093e+07    0.000e+00       100.00
+cycleTracking_MPI                  117    1.751e+05    1.751e+05    1.751e+05    0.000e+00       100.00
 cycleTracking_Test_Done              0    0.000e+00    0.000e+00    0.000e+00    0.000e+00         0.00
-cycleFinalize                       20    2.790e+02    2.790e+02    2.790e+02    0.000e+00       100.00
-Figure Of Merit                   0.00 [Num Mega Segments / Cycle Tracking Time]
+cycleFinalize                       20    3.690e+02    3.690e+02    3.690e+02    0.000e+00       100.00
+Figure Of Merit                  12.67 [Num Mega Segments / Cycle Tracking Time]
 ```
 **Note:** The testing result was running on Intel(R) Core(TM) i7-13700K on the CPU backend with 2023.2 oneAPI released oneAPI packaged. 
 
