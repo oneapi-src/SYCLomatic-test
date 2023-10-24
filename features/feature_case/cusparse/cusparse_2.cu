@@ -523,13 +523,20 @@ void test_cusparseTcsrsv() {
 
   cusparseHandle_t handle;
   cusparseCreate(&handle);
-  cusparseSolveAnalysisInfo_t info;
-  cusparseCreateSolveAnalysisInfo(&info);
+  cusparseSolveAnalysisInfo_t info_s;
+  cusparseSolveAnalysisInfo_t info_d;
+  cusparseSolveAnalysisInfo_t info_c;
+  cusparseSolveAnalysisInfo_t info_z;
+  cusparseCreateSolveAnalysisInfo(&info_s);
+  cusparseCreateSolveAnalysisInfo(&info_d);
+  cusparseCreateSolveAnalysisInfo(&info_c);
+  cusparseCreateSolveAnalysisInfo(&info_z);
 
   cusparseMatDescr_t descrA;
   cusparseCreateMatDescr(&descrA);
   cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
   cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_TRIANGULAR);
+  cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_UNIT);
 
   a_s_val.H2D();
   a_d_val.H2D();
@@ -542,11 +549,11 @@ void test_cusparseTcsrsv() {
   f_c.H2D();
   f_z.H2D();
 
-  cusparseScsrsv_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info);
-  cusparseDcsrsv_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info);
+  cusparseScsrsv_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_s);
+  cusparseDcsrsv_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_d);
   if (run_complex_datatype) {
-    cusparseCcsrsv_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info);
-    cusparseZcsrsv_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info);
+    cusparseCcsrsv_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_c);
+    cusparseZcsrsv_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_z);
   }
 
   float alpha_s = 1;
@@ -554,11 +561,11 @@ void test_cusparseTcsrsv() {
   float2 alpha_c = float2{1, 0};
   double2 alpha_z = double2{1, 0};
 
-  cusparseScsrsv_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_s, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_s.d_data, x_s.d_data);
-  cusparseDcsrsv_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_d, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_d.d_data, x_d.d_data);
+  cusparseScsrsv_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_s, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_s, f_s.d_data, x_s.d_data);
+  cusparseDcsrsv_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_d, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_d, f_d.d_data, x_d.d_data);
   if (run_complex_datatype) {
-    cusparseCcsrsv_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_c, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_c.d_data, x_c.d_data);
-    cusparseZcsrsv_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_z, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_z.d_data, x_z.d_data);
+    cusparseCcsrsv_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_c, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_c, f_c.d_data, x_c.d_data);
+    cusparseZcsrsv_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_z, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_z, f_z.d_data, x_z.d_data);
   }
 
   x_s.D2H();
@@ -567,7 +574,10 @@ void test_cusparseTcsrsv() {
   x_z.D2H();
 
   cudaStreamSynchronize(0);
-  cusparseDestroySolveAnalysisInfo(info);
+  cusparseDestroySolveAnalysisInfo(info_s);
+  cusparseDestroySolveAnalysisInfo(info_d);
+  cusparseDestroySolveAnalysisInfo(info_c);
+  cusparseDestroySolveAnalysisInfo(info_z);
   cusparseDestroyMatDescr(descrA);
   cusparseDestroy(handle);
 
@@ -821,8 +831,14 @@ void test_cusparseTcsrsv2() {
 
   cusparseHandle_t handle;
   cusparseCreate(&handle);
-  csrsv2Info_t info;
-  cusparseCreateCsrsv2Info(&info);
+  csrsv2Info_t info_s;
+  csrsv2Info_t info_d;
+  csrsv2Info_t info_c;
+  csrsv2Info_t info_z;
+  cusparseCreateCsrsv2Info(&info_s);
+  cusparseCreateCsrsv2Info(&info_d);
+  cusparseCreateCsrsv2Info(&info_c);
+  cusparseCreateCsrsv2Info(&info_z);
   cusparseSolvePolicy_t policy = CUSPARSE_SOLVE_POLICY_USE_LEVEL;
   policy = CUSPARSE_SOLVE_POLICY_NO_LEVEL;
 
@@ -831,6 +847,7 @@ void test_cusparseTcsrsv2() {
   cusparseCreateMatDescr(&descrA);
   cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
   cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_TRIANGULAR);
+  cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_UNIT);
 
   a_s_val.H2D();
   a_d_val.H2D();
@@ -847,19 +864,19 @@ void test_cusparseTcsrsv2() {
   int buffer_size_d0;
   int buffer_size_c0;
   int buffer_size_z0;
-  cusparseScsrsv2_bufferSize(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, &buffer_size_s0);
-  cusparseDcsrsv2_bufferSize(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, &buffer_size_d0);
-  cusparseCcsrsv2_bufferSize(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, &buffer_size_c0);
-  cusparseZcsrsv2_bufferSize(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, &buffer_size_z0);
+  cusparseScsrsv2_bufferSize(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_s, &buffer_size_s0);
+  cusparseDcsrsv2_bufferSize(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_d, &buffer_size_d0);
+  cusparseCcsrsv2_bufferSize(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_c, &buffer_size_c0);
+  cusparseZcsrsv2_bufferSize(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_z, &buffer_size_z0);
 
   size_t buffer_size_s;
   size_t buffer_size_d;
   size_t buffer_size_c;
   size_t buffer_size_z;
-  cusparseScsrsv2_bufferSizeExt(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, &buffer_size_s);
-  cusparseDcsrsv2_bufferSizeExt(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, &buffer_size_d);
-  cusparseCcsrsv2_bufferSizeExt(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, &buffer_size_c);
-  cusparseZcsrsv2_bufferSizeExt(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, &buffer_size_z);
+  cusparseScsrsv2_bufferSizeExt(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_s, &buffer_size_s);
+  cusparseDcsrsv2_bufferSizeExt(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_d, &buffer_size_d);
+  cusparseCcsrsv2_bufferSizeExt(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_c, &buffer_size_c);
+  cusparseZcsrsv2_bufferSizeExt(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_z, &buffer_size_z);
 
   void* buffer_s;
   void* buffer_d;
@@ -870,20 +887,20 @@ void test_cusparseTcsrsv2() {
   cudaMalloc(&buffer_c, buffer_size_c);
   cudaMalloc(&buffer_z, buffer_size_z);
 
-  cusparseScsrsv2_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, policy, buffer_s);
-  cusparseDcsrsv2_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, policy, buffer_d);
-  cusparseCcsrsv2_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, policy, buffer_c);
-  cusparseZcsrsv2_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, policy, buffer_z);
+  cusparseScsrsv2_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_s, policy, buffer_s);
+  cusparseDcsrsv2_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_d, policy, buffer_d);
+  cusparseCcsrsv2_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_c, policy, buffer_c);
+  cusparseZcsrsv2_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_z, policy, buffer_z);
 
   float alpha_s = 1;
   double alpha_d = 1;
   float2 alpha_c = float2{1, 0};
   double2 alpha_z = double2{1, 0};
 
-  cusparseScsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, &alpha_s, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_s.d_data, x_s.d_data, policy, buffer_s);
-  cusparseDcsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, &alpha_d, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_d.d_data, x_d.d_data, policy, buffer_d);
-  cusparseCcsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, &alpha_c, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_c.d_data, x_c.d_data, policy, buffer_c);
-  cusparseZcsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, &alpha_z, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_z.d_data, x_z.d_data, policy, buffer_z);
+  cusparseScsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, &alpha_s, descrA, (float *)a_s_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_s, f_s.d_data, x_s.d_data, policy, buffer_s);
+  cusparseDcsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, &alpha_d, descrA, (double *)a_d_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_d, f_d.d_data, x_d.d_data, policy, buffer_d);
+  cusparseCcsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, &alpha_c, descrA, (float2 *)a_c_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_c, f_c.d_data, x_c.d_data, policy, buffer_c);
+  cusparseZcsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, &alpha_z, descrA, (double2 *)a_z_val.d_data, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_z, f_z.d_data, x_z.d_data, policy, buffer_z);
 
   x_s.D2H();
   x_d.D2H();
@@ -891,7 +908,10 @@ void test_cusparseTcsrsv2() {
   x_z.D2H();
 
   cudaStreamSynchronize(0);
-  cusparseDestroyCsrsv2Info(info);
+  cusparseDestroyCsrsv2Info(info_s);
+  cusparseDestroyCsrsv2Info(info_d);
+  cusparseDestroyCsrsv2Info(info_c);
+  cusparseDestroyCsrsv2Info(info_z);
   cusparseDestroyMatDescr(descrA);
   cusparseDestroy(handle);
   cudaFree(buffer_s);

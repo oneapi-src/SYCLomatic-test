@@ -132,13 +132,20 @@ void test_cusparseCsrsvEx() {
 
   cusparseHandle_t handle;
   cusparseCreate(&handle);
-  cusparseSolveAnalysisInfo_t info;
-  cusparseCreateSolveAnalysisInfo(&info);
+  cusparseSolveAnalysisInfo_t info_s;
+  cusparseSolveAnalysisInfo_t info_d;
+  cusparseSolveAnalysisInfo_t info_c;
+  cusparseSolveAnalysisInfo_t info_z;
+  cusparseCreateSolveAnalysisInfo(&info_s);
+  cusparseCreateSolveAnalysisInfo(&info_d);
+  cusparseCreateSolveAnalysisInfo(&info_c);
+  cusparseCreateSolveAnalysisInfo(&info_z);
 
   cusparseMatDescr_t descrA;
   cusparseCreateMatDescr(&descrA);
   cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
   cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_TRIANGULAR);
+  cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_UNIT);
 
   a_s_val.H2D();
   a_d_val.H2D();
@@ -151,20 +158,20 @@ void test_cusparseCsrsvEx() {
   f_c.H2D();
   f_z.H2D();
 
-  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_s_val.d_data, CUDA_R_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, CUDA_R_32F);
-  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_d_val.d_data, CUDA_R_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, CUDA_R_64F);
-  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_c_val.d_data, CUDA_C_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, CUDA_C_32F);
-  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_z_val.d_data, CUDA_C_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, CUDA_C_64F);
+  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_s_val.d_data, CUDA_R_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_s, CUDA_R_32F);
+  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_d_val.d_data, CUDA_R_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_d, CUDA_R_64F);
+  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_c_val.d_data, CUDA_C_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_c, CUDA_C_32F);
+  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_z_val.d_data, CUDA_C_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_z, CUDA_C_64F);
 
   float alpha_s = 1;
   double alpha_d = 1;
   float2 alpha_c = float2{1, 0};
   double2 alpha_z = double2{1, 0};
 
-  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_s, CUDA_R_32F, descrA, a_s_val.d_data, CUDA_R_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_s.d_data, CUDA_R_32F, x_s.d_data, CUDA_R_32F, CUDA_R_32F);
-  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_d, CUDA_R_64F, descrA, a_d_val.d_data, CUDA_R_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_d.d_data, CUDA_R_64F, x_d.d_data, CUDA_R_64F, CUDA_R_64F);
-  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_c, CUDA_C_32F, descrA, a_c_val.d_data, CUDA_C_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_c.d_data, CUDA_C_32F, x_c.d_data, CUDA_C_32F, CUDA_C_32F);
-  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_z, CUDA_C_64F, descrA, a_z_val.d_data, CUDA_C_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info, f_z.d_data, CUDA_C_64F, x_z.d_data, CUDA_C_64F, CUDA_C_64F);
+  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_s, CUDA_R_32F, descrA, a_s_val.d_data, CUDA_R_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_s, f_s.d_data, CUDA_R_32F, x_s.d_data, CUDA_R_32F, CUDA_R_32F);
+  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_d, CUDA_R_64F, descrA, a_d_val.d_data, CUDA_R_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_d, f_d.d_data, CUDA_R_64F, x_d.d_data, CUDA_R_64F, CUDA_R_64F);
+  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_c, CUDA_C_32F, descrA, a_c_val.d_data, CUDA_C_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_c, f_c.d_data, CUDA_C_32F, x_c.d_data, CUDA_C_32F, CUDA_C_32F);
+  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_z, CUDA_C_64F, descrA, a_z_val.d_data, CUDA_C_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_z, f_z.d_data, CUDA_C_64F, x_z.d_data, CUDA_C_64F, CUDA_C_64F);
 
   x_s.D2H();
   x_d.D2H();
@@ -172,7 +179,10 @@ void test_cusparseCsrsvEx() {
   x_z.D2H();
 
   cudaStreamSynchronize(0);
-  cusparseDestroySolveAnalysisInfo(info);
+  cusparseDestroySolveAnalysisInfo(info_s);
+  cusparseDestroySolveAnalysisInfo(info_d);
+  cusparseDestroySolveAnalysisInfo(info_c);
+  cusparseDestroySolveAnalysisInfo(info_z);
   cusparseDestroyMatDescr(descrA);
   cusparseDestroy(handle);
 
