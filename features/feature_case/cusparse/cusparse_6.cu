@@ -115,9 +115,15 @@ void test_cusparseCsrsvEx() {
   Data<float2> a_c_val(a_val_vec.data(), 6);
   Data<double2> a_z_val(a_val_vec.data(), 6);
   std::vector<float> a_row_ptr_vec = {0, 3, 5, 6};
-  Data<int> a_row_ptr(a_row_ptr_vec.data(), 4);
+  Data<int> a_row_ptr_s(a_row_ptr_vec.data(), 4);
+  Data<int> a_row_ptr_d(a_row_ptr_vec.data(), 4);
+  Data<int> a_row_ptr_c(a_row_ptr_vec.data(), 4);
+  Data<int> a_row_ptr_z(a_row_ptr_vec.data(), 4);
   std::vector<float> a_col_ind_vec = {0, 1, 2, 1, 2, 3};
-  Data<int> a_col_ind(a_col_ind_vec.data(), 6);
+  Data<int> a_col_ind_s(a_col_ind_vec.data(), 6);
+  Data<int> a_col_ind_d(a_col_ind_vec.data(), 6);
+  Data<int> a_col_ind_c(a_col_ind_vec.data(), 6);
+  Data<int> a_col_ind_z(a_col_ind_vec.data(), 6);
 
   std::vector<float> f_vec = {9, 11, 3};
   Data<float> f_s(f_vec.data(), 3);
@@ -151,27 +157,33 @@ void test_cusparseCsrsvEx() {
   a_d_val.H2D();
   a_c_val.H2D();
   a_z_val.H2D();
-  a_row_ptr.H2D();
-  a_col_ind.H2D();
+  a_row_ptr_s.H2D();
+  a_row_ptr_d.H2D();
+  a_row_ptr_c.H2D();
+  a_row_ptr_z.H2D();
+  a_col_ind_s.H2D();
+  a_col_ind_d.H2D();
+  a_col_ind_c.H2D();
+  a_col_ind_z.H2D();
   f_s.H2D();
   f_d.H2D();
   f_c.H2D();
   f_z.H2D();
 
-  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_s_val.d_data, CUDA_R_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_s, CUDA_R_32F);
-  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_d_val.d_data, CUDA_R_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_d, CUDA_R_64F);
-  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_c_val.d_data, CUDA_C_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_c, CUDA_C_32F);
-  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_z_val.d_data, CUDA_C_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_z, CUDA_C_64F);
+  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_s_val.d_data, CUDA_R_32F, (int *)a_row_ptr_s.d_data, (int *)a_col_ind_s.d_data, info_s, CUDA_R_32F);
+  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_d_val.d_data, CUDA_R_64F, (int *)a_row_ptr_d.d_data, (int *)a_col_ind_d.d_data, info_d, CUDA_R_64F);
+  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_c_val.d_data, CUDA_C_32F, (int *)a_row_ptr_c.d_data, (int *)a_col_ind_c.d_data, info_c, CUDA_C_32F);
+  cusparseCsrsv_analysisEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, 6, descrA, a_z_val.d_data, CUDA_C_64F, (int *)a_row_ptr_z.d_data, (int *)a_col_ind_z.d_data, info_z, CUDA_C_64F);
 
   float alpha_s = 1;
   double alpha_d = 1;
   float2 alpha_c = float2{1, 0};
   double2 alpha_z = double2{1, 0};
 
-  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_s, CUDA_R_32F, descrA, a_s_val.d_data, CUDA_R_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_s, f_s.d_data, CUDA_R_32F, x_s.d_data, CUDA_R_32F, CUDA_R_32F);
-  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_d, CUDA_R_64F, descrA, a_d_val.d_data, CUDA_R_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_d, f_d.d_data, CUDA_R_64F, x_d.d_data, CUDA_R_64F, CUDA_R_64F);
-  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_c, CUDA_C_32F, descrA, a_c_val.d_data, CUDA_C_32F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_c, f_c.d_data, CUDA_C_32F, x_c.d_data, CUDA_C_32F, CUDA_C_32F);
-  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_z, CUDA_C_64F, descrA, a_z_val.d_data, CUDA_C_64F, (int *)a_row_ptr.d_data, (int *)a_col_ind.d_data, info_z, f_z.d_data, CUDA_C_64F, x_z.d_data, CUDA_C_64F, CUDA_C_64F);
+  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_s, CUDA_R_32F, descrA, a_s_val.d_data, CUDA_R_32F, (int *)a_row_ptr_s.d_data, (int *)a_col_ind_s.d_data, info_s, f_s.d_data, CUDA_R_32F, x_s.d_data, CUDA_R_32F, CUDA_R_32F);
+  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_d, CUDA_R_64F, descrA, a_d_val.d_data, CUDA_R_64F, (int *)a_row_ptr_d.d_data, (int *)a_col_ind_d.d_data, info_d, f_d.d_data, CUDA_R_64F, x_d.d_data, CUDA_R_64F, CUDA_R_64F);
+  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_c, CUDA_C_32F, descrA, a_c_val.d_data, CUDA_C_32F, (int *)a_row_ptr_c.d_data, (int *)a_col_ind_c.d_data, info_c, f_c.d_data, CUDA_C_32F, x_c.d_data, CUDA_C_32F, CUDA_C_32F);
+  cusparseCsrsv_solveEx(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, 3, &alpha_z, CUDA_C_64F, descrA, a_z_val.d_data, CUDA_C_64F, (int *)a_row_ptr_z.d_data, (int *)a_col_ind_z.d_data, info_z, f_z.d_data, CUDA_C_64F, x_z.d_data, CUDA_C_64F, CUDA_C_64F);
 
   x_s.D2H();
   x_d.D2H();
