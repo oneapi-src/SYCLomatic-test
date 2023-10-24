@@ -529,7 +529,7 @@ void test_cusparseTcsrsv() {
   cusparseMatDescr_t descrA;
   cusparseCreateMatDescr(&descrA);
   cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
-  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
+  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_TRIANGULAR);
 
   a_s_val.H2D();
   a_d_val.H2D();
@@ -830,7 +830,7 @@ void test_cusparseTcsrsv2() {
   cusparseMatDescr_t descrA;
   cusparseCreateMatDescr(&descrA);
   cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
-  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
+  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_TRIANGULAR);
 
   a_s_val.H2D();
   a_d_val.H2D();

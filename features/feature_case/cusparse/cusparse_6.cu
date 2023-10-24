@@ -1,4 +1,4 @@
-// ===------- cusparse_2.cu -------------------------------- *- CUDA -* ----===//
+// ===------- cusparse_6.cu -------------------------------- *- CUDA -* ----===//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
@@ -138,7 +138,7 @@ void test_cusparseCsrsvEx() {
   cusparseMatDescr_t descrA;
   cusparseCreateMatDescr(&descrA);
   cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
-  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
+  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_TRIANGULAR);
 
   a_s_val.H2D();
   a_d_val.H2D();
