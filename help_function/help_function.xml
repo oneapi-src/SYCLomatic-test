@@ -91,6 +91,7 @@
     <test testName="onedpl_test_copy" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_copy_if" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_count_if" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
+    <test testName="onedpl_test_device_new_delete" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_device_ptr" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_discard_iterator" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_equal_range" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
