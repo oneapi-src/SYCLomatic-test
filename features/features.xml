@@ -103,6 +103,7 @@
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="math-bf16-conv" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-bfloat16" configFile="config/TEMPLATE_math_after_11.xml" />
+    <test testName="math-cuda-align" configFile="config/TEMPLATE_math_after_118.xml" />
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-drcp" configFile="config/TEMPLATE_math_drcp.xml"  splitGroup="double" />
     <test testName="math-emu" configFile="config/TEMPLATE_math.xml" />
