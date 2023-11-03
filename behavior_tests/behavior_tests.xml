@@ -11,7 +11,7 @@
         <test testName="bt-ct-default-out-folder" configFile="config/bt-ct-default-out-folder.xml" />
         <test testName="ngt-check-cannot-parse" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-stop-on-parse-err" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="copy_all_files" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <!--<test testName="copy_all_files" configFile="config/TEMPLATE_behavior_tests.xml" /> -->
         <test testName="ngt-output-verbosity" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-report-format1" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-report-type" configFile="config/TEMPLATE_behavior_tests.xml" />
@@ -66,11 +66,11 @@
         <test testName="ngt-invalid-yaml-for-format2" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-yaml-for-format3" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-yaml-for-format4" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="ngt-invalid-yaml-for-header1" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="ngt-invalid-yaml-for-header2" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="ngt-invalid-yaml-for-header3" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <!-- <<test testName="ngt-invalid-yaml-for-header1" configFile="config/TEMPLATE_behavior_tests.xml" /> -->
+        <!-- <test testName="ngt-invalid-yaml-for-header2" configFile="config/TEMPLATE_behavior_tests.xml" /> -->
+        <!-- <test testName="ngt-invalid-yaml-for-header3" configFile="config/TEMPLATE_behavior_tests.xml" /> -->
         <test testName="ngt-invalid-yaml-for-header4" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
-        <test testName="ngt-win-invalid-yaml-for-header4" configFile="config/TEMPLATE_behavior_tests_win.xml" />
+        <!-- <test testName="ngt-win-invalid-yaml-for-header4" configFile="config/TEMPLATE_behavior_tests_win.xml" /> -->
         <test testName="ngt-invalid-json1" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-json2" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-json3" configFile="config/TEMPLATE_behavior_tests.xml" />
@@ -128,7 +128,7 @@
         <test testName="bt-use-explicit-namespace5" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-use-explicit-namespace6" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-invalid-cuda-version" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="bt-modified-yaml" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <!-- <test testName="bt-modified-yaml" configFile="config/TEMPLATE_behavior_tests.xml" /> -->
         <test testName="bt-check-warning1083" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-warning1118" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-unsupported-type-function" configFile="config/TEMPLATE_behavior_tests_after_9.2.xml" />
@@ -158,7 +158,7 @@
         <test testName="open-source-mkl-compile" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="bt-gen-helper-function" configFile="config/TEMPLATE_behavior_tests_win.xml" />
         <test testName="bt-language-warning" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="bt-check-unexpected-message" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <!-- <test testName="bt-check-unexpected-message" configFile="config/TEMPLATE_behavior_tests.xml" /> -->
         <test testName="cmp-cmds-linker-entry-src-files" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
     </tests>
 

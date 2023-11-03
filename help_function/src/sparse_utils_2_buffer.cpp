@@ -702,7 +702,7 @@ void test_cusparseTcsrsv() {
   std::shared_ptr<dpct::sparse::matrix_info> descrA;
   descrA = std::make_shared<dpct::sparse::matrix_info>();
   descrA->set_index_base(oneapi::mkl::index_base::zero);
-  descrA->set_matrix_type(dpct::sparse::matrix_info::matrix_type::ge);
+  descrA->set_matrix_type(dpct::sparse::matrix_info::matrix_type::tr);
 
   a_s_val.H2D();
   a_d_val.H2D();
