@@ -63,7 +63,7 @@ int test_temporary_allocation_on_device(sycl::queue q,
 
   failed_tests += (num_allocated != num_elements);
   test_passed(failed_tests, test_name);
-  dpct::release_temporary_allocation(policy_or_tag, ptr, num_elements);
+  dpct::release_temporary_allocation(policy_or_tag, ptr);
 
   return failed_tests;
 }
@@ -90,7 +90,7 @@ int test_temporary_allocation_on_host(PolicyOrTag policy_or_tag,
 
   failed_tests += (num_allocated != num_elements);
   test_passed(failed_tests, test_name);
-  dpct::release_temporary_allocation(policy_or_tag, ptr, num_allocated);
+  dpct::release_temporary_allocation(policy_or_tag, ptr);
 
   return failed_tests;
 }
