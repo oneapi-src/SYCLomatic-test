@@ -8,7 +8,7 @@
         <test testName="mul_const_var_with_mul_acc" configFile="config/TEMPLATE_samples.xml" />
         <test testName="my_program" configFile="config/TEMPLATE_samples.xml" />
         <test testName="duplicated_report" configFile="config/TEMPLATE_samples.xml" />
-        <!-- <test testName="memcpy_test" configFile="config/TEMPLATE_samples.xml" /> -->
+        <test testName="memcpy_test" configFile="config/TEMPLATE_samples.xml" />
         <test testName="math_func" configFile="config/math_func.xml" splitGroup="double" />
         <test testName="queryDevInfo" configFile="config/TEMPLATE_samples.xml" />
     </tests>
