@@ -731,6 +731,7 @@ void test_cusparseTcsrsv() {
   descrA = std::make_shared<dpct::sparse::matrix_info>();
   descrA->set_index_base(oneapi::mkl::index_base::zero);
   descrA->set_matrix_type(dpct::sparse::matrix_info::matrix_type::tr);
+  descrA->set_diag(oneapi::mkl::diag::unit);
 
   a_s_val.H2D();
   a_d_val.H2D();
