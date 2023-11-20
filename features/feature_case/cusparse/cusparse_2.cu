@@ -113,7 +113,6 @@ void test_cusparseSetGetStream() {
   cusparseSetStream(handle, stream);
   cusparseDestroy(handle);
   printf("SetGetStream pass\n");
-  test_passed = true;
 }
 
 void test_cusparseTcsrmv_ge() {
@@ -535,7 +534,6 @@ void test_cusparseTcsrsv() {
   cusparseDestroy(handle);
 
   printf("Tcsrsv pass\n");
-  test_passed = true;
 }
 
 void test_cusparseTcsrmv_mp() {

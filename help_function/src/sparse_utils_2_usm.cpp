@@ -127,7 +127,6 @@ void test_cusparseSetGetStream() {
   handle = stream;
   handle = nullptr;
   printf("SetGetStream pass\n");
-  test_passed = true;
 }
 
 void test_cusparseTcsrmv_ge() {
@@ -746,7 +745,6 @@ void test_cusparseTcsrsv() {
   handle = nullptr;
 
   printf("Tcsrsv pass\n");
-  test_passed = true;
 }
 
 void test_cusparseSpMV() {
