@@ -356,13 +356,13 @@ void testY1Cases(const vector<pair<double, di_pair>> &TestCases) {
 
 // Double Precision Intrinsics
 
-__global__ void dadd_rd(float *const Result, float Input1, float Input2) {
+__global__ void dadd_rd(double *const Result, double Input1, double Input2) {
   *Result = __dadd_rd(Input1, Input2);
 }
 
 void testDadd_rdCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dadd_rd<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -372,13 +372,13 @@ void testDadd_rdCases(
   }
 }
 
-__global__ void dadd_rn(float *const Result, float Input1, float Input2) {
+__global__ void dadd_rn(double *const Result, double Input1, double Input2) {
   *Result = __dadd_rn(Input1, Input2);
 }
 
 void testDadd_rnCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dadd_rn<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -388,13 +388,13 @@ void testDadd_rnCases(
   }
 }
 
-__global__ void dadd_ru(float *const Result, float Input1, float Input2) {
+__global__ void dadd_ru(double *const Result, double Input1, double Input2) {
   *Result = __dadd_ru(Input1, Input2);
 }
 
 void testDadd_ruCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dadd_ru<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -404,13 +404,13 @@ void testDadd_ruCases(
   }
 }
 
-__global__ void dadd_rz(float *const Result, float Input1, float Input2) {
+__global__ void dadd_rz(double *const Result, double Input1, double Input2) {
   *Result = __dadd_rz(Input1, Input2);
 }
 
 void testDadd_rzCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dadd_rz<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -420,13 +420,13 @@ void testDadd_rzCases(
   }
 }
 
-__global__ void dmul_rd(float *const Result, float Input1, float Input2) {
+__global__ void dmul_rd(double *const Result, double Input1, double Input2) {
   *Result = __dmul_rd(Input1, Input2);
 }
 
 void testDmul_rdCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dmul_rd<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -436,13 +436,13 @@ void testDmul_rdCases(
   }
 }
 
-__global__ void dmul_rn(float *const Result, float Input1, float Input2) {
+__global__ void dmul_rn(double *const Result, double Input1, double Input2) {
   *Result = __dmul_rn(Input1, Input2);
 }
 
 void testDmul_rnCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dmul_rn<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -452,13 +452,13 @@ void testDmul_rnCases(
   }
 }
 
-__global__ void dmul_ru(float *const Result, float Input1, float Input2) {
+__global__ void dmul_ru(double *const Result, double Input1, double Input2) {
   *Result = __dmul_ru(Input1, Input2);
 }
 
 void testDmul_ruCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dmul_ru<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -468,13 +468,13 @@ void testDmul_ruCases(
   }
 }
 
-__global__ void dmul_rz(float *const Result, float Input1, float Input2) {
+__global__ void dmul_rz(double *const Result, double Input1, double Input2) {
   *Result = __dmul_rz(Input1, Input2);
 }
 
 void testDmul_rzCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dmul_rz<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -484,13 +484,13 @@ void testDmul_rzCases(
   }
 }
 
-__global__ void dsub_rd(float *const Result, float Input1, float Input2) {
+__global__ void dsub_rd(double *const Result, double Input1, double Input2) {
   *Result = __dsub_rd(Input1, Input2);
 }
 
 void testDsub_rdCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dsub_rd<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -500,13 +500,13 @@ void testDsub_rdCases(
   }
 }
 
-__global__ void dsub_rn(float *const Result, float Input1, float Input2) {
+__global__ void dsub_rn(double *const Result, double Input1, double Input2) {
   *Result = __dsub_rn(Input1, Input2);
 }
 
 void testDsub_rnCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dsub_rn<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -516,13 +516,13 @@ void testDsub_rnCases(
   }
 }
 
-__global__ void dsub_ru(float *const Result, float Input1, float Input2) {
+__global__ void dsub_ru(double *const Result, double Input1, double Input2) {
   *Result = __dsub_ru(Input1, Input2);
 }
 
 void testDsub_ruCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dsub_ru<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -532,13 +532,13 @@ void testDsub_ruCases(
   }
 }
 
-__global__ void dsub_rz(float *const Result, float Input1, float Input2) {
+__global__ void dsub_rz(double *const Result, double Input1, double Input2) {
   *Result = __dsub_rz(Input1, Input2);
 }
 
 void testDsub_rzCases(
-    const vector<pair<pair<float, float>, di_pair>> &TestCases) {
-  float *Result;
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
     dsub_rz<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
@@ -636,88 +636,88 @@ int main() {
       {5, {0.1478631433912269, 16}},
   });
   testDadd_rdCases({
-      {{-0.3, -0.4}, {-0.7000000476837158, 16}},
-      {{0.3, -0.4}, {-0.09999999403953552, 17}},
-      {{0.3, 0.4}, {0.7000000476837158, 16}},
-      {{0.3, 0.8}, {1.100000023841858, 15}},
-      {{3, 4}, {7, 15}},
+      {{-0.3, -0.4}, {-0.7, 7}},
+      {{0.3, -0.4}, {-0.1, 8}},
+      {{0.3, 0.4}, {0.7, 7}},
+      {{0.3, 0.8}, {1.1, 7}},
+      {{3, 4}, {7, 37}},
   });
   testDadd_rnCases({
-      {{-0.3, -0.4}, {-0.7000000476837158, 16}},
-      {{0.3, -0.4}, {-0.09999999403953552, 17}},
-      {{0.3, 0.4}, {0.7000000476837158, 16}},
-      {{0.3, 0.8}, {1.100000023841858, 15}},
-      {{3, 4}, {7, 15}},
+      {{-0.3, -0.4}, {-0.7, 7}},
+      {{0.3, -0.4}, {-0.1, 8}},
+      {{0.3, 0.4}, {0.7, 7}},
+      {{0.3, 0.8}, {1.1, 7}},
+      {{3, 4}, {7, 37}},
   });
   testDadd_ruCases({
-      {{-0.3, -0.4}, {-0.7000000476837158, 16}},
-      {{0.3, -0.4}, {-0.09999999403953552, 17}},
-      {{0.3, 0.4}, {0.7000000476837158, 16}},
-      {{0.3, 0.8}, {1.100000023841858, 15}},
-      {{3, 4}, {7, 15}},
+      {{-0.3, -0.4}, {-0.7, 7}},
+      {{0.3, -0.4}, {-0.1, 8}},
+      {{0.3, 0.4}, {0.7, 7}},
+      {{0.3, 0.8}, {1.1, 7}},
+      {{3, 4}, {7, 37}},
   });
   testDadd_rzCases({
-      {{-0.3, -0.4}, {-0.7000000476837158, 16}},
-      {{0.3, -0.4}, {-0.09999999403953552, 17}},
-      {{0.3, 0.4}, {0.7000000476837158, 16}},
-      {{0.3, 0.8}, {1.100000023841858, 15}},
-      {{3, 4}, {7, 15}},
+      {{-0.3, -0.4}, {-0.7, 7}},
+      {{0.3, -0.4}, {-0.1, 8}},
+      {{0.3, 0.4}, {0.7, 7}},
+      {{0.3, 0.8}, {1.1, 7}},
+      {{3, 4}, {7, 37}},
   });
   testDmul_rdCases({
-      {{-0.3, -0.4}, {0.12000000476837158, 17}},
-      {{0.3, -0.4}, {-0.12000000476837158, 17}},
-      {{0.3, 0.4}, {0.12000000476837158, 17}},
-      {{0.3, 0.8}, {0.2400000095367432, 16}},
-      {{3, 4}, {12, 15}},
+      {{-0.3, -0.4}, {0.12, 8}},
+      {{0.3, -0.4}, {-0.12, 8}},
+      {{0.3, 0.4}, {0.12, 8}},
+      {{0.3, 0.8}, {0.24, 8}},
+      {{3, 4}, {12, 37}},
   });
   testDmul_rnCases({
-      {{-0.3, -0.4}, {0.12000000476837158, 17}},
-      {{0.3, -0.4}, {-0.12000000476837158, 17}},
-      {{0.3, 0.4}, {0.12000000476837158, 17}},
-      {{0.3, 0.8}, {0.2400000095367432, 16}},
-      {{3, 4}, {12, 15}},
+      {{-0.3, -0.4}, {0.12, 8}},
+      {{0.3, -0.4}, {-0.12, 8}},
+      {{0.3, 0.4}, {0.12, 8}},
+      {{0.3, 0.8}, {0.24, 8}},
+      {{3, 4}, {12, 37}},
   });
   testDmul_ruCases({
-      {{-0.3, -0.4}, {0.12000000476837158, 17}},
-      {{0.3, -0.4}, {-0.12000000476837158, 17}},
-      {{0.3, 0.4}, {0.12000000476837158, 17}},
-      {{0.3, 0.8}, {0.2400000095367432, 16}},
-      {{3, 4}, {12, 15}},
+      {{-0.3, -0.4}, {0.12, 8}},
+      {{0.3, -0.4}, {-0.12, 8}},
+      {{0.3, 0.4}, {0.12, 8}},
+      {{0.3, 0.8}, {0.24, 8}},
+      {{3, 4}, {12, 37}},
   });
   testDmul_rzCases({
-      {{-0.3, -0.4}, {0.12000000476837158, 17}},
-      {{0.3, -0.4}, {-0.12000000476837158, 17}},
-      {{0.3, 0.4}, {0.12000000476837158, 17}},
-      {{0.3, 0.8}, {0.2400000095367432, 16}},
-      {{3, 4}, {12, 15}},
+      {{-0.3, -0.4}, {0.12, 8}},
+      {{0.3, -0.4}, {-0.12, 8}},
+      {{0.3, 0.4}, {0.12, 8}},
+      {{0.3, 0.8}, {0.24, 8}},
+      {{3, 4}, {12, 37}},
   });
   testDsub_rdCases({
-      {{-0.3, -0.4}, {0.09999999403953552, 17}},
-      {{0.3, -0.4}, {0.7000000476837158, 16}},
-      {{0.3, 0.4}, {-0.09999999403953552, 17}},
-      {{0.3, 0.8}, {-0.5, 16}},
-      {{3, 4}, {-1, 15}},
+      {{-0.3, -0.4}, {0.1, 8}},
+      {{0.3, -0.4}, {0.7, 7}},
+      {{0.3, 0.4}, {-0.1, 8}},
+      {{0.3, 0.8}, {-0.5, 15}},
+      {{3, 4}, {-1, 37}},
   });
   testDsub_rnCases({
-      {{-0.3, -0.4}, {0.09999999403953552, 17}},
-      {{0.3, -0.4}, {0.7000000476837158, 16}},
-      {{0.3, 0.4}, {-0.09999999403953552, 17}},
-      {{0.3, 0.8}, {-0.5, 16}},
-      {{3, 4}, {-1, 15}},
+      {{-0.3, -0.4}, {0.1, 8}},
+      {{0.3, -0.4}, {0.7, 7}},
+      {{0.3, 0.4}, {-0.1, 8}},
+      {{0.3, 0.8}, {-0.5, 37}},
+      {{3, 4}, {-1, 37}},
   });
   testDsub_ruCases({
-      {{-0.3, -0.4}, {0.09999999403953552, 17}},
-      {{0.3, -0.4}, {0.7000000476837158, 16}},
-      {{0.3, 0.4}, {-0.09999999403953552, 17}},
-      {{0.3, 0.8}, {-0.5, 16}},
-      {{3, 4}, {-1, 15}},
+      {{-0.3, -0.4}, {0.1, 8}},
+      {{0.3, -0.4}, {0.7, 7}},
+      {{0.3, 0.4}, {-0.1, 8}},
+      {{0.3, 0.8}, {-0.5, 37}},
+      {{3, 4}, {-1, 37}},
   });
   testDsub_rzCases({
-      {{-0.3, -0.4}, {0.09999999403953552, 17}},
-      {{0.3, -0.4}, {0.7000000476837158, 16}},
-      {{0.3, 0.4}, {-0.09999999403953552, 17}},
-      {{0.3, 0.8}, {-0.5, 16}},
-      {{3, 4}, {-1, 15}},
+      {{-0.3, -0.4}, {0.1, 8}},
+      {{0.3, -0.4}, {0.7, 7}},
+      {{0.3, 0.4}, {-0.1, 8}},
+      {{0.3, 0.8}, {-0.5, 37}},
+      {{3, 4}, {-1, 37}},
   });
   cout << "passed " << passed << "/" << passed + failed << " cases!" << endl;
   if (failed) {
