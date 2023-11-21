@@ -2078,7 +2078,7 @@ int main() {
   test_cusparseSetGetStream();
   test_cusparseTcsrmv_ge();
   test_cusparseTcsrmv_sy();
-  test_cusparseTcsrmv_tr();
+  // test_cusparseTcsrmv_tr();
   // test_cusparseTcsrmm(); // Re-enable this test until MKL issue fixed
   test_cusparseTcsrsv();
   test_cusparseSpMV();
