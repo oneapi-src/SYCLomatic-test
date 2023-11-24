@@ -128,7 +128,7 @@ void test_cusparseCsrsvEx() {
   Data<int> a_row_ptr_d(a_row_ptr_vec.data(), 4);
   Data<int> a_row_ptr_c(a_row_ptr_vec.data(), 4);
   Data<int> a_row_ptr_z(a_row_ptr_vec.data(), 4);
-  std::vector<float> a_col_ind_vec = {0, 1, 2, 1, 2, 3};
+  std::vector<float> a_col_ind_vec = {0, 1, 2, 1, 2, 2};
   Data<int> a_col_ind_s(a_col_ind_vec.data(), 6);
   Data<int> a_col_ind_d(a_col_ind_vec.data(), 6);
   Data<int> a_col_ind_c(a_col_ind_vec.data(), 6);
@@ -252,7 +252,6 @@ void test_cusparseCsrsvEx() {
     printf("CsrsvEx fail\n");
     test_passed = false;
   }
-  test_passed = true;
 }
 
 int main() {
