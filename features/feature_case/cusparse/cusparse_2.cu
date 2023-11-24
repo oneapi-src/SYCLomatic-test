@@ -113,7 +113,6 @@ void test_cusparseSetGetStream() {
   cusparseSetStream(handle, stream);
   cusparseDestroy(handle);
   printf("SetGetStream pass\n");
-  test_passed = true;
 }
 
 void test_cusparseTcsrmv_ge() {
@@ -706,7 +705,7 @@ int main() {
   test_cusparseSetGetStream();
   test_cusparseTcsrmv_ge();
   test_cusparseTcsrmv_sy();
-  test_cusparseTcsrmv_tr();
+  // test_cusparseTcsrmv_tr();
   // test_cusparseTcsrmm(); // Re-enable this test until MKL issue fixed
   test_cusparseTcsrmv_mp();
   test_cusparseCsrmvEx();

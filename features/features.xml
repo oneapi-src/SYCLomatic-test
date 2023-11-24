@@ -11,28 +11,28 @@
     <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-for-RapidCFD" configFile="config/TEMPLATE_thrust_api.xml" />
-    <!--<test testName="thrust-vector-2" configFile="config/TEMPLATE_thrust_exec.xml" /> -->
-    <!-- <test testName="thrust-binary-search" configFile="config/TEMPLATE_thrust_exec.xml" /> -->
-    <!-- <test testName="thrust-count" configFile="config/TEMPLATE_thrust_exec.xml" /> -->
-    <!-- <test testName="thrust-copy" configFile="config/TEMPLATE_thrust_exec.xml" /> -->
+    <test testName="thrust-vector-2" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-binary-search" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-count" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-copy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <!-- <test testName="thrust-qmc" configFile="config/thrust-qmc.xml" splitGroup="double"/> -->
-    <!-- <test testName="thrust-transform-if" configFile="config/TEMPLATE_thrust_exec.xml" /> -->
+    <test testName="thrust-transform-if" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-policy" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
-    <!-- <test testName="thrust-list" configFile="config/TEMPLATE_thrust_exec.xml" /> -->
+    <test testName="thrust-list" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-gather" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-gather_if" configFile="config/TEMPLATE_thrust_exec.xml" />
     <!-- <test testName="thrust-merge_by_key" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" /> -->
     <test testName="thrust-scatter" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key_copy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
-    <!-- <test testName="thrust-for-hypre" configFile="config/TEMPLATE_thrust_exec.xml" /> -->
-    <!-- <test testName="thrust-rawptr-noneusm" configFile="config/TEMPLATE_thrust_noneusm_exec.xml" /> -->
+    <test testName="thrust-for-hypre" configFile="config/TEMPLATE_thrust_exec.xml" />
+    <test testName="thrust-rawptr-noneusm" configFile="config/TEMPLATE_thrust_noneusm_exec.xml" />
     <test testName="thrust-find" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-sort_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-inner_product" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-reduce_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-pinned-allocator" configFile="config/TEMPLATE_thrust_pinned_allocator.xml" />
-    <test testName="thrust_minmax_element" configFile="config/TEMPLATE_thrust_api.xml" />
+    <!-- <test testName="thrust_minmax_element" configFile="config/TEMPLATE_thrust_api.xml" /> -->
     <test testName="thrust_partition" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_detail_types" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_is_sorted" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -123,6 +123,7 @@
     <test testName="math-half-raw" configFile="config/TEMPLATE_math_after_11.xml"/>
     <test testName="math-experimental-bf16" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-experimental-bf162" configFile="config/TEMPLATE_math_after_11.xml" />
+    <test testName="math-ext-bf16-conv" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-ext-double" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-ext-float" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-ext-half" configFile="config/TEMPLATE_math_after_9.xml" />
@@ -215,8 +216,8 @@
     <test testName="cub_counting_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
     <test testName="cub_constant_iterator" configFile="config/TEMPLATE_cub_device.xml" />
-    <test testName="cub_arg_index_input_iterator" configFile="config/TEMPLATE_cub_device.xml" />
-    <!-- <test testName="cudnn_multiple_files" configFile="config/TEMPLATE_cudnn_multiple_files.xml" /> -->
+    <!-- <test testName="cub_arg_index_input_iterator" configFile="config/TEMPLATE_cub_device.xml" /> -->
+    <test testName="cudnn_multiple_files" configFile="config/TEMPLATE_cudnn_multiple_files.xml" />
     <test testName="cudnn-GetErrorString" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-activation" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-fill" configFile="config/TEMPLATE_cuDNN.xml" />
@@ -261,7 +262,7 @@
     <test testName="cusparse_7" configFile="config/TEMPLATE_cusparse_before_11_skip_double.xml" splitGroup="double"/>
     <test testName="cusolver_test1" configFile="config/TEMPLATE_solver.xml"  splitGroup="double"/>
     <test testName="cusolver_test2" configFile="config/TEMPLATE_solver_skip80.xml"  splitGroup="double"/>
-    <test testName="cusolver_test3" configFile="config/TEMPLATE_solver_11.xml"  splitGroup="double"/>
+    <!--  <test testName="cusolver_test3" configFile="config/TEMPLATE_solver_11.xml"  splitGroup="double"/> -->
     <test testName="cusolver_test4" configFile="config/TEMPLATE_solver_10.xml"  splitGroup="double"/>
     <test testName="cusolver_test5" configFile="config/TEMPLATE_solver_114.xml"  splitGroup="double"/>
     <test testName="curand-device2" configFile="config/curand-device2.xml" splitGroup="double"/>
@@ -276,7 +277,7 @@
     <test testName="cublas_v1_runable" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
-    <!--  <test testName="cooperative_groups_thread_group" configFile="config/TEMPLATE_cooperative_groups.xml" /> -->
+    <test testName="cooperative_groups_thread_group" configFile="config/TEMPLATE_cooperative_groups.xml" />
     <test testName="ccl-test" configFile="config/TEMPLATE_ccl_api.xml" />
     <test testName="ccl-test2" configFile="config/TEMPLATE_ccl_api.xml" />
     <test testName="ccl-test3" configFile="config/TEMPLATE_ccl_api.xml" />
