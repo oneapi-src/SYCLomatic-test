@@ -300,5 +300,6 @@
     <test testName="remove_unnecessary_wait" configFile="config/TEMPLATE_remove_unnecessary_wait.xml" />
     <test testName="warp_reduce_functions" configFile="config/TEMPLATE_cpp_language_extensions.xml" />
     <test testName="wmma" configFile="config/TEMPLATE_wmma.xml" />
+    <test testName="const_opt" configFile="config/TEMPLATE_const_opt.xml" />
   </tests>
 </suite>

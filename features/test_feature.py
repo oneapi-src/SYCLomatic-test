@@ -40,7 +40,7 @@ exec_tests = ['asm', 'asm_arith', 'asm_vinst', 'thrust-vector-2', 'thrust-binary
               'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5', 'cudnn-convp6',
               'cudnn_mutilple_files', "cusparse_1", "cusparse_2", "cusparse_3", "cusparse_4", "cusparse_5",
               'cudnn-GetErrorString', 'cub_device_histgram',
-              'cudnn-types', 'cudnn-version', 'cudnn-dropout',
+              'cudnn-types', 'cudnn-version', 'cudnn-dropout', 'const_opt',
               'constant_attr', 'sync_warp_p2', 'occupancy_calculation',
               'text_obj_array', 'text_obj_linear', 'text_obj_pitch2d', 'match',
               'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
@@ -99,6 +99,8 @@ def migrate_test():
         src.append(' --use-experimental-features=matrix ')
     if test_config.current_test in experimental_bfloat16_tests:
         src.append(' --use-experimental-features=bfloat16_math_functions ')
+    if test_config.current_test == 'const_opt':
+        src.append(' --optimize-migration ')
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
