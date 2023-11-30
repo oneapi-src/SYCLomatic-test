@@ -128,6 +128,7 @@
     <test testName="math-ext-float" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-ext-half" configFile="config/TEMPLATE_math_after_9.xml" />
     <test testName="math-ext-half-after11" configFile="config/TEMPLATE_math_ext_after_11.xml" />
+    <test testName="math-ext-half-conv" configFile="config/TEMPLATE_math_ext_after_11.xml" />
     <test testName="math-ext-half2" configFile="config/TEMPLATE_math_after_9.xml" />
     <test testName="math-ext-half2-after11" configFile="config/TEMPLATE_math_ext_after_11.xml" />
     <test testName="math-ext-simd" configFile="config/TEMPLATE_math.xml" />
@@ -292,6 +293,7 @@
     <!-- <test testName="constant_attr" configFile="config/TEMPLATE_constant_attr.xml" /> -->
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
+    <test testName="text_obj_array" configFile="config/TEMPLATE_image.xml" />
     <test testName="text_obj_linear" configFile="config/TEMPLATE_image.xml" />
     <test testName="text_obj_pitch2d" configFile="config/TEMPLATE_image.xml" />
     <test testName="defaultStream" configFile="config/TEMPLATE_defaultStream.xml" />
