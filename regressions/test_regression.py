@@ -58,6 +58,14 @@ def build_test():
             link_opts = test_config.mkl_link_opt_lin
         else:
             link_opts = test_config.mkl_link_opt_win
+
+    if test_config.current_test in ["test-1504"]:
+        for src in srcs:
+            print("!!!!!!!!----------------------------------------!!!!!!!")
+            with open(src, 'r') as fin:
+                print(fin.read())
+            print("!!!!!!!!========================================!!!!!!!")
+
     ret = False
     ret = compile_and_link(srcs, cmp_opts, objects, link_opts)
     return ret
