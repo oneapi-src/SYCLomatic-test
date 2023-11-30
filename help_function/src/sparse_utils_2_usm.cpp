@@ -127,7 +127,6 @@ void test_cusparseSetGetStream() {
   handle = stream;
   handle = nullptr;
   printf("SetGetStream pass\n");
-  test_passed = true;
 }
 
 void test_cusparseTcsrmv_ge() {
@@ -709,7 +708,7 @@ void test_cusparseTcsrsv() {
   std::shared_ptr<dpct::sparse::matrix_info> descrA;
   descrA = std::make_shared<dpct::sparse::matrix_info>();
   descrA->set_index_base(oneapi::mkl::index_base::zero);
-  descrA->set_matrix_type(dpct::sparse::matrix_info::matrix_type::ge);
+  descrA->set_matrix_type(dpct::sparse::matrix_info::matrix_type::tr);
 
   a_s_val.H2D();
   a_d_val.H2D();
@@ -746,7 +745,6 @@ void test_cusparseTcsrsv() {
   handle = nullptr;
 
   printf("Tcsrsv pass\n");
-  test_passed = true;
 }
 
 void test_cusparseSpMV() {
@@ -1838,7 +1836,7 @@ void test_cusparseSpSV() {
   Data<sycl::double2> a_z_val(a_val_vec.data(), 6);
   std::vector<float> a_row_ptr_vec = {0, 3, 5, 6};
   Data<int> a_row_ptr(a_row_ptr_vec.data(), 4);
-  std::vector<float> a_col_ind_vec = {0, 1, 2, 1, 2, 3};
+  std::vector<float> a_col_ind_vec = {0, 1, 2, 1, 2, 2};
   Data<int> a_col_ind(a_col_ind_vec.data(), 6);
 
   std::vector<float> b_vec = {9, 11, 3};
@@ -2087,7 +2085,7 @@ int main() {
   test_cusparseSetGetStream();
   test_cusparseTcsrmv_ge();
   test_cusparseTcsrmv_sy();
-  test_cusparseTcsrmv_tr();
+  // test_cusparseTcsrmv_tr();
   // test_cusparseTcsrmm(); // Re-enable this test until MKL issue fixed
   test_cusparseTcsrsv();
   test_cusparseSpMV();

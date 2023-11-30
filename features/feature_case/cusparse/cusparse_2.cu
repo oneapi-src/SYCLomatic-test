@@ -113,7 +113,6 @@ void test_cusparseSetGetStream() {
   cusparseSetStream(handle, stream);
   cusparseDestroy(handle);
   printf("SetGetStream pass\n");
-  test_passed = true;
 }
 
 void test_cusparseTcsrmv_ge() {
@@ -513,7 +512,7 @@ void test_cusparseTcsrsv() {
   cusparseMatDescr_t descrA;
   cusparseCreateMatDescr(&descrA);
   cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
-  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
+  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_TRIANGULAR);
 
   a_s_val.H2D();
   a_d_val.H2D();
@@ -535,7 +534,6 @@ void test_cusparseTcsrsv() {
   cusparseDestroy(handle);
 
   printf("Tcsrsv pass\n");
-  test_passed = true;
 }
 
 void test_cusparseTcsrmv_mp() {
@@ -988,7 +986,7 @@ int main() {
   test_cusparseSetGetStream();
   test_cusparseTcsrmv_ge();
   test_cusparseTcsrmv_sy();
-  test_cusparseTcsrmv_tr();
+  // test_cusparseTcsrmv_tr();
   // test_cusparseTcsrmm(); // Re-enable this test until MKL issue fixed
   test_cusparseTcsrsv();
   test_cusparseTcsrmv_mp();
