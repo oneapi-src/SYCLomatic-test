@@ -285,6 +285,14 @@ __device__ int clz() {
   return 0;
 }
 
+__device__ int brev() {
+  uint32_t res;
+  uint64_t r64;
+  CHECK(1, asm("brev.b32 %0, %1;" : "=r"(res) : "r"(0x80000000U)), res == 1);
+  CHECK(2, asm("brev.b64 %0, %1;" : "=l"(r64) : "l"(0x8000000000000000ULL)), r64 == 1);
+  return 0;
+}
+
 __device__ int bitwise_and() {
   uint16_t u16, u16x = 5, u16y = 2;
   uint32_t u32, u32x = 5, u32y = 2;
@@ -399,8 +407,7 @@ __global__ void test(int *ec) {
   TEST(cnot);
   TEST(shl);
   TEST(shr);
-
-  INT_MAX;
+  TEST(brev);
 
   *ec = 0;
 }

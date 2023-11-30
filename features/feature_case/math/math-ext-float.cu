@@ -299,6 +299,8 @@ __global__ void _y1f(float *const Result, float Input1) {
   *Result = y1f(Input1);
 }
 
+// Single Precision Intrinsics
+
 void testY1fCases(const vector<pair<float, fi_pair>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
@@ -307,6 +309,198 @@ void testY1fCases(const vector<pair<float, fi_pair>> &TestCases) {
     cudaDeviceSynchronize();
     checkResult("y1f", {TestCase.first}, TestCase.second.first, *Result,
                 TestCase.second.second);
+  }
+}
+
+__global__ void fadd_rd(float *const Result, float Input1, float Input2) {
+  *Result = __fadd_rd(Input1, Input2);
+}
+
+void testFadd_rdCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fadd_rd<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fadd_rd", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fadd_rn(float *const Result, float Input1, float Input2) {
+  *Result = __fadd_rn(Input1, Input2);
+}
+
+void testFadd_rnCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fadd_rn<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fadd_rn", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fadd_ru(float *const Result, float Input1, float Input2) {
+  *Result = __fadd_ru(Input1, Input2);
+}
+
+void testFadd_ruCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fadd_ru<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fadd_ru", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fadd_rz(float *const Result, float Input1, float Input2) {
+  *Result = __fadd_rz(Input1, Input2);
+}
+
+void testFadd_rzCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fadd_rz<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fadd_rz", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fmul_rd(float *const Result, float Input1, float Input2) {
+  *Result = __fmul_rd(Input1, Input2);
+}
+
+void testFmul_rdCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fmul_rd<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fmul_rd", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fmul_rn(float *const Result, float Input1, float Input2) {
+  *Result = __fmul_rn(Input1, Input2);
+}
+
+void testFmul_rnCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fmul_rn<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fmul_rn", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fmul_ru(float *const Result, float Input1, float Input2) {
+  *Result = __fmul_ru(Input1, Input2);
+}
+
+void testFmul_ruCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fmul_ru<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fmul_ru", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fmul_rz(float *const Result, float Input1, float Input2) {
+  *Result = __fmul_rz(Input1, Input2);
+}
+
+void testFmul_rzCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fmul_rz<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fmul_rz", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fsub_rd(float *const Result, float Input1, float Input2) {
+  *Result = __fsub_rd(Input1, Input2);
+}
+
+void testFsub_rdCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fsub_rd<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fsub_rd", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fsub_rn(float *const Result, float Input1, float Input2) {
+  *Result = __fsub_rn(Input1, Input2);
+}
+
+void testFsub_rnCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fsub_rn<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fsub_rn", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fsub_ru(float *const Result, float Input1, float Input2) {
+  *Result = __fsub_ru(Input1, Input2);
+}
+
+void testFsub_ruCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fsub_ru<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fsub_ru", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fsub_rz(float *const Result, float Input1, float Input2) {
+  *Result = __fsub_rz(Input1, Input2);
+}
+
+void testFsub_rzCases(
+    const vector<pair<pair<float, float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fsub_rz<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__fsub_rz", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
   }
 }
 
@@ -388,6 +582,90 @@ int main() {
       {0.8, {-0.9781441, 7}},
       {1.6, {-0.3475780, 7}},
       {5, {0.1478631347417831, 16}},
+  });
+  testFadd_rdCases({
+      {{-0.3, -0.4}, {-0.7000000476837158, 16}},
+      {{0.3, -0.4}, {-0.09999999403953552, 17}},
+      {{0.3, 0.4}, {0.699999988079071, 16}},
+      {{0.3, 0.8}, {1.100000023841858, 15}},
+      {{3, 4}, {7, 15}},
+  });
+  testFadd_rnCases({
+      {{-0.3, -0.4}, {-0.7000000476837158, 16}},
+      {{0.3, -0.4}, {-0.09999999403953552, 17}},
+      {{0.3, 0.4}, {0.7000000476837158, 16}},
+      {{0.3, 0.8}, {1.100000023841858, 15}},
+      {{3, 4}, {7, 15}},
+  });
+  testFadd_ruCases({
+      {{-0.3, -0.4}, {-0.699999988079071, 16}},
+      {{0.3, -0.4}, {-0.09999999403953552, 17}},
+      {{0.3, 0.4}, {0.7000000476837158, 16}},
+      {{0.3, 0.8}, {1.100000023841858, 15}},
+      {{3, 4}, {7, 15}},
+  });
+  testFadd_rzCases({
+      {{-0.3, -0.4}, {-0.699999988079071, 16}},
+      {{0.3, -0.4}, {-0.09999999403953552, 17}},
+      {{0.3, 0.4}, {0.699999988079071, 16}},
+      {{0.3, 0.8}, {1.100000023841858, 15}},
+      {{3, 4}, {7, 15}},
+  });
+  testFmul_rdCases({
+      {{-0.3, -0.4}, {0.12000000476837158, 17}},
+      {{0.3, -0.4}, {-0.12000001221895218, 17}},
+      {{0.3, 0.4}, {0.12000000476837158, 17}},
+      {{0.3, 0.8}, {0.2400000095367432, 16}},
+      {{3, 4}, {12, 15}},
+  });
+  testFmul_rnCases({
+      {{-0.3, -0.4}, {0.12000000476837158, 17}},
+      {{0.3, -0.4}, {-0.12000000476837158, 17}},
+      {{0.3, 0.4}, {0.12000000476837158, 17}},
+      {{0.3, 0.8}, {0.2400000095367432, 16}},
+      {{3, 4}, {12, 15}},
+  });
+  testFmul_ruCases({
+      {{-0.3, -0.4}, {0.12000001221895218, 17}},
+      {{0.3, -0.4}, {-0.12000000476837158, 17}},
+      {{0.3, 0.4}, {0.12000001221895218, 17}},
+      {{0.3, 0.8}, {0.2400000244379044, 16}},
+      {{3, 4}, {12, 15}},
+  });
+  testFmul_rzCases({
+      {{-0.3, -0.4}, {0.12000000476837158, 17}},
+      {{0.3, -0.4}, {-0.12000000476837158, 17}},
+      {{0.3, 0.4}, {0.12000000476837158, 17}},
+      {{0.3, 0.8}, {0.2400000095367432, 16}},
+      {{3, 4}, {12, 15}},
+  });
+  testFsub_rdCases({
+      {{-0.3, -0.4}, {0.09999999403953552, 17}},
+      {{0.3, -0.4}, {0.699999988079071, 16}},
+      {{0.3, 0.4}, {-0.09999999403953552, 17}},
+      {{0.3, 0.8}, {-0.5, 16}},
+      {{3, 4}, {-1, 15}},
+  });
+  testFsub_rnCases({
+      {{-0.3, -0.4}, {0.09999999403953552, 17}},
+      {{0.3, -0.4}, {0.7000000476837158, 16}},
+      {{0.3, 0.4}, {-0.09999999403953552, 17}},
+      {{0.3, 0.8}, {-0.5, 16}},
+      {{3, 4}, {-1, 15}},
+  });
+  testFsub_ruCases({
+      {{-0.3, -0.4}, {0.09999999403953552, 17}},
+      {{0.3, -0.4}, {0.7000000476837158, 16}},
+      {{0.3, 0.4}, {-0.09999999403953552, 17}},
+      {{0.3, 0.8}, {-0.5, 16}},
+      {{3, 4}, {-1, 15}},
+  });
+  testFsub_rzCases({
+      {{-0.3, -0.4}, {0.09999999403953552, 17}},
+      {{0.3, -0.4}, {0.699999988079071, 16}},
+      {{0.3, 0.4}, {-0.09999999403953552, 17}},
+      {{0.3, 0.8}, {-0.5, 16}},
+      {{3, 4}, {-1, 15}},
   });
   cout << "passed " << passed << "/" << passed + failed << " cases!" << endl;
   if (failed) {

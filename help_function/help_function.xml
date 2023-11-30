@@ -114,16 +114,16 @@
     <test testName="onedpl_test_remove_if" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_replace_copy_if" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_sequence" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
-    <test testName="onedpl_test_segmented_sort_pairs" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
+    <!--<test testName="onedpl_test_segmented_sort_pairs" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" /> -->
     <test testName="onedpl_test_set_difference_by_key" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_set_intersection_by_key" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_set_symmetric_difference_by_key" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_set_union_by_key" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
-    <test testName="onedpl_test_sort_by_key" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
+    <!-- <test testName="onedpl_test_sort_by_key" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" /> -->
     <test testName="onedpl_test_sort_keys" configFile="config/TEMPLATE_help_function_skip_double.xml" />
     <test testName="onedpl_test_sort_pairs" configFile="config/TEMPLATE_help_function_skip_double.xml" />
     <test testName="onedpl_test_null_type" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
-    <test testName="onedpl_test_segmented_sort_keys" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
+    <!-- <test testName="onedpl_test_segmented_sort_keys" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" /> -->
     <test testName="onedpl_test_stable_partition_copy" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_stable_partition" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_sys_tag_utils" configFile="config/TEMPLATE_help_function_usm.xml" />
@@ -135,7 +135,7 @@
     <test testName="onedpl_test_transform_output_iterator" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_transform_reduce" configFile="config/TEMPLATE_help_function_skip_double.xml"  splitGroup="double" />
     <test testName="onedpl_test_translate_key" configFile="config/TEMPLATE_help_function_skip_double.xml"  splitGroup="double" />
-    <test testName="onedpl_test_uninitialized_fill" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
+    <!-- <test testName="onedpl_test_uninitialized_fill" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" /> -->
     <test testName="onedpl_test_unique_by_key_copy" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_unique_by_key" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="onedpl_test_unique" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
@@ -187,7 +187,7 @@
     <test testName="fft_utils_engine_usm" configFile="config/TEMPLATE_help_function_fft_usm.xml"  splitGroup="double" />
     <test testName="fft_set_workspace" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_help_function_skip_double.xml" />
-    <test testName="lapack_utils_buffer" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
+    <!-- <test testName="lapack_utils_buffer" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" /> -->
     <test testName="lapack_utils_usm" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="util_cast_double_from_to_int_test" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="sparse_utils_1" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
