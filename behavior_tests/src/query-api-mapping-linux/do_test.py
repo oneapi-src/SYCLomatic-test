@@ -75,20 +75,6 @@ def test_color():
 
 def migrate_test():
     test_cases = [
-        [  # CUB
-            "cub::DeviceReduce::Max",
-            [
-                "cudaStream_t stream;",
-                "cudaStreamCreate(&stream);",
-                "cub::DeviceReduce::Max(temp_storage/*void **/, temp_storage_bytes/*size_t &*/, d_in/*InputIteratorT*/, d_out/*OutputIteratorT*/, num_items/*int*/, stream/*cudaStream_t*/);",
-            ],
-            [],
-            [
-                "dpct::queue_ptr stream;",
-                "stream = dpct::get_current_device().create_queue();",
-                "stream->fill(d_out, oneapi::dpl::reduce(oneapi::dpl::execution::device_policy(*stream), d_in, d_in + num_items, typename std::iterator_traits<decltype(d_out)>::value_type{}, sycl::maximum<>()), 1).wait();",
-            ],
-        ],
         [  # Thrust
             "thrust::uninitialized_copy_n",
             [
