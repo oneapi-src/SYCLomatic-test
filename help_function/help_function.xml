@@ -187,12 +187,16 @@
     <test testName="fft_utils_engine_usm" configFile="config/TEMPLATE_help_function_fft_usm.xml"  splitGroup="double" />
     <test testName="fft_set_workspace" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="libcu_atomic" configFile="config/TEMPLATE_help_function_skip_double.xml" />
-    <!-- <test testName="lapack_utils_buffer" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" /> -->
+    <test testName="lapack_utils_buffer" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="lapack_utils_usm" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="util_cast_double_from_to_int_test" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double" />
     <test testName="sparse_utils_1" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="sparse_utils_2_buffer" configFile="config/TEMPLATE_help_function_sparse_buffer.xml" splitGroup="double" />
     <test testName="sparse_utils_2_usm" configFile="config/TEMPLATE_help_function_sparse_usm.xml" splitGroup="double" />
+    <test testName="sparse_utils_3_buffer" configFile="config/TEMPLATE_help_function_sparse_buffer.xml" splitGroup="double" />
+    <test testName="sparse_utils_3_usm" configFile="config/TEMPLATE_help_function_sparse_usm.xml" splitGroup="double" />
+    <test testName="sparse_utils_4_buffer" configFile="config/TEMPLATE_help_function_sparse_buffer.xml" splitGroup="double" />
+    <test testName="sparse_utils_4_usm" configFile="config/TEMPLATE_help_function_sparse_usm.xml" splitGroup="double" />
     <test testName="atomic_compare_exchange_strong" configFile="config/TEMPLATE_help_function.xml" />
   </tests>
 </suite>
