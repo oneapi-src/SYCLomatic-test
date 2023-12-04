@@ -9,6 +9,5 @@
       <optlevelRule excludeOptlevelNameString="acc" />
       <optlevelRule excludeOptlevelNameString="cuda_backend" />
       <optlevelRule GPUFeature="NOT double" excludeOptlevelNameString="gpu" />
-      <optlevelRule onlyOptlevelNameString="usmnone" />
     </rules>
 </test>
