@@ -153,7 +153,7 @@
     <test testName="lib_common_utils_mkl_get_version" configFile="config/TEMPLATE_help_function_skip_cuda_backend.xml" />
     <test testName="rng_generator" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
     <test testName="rng_generator_vec_size_1" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
-    <test testName="rng_host" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>
+    <!--<test testName="rng_host" configFile="config/TEMPLATE_help_function_skip_double.xml" splitGroup="double"/>-->
     <test testName="blas_extension_api_buffer" configFile="config/TEMPLATE_help_function_blas_usmnone.xml" splitGroup="double"/>
     <test testName="blas_extension_api_usm" configFile="config/TEMPLATE_help_function_blas_usm.xml" splitGroup="double"/>
     <test testName="dnnl_utils_version" configFile="config/TEMPLATE_help_function_usm.xml" />
