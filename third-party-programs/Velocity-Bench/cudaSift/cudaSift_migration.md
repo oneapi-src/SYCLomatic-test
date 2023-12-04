@@ -1,4 +1,4 @@
-# SYCLomatic Tool: Migrate bitcracker APP
+# SYCLomatic Tool: Migrate cudaSift APP
 ## Use the command line to migrate large code base.
 The SYCLomatic project (the Open source version of Intel® DPC++ Compatibility Tool) can migrate project that contain multiple source and header files. 
 | Optimized for         | Description
@@ -77,7 +77,7 @@ $ cd build && cmake ..
 ``` sh
 $ intercept-build make
 $ ls .
-CMakeCache.txt  CMakeFiles  Makefile  bitcracker  cmake_install.cmake  compile_commands.json
+CMakeCache.txt  CMakeFiles  Makefile  cudasift  cmake_install.cmake  compile_commands.json
 ```
 2. Use the tool's `--in-root` option and provide input files to specify where
    to locate the CUDA files that needs migration; use the tool’s `--out-root`
