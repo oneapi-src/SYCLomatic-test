@@ -11,8 +11,11 @@
 #include <iostream>
 #include <vector>
 
+#include "cuda_bf16.h"
+
 using namespace std;
 
+typedef pair<__nv_bfloat16, int> bf16i_pair;
 typedef vector<double> d_vector;
 typedef pair<double, int> di_pair;
 
@@ -29,6 +32,27 @@ void check(bool IsPassed) {
   }
 }
 
+void checkResult(const string &FuncName, const vector<float> &Inputs,
+                 const float &Expect, const float &Result,
+                 const int precision) {
+  cout << FuncName << "(" << Inputs[0] << "";
+  for (size_t i = 1; i < Inputs.size(); ++i) {
+    cout << ", " << Inputs[i];
+  }
+  cout << ") = " << fixed << setprecision(precision < 0 ? 0 : precision)
+       << Result << " (expect " << Expect - pow(10, -precision) << " ~ "
+       << Expect + pow(10, -precision) << ")";
+  cout.unsetf(ios::fixed);
+  check(abs(Result - Expect) < pow(10, -precision));
+}
+
+void checkResult(const string &FuncName, const vector<float> &Inputs,
+                 const __nv_bfloat16 &Expect, const float &Result,
+                 const int precision) {
+  float FExpect = __bfloat162float(Expect);
+  checkResult(FuncName, Inputs, FExpect, Result, precision);
+}
+
 template <typename T = double>
 void checkResult(const string &FuncName, const vector<T> &Inputs,
                  const double &Expect, const double &DeviceResult,
@@ -43,6 +67,26 @@ void checkResult(const string &FuncName, const vector<T> &Inputs,
   cout.unsetf(ios::fixed);
   check(abs(DeviceResult - Expect) < pow(10, -precision));
 }
+
+// Bfloat16 Precision Conversion and Data Movement
+
+__global__ void double2bfloat16(float *const Result, double Input1) {
+  *Result = __double2bfloat16(Input1);
+}
+
+void testDouble2bfloat16Cases(
+    const vector<pair<double, bf16i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    double2bfloat16<<<1, 1>>>(Result, TestCase.first);
+    cudaDeviceSynchronize();
+    checkResult("__double2bfloat16", {(float)TestCase.first},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+// Double Precision Mathematical Functions
 
 __global__ void cylBesselI0(double *const Result, double Input1) {
   *Result = cyl_bessel_i0(Input1);
@@ -310,7 +354,209 @@ void testY1Cases(const vector<pair<double, di_pair>> &TestCases) {
   }
 }
 
+// Double Precision Intrinsics
+
+__global__ void dadd_rd(double *const Result, double Input1, double Input2) {
+  *Result = __dadd_rd(Input1, Input2);
+}
+
+void testDadd_rdCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dadd_rd<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dadd_rd", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void dadd_rn(double *const Result, double Input1, double Input2) {
+  *Result = __dadd_rn(Input1, Input2);
+}
+
+void testDadd_rnCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dadd_rn<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dadd_rn", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void dadd_ru(double *const Result, double Input1, double Input2) {
+  *Result = __dadd_ru(Input1, Input2);
+}
+
+void testDadd_ruCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dadd_ru<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dadd_ru", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void dadd_rz(double *const Result, double Input1, double Input2) {
+  *Result = __dadd_rz(Input1, Input2);
+}
+
+void testDadd_rzCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dadd_rz<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dadd_rz", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void dmul_rd(double *const Result, double Input1, double Input2) {
+  *Result = __dmul_rd(Input1, Input2);
+}
+
+void testDmul_rdCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dmul_rd<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dmul_rd", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void dmul_rn(double *const Result, double Input1, double Input2) {
+  *Result = __dmul_rn(Input1, Input2);
+}
+
+void testDmul_rnCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dmul_rn<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dmul_rn", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void dmul_ru(double *const Result, double Input1, double Input2) {
+  *Result = __dmul_ru(Input1, Input2);
+}
+
+void testDmul_ruCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dmul_ru<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dmul_ru", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void dmul_rz(double *const Result, double Input1, double Input2) {
+  *Result = __dmul_rz(Input1, Input2);
+}
+
+void testDmul_rzCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dmul_rz<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dmul_rz", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void dsub_rd(double *const Result, double Input1, double Input2) {
+  *Result = __dsub_rd(Input1, Input2);
+}
+
+void testDsub_rdCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dsub_rd<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dsub_rd", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void dsub_rn(double *const Result, double Input1, double Input2) {
+  *Result = __dsub_rn(Input1, Input2);
+}
+
+void testDsub_rnCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dsub_rn<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dsub_rn", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void dsub_ru(double *const Result, double Input1, double Input2) {
+  *Result = __dsub_ru(Input1, Input2);
+}
+
+void testDsub_ruCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dsub_ru<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dsub_ru", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+__global__ void dsub_rz(double *const Result, double Input1, double Input2) {
+  *Result = __dsub_rz(Input1, Input2);
+}
+
+void testDsub_rzCases(
+    const vector<pair<pair<double, double>, di_pair>> &TestCases) {
+  double *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    dsub_rz<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__dsub_rz", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
 int main() {
+  testDouble2bfloat16Cases({
+      {-0.3, {-0.30078125, 16}},
+      {0.3, {0.30078125, 16}},
+      {30, {30, 14}},
+      {0.432643, {0.43359375, 16}},
+      {1, {1, 15}},
+      {10.7, {10.6875, 15}},
+  });
   testCylBesselI0Cases({
       {0.3, {1.022626879351597, 15}},
       {0.5, {1.063483370741324, 15}},
@@ -388,6 +634,90 @@ int main() {
       {0.8, {-0.978144176683359, 15}},
       {1.6, {-0.3475780082651325, 16}},
       {5, {0.1478631433912269, 16}},
+  });
+  testDadd_rdCases({
+      {{-0.3, -0.4}, {-0.7, 7}},
+      {{0.3, -0.4}, {-0.1, 8}},
+      {{0.3, 0.4}, {0.7, 7}},
+      {{0.3, 0.8}, {1.1, 7}},
+      {{3, 4}, {7, 37}},
+  });
+  testDadd_rnCases({
+      {{-0.3, -0.4}, {-0.7, 7}},
+      {{0.3, -0.4}, {-0.1, 8}},
+      {{0.3, 0.4}, {0.7, 7}},
+      {{0.3, 0.8}, {1.1, 7}},
+      {{3, 4}, {7, 37}},
+  });
+  testDadd_ruCases({
+      {{-0.3, -0.4}, {-0.7, 7}},
+      {{0.3, -0.4}, {-0.1, 8}},
+      {{0.3, 0.4}, {0.7, 7}},
+      {{0.3, 0.8}, {1.1, 7}},
+      {{3, 4}, {7, 37}},
+  });
+  testDadd_rzCases({
+      {{-0.3, -0.4}, {-0.7, 7}},
+      {{0.3, -0.4}, {-0.1, 8}},
+      {{0.3, 0.4}, {0.7, 7}},
+      {{0.3, 0.8}, {1.1, 7}},
+      {{3, 4}, {7, 37}},
+  });
+  testDmul_rdCases({
+      {{-0.3, -0.4}, {0.12, 8}},
+      {{0.3, -0.4}, {-0.12, 8}},
+      {{0.3, 0.4}, {0.12, 8}},
+      {{0.3, 0.8}, {0.24, 8}},
+      {{3, 4}, {12, 37}},
+  });
+  testDmul_rnCases({
+      {{-0.3, -0.4}, {0.12, 8}},
+      {{0.3, -0.4}, {-0.12, 8}},
+      {{0.3, 0.4}, {0.12, 8}},
+      {{0.3, 0.8}, {0.24, 8}},
+      {{3, 4}, {12, 37}},
+  });
+  testDmul_ruCases({
+      {{-0.3, -0.4}, {0.12, 8}},
+      {{0.3, -0.4}, {-0.12, 8}},
+      {{0.3, 0.4}, {0.12, 8}},
+      {{0.3, 0.8}, {0.24, 8}},
+      {{3, 4}, {12, 37}},
+  });
+  testDmul_rzCases({
+      {{-0.3, -0.4}, {0.12, 8}},
+      {{0.3, -0.4}, {-0.12, 8}},
+      {{0.3, 0.4}, {0.12, 8}},
+      {{0.3, 0.8}, {0.24, 8}},
+      {{3, 4}, {12, 37}},
+  });
+  testDsub_rdCases({
+      {{-0.3, -0.4}, {0.1, 8}},
+      {{0.3, -0.4}, {0.7, 7}},
+      {{0.3, 0.4}, {-0.1, 8}},
+      {{0.3, 0.8}, {-0.5, 15}},
+      {{3, 4}, {-1, 37}},
+  });
+  testDsub_rnCases({
+      {{-0.3, -0.4}, {0.1, 8}},
+      {{0.3, -0.4}, {0.7, 7}},
+      {{0.3, 0.4}, {-0.1, 8}},
+      {{0.3, 0.8}, {-0.5, 37}},
+      {{3, 4}, {-1, 37}},
+  });
+  testDsub_ruCases({
+      {{-0.3, -0.4}, {0.1, 8}},
+      {{0.3, -0.4}, {0.7, 7}},
+      {{0.3, 0.4}, {-0.1, 8}},
+      {{0.3, 0.8}, {-0.5, 37}},
+      {{3, 4}, {-1, 37}},
+  });
+  testDsub_rzCases({
+      {{-0.3, -0.4}, {0.1, 8}},
+      {{0.3, -0.4}, {0.7, 7}},
+      {{0.3, 0.4}, {-0.1, 8}},
+      {{0.3, 0.8}, {-0.5, 37}},
+      {{3, 4}, {-1, 37}},
   });
   cout << "passed " << passed << "/" << passed + failed << " cases!" << endl;
   if (failed) {

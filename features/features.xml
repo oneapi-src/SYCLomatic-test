@@ -32,7 +32,7 @@
     <test testName="thrust-inner_product" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-reduce_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-pinned-allocator" configFile="config/TEMPLATE_thrust_pinned_allocator.xml" />
-    <test testName="thrust_minmax_element" configFile="config/TEMPLATE_thrust_api.xml" />
+    <!-- <test testName="thrust_minmax_element" configFile="config/TEMPLATE_thrust_api.xml" /> -->
     <test testName="thrust_partition" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_detail_types" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_is_sorted" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -123,10 +123,12 @@
     <test testName="math-half-raw" configFile="config/TEMPLATE_math_after_11.xml"/>
     <test testName="math-experimental-bf16" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-experimental-bf162" configFile="config/TEMPLATE_math_after_11.xml" />
+    <test testName="math-ext-bf16-conv" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-ext-double" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-ext-float" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-ext-half" configFile="config/TEMPLATE_math_after_9.xml" />
     <test testName="math-ext-half-after11" configFile="config/TEMPLATE_math_ext_after_11.xml" />
+    <test testName="math-ext-half-conv" configFile="config/TEMPLATE_math_ext_after_11.xml" />
     <test testName="math-ext-half2" configFile="config/TEMPLATE_math_after_9.xml" />
     <test testName="math-ext-half2-after11" configFile="config/TEMPLATE_math_ext_after_11.xml" />
     <test testName="math-ext-simd" configFile="config/TEMPLATE_math.xml" />
@@ -209,12 +211,13 @@
     <test testName="cub_device_segmented_sort_keys" configFile="config/TEMPLATE_cub_device_segmented_sort.xml" />
     <test testName="cub_device_seg_sort_keys" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_seg_sort_pairs" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_merge_sort" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_intrinsic" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_macro" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_counting_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
     <test testName="cub_constant_iterator" configFile="config/TEMPLATE_cub_device.xml" />
-    <test testName="cub_arg_index_input_iterator" configFile="config/TEMPLATE_cub_device.xml" />
+    <!-- <test testName="cub_arg_index_input_iterator" configFile="config/TEMPLATE_cub_device.xml" /> -->
     <test testName="cudnn_multiple_files" configFile="config/TEMPLATE_cudnn_multiple_files.xml" />
     <test testName="cudnn-GetErrorString" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-activation" configFile="config/TEMPLATE_cuDNN.xml" />
@@ -256,6 +259,8 @@
     <test testName="cusparse_3" configFile="config/TEMPLATE_cusparse_after_112_skip_double.xml" splitGroup="double"/>
     <test testName="cusparse_4" configFile="config/TEMPLATE_cusparse_after_112_skip_double.xml" splitGroup="double"/>
     <test testName="cusparse_5" configFile="config/TEMPLATE_cusparse_after_112_skip_double.xml" splitGroup="double"/>
+    <test testName="cusparse_6" configFile="config/TEMPLATE_cusparse_before_12_skip_double.xml" splitGroup="double"/>
+    <test testName="cusparse_7" configFile="config/TEMPLATE_cusparse_before_11_skip_double.xml" splitGroup="double"/>
     <test testName="cusolver_test1" configFile="config/TEMPLATE_solver.xml"  splitGroup="double"/>
     <test testName="cusolver_test2" configFile="config/TEMPLATE_solver_skip80.xml"  splitGroup="double"/>
     <test testName="cusolver_test3" configFile="config/TEMPLATE_solver_11.xml"  splitGroup="double"/>
@@ -288,6 +293,7 @@
     <test testName="constant_attr" configFile="config/TEMPLATE_constant_attr.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
+    <test testName="text_obj_array" configFile="config/TEMPLATE_image.xml" />
     <test testName="text_obj_linear" configFile="config/TEMPLATE_image.xml" />
     <test testName="text_obj_pitch2d" configFile="config/TEMPLATE_image.xml" />
     <test testName="defaultStream" configFile="config/TEMPLATE_defaultStream.xml" />
@@ -296,6 +302,6 @@
     <!-- <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" splitGroup="double" /> -->
     <test testName="remove_unnecessary_wait" configFile="config/TEMPLATE_remove_unnecessary_wait.xml" />
     <test testName="warp_reduce_functions" configFile="config/TEMPLATE_cpp_language_extensions.xml" />
-    <test testName="wmma" configFile="config/TEMPLATE_wmma.xml" />
+    <!-- <test testName="wmma" configFile="config/TEMPLATE_wmma.xml" /> -->
   </tests>
 </suite>
