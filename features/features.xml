@@ -261,7 +261,7 @@
     <test testName="cusparse_5" configFile="config/TEMPLATE_cusparse_after_112_skip_double.xml" splitGroup="double"/>
     <test testName="cusolver_test1" configFile="config/TEMPLATE_solver.xml"  splitGroup="double"/>
     <test testName="cusolver_test2" configFile="config/TEMPLATE_solver_skip80.xml"  splitGroup="double"/>
-    <!--  <test testName="cusolver_test3" configFile="config/TEMPLATE_solver_11.xml"  splitGroup="double"/> -->
+    <test testName="cusolver_test3" configFile="config/TEMPLATE_solver_11.xml"  splitGroup="double"/>
     <test testName="cusolver_test4" configFile="config/TEMPLATE_solver_10.xml"  splitGroup="double"/>
     <test testName="cusolver_test5" configFile="config/TEMPLATE_solver_114.xml"  splitGroup="double"/>
     <test testName="curand-device2" configFile="config/curand-device2.xml" splitGroup="double"/>
@@ -288,7 +288,7 @@
     <test testName="libcu_complex" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="match" configFile="config/TEMPLATE_match.xml" />
     <test testName="libcu_tuple" configFile="config/TEMPLATE_libcu.xml" />
-    <!-- <test testName="constant_attr" configFile="config/TEMPLATE_constant_attr.xml" /> -->
+    <test testName="constant_attr" configFile="config/TEMPLATE_constant_attr.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
     <test testName="text_obj_array" configFile="config/TEMPLATE_image.xml" />
