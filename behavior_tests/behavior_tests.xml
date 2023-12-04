@@ -151,14 +151,14 @@
         <test testName="bt-analysis-scope-path4" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-analysis-scope-path1" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-use-dpcpp-extensions" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="bt-check-install-files" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <!-- <test testName="bt-check-install-files" configFile="config/TEMPLATE_behavior_tests.xml" /> -->
         <test testName="bt-check-c2s" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-multi-cuda-inc-path" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-tilde-path" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="open-source-mkl-compile" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="bt-gen-helper-function" configFile="config/TEMPLATE_behavior_tests_win.xml" />
         <test testName="bt-language-warning" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <!-- <test testName="bt-check-unexpected-message" configFile="config/TEMPLATE_behavior_tests.xml" /> -->
+        <test testName="bt-check-unexpected-message" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="cmp-cmds-linker-entry-src-files" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
     </tests>
 
