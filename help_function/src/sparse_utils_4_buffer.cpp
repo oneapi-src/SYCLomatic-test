@@ -523,10 +523,228 @@ void test_cusparseCsr2csc_01() {
   }
 }
 
+// | 1 1 2 0 |
+// | 0 1 3 0 |
+// | 0 0 1 5 |
+void test_cusparseTcsr2csc_00() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.out_of_order_queue();
+  std::vector<float> a_val_vec = {1, 1, 2, 1, 3, 1, 5};
+  Data<float> a_s_val(a_val_vec.data(), 7);
+  Data<double> a_d_val(a_val_vec.data(), 7);
+  Data<sycl::float2> a_c_val(a_val_vec.data(), 7);
+  Data<sycl::double2> a_z_val(a_val_vec.data(), 7);
+  std::vector<float> a_row_ptr_vec = {0, 3, 5, 7};
+  Data<int> a_s_row_ptr(a_row_ptr_vec.data(), 4);
+  Data<int> a_d_row_ptr(a_row_ptr_vec.data(), 4);
+  Data<int> a_c_row_ptr(a_row_ptr_vec.data(), 4);
+  Data<int> a_z_row_ptr(a_row_ptr_vec.data(), 4);
+  std::vector<float> a_col_ind_vec = {0, 1, 2, 1, 2, 2, 3};
+  Data<int> a_s_col_ind(a_col_ind_vec.data(), 7);
+  Data<int> a_d_col_ind(a_col_ind_vec.data(), 7);
+  Data<int> a_c_col_ind(a_col_ind_vec.data(), 7);
+  Data<int> a_z_col_ind(a_col_ind_vec.data(), 7);
+
+  Data<float> b_s_val(a_val_vec.data(), 7);
+  Data<double> b_d_val(a_val_vec.data(), 7);
+  Data<sycl::float2> b_c_val(a_val_vec.data(), 7);
+  Data<sycl::double2> b_z_val(a_val_vec.data(), 7);
+  Data<int> b_s_col_ptr(a_row_ptr_vec.data(), 5);
+  Data<int> b_d_col_ptr(a_row_ptr_vec.data(), 5);
+  Data<int> b_c_col_ptr(a_row_ptr_vec.data(), 5);
+  Data<int> b_z_col_ptr(a_row_ptr_vec.data(), 5);
+  Data<int> b_s_row_ind(a_col_ind_vec.data(), 7);
+  Data<int> b_d_row_ind(a_col_ind_vec.data(), 7);
+  Data<int> b_c_row_ind(a_col_ind_vec.data(), 7);
+  Data<int> b_z_row_ind(a_col_ind_vec.data(), 7);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_s_row_ptr.H2D();
+  a_d_row_ptr.H2D();
+  a_c_row_ptr.H2D();
+  a_z_row_ptr.H2D();
+  a_s_col_ind.H2D();
+  a_d_col_ind.H2D();
+  a_c_col_ind.H2D();
+  a_z_col_ind.H2D();
+
+  dpct::sparse::csr2csc(*handle, 3, 4, 7, a_s_val.d_data, a_s_row_ptr.d_data,
+                        a_s_col_ind.d_data, b_s_val.d_data, b_s_col_ptr.d_data,
+                        b_s_row_ind.d_data,
+                        dpct::sparse::conversion_scope::index_and_value,
+                        oneapi::mkl::index_base::zero);
+  dpct::sparse::csr2csc(*handle, 3, 4, 7, a_d_val.d_data, a_d_row_ptr.d_data,
+                        a_d_col_ind.d_data, b_d_val.d_data, b_d_col_ptr.d_data,
+                        b_d_row_ind.d_data,
+                        dpct::sparse::conversion_scope::index_and_value,
+                        oneapi::mkl::index_base::zero);
+  dpct::sparse::csr2csc(*handle, 3, 4, 7, a_c_val.d_data, a_c_row_ptr.d_data,
+                        a_c_col_ind.d_data, b_c_val.d_data, b_c_col_ptr.d_data,
+                        b_c_row_ind.d_data,
+                        dpct::sparse::conversion_scope::index_and_value,
+                        oneapi::mkl::index_base::zero);
+  dpct::sparse::csr2csc(*handle, 3, 4, 7, a_z_val.d_data, a_z_row_ptr.d_data,
+                        a_z_col_ind.d_data, b_z_val.d_data, b_z_col_ptr.d_data,
+                        b_z_row_ind.d_data,
+                        dpct::sparse::conversion_scope::index_and_value,
+                        oneapi::mkl::index_base::zero);
+
+  b_s_val.D2H();
+  b_d_val.D2H();
+  b_c_val.D2H();
+  b_z_val.D2H();
+  b_s_col_ptr.D2H();
+  b_d_col_ptr.D2H();
+  b_c_col_ptr.D2H();
+  b_z_col_ptr.D2H();
+  b_s_row_ind.D2H();
+  b_d_row_ind.D2H();
+  b_c_row_ind.D2H();
+  b_z_row_ind.D2H();
+
+  q_ct1.wait();
+  handle = nullptr;
+
+  float expect_b_val[7] = {1, 1, 1, 2, 3, 1, 5};
+  float expect_b_col_ptr[5] = {0, 1, 3, 6, 7};
+  float expect_b_row_ind[7] = {0, 0, 1, 0, 1, 2, 2};
+  if (compare_result(expect_b_val, b_s_val.h_data, 7) &&
+      compare_result(expect_b_val, b_d_val.h_data, 7) &&
+      compare_result(expect_b_val, b_c_val.h_data, 7) &&
+      compare_result(expect_b_val, b_z_val.h_data, 7) &&
+      compare_result(expect_b_col_ptr, b_s_col_ptr.h_data, 5) &&
+      compare_result(expect_b_col_ptr, b_d_col_ptr.h_data, 5) &&
+      compare_result(expect_b_col_ptr, b_c_col_ptr.h_data, 5) &&
+      compare_result(expect_b_col_ptr, b_z_col_ptr.h_data, 5) &&
+      compare_result(expect_b_row_ind, b_s_row_ind.h_data, 7) &&
+      compare_result(expect_b_row_ind, b_d_row_ind.h_data, 7) &&
+      compare_result(expect_b_row_ind, b_c_row_ind.h_data, 7) &&
+      compare_result(expect_b_row_ind, b_z_row_ind.h_data, 7))
+    printf("Tcsr2csc 00 pass\n");
+  else {
+    printf("Tcsr2csc 00 fail\n");
+    test_passed = false;
+  }
+}
+
+// | 1 1 2 0 |
+// | 0 1 3 0 |
+// | 0 0 1 5 |
+void test_cusparseTcsr2csc_01() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.out_of_order_queue();
+  std::vector<float> a_val_vec = {1, 1, 2, 1, 3, 1, 5};
+  Data<float> a_s_val(a_val_vec.data(), 7);
+  Data<double> a_d_val(a_val_vec.data(), 7);
+  Data<sycl::float2> a_c_val(a_val_vec.data(), 7);
+  Data<sycl::double2> a_z_val(a_val_vec.data(), 7);
+  std::vector<float> a_row_ptr_vec = {0, 3, 5, 7};
+  Data<int> a_s_row_ptr(a_row_ptr_vec.data(), 4);
+  Data<int> a_d_row_ptr(a_row_ptr_vec.data(), 4);
+  Data<int> a_c_row_ptr(a_row_ptr_vec.data(), 4);
+  Data<int> a_z_row_ptr(a_row_ptr_vec.data(), 4);
+  std::vector<float> a_col_ind_vec = {0, 1, 2, 1, 2, 2, 3};
+  Data<int> a_s_col_ind(a_col_ind_vec.data(), 7);
+  Data<int> a_d_col_ind(a_col_ind_vec.data(), 7);
+  Data<int> a_c_col_ind(a_col_ind_vec.data(), 7);
+  Data<int> a_z_col_ind(a_col_ind_vec.data(), 7);
+
+  Data<float> b_s_val(a_val_vec.data(), 7);
+  Data<double> b_d_val(a_val_vec.data(), 7);
+  Data<sycl::float2> b_c_val(a_val_vec.data(), 7);
+  Data<sycl::double2> b_z_val(a_val_vec.data(), 7);
+  Data<int> b_s_col_ptr(a_row_ptr_vec.data(), 5);
+  Data<int> b_d_col_ptr(a_row_ptr_vec.data(), 5);
+  Data<int> b_c_col_ptr(a_row_ptr_vec.data(), 5);
+  Data<int> b_z_col_ptr(a_row_ptr_vec.data(), 5);
+  Data<int> b_s_row_ind(a_col_ind_vec.data(), 7);
+  Data<int> b_d_row_ind(a_col_ind_vec.data(), 7);
+  Data<int> b_c_row_ind(a_col_ind_vec.data(), 7);
+  Data<int> b_z_row_ind(a_col_ind_vec.data(), 7);
+
+  sycl::queue *handle;
+  handle = &q_ct1;
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_s_row_ptr.H2D();
+  a_d_row_ptr.H2D();
+  a_c_row_ptr.H2D();
+  a_z_row_ptr.H2D();
+  a_s_col_ind.H2D();
+  a_d_col_ind.H2D();
+  a_c_col_ind.H2D();
+  a_z_col_ind.H2D();
+
+  dpct::sparse::csr2csc(
+      *handle, 3, 4, 7, a_s_val.d_data, a_s_row_ptr.d_data, a_s_col_ind.d_data,
+      b_s_val.d_data, b_s_col_ptr.d_data, b_s_row_ind.d_data,
+      dpct::sparse::conversion_scope::index, oneapi::mkl::index_base::zero);
+  dpct::sparse::csr2csc(
+      *handle, 3, 4, 7, a_d_val.d_data, a_d_row_ptr.d_data, a_d_col_ind.d_data,
+      b_d_val.d_data, b_d_col_ptr.d_data, b_d_row_ind.d_data,
+      dpct::sparse::conversion_scope::index, oneapi::mkl::index_base::zero);
+  dpct::sparse::csr2csc(
+      *handle, 3, 4, 7, a_c_val.d_data, a_c_row_ptr.d_data, a_c_col_ind.d_data,
+      b_c_val.d_data, b_c_col_ptr.d_data, b_c_row_ind.d_data,
+      dpct::sparse::conversion_scope::index, oneapi::mkl::index_base::zero);
+  dpct::sparse::csr2csc(
+      *handle, 3, 4, 7, a_z_val.d_data, a_z_row_ptr.d_data, a_z_col_ind.d_data,
+      b_z_val.d_data, b_z_col_ptr.d_data, b_z_row_ind.d_data,
+      dpct::sparse::conversion_scope::index, oneapi::mkl::index_base::zero);
+
+  b_s_val.D2H();
+  b_d_val.D2H();
+  b_c_val.D2H();
+  b_z_val.D2H();
+  b_s_col_ptr.D2H();
+  b_d_col_ptr.D2H();
+  b_c_col_ptr.D2H();
+  b_z_col_ptr.D2H();
+  b_s_row_ind.D2H();
+  b_d_row_ind.D2H();
+  b_c_row_ind.D2H();
+  b_z_row_ind.D2H();
+
+  q_ct1.wait();
+  handle = nullptr;
+
+  float expect_b_val[7] = {0, 0, 0, 0, 0, 0, 0};
+  float expect_b_col_ptr[5] = {0, 1, 3, 6, 7};
+  float expect_b_row_ind[7] = {0, 0, 1, 0, 1, 2, 2};
+  if (compare_result(expect_b_val, b_s_val.h_data, 7) &&
+      compare_result(expect_b_val, b_d_val.h_data, 7) &&
+      compare_result(expect_b_val, b_c_val.h_data, 7) &&
+      compare_result(expect_b_val, b_z_val.h_data, 7) &&
+      compare_result(expect_b_col_ptr, b_s_col_ptr.h_data, 5) &&
+      compare_result(expect_b_col_ptr, b_d_col_ptr.h_data, 5) &&
+      compare_result(expect_b_col_ptr, b_c_col_ptr.h_data, 5) &&
+      compare_result(expect_b_col_ptr, b_z_col_ptr.h_data, 5) &&
+      compare_result(expect_b_row_ind, b_s_row_ind.h_data, 7) &&
+      compare_result(expect_b_row_ind, b_d_row_ind.h_data, 7) &&
+      compare_result(expect_b_row_ind, b_c_row_ind.h_data, 7) &&
+      compare_result(expect_b_row_ind, b_z_row_ind.h_data, 7))
+    printf("Tcsr2csc 01 pass\n");
+  else {
+    printf("Tcsr2csc 01 fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_cusparseCsrsvEx();
   test_cusparseCsr2csc_00();
   test_cusparseCsr2csc_01();
+  test_cusparseTcsr2csc_00();
+  test_cusparseTcsr2csc_01();
 
   if (test_passed)
     return 0;

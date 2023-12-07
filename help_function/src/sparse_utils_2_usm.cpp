@@ -2025,8 +2025,8 @@ int main() {
   test_cusparseSetGetStream();
   test_cusparseTcsrmv_ge();
   test_cusparseTcsrmv_sy();
-  // test_cusparseTcsrmv_tr();
-  // test_cusparseTcsrmm(); // Re-enable this test until MKL issue fixed
+  test_cusparseTcsrmv_tr();
+  test_cusparseTcsrmm();
   test_cusparseSpMV();
   test_cusparseSpMM();
   test_cusparseTcsrmv_mp();
