@@ -102,6 +102,7 @@
     <test testName="cublasTtrmmLegacy" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="cublas-usm-legacy" configFile="config/TEMPLATE_cuBlas.xml" />
     <test testName="cublas-usm" configFile="config/TEMPLATE_cuBlas.xml" />
+    <test testName="cublas_64" configFile="config/TEMPLATE_cuBlas_12.xml" />
     <test testName="math-bf16-conv" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-bfloat16" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-direct" configFile="config/TEMPLATE_math.xml" />
