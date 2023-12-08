@@ -7,6 +7,7 @@
     <test testName="asm" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_vinst" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_v2inst" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_v4inst" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_arith" configFile="config/TEMPLATE_asm.xml" />
     <test testName="thrust-op" configFile="config/TEMPLATE_thrust_op.xml" />
     <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
