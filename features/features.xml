@@ -45,6 +45,7 @@
     <test testName="thrust_uninitialized_fill_n" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_swap_ranges" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_reverse" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_reverse_copy" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_all_of" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust_none_of" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust_is_partitioned" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
