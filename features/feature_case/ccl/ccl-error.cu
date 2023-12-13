@@ -7,10 +7,13 @@
 //
 // ===----------------------------------------------------------------------===//
 #include "nccl.h"
-
+#if NCCL_VERSION_CODE >= NCCL_VERSION(2,13,0)
+#endif
 int main(){
   int version;
   ncclResult_t res;
+  int major = NCCL_MAJOR;
+  int minor = NCCL_MINOR;
   res = ncclGetVersion(&version);
   ncclGetErrorString(res);
   ncclGetLastError(NULL);
