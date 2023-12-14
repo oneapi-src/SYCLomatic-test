@@ -43,17 +43,6 @@ test_passed(int failing_elems, std::string test_name)
     return 1;
 }
 
-template <typename Buffer>
-void
-iota_buffer(Buffer& dst_buf, int start_index, int end_index, int offset)
-{
-    auto dst = dst_buf.get_host_access();
-    for (int i = start_index; i != end_index; ++i)
-    {
-        dst[i] = i + offset;
-    }
-}
-
 template <typename ExecutionPolicy, typename InputIterator, typename FlagIterator, typename OutputIterator,
           typename CountIterator, typename ExpectedOutputIterator>
 int
