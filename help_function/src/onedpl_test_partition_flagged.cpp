@@ -10,15 +10,15 @@
 #include <oneapi/dpl/algorithm>
 #include <oneapi/dpl/execution>
 
-#include "dpct/dpct.hpp"
-#include "dpct/dpl_utils.hpp"
+#include <dpct/dpct.hpp>
+#include <dpct/dpl_utils.hpp>
 
 #include <string>
 #include <vector>
 #include <cstdint>
 #include <iostream>
 
-#include <sycl.hpp>
+#include <sycl/sycl.hpp>
 
 template <typename String, typename _T1, typename _T2>
 int

@@ -14,7 +14,11 @@
 #include <dpct/dpl_utils.hpp>
 
 #include <iostream>
+#include <cstdint>
+#include <vector>
 #include <string>
+
+#include <sycl/sycl.hpp>
 
 template <typename String, typename _T1, typename _T2>
 int
@@ -43,7 +47,7 @@ template <typename Buffer>
 void
 iota_buffer(Buffer& dst_buf, int start_index, int end_index, int offset)
 {
-    auto dst = dst_buf.template get_access<sycl::access::mode::write>();
+    auto dst = dst_buf.get_host_access();
     for (int i = start_index; i != end_index; ++i)
     {
         dst[i] = i + offset;
@@ -193,30 +197,31 @@ main()
     {
         test_name = "Pos / Neg / Zero partition - dpct::partition_if with three "
                     "outputs - int64_t";
+        std::size_t num_elements = 11;
         auto is_pos = [](auto n) { return n > 0; };
         auto is_neg = [](auto n) { return n < 0; };
 
         // create buffer
-        sycl::buffer<int64_t> input_buf{sycl::range<1>(11)};
-        sycl::buffer<int64_t> is_positive_buf{sycl::range<1>(11)};
-        sycl::buffer<int64_t> is_negative_buf{sycl::range<1>(11)};
-        sycl::buffer<int64_t> is_neither_buf{sycl::range<1>(11)};
+        sycl::buffer<int64_t> input_buf{sycl::range<1>(num_elements)};
+        sycl::buffer<int64_t> is_positive_buf{sycl::range<1>(num_elements)};
+        sycl::buffer<int64_t> is_negative_buf{sycl::range<1>(num_elements)};
+        sycl::buffer<int64_t> is_neither_buf{sycl::range<1>(num_elements)};
         sycl::buffer<int64_t> counts{sycl::range<1>(3)};
 
         std::vector<int64_t> expected1(5);
         std::vector<int64_t> expected2(5);
-        std::vector<int64_t> expected3(1, 0);
+        std::vector<int64_t> expected3(1);
         std::iota(expected1.begin(), expected1.end(), 1);
         std::iota(expected2.begin(), expected2.end(), -5);
         {
             auto is_neither_acc = is_neither_buf.get_host_access();
-            is_neither_acc[0] = 0xff; // Perturb this value since it should be zero in the output
+            is_neither_acc[0] = 0xff; // Store some garbage value since the output should be zero.
             iota_buffer(input_buf, 0, input_buf.size(), -5);
         }
         num_failing += test_partition_if_3outputs(
             test_name, policy, oneapi::dpl::begin(input_buf), oneapi::dpl::begin(is_positive_buf),
-            oneapi::dpl::begin(is_negative_buf), oneapi::dpl::begin(is_neither_buf), oneapi::dpl::begin(counts), 11,
-            is_pos, is_neg, expected1.begin(), 5, expected2.begin(), 5, expected3.begin(), 1);
+            oneapi::dpl::begin(is_negative_buf), oneapi::dpl::begin(is_neither_buf), oneapi::dpl::begin(counts),
+            num_elements, is_pos, is_neg, expected1.begin(), 5, expected2.begin(), 5, expected3.begin(), 1);
 
         failed_tests += test_passed(num_failing, test_name);
         num_failing = 0;
@@ -265,7 +270,7 @@ main()
         failed_tests += test_passed(num_failing, test_name);
         num_failing = 0;
     }
-    // Test 5. Leave last output empty (equivalent semantics to std::partition_copy
+    // Test 5. Leave last output empty (equivalent semantics to std::partition_copy)
     {
         test_name = "Leave the last output bucket empty - dpct::partition_if with three "
                     "outputs - int32_t";
