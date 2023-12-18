@@ -99,6 +99,16 @@ bool test_sync_stream() {
   return true;
 }
 
+bool test_ptx_version() {
+  int ver = 0;
+  cub::PtxVersion(ver);
+  cub::PtxVersion(ver, 0);
+  cub::PtxVersionUncached(ver);
+  cub::PtxVersionUncached(ver, 0);
+  (void) ver;
+  return true;
+}
+
 #define TEST(FUNC)                                                             \
   if (!FUNC()) {                                                               \
     printf(#FUNC " failed\n");                                                 \
@@ -111,5 +121,6 @@ int main() {
   TEST(test_current_device);
   TEST(test_device_count);
   TEST(test_sync_stream);
+  TEST(test_ptx_version);
   return 0;
 }
