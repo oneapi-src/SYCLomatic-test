@@ -268,19 +268,18 @@ template <TestType Type, typename T1, typename T2> bool test(const char *msg) {
 }
 
 int main() {
-  test<dp2a_lo, int32_t, int32_t>("dp2a_lo_s32_s32");
-  test<dp2a_lo, int32_t, uint32_t>("dp2a_lo_s32_u32");
-  test<dp2a_lo, uint32_t, int32_t>("dp2a_lo_u32_s32");
-  test<dp2a_lo, uint32_t, uint32_t>("dp2a_lo_u32_u32");
-
-  test<dp2a_hi, int32_t, int32_t>("dp2a_hi_s32_s32");
-  test<dp2a_hi, int32_t, uint32_t>("dp2a_hi_s32_u32");
-  test<dp2a_hi, uint32_t, int32_t>("dp2a_hi_u32_s32");
-  test<dp2a_hi, uint32_t, uint32_t>("dp2a_hi_u32_u32");
-
-  test<dp4a, int32_t, int32_t>("dp4a_s32_s32");
-  test<dp4a, int32_t, uint32_t>("dp4a_s32_u32");
-  test<dp4a, uint32_t, int32_t>("dp4a_u32_s32");
-  test<dp4a, uint32_t, uint32_t>("dp4a_u32_u32");
-  return 0;
+  bool res = true;
+  res = test<dp2a_lo, int32_t, int32_t>("dp2a_lo_s32_s32") && res;
+  res = test<dp2a_lo, int32_t, uint32_t>("dp2a_lo_s32_u32") && res;
+  res = test<dp2a_lo, uint32_t, int32_t>("dp2a_lo_u32_s32") && res;
+  res = test<dp2a_lo, uint32_t, uint32_t>("dp2a_lo_u32_u32") && res;
+  res = test<dp2a_hi, int32_t, int32_t>("dp2a_hi_s32_s32") && res;
+  res = test<dp2a_hi, int32_t, uint32_t>("dp2a_hi_s32_u32") && res;
+  res = test<dp2a_hi, uint32_t, int32_t>("dp2a_hi_u32_s32") && res;
+  res = test<dp2a_hi, uint32_t, uint32_t>("dp2a_hi_u32_u32") && res;
+  res = test<dp4a, int32_t, int32_t>("dp4a_s32_s32") && res;
+  res = test<dp4a, int32_t, uint32_t>("dp4a_s32_u32") && res;
+  res = test<dp4a, uint32_t, int32_t>("dp4a_u32_s32") && res;
+  res = test<dp4a, uint32_t, uint32_t>("dp4a_u32_u32") && res;
+  return !res;
 }
