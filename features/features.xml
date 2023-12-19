@@ -140,6 +140,7 @@
     <test testName="math-ext-simd" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-half-conv" configFile="config/TEMPLATE_math_after_11_skip_double.xml" splitGroup="double"/>
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
+    <test testName="math-intrinsics" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-saturate" configFile="config/TEMPLATE_math_saturate.xml" />
     <test testName="cusparse" configFile="config/TEMPLATE_cusparse_before_11.xml" />
     <test testName="cusparse-type10.1" configFile="config/TEMPLATE_cusparse.xml" />
