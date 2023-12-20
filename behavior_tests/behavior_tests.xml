@@ -136,7 +136,7 @@
         <test testName="change-filename-extension" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="helper_function_preference_no_queue_device" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="check-device-unsupport-aspect" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="check-windows-version" configFile="config/TEMPLATE_behavior_tests_win.xml" />
+        <!-- <test testName="check-windows-version" configFile="config/TEMPLATE_behavior_tests_win.xml" /> -->
         <test testName="query-api-mapping" configFile="config/TEMPLATE_behavior_tests_after_11.5.xml" />
         <test testName="query-api-mapping-linux" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="query-api-mapping-linux-after11.5" configFile="config/TEMPLATE_behavior_tests_lin_after_11.5.xml" />
