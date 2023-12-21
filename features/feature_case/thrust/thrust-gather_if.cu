@@ -6,12 +6,15 @@
 //
 //
 // ===----------------------------------------------------------------------===//
+#include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
 #include <thrust/gather.h>
-#include <thrust/host_vector.h>
 
-struct is_odd {
-  __host__ __device__ bool operator()(const int x) const {
+struct is_odd
+{
+  __host__ __device__
+  bool operator()(const int x) const
+  {
     return (x % 2) == 1;
   }
 };
@@ -20,13 +23,13 @@ void test_1() {
   int values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
   int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
   thrust::device_vector<int> d_values(values, values + 10);
-  thrust::device_vector<int> d_stencil(stencil, stencil + 10);
+  thrust::device_vector<int> d_stencil(stencil, stencil + 10);  
   int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
   thrust::device_vector<int> d_map(map, map + 10);
-  thrust::device_vector<int> d_output(10, 123);
+  thrust::device_vector<int> d_output(10,123);
 
-  thrust::gather_if(d_map.begin(), d_map.end(), d_stencil.begin(),
-                    d_values.begin(), d_output.begin(), is_odd());
+  thrust::gather_if(d_map.begin(), d_map.end(), d_stencil.begin(), d_values.begin(),
+                 d_output.begin(),is_odd());
 
   int values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
   for (int i = 0; i < d_output.size(); i++) {
@@ -41,15 +44,14 @@ void test_1() {
 
 void test_2() {
   int values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};  
   thrust::device_vector<int> d_values(values, values + 10);
-  thrust::device_vector<int> d_stencil(stencil, stencil + 10);
+  thrust::device_vector<int> d_stencil(stencil, stencil + 10);    
   int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
   thrust::device_vector<int> d_map(map, map + 10);
-  thrust::device_vector<int> d_output(10, 123);
-  thrust::gather_if(thrust::device, d_map.begin(), d_map.end(),
-                    d_stencil.begin(), d_values.begin(), d_output.begin(),
-                    is_odd());
+  thrust::device_vector<int> d_output(10,123);
+  thrust::gather_if(thrust::device, d_map.begin(), d_map.end(), d_stencil.begin(), d_values.begin(),
+                 d_output.begin(),is_odd());
 
   int values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
 
@@ -64,14 +66,14 @@ void test_2() {
 
 void test_3() {
   int values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};  
   thrust::host_vector<int> h_values(values, values + 10);
-  thrust::host_vector<int> h_stencil(stencil, stencil + 10);
+  thrust::host_vector<int> h_stencil(stencil, stencil + 10);    
   int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
   thrust::host_vector<int> h_map(map, map + 10);
-  thrust::host_vector<int> h_output(10, 123);
-  thrust::gather_if(thrust::seq, h_map.begin(), h_map.end(), h_stencil.begin(),
-                    h_values.begin(), h_output.begin(), is_odd());
+  thrust::host_vector<int> h_output(10,123);
+  thrust::gather_if(thrust::seq, h_map.begin(), h_map.end(), h_stencil.begin(), h_values.begin(),
+                 h_output.begin(),is_odd());
 
   int values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
 
@@ -86,14 +88,14 @@ void test_3() {
 
 void test_4() {
   int values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};  
   thrust::host_vector<int> h_values(values, values + 10);
   thrust::host_vector<int> h_stencil(stencil, stencil + 10);
   int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
   thrust::host_vector<int> h_map(map, map + 10);
-  thrust::host_vector<int> h_output(10, 123);
-  thrust::gather_if(h_map.begin(), h_map.end(), h_stencil.begin(),
-                    h_values.begin(), h_output.begin(), is_odd());
+  thrust::host_vector<int> h_output(10,123);
+  thrust::gather_if(h_map.begin(), h_map.end(), h_stencil.begin(), h_values.begin(),
+                 h_output.begin(),is_odd());
 
   int values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
 
@@ -104,6 +106,100 @@ void test_4() {
     }
   }
   printf("test_4 run passed!\n");
+}
+
+
+template<typename T>
+void test_A() {
+  T values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+  thrust::device_vector<T> d_values(values, values + 10);
+  thrust::device_vector<int> d_stencil(stencil, stencil + 10);    
+  int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
+  thrust::device_vector<int> d_map(map, map + 10);
+  thrust::device_vector<T> d_output(10,123);
+
+  thrust::gather_if(d_map.begin(), d_map.end(), d_stencil.begin(), d_values.begin(),
+                 d_output.begin(),is_odd());
+
+  T values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
+  for (int i = 0; i < d_output.size(); i++) {
+    if (d_output[i] != values_ref[i]) {
+      printf("test_A run failed\n");
+      exit(-1);
+    }
+  }
+
+  printf("test_A run passed %ld!\n",sizeof(T));
+}
+
+template<typename T>
+void test_B() {
+  T values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};  
+  thrust::device_vector<T> d_values(values, values + 10);
+  thrust::device_vector<int> d_stencil(stencil, stencil + 10);      
+  int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
+  thrust::device_vector<int> d_map(map, map + 10);
+  thrust::device_vector<T> d_output(10,123);
+  thrust::gather_if(thrust::device, d_map.begin(), d_map.end(), d_stencil.begin(), d_values.begin(),
+                 d_output.begin(),is_odd());
+
+  T values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
+
+  for (int i = 0; i < d_output.size(); i++) {
+    if (d_output[i] != values_ref[i]) {
+      printf("test_B run failed\n");
+      exit(-1);
+    }
+  }
+  printf("test_B run passed %ld!\n",sizeof(T));
+}
+
+template<typename T>
+void test_C() {
+  T values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};  
+  thrust::host_vector<T> h_values(values, values + 10);
+  thrust::host_vector<int> h_stencil(stencil, stencil + 10);      
+  int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
+  thrust::host_vector<int> h_map(map, map + 10);
+  thrust::host_vector<T> h_output(10,123);
+  thrust::gather_if(thrust::seq, h_map.begin(), h_map.end(), h_stencil.begin(), h_values.begin(),
+                 h_output.begin(),is_odd());
+
+  T values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
+
+  for (int i = 0; i < h_output.size(); i++) {
+    if (h_output[i] != values_ref[i]) {
+      printf("test_C run failed\n");
+      exit(-1);
+    }
+  }
+  printf("test_C run passed %ld!\n",sizeof(T));
+}
+
+template<typename T>
+void test_D() {
+  T values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};  
+  thrust::host_vector<T> h_values(values, values + 10);
+  thrust::host_vector<int> h_stencil(stencil, stencil + 10);
+  int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
+  thrust::host_vector<int> h_map(map, map + 10);
+  thrust::host_vector<T> h_output(10,123);
+  thrust::gather_if(h_map.begin(), h_map.end(), h_stencil.begin(), h_values.begin(),
+                 h_output.begin(),is_odd());
+
+  T values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
+
+  for (int i = 0; i < h_output.size(); i++) {
+    if (h_output[i] != values_ref[i]) {
+      printf("test_D run failed\n");
+      exit(-1);
+    }
+  }
+  printf("test_D run passed %ld!\n",sizeof(T));
 }
 
 void test_5() {
@@ -124,7 +220,7 @@ void test_5() {
   int values_ref[10] = {0, 7, 4, 7, 8, 7, 3, 7, 7, 7};
   for (int i = 0; i < d_output.size(); i++) {
     if (d_output[i] != values_ref[i]) {
-      printf("test_1 run failed\n");
+      printf("test_5 run failed\n");
       exit(-1);
     }
   }
@@ -150,7 +246,7 @@ void test_6() {
   int values_ref[10] = {0, 7, 4, 7, 8, 7, 3, 7, 7, 7};
   for (int i = 0; i < d_output.size(); i++) {
     if (d_output[i] != values_ref[i]) {
-      printf("test_1 run failed\n");
+      printf("test_6 run failed\n");
       exit(-1);
     }
   }
@@ -176,7 +272,7 @@ void test_7() {
   int values_ref[10] = {0, 7, 4, 7, 8, 7, 3, 7, 7, 7};
   for (int i = 0; i < d_output.size(); i++) {
     if (d_output[i] != values_ref[i]) {
-      printf("test_1 run failed\n");
+      printf("test_7 run failed\n");
       exit(-1);
     }
   }
@@ -202,7 +298,7 @@ void test_8() {
   int values_ref[10] = {0, 7, 4, 7, 8, 7, 3, 7, 7, 7};
   for (int i = 0; i < d_output.size(); i++) {
     if (d_output[i] != values_ref[i]) {
-      printf("test_1 run failed\n");
+      printf("test_8 run failed\n");
       exit(-1);
     }
   }
@@ -225,7 +321,7 @@ void test_9() {
   int values_ref[10] = {0, 7, 4, 7, 8, 7, 3, 7, 7, 7};
   for (int i = 0; i < 10; i++) {
     if (output[i] != values_ref[i]) {
-      printf("test_10 run failed\n");
+      printf("test_9 run failed\n");
       exit(-1);
     }
   }
@@ -293,96 +389,6 @@ void test_12() {
     }
   }
   printf("test_12 run passed!\n");
-}
-
-template <typename T> void test_A() {
-  T values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
-  thrust::device_vector<T> d_values(values, values + 10);
-  thrust::device_vector<int> d_stencil(stencil, stencil + 10);
-  int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
-  thrust::device_vector<int> d_map(map, map + 10);
-  thrust::device_vector<T> d_output(10, 123);
-
-  thrust::gather_if(d_map.begin(), d_map.end(), d_stencil.begin(),
-                    d_values.begin(), d_output.begin(), is_odd());
-
-  T values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
-  for (int i = 0; i < d_output.size(); i++) {
-    if (d_output[i] != values_ref[i]) {
-      printf("test_A run failed\n");
-      exit(-1);
-    }
-  }
-
-  printf("test_A run passed %ld!\n", sizeof(T));
-}
-
-template <typename T> void test_B() {
-  T values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
-  thrust::device_vector<T> d_values(values, values + 10);
-  thrust::device_vector<int> d_stencil(stencil, stencil + 10);
-  int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
-  thrust::device_vector<int> d_map(map, map + 10);
-  thrust::device_vector<T> d_output(10, 123);
-  thrust::gather_if(thrust::device, d_map.begin(), d_map.end(),
-                    d_stencil.begin(), d_values.begin(), d_output.begin(),
-                    is_odd());
-
-  T values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
-
-  for (int i = 0; i < d_output.size(); i++) {
-    if (d_output[i] != values_ref[i]) {
-      printf("test_B run failed\n");
-      exit(-1);
-    }
-  }
-  printf("test_B run passed %ld!\n", sizeof(T));
-}
-
-template <typename T> void test_C() {
-  T values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
-  thrust::host_vector<T> h_values(values, values + 10);
-  thrust::host_vector<int> h_stencil(stencil, stencil + 10);
-  int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
-  thrust::host_vector<int> h_map(map, map + 10);
-  thrust::host_vector<T> h_output(10, 123);
-  thrust::gather_if(thrust::seq, h_map.begin(), h_map.end(), h_stencil.begin(),
-                    h_values.begin(), h_output.begin(), is_odd());
-
-  T values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
-
-  for (int i = 0; i < h_output.size(); i++) {
-    if (h_output[i] != values_ref[i]) {
-      printf("test_C run failed\n");
-      exit(-1);
-    }
-  }
-  printf("test_C run passed %ld!\n", sizeof(T));
-}
-
-template <typename T> void test_D() {
-  T values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-  int stencil[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
-  thrust::host_vector<T> h_values(values, values + 10);
-  thrust::host_vector<int> h_stencil(stencil, stencil + 10);
-  int map[10] = {9, 8, 7, 6, 5, 0, 1, 2, 3, 4};
-  thrust::host_vector<int> h_map(map, map + 10);
-  thrust::host_vector<T> h_output(10, 123);
-  thrust::gather_if(h_map.begin(), h_map.end(), h_stencil.begin(),
-                    h_values.begin(), h_output.begin(), is_odd());
-
-  T values_ref[10] = {123, 9, 123, 7, 123, 1, 123, 3, 123, 5};
-
-  for (int i = 0; i < h_output.size(); i++) {
-    if (h_output[i] != values_ref[i]) {
-      printf("test_D run failed\n");
-      exit(-1);
-    }
-  }
-  printf("test_D run passed %ld!\n", sizeof(T));
 }
 
 int main() {
