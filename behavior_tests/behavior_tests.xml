@@ -7,6 +7,7 @@
         <test testName="test_soft_link_folder" configFile="config/test_soft_link_folder.xml" />
         <test testName="execute_from_cuda_path" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="execute_from_bundle_root" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-asm-optimize-on-cudabackend" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-cdb-default-out-folder" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="bt-ct-default-out-folder" configFile="config/bt-ct-default-out-folder.xml" />
         <test testName="ngt-check-cannot-parse" configFile="config/TEMPLATE_behavior_tests.xml" />
