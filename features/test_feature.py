@@ -39,7 +39,7 @@ exec_tests = ['asm', 'asm_arith', 'asm_vinst', 'asm_v2inst', 'asm_v4inst', 'thru
               'math-bfloat16', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
               'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5', 'cudnn-convp6', 'cudnn-convp7', 
               'cudnn_mutilple_files', "cusparse_1", "cusparse_2", "cusparse_3", "cusparse_4", "cusparse_5", "cusparse_6", "cusparse_7", "cusparse_8",
-              'cudnn-GetErrorString', 'cub_device_histgram',
+              'cudnn-GetErrorString', 'cub_device_histgram', 'peer_access',
               'cudnn-types', 'cudnn-version', 'cudnn-dropout', 'const_opt',
               'constant_attr', 'sync_warp_p2', 'occupancy_calculation',
               'text_obj_array', 'text_obj_linear', 'text_obj_pitch2d', 'match',
