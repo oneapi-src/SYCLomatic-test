@@ -6,7 +6,7 @@
 #
 #===----------------------------------------------------------------------===//
 
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.10)
 
 project(cmake_ptx LANGUAGES CXX)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl")
@@ -22,13 +22,13 @@ dpct_compile_sycl_code(cuda_ptx_files jit.dp.cpp)
 
 set(_generated_files "")
 add_custom_command(
-  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/app
-  COMMAND icpx -fsycl -o ${CMAKE_CURRENT_BINARY_DIR}/app
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/app.run
+  COMMAND icpx -fsycl -o ${CMAKE_CURRENT_BINARY_DIR}/app.run
           ${CMAKE_SOURCE_DIR}/kernel_library.cpp.dp.cpp
   DEPENDS ${CMAKE_SOURCE_DIR}/kernel_library.cpp.dp.cpp
-  COMMENT "Generating app")
+  COMMENT "Generating app.run")
 
-list(APPEND _generated_files ${CMAKE_CURRENT_BINARY_DIR}/app)
+list(APPEND _generated_files ${CMAKE_CURRENT_BINARY_DIR}/app.run)
 
 set(_copy_files "")
 add_custom_command(

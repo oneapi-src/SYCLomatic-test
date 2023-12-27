@@ -21,11 +21,19 @@ def setup_test():
 def migrate_test():
     # clean previous migration output
     if (os.path.exists("build")):
-        shutil.rmtree("build")    
-    call_subprocess(" mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER=icpx ../ && make")
-    return os.path.exists(os.path.join("build", "app"))
+        shutil.rmtree("build")
+
+    if (platform.system() == 'Windows'):
+        call_subprocess("mkdir build")
+        change_dir("build")
+        call_subprocess("cmake -G \"Unix Makefiles\" -DCMAKE_CXX_COMPILER=icpx ../")
+        call_subprocess("make")
+    else:
+        call_subprocess("mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER=icpx ../ && make")
+        change_dir("build")
+
+    return os.path.exists("app.run")
 def build_test():
     return True
 def run_test():
-    change_dir("build")
-    return call_subprocess(os.path.join(os.path.curdir, "app"))
+    return call_subprocess("./app.run")
