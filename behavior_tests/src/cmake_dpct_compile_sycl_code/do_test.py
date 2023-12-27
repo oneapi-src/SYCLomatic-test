@@ -27,8 +27,5 @@ def migrate_test():
 def build_test():
     return True
 def run_test():
-    #return call_subprocess(os.path.join(os.path.curdir, test_config.current_test + '.run '))
-    print("name:", test_config.current_test)
-    print("name:", os.path.curdir);
     change_dir("build")
     return call_subprocess(os.path.join(os.path.curdir, "app"))
