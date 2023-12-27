@@ -35,7 +35,7 @@ ln -s .. $symDirname
 cd $symDirname
 
 # try to migrate .cu file from symlink directory
-dpct -in-root=. -out-root=out --cuda-include-path=$CUDA_INCLUDE_PATH ${testName}.cu
+dpct -in-root=. --enable-profiling=0 -out-root=out --cuda-include-path=$CUDA_INCLUDE_PATH ${testName}.cu
 
 # check if .cu was migrated
 if [ ! -f out/$testName.dp.cpp ]; then
