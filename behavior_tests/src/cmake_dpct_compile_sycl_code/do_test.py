@@ -26,8 +26,9 @@ def migrate_test():
     call_subprocess("mkdir build")
     change_dir("build")
     call_subprocess("cmake -G \"Unix Makefiles\" -DCMAKE_CXX_COMPILER=icpx ../")
+    print("test_config.command_output 00 :", test_config.command_output)
     call_subprocess("make")
-
+    print("test_config.command_output 11 :", test_config.command_output)
     return os.path.exists("app.run")
 def build_test():
     return True
