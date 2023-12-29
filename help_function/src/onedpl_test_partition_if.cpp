@@ -64,21 +64,37 @@ test_partition_if_1output(const std::string& test_name, ExecutionPolicy&& policy
     using OutputType = typename std::iterator_traits<OutputIterator>::value_type;
     using CountType = typename std::iterator_traits<CountIterator>::value_type;
     int num_failures = 0;
-    CountType count_on_host;
-    dpct::partition_if(std::forward<ExecutionPolicy>(policy), input, output, count, num_elements, unary_pred);
+    bool rev_flag;
+    for (int rev = 0; rev < 2; ++rev)
     {
-        auto count_buf = count.get_buffer();
-        auto count_buf_acc = count_buf.get_host_access();
-        count_on_host = count_buf_acc[0];
-        num_failures += ASSERT_EQUAL(test_name + " - output partition point", count_on_host, expected_partition_point);
-    }
-    {
-        auto output_buf = output.get_buffer();
-        auto output_buf_acc = output_buf.get_host_access();
-        for (std::size_t i = 0; i < count_on_host; ++i)
+        CountType count_on_host;
+        rev_flag = static_cast<bool>(rev);
+        dpct::partition_if(policy, input, output, count, num_elements, unary_pred, rev_flag);
         {
+            auto count_buf = count.get_buffer();
+            auto count_buf_acc = count_buf.get_host_access();
+            count_on_host = count_buf_acc[0];
             num_failures +=
-                ASSERT_EQUAL(test_name + " - output at idx " + std::to_string(i), output_buf_acc[i], expected[i]);
+                ASSERT_EQUAL(test_name + " - output partition point", count_on_host, expected_partition_point);
+        }
+        {
+            auto output_buf = output.get_buffer();
+            auto output_buf_acc = output_buf.get_host_access();
+            std::string reversed_msg = rev ? " w/ last partition reversal" : " w/o last partition reversal";
+            for (std::size_t i = 0; i < num_elements; ++i)
+            {
+                // expected is assumed to be loaded with the last partition reversed.
+                std::size_t j =
+                    (rev == 0 && i >= expected_partition_point) ? num_elements - i + expected_partition_point - 1 : i;
+                num_failures += ASSERT_EQUAL(test_name + reversed_msg + " - output at idx " + std::to_string(i),
+                                             output_buf_acc[i], expected[j]);
+            }
+        }
+        // Flush output buffers between iterations.
+        if (!rev_flag)
+        {
+            dpl::fill_n(policy, output, num_elements, OutputType{});
+            dpl::fill_n(policy, count, 1, CountType{});
         }
     }
     return num_failures;
@@ -99,38 +115,56 @@ test_partition_if_3outputs(const std::string& test_name, ExecutionPolicy&& polic
     using OutputType2 = typename std::iterator_traits<OutputIterator2>::value_type;
     using OutputType3 = typename std::iterator_traits<OutputIterator3>::value_type;
     int num_failures = 0;
-    int host_count_output1 = 0, host_count_output2 = 0, host_count_output3 = 0;
-    dpct::partition_if(policy, input, output1, output2, output3, counts, num_elements, pred1, pred2);
+    bool rev_flag;
+    for (int rev = 0; rev < 2; ++rev)
     {
-        auto counts_buf = counts.get_buffer();
-        auto counts_acc = counts_buf.get_host_access();
-        host_count_output1 = counts_acc[0];
-        host_count_output2 = counts_acc[1];
-        host_count_output3 = counts_acc[2];
-        num_failures +=
-            ASSERT_EQUAL(test_name + " partitioned count output 1 ", host_count_output1, expected_elements1);
-        num_failures +=
-            ASSERT_EQUAL(test_name + " partitioned count output 2 ", host_count_output2, expected_elements2);
-        num_failures +=
-            ASSERT_EQUAL(test_name + " partitioned count output 3 ", host_count_output3, expected_elements3);
-    }
-    {
-        auto output1_buf = output1.get_buffer();
-        auto output2_buf = output2.get_buffer();
-        auto output3_buf = output3.get_buffer();
-        auto output1_acc = output1_buf.get_host_access();
-        auto output2_acc = output2_buf.get_host_access();
-        auto output3_acc = output3_buf.get_host_access();
+        rev_flag = static_cast<bool>(rev);
+        int host_count_output1 = 0, host_count_output2 = 0, host_count_output3 = 0;
+        std::string reversed_msg = rev ? " w/ last partition reversal" : " w/o last partition reversal";
+        dpct::partition_if(policy, input, output1, output2, output3, counts, num_elements, pred1, pred2, rev_flag);
+        {
+            auto counts_buf = counts.get_buffer();
+            auto counts_acc = counts_buf.get_host_access();
+            host_count_output1 = counts_acc[0];
+            host_count_output2 = counts_acc[1];
+            host_count_output3 = counts_acc[2];
+            num_failures += ASSERT_EQUAL(test_name + reversed_msg + " partitioned count output 1 ", host_count_output1,
+                                         expected_elements1);
+            num_failures += ASSERT_EQUAL(test_name + reversed_msg + " partitioned count output 2 ", host_count_output2,
+                                         expected_elements2);
+            num_failures += ASSERT_EQUAL(test_name + reversed_msg + " partitioned count output 3 ", host_count_output3,
+                                         expected_elements3);
+        }
+        {
+            auto output1_buf = output1.get_buffer();
+            auto output2_buf = output2.get_buffer();
+            auto output3_buf = output3.get_buffer();
+            auto output1_acc = output1_buf.get_host_access();
+            auto output2_acc = output2_buf.get_host_access();
+            auto output3_acc = output3_buf.get_host_access();
 
-        for (std::size_t i = 0; i < host_count_output1; ++i)
-            num_failures +=
-                ASSERT_EQUAL(test_name + " output1 at idx " + std::to_string(i), output1_acc[i], expected1[i]);
-        for (std::size_t i = 0; i < host_count_output2; ++i)
-            num_failures +=
-                ASSERT_EQUAL(test_name + " output2 at idx " + std::to_string(i), output2_acc[i], expected2[i]);
-        for (std::size_t i = 0; i < host_count_output3; ++i)
-            num_failures +=
-                ASSERT_EQUAL(test_name + " output3 at idx " + std::to_string(i), output3_acc[i], expected3[i]);
+            for (std::size_t i = 0; i < host_count_output1; ++i)
+                num_failures += ASSERT_EQUAL(test_name + reversed_msg + " output1 at idx " + std::to_string(i),
+                                             output1_acc[i], expected1[i]);
+            for (std::size_t i = 0; i < host_count_output2; ++i)
+                num_failures += ASSERT_EQUAL(test_name + reversed_msg + " output2 at idx " + std::to_string(i),
+                                             output2_acc[i], expected2[i]);
+            for (std::size_t i = 0; i < host_count_output3; ++i)
+            {
+                // expected is assumed to be loaded with the last partition reversed.
+                std::size_t j = rev_flag ? i : host_count_output3 - i - 1;
+                num_failures += ASSERT_EQUAL(test_name + reversed_msg + " output3 at idx " + std::to_string(i),
+                                             output3_acc[i], expected3[j]);
+            }
+        }
+        // Flush output buffers between iterations.
+        if (!rev_flag)
+        {
+            dpl::fill_n(policy, output1, num_elements, OutputType1{});
+            dpl::fill_n(policy, output2, num_elements, OutputType2{});
+            dpl::fill_n(policy, output3, num_elements, OutputType3{});
+            dpl::fill_n(policy, counts, 3, CountType{});
+        }
     }
     return num_failures;
 }

@@ -57,19 +57,19 @@ test_partition_flagged(const std::string& test_name, ExecutionPolicy&& policy, I
     for (int rev = 0; rev < 2; ++rev)
     {
         rev_flag = static_cast<bool>(rev);
+        std::string reversed_msg = rev ? " w/ last partition reversal" : " w/o last partition reversal";
         CountType count_on_host;
         dpct::partition_flagged(policy, input, flags, output, count, num_elements, rev_flag);
         {
             auto count_buf = count.get_buffer();
             auto count_buf_acc = count_buf.get_host_access();
             count_on_host = count_buf_acc[0];
-            num_failures +=
-                ASSERT_EQUAL(test_name + " - output partition point", count_on_host, expected_partition_point);
+            num_failures += ASSERT_EQUAL(test_name + reversed_msg + " - output partition point", count_on_host,
+                                         expected_partition_point);
         }
         {
             auto output_buf = output.get_buffer();
             auto output_buf_acc = output_buf.get_host_access();
-            std::string reversed_msg = rev ? " w/ last partition reversal" : " w/o last partition reversal";
             for (std::size_t i = 0; i < num_elements; ++i)
             {
                 // expected is assumed to be loaded with the last partition reversed.
@@ -80,7 +80,7 @@ test_partition_flagged(const std::string& test_name, ExecutionPolicy&& policy, I
             }
         }
         // Flush output buffers between iterations.
-        if (!rev)
+        if (!rev_flag)
         {
             dpl::fill_n(policy, output, num_elements, OutputType{});
             dpl::fill_n(policy, count, 1, CountType{});
