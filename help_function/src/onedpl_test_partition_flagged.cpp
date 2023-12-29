@@ -53,21 +53,32 @@ test_partition_flagged(const std::string& test_name, ExecutionPolicy&& policy, I
     using OutputType = typename std::iterator_traits<OutputIterator>::value_type;
     using CountType = typename std::iterator_traits<CountIterator>::value_type;
     int num_failures = 0;
-    CountType count_on_host;
-    dpct::partition_flagged(std::forward<ExecutionPolicy>(policy), input, flags, output, count, num_elements);
+    bool rev_flag;
+    for (int rev = 0; rev < 2; ++rev)
     {
-        auto count_buf = count.get_buffer();
-        auto count_buf_acc = count_buf.get_host_access();
-        count_on_host = count_buf_acc[0];
-        num_failures += ASSERT_EQUAL(test_name + " - output partition point", count_on_host, expected_partition_point);
-    }
-    {
-        auto output_buf = output.get_buffer();
-        auto output_buf_acc = output_buf.get_host_access();
-        for (std::size_t i = 0; i < num_elements; ++i)
+        rev_flag = static_cast<bool>(rev);
+        CountType count_on_host;
+        dpct::partition_flagged(std::forward<ExecutionPolicy>(policy), input, flags, output, count, num_elements,
+                                rev_flag);
         {
+            auto count_buf = count.get_buffer();
+            auto count_buf_acc = count_buf.get_host_access();
+            count_on_host = count_buf_acc[0];
             num_failures +=
-                ASSERT_EQUAL(test_name + " - output at idx " + std::to_string(i), output_buf_acc[i], expected[i]);
+                ASSERT_EQUAL(test_name + " - output partition point", count_on_host, expected_partition_point);
+        }
+        {
+            auto output_buf = output.get_buffer();
+            auto output_buf_acc = output_buf.get_host_access();
+            std::string reversed_msg = rev ? " w/ last partition reversal" : " w/o last partition reversal";
+            for (std::size_t i = 0; i < num_elements; ++i)
+            {
+                // expected is assumed to be loaded with the last partition reversed.
+                std::size_t j =
+                    (rev == 0 && i >= expected_partition_point) ? num_elements - i + expected_partition_point - 1 : i;
+                num_failures += ASSERT_EQUAL(test_name + reversed_msg + " - output at idx " + std::to_string(i),
+                                             output_buf_acc[i], expected[j]);
+            }
         }
     }
     return num_failures;
