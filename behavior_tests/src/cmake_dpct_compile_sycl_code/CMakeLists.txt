@@ -21,10 +21,16 @@ include(${dpct_cmake_file_path})
 dpct_compile_sycl_code(cuda_ptx_files jit.dp.cpp)
 
 set(_generated_files "")
+
+set(options "")
+if (UNIX)
+  set(options -lstdc++fs)
+endif()
+
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/app.run
   COMMAND icpx -fsycl -o ${CMAKE_CURRENT_BINARY_DIR}/app.run
-          ${CMAKE_SOURCE_DIR}/kernel_library.cpp.dp.cpp -lstdc++fs
+          ${CMAKE_SOURCE_DIR}/kernel_library.cpp.dp.cpp ${options}
   DEPENDS ${CMAKE_SOURCE_DIR}/kernel_library.cpp.dp.cpp
   COMMENT "Generating app.run")
 
