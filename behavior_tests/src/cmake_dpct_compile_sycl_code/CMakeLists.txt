@@ -24,7 +24,7 @@ set(_generated_files "")
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/app.run
   COMMAND icpx -fsycl -o ${CMAKE_CURRENT_BINARY_DIR}/app.run
-          ${CMAKE_SOURCE_DIR}/kernel_library.cpp.dp.cpp
+          ${CMAKE_SOURCE_DIR}/kernel_library.cpp.dp.cpp -lstdc++fs
   DEPENDS ${CMAKE_SOURCE_DIR}/kernel_library.cpp.dp.cpp
   COMMENT "Generating app.run")
 
