@@ -7,6 +7,7 @@
         <test testName="test_soft_link_folder" configFile="config/test_soft_link_folder.xml" />
         <test testName="execute_from_cuda_path" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="execute_from_bundle_root" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-asm-optimize-on-cudabackend" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-cdb-default-out-folder" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="bt-ct-default-out-folder" configFile="config/bt-ct-default-out-folder.xml" />
         <test testName="ngt-check-cannot-parse" configFile="config/TEMPLATE_behavior_tests.xml" />
@@ -132,13 +133,15 @@
         <test testName="bt-modified-yaml" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-warning1083" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-warning1118" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-check-warning1026" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-unsupported-type-function" configFile="config/TEMPLATE_behavior_tests_after_9.2.xml" />
         <test testName="change-filename-extension" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="helper_function_preference_no_queue_device" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="check-device-unsupport-aspect" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <!-- <test testName="check-windows-version" configFile="config/TEMPLATE_behavior_tests_win.xml" /> -->
+        <test testName="check-windows-version" configFile="config/TEMPLATE_behavior_tests_win.xml" />
         <test testName="query-api-mapping" configFile="config/TEMPLATE_behavior_tests_after_11.5.xml" />
         <test testName="query-api-mapping-linux" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
+        <test testName="query-api-mapping-linux-after10.2" configFile="config/TEMPLATE_behavior_tests_lin_after_10.2.xml" />
         <test testName="query-api-mapping-linux-after11.5" configFile="config/TEMPLATE_behavior_tests_lin_after_11.5.xml" />
         <test testName="ngt-invalid-experimental-features" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-UDR-path" configFile="config/TEMPLATE_behavior_tests.xml" />
@@ -162,6 +165,7 @@
         <test testName="bt-language-warning" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-unexpected-message" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="cmp-cmds-linker-entry-src-files" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
+        <test testName="cmake_dpct_compile_sycl_code" configFile="config/TEMPLATE_behavior_tests.xml" />
     </tests>
 
 </suite>
