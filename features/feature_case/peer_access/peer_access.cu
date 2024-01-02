@@ -11,5 +11,6 @@ int main() {
   cudaDeviceEnablePeerAccess(cur_device, 0);
 
   std::cout << "test passed" << std::endl;
+
   return 0;
 }
