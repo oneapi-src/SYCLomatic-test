@@ -21,21 +21,18 @@ def setup_test():
 def migrate_test():
     data = []
     ret = []
-    iter = 0
     with open("compile_commands.json", 'r') as f:
         data = f.readlines()
         for line in data:
-            if iter == 1:
-                line = line.replace("directory_placeholder", os.getcwd().replace("\\", "\\\\"))
             if "directory_placeholder" in line:
-                iter += 1
-
+                ret.append("      \"arguments\": [\"nvcc hello_aaa.c\"],\n")
+            line = line.replace("directory_placeholder", os.getcwd().replace("\\", "\\\\"))
             ret.append(line)
     with open("compile_commands.json", 'w') as f:
         f.writelines(ret)
 
     call_subprocess(test_config.CT_TOOL + ' -p=./ --cuda-include-path=' + test_config.include_path)
-    return is_sub_string("Processed 1 file(s)", test_config.command_output)
+    return not is_sub_string("Unknown key: \"\"arguments\"\"", test_config.command_output)
 
 
 def build_test():
@@ -43,5 +40,4 @@ def build_test():
 
 def run_test():
     return True
-
 
