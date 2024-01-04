@@ -18,7 +18,7 @@ get_filename_component(bin_path_of_dpct ${dpct_bin_path} DIRECTORY)
 set(dpct_cmake_file_path "${bin_path_of_dpct}/../cmake/dpct.cmake")
 include(${dpct_cmake_file_path})
 
-dpct_compile_sycl_code(cuda_ptx_files jit.dp.cpp)
+dpct_helper_compile_sycl_code(cuda_ptx_files jit.dp.cpp)
 
 set(_generated_files "")
 
