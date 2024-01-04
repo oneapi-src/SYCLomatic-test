@@ -166,6 +166,7 @@
         <test testName="bt-check-unexpected-message" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="cmp-cmds-linker-entry-src-files" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="cmake_dpct_helper_compile_sycl_code" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="cmake_dpct_helper_sycl_compile" configFile="config/TEMPLATE_behavior_tests.xml" />
     </tests>
 
 </suite>
