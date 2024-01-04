@@ -38,7 +38,11 @@ def migrate_test():
     for cmd, expected_file in cmds_n_results.items():
         with tempfile.TemporaryDirectory() as dpct_out_root:
             cmd = cmd.format(dpct_out_root)
-            call_subprocess(cmd)
+            ret = call_subprocess(cmd)
+
+            if not ret:
+                print(f"user-defined-sycl-file-extension: cmd execution failed: {cmd}")
+                return False
 
             if not os.path.exist(os.path.join(dpct_out_root, expected_file)):
                 print(f"user-defined-sycl-file-extension: test failed: {cmd}")
