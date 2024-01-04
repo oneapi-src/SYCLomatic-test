@@ -167,6 +167,7 @@
         <test testName="cmake_dpct_helper_compile_sycl_code" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="user-defined-sycl-file-extension" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="analysis-mode" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="cmake_dpct_helper_add_mkl_to_target" configFile="config/TEMPLATE_behavior_tests.xml" />
     </tests>
 
 </suite>
