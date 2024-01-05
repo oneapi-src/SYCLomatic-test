@@ -22,7 +22,7 @@ def migrate_test():
     Runs dpct with options for --sycl-file-extension and verfies the exisitance
     of migrated files with correct extension
     """
-    sub_command = f"{test_config.CT_TOOL} main.cpp --out-root {{0}}"
+    sub_command = f"{test_config.CT_TOOL} main.cu --out-root {{0}}"
 
     # commands to test three options to --sycl-file-extension and the defualt
     # behaviour
@@ -44,13 +44,13 @@ def migrate_test():
                 print(f"user-defined-sycl-file-extension: cmd execution failed: {cmd}")
                 return False
 
-            if not os.path.exist(os.path.join(dpct_out_root, expected_file)):
+            if not os.path.exists(os.path.join(dpct_out_root, expected_file)):
                 print(f"user-defined-sycl-file-extension: test failed: {cmd}")
                 return False
 
     # check for incorrect value to --sycl-file-extension
     with tempfile.TemporaryDirectory() as dpct_out_root:
-        cmd = f"{subcommand} --sycl-file-extension=incorrect-option"
+        cmd = f"{sub_command} --sycl-file-extension=incorrect-option"
         call_subprocess(cmd)
         return is_sub_string(
             "Cannot find option named 'incorrect-option'", test_config.command_output
