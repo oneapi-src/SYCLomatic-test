@@ -26,10 +26,10 @@ set(DPCT_CMAKE_PATH "${DPCT_BIN_DIR}/../cmake/dpct.cmake")
 message(STATUS "INCLUDING ${DPCT_CMAKE_PATH}")
 include(${DPCT_CMAKE_PATH})
 
-dpct_compile(objSetOne a.dp.cpp b.dp.cpp)
+dpct_helper_sycl_compile(objSetOne a.dp.cpp b.dp.cpp)
 
 set(_src_files c.dp.cpp d.dp.cpp)
-dpct_compile(objSetTwo ${_src_files})
+dpct_helper_sycl_compile(objSetTwo ${_src_files})
 
 set(allObjs)
 list(APPEND allObjs ${objSetOne})
@@ -55,8 +55,8 @@ foreach(obj ${allObjs})
   MATH(EXPR _cnt "${_cnt}+1")
 endforeach()
 
-add_executable(target_dpct_compile main.dp.cpp)
-target_link_libraries(target_dpct_compile PRIVATE Lib1 Lib2 Lib3 Lib4)
+add_executable(test_dpct_helper_sycl_compile main.dp.cpp)
+target_link_libraries(test_dpct_helper_sycl_compile PRIVATE Lib1 Lib2 Lib3 Lib4)
 
 add_custom_target(tdc ALL DEPENDS ${_allObjsLibs})
-add_dependencies(target_dpct_compile tdc)
+add_dependencies(test_dpct_helper_sycl_compile tdc)

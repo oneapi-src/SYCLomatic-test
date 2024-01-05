@@ -39,10 +39,10 @@ def migrate_test():
     if not ret:
         print("Command 'make' failed:", test_config.command_output)
 
-    return os.path.exists("test_dpct_compile")
+    return os.path.exists("test_dpct_helper_sycl_compile ")
 
 def build_test():
     return True
 
 def run_test():
-    return call_subprocess("test_dpct_compile")
+    return call_subprocess("test_dpct_helper_sycl_compile ")
