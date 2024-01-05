@@ -31,7 +31,7 @@ def migrate_test():
     # configure and build cmake containing dpct_helper_sycl_compile
     build_cmd = (
         "cmake -DCMAKE_CXX_COMPILER=icpx -B build -S . "
-        "&& cmake --build build --parallel"
+        "&& cmake --build build"
     )
     ret = call_subprocess(build_cmd)
     if not ret:
