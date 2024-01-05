@@ -14,35 +14,50 @@ from test_config import CT_TOOL
 
 from test_utils import *
 
+rel_bin_path = "./build/test_dpct_helper_sycl_compile"
+
+
 def setup_test():
     change_dir(test_config.current_test)
     return True
 
+
 def migrate_test():
+    """
+    Builds the project using cmake. The cmake list contains
+    dpct_helper_sycl_compile.
+    """
     # clean previous migration output
-    if (os.path.exists("build")):
+    if os.path.exists("build"):
         shutil.rmtree("build")
 
-    ret = call_subprocess("mkdir build")
+    # configure and build cmake containing dpct_helper_sycl_compile
+    build_cmd = (
+        "cmake -DCMAKE_CXX_COMPILER=icpx -B build -S . "
+        "&& cmake --build build --parallel"
+    )
+    ret = call_subprocess(build_cmd)
     if not ret:
-        print("Failed to create build folder:", test_config.command_output)
+        print(f"Command '{build_cmd}' failed:", test_config.command_output)
+        return False
 
-    ret = change_dir("build")
-    if not ret:
-        print("Failed to change CWD to build folder:", test_config.command_output)
+    # make sure the binary exists
+    if not os.path.exists(rel_bin_path):
+        print("Failed to find {rel_bin_path} in {os.getcwd()}")
+        return False
 
-    ret = call_subprocess("cmake -G \"Unix Makefiles\" -DCMAKE_CXX_COMPILER=icpx ../")
-    if not ret:
-        print("Command 'cmake configure' failed:", test_config.command_output)
+    return True
 
-    ret = call_subprocess("make")
-    if not ret:
-        print("Command 'make' failed:", test_config.command_output)
-
-    return os.path.exists("test_dpct_helper_sycl_compile ")
 
 def build_test():
     return True
 
+
 def run_test():
-    return call_subprocess("test_dpct_helper_sycl_compile ")
+    """
+    Run the binary and expect $? as zero
+    """
+    ret = call_subprocess(rel_bin_path)
+    if not ret:
+        print("Command '{rel_bin_path}' failed:", test_config.command_output)
+    return ret
