@@ -6,13 +6,10 @@
 #
 #
 # ===----------------------------------------------------------------------===#
-import subprocess
-import platform
 import os
-import sys
-from test_config import CT_TOOL
 
 from test_utils import *
+from test_config import CT_TOOL
 
 rel_bin_path = "./build/test_dpct_helper_sycl_compile"
 
@@ -43,7 +40,7 @@ def migrate_test():
 
     # make sure the binary exists
     if not os.path.exists(rel_bin_path):
-        print("Failed to find {rel_bin_path} in {os.getcwd()}")
+        print(f"Failed to find {rel_bin_path} in {os.getcwd()}")
         return False
 
     return True
@@ -59,5 +56,5 @@ def run_test():
     """
     ret = call_subprocess(rel_bin_path)
     if not ret:
-        print("Command '{rel_bin_path}' failed:", test_config.command_output)
+        print(f"Command '{rel_bin_path}' returned non-zero error code:", test_config.command_output)
     return ret
