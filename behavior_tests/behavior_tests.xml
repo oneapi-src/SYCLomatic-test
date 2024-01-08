@@ -164,6 +164,7 @@
         <test testName="bt-gen-helper-function" configFile="config/TEMPLATE_behavior_tests_win.xml" />
         <test testName="bt-language-warning" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-check-unexpected-message" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="bt-no-dpct-helper-function" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="cmp-cmds-linker-entry-src-files" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="cmake_dpct_helper_compile_sycl_code" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="user-defined-sycl-file-extension" configFile="config/TEMPLATE_behavior_tests.xml" />
