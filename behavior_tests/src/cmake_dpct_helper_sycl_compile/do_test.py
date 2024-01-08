@@ -29,15 +29,17 @@ def migrate_test():
         shutil.rmtree("build")
 
     # configure and build cmake containing dpct_helper_sycl_compile
-    build_cmd = (
-        "cmake -DCMAKE_CXX_COMPILER=icpx -B build -S . "
-        "&& cmake --build build"
-    )
+    config_cmd = "cmake -DCMAKE_CXX_COMPILER=icpx -B build -S ."
+    ret = call_subprocess(config_cmd)
+    if not ret:
+        print(f"Command '{config_cmd}' failed:", test_config.command_output)
+        return False
+
+    build_cmd = "cmake --build build --parallel"
     ret = call_subprocess(build_cmd)
     if not ret:
         print(f"Command '{build_cmd}' failed:", test_config.command_output)
         return False
-
     # make sure the binary exists
     if not os.path.exists(rel_bin_path):
         print(f"Failed to find {rel_bin_path} in {os.getcwd()}")
