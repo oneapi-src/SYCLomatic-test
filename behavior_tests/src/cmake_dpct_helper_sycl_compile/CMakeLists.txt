@@ -55,8 +55,9 @@ foreach(obj ${allObjs})
   MATH(EXPR _cnt "${_cnt}+1")
 endforeach()
 
-add_executable(test_dpct_helper_sycl_compile main.dp.cpp)
-target_link_libraries(test_dpct_helper_sycl_compile PRIVATE Lib1 Lib2 Lib3 Lib4)
+add_executable(app.run main.dp.cpp)
+target_link_libraries(app.run PRIVATE Lib1 Lib2 Lib3 Lib4)
 
 add_custom_target(tdc ALL DEPENDS ${_allObjsLibs})
-add_dependencies(test_dpct_helper_sycl_compile tdc)
+add_dependencies(app.run tdc)
+install(TARGETS app.run)

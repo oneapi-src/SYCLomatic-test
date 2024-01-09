@@ -11,7 +11,7 @@ import os
 from test_utils import *
 from test_config import CT_TOOL
 
-rel_bin_path = "./build/test_dpct_helper_sycl_compile"
+rel_bin_path = "./build/app.run"
 
 
 def setup_test():
@@ -29,7 +29,7 @@ def migrate_test():
         shutil.rmtree("build")
 
     # configure and build cmake containing dpct_helper_sycl_compile
-    config_cmd = "cmake -G "Unix Makefiles" -DCMAKE_CXX_COMPILER=icpx -B build -S ."
+    config_cmd = 'cmake -G "Unix Makefiles" -DCMAKE_CXX_COMPILER=icpx -B build -S .'
     ret = call_subprocess(config_cmd)
     if not ret:
         print(f"Command '{config_cmd}' failed:", test_config.command_output)
