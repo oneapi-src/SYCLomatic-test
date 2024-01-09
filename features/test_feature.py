@@ -73,9 +73,10 @@ def migrate_test():
     if test_config.current_test == 'cufft_test':
         return do_migrate([os.path.join(in_root, 'cufft_test.cu')], in_root, test_config.out_root, extra_args)
 
-    for dirpath, dirnames, filenames in os.walk(in_root):
-        for filename in [f for f in filenames if re.match('.*(cu|cpp|c)$', f)]:
-            src.append(os.path.abspath(os.path.join(dirpath, filename)))
+    if test_config.current_test != 'llama':
+        for dirpath, dirnames, filenames in os.walk(in_root):
+            for filename in [f for f in filenames if re.match('.*(cu|cpp|c)$', f)]:
+                src.append(os.path.abspath(os.path.join(dirpath, filename)))
 
     nd_range_bar_exper = ['grid_sync']
     logical_group_exper = ['cooperative_groups', 'cooperative_groups_thread_group', 'cooperative_groups_data_manipulate']
@@ -105,6 +106,19 @@ def migrate_test():
         src.append(' --optimize-migration ')
     if test_config.current_test.startswith('text_experimental_'):
         src.append(' --use-experimental-features=bindless_images')
+    if test_config.current_test == 'llama':
+        original_string = '/export/users/wanghao2/project/llama.cpp'
+        new_string = in_root
+        db_dir = os.path.join(in_root, 'gpubuild')
+        with open(os.path.join(db_dir, 'compile_commands.json'), "r") as file:
+            file_contents = file.read()
+        file_contents = file_contents.replace(original_string, new_string)
+        file_contents = re.sub(r'"directory": ".*?"', '"directory": "' + db_dir + '"', file_contents)
+        with open(os.path.join(db_dir, 'compile_commands.json'), "w") as file:
+            file.write(file_contents)
+        src.append(' -p=' + os.path.join(in_root, 'gpubuild'))
+        src.append(' --enable-profiling ')
+        src.append(' --use-experimental-features=free-function-queries,local-memory-kernel-scope-allocation ')
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
@@ -156,16 +170,25 @@ def build_test():
     no_fast_math_tests = ['math-emu-half-after11', 'math-emu-half2-after11', 'math-ext-half-after11', 'math-ext-half2-after11',
                           'math-emu-bf16', 'math-emu-bf162', 'math-experimental-bf16', 'math-experimental-bf162']
 
+    llama_files = ['common.cpp', 'sampling.cpp.dp.cpp', 'console.cpp', 'grammar-parser.cpp', 'train.cpp.dp.cpp',
+                   'build-info.cpp', 'llama.cpp', 'ggml.c', 'ggml-alloc.c', 'ggml-backend.c', 'ggml-quants.c',
+                   'ggml-cuda.dp.cpp', 'main.cpp']
+
     if test_config.current_test in oneDPL_related:
         cmp_options.append(prepare_oneDPL_specific_macro())
 
-    if re.match('^cu.*', test_config.current_test):
+    if re.match('^cu.*', test_config.current_test) or (test_config.current_test == 'llama'):
         if platform.system() == 'Linux':
             link_opts = test_config.mkl_link_opt_lin
         else:
             link_opts = test_config.mkl_link_opt_win
         cmp_options.append("-DMKL_ILP64")
 
+    if test_config.current_test == 'llama':
+        cmp_options.append("-DGGML_CUDA_DMMV_X=32 -DGGML_CUDA_MMV_Y=1 -DGGML_CUDA_PEER_MAX_BATCH_SIZE=128")
+        cmp_options.append("-DGGML_USE_CUBLAS -DK_QUANTS_PER_ITERATION=2 -D_GNU_SOURCE -D_XOPEN_SOURCE=600 -O3 -DNDEBUG")
+        cmp_options.append("-I " + test_config.out_root)
+        cmp_options.append("-I " + os.path.join(test_config.out_root, 'common'))
     if test_config.current_test in no_fast_math_tests:
         cmp_options.append("-fno-fast-math")
 
@@ -173,8 +196,14 @@ def build_test():
         link_opts.append('-lccl -lmpi')
 
     for dirpath, dirnames, filenames in os.walk(test_config.out_root):
-        for filename in [f for f in filenames if re.match('.*(cpp|c)$', f)]:
-            srcs.append(os.path.abspath(os.path.join(dirpath, filename)))
+        if test_config.current_test == 'llama':
+            for filename in filenames:
+                if filename in llama_files:
+                    srcs.append(os.path.abspath(os.path.join(dirpath, filename)))
+        else:
+            for filename in [f for f in filenames if re.match('.*(cpp|c)$', f)]:
+                srcs.append(os.path.abspath(os.path.join(dirpath, filename)))
+
     if platform.system() == 'Linux':
         link_opts.append(' -lpthread ')
     if test_config.current_test in oneDNN_related:
@@ -194,6 +223,8 @@ def build_test():
     elif test_config.current_test in exec_tests:
         ret = compile_and_link(srcs, cmp_options, objects, link_opts)
     elif re.match('^cufft.*', test_config.current_test) and platform.system() == 'Linux':
+        ret = compile_and_link(srcs, cmp_options, objects, link_opts)
+    elif test_config.current_test == 'llama':
         ret = compile_and_link(srcs, cmp_options, objects, link_opts)
     else:
         ret = compile_files(srcs, cmp_options)

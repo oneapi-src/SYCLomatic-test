@@ -323,6 +323,7 @@
     <test testName="warp_reduce_functions" configFile="config/TEMPLATE_cpp_language_extensions.xml" />
     <!-- <test testName="wmma" configFile="config/TEMPLATE_wmma.xml" /> -->
     <test testName="peer_access" configFile="config/TEMPLATE_peer_access.xml" />
+    <test testName="llama" configFile="config/TEMPLATE_llama.xml" />
     <test testName="const_opt" configFile="config/TEMPLATE_const_opt.xml" />
   </tests>
 </suite>
