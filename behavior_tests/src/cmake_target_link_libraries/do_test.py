@@ -21,11 +21,26 @@ def setup_test():
 def migrate_test():
     # clean previous migration output
     if (os.path.exists("build")):
-        shutil.rmtree("build")    
-    call_subprocess(" mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER=icpx ../ && make")
-    return os.path.exists(os.path.join("build", "foo-bar"))
+        shutil.rmtree("build")
+
+    ret = call_subprocess("mkdir build")
+    if not ret:
+        print("Error to create build folder:", test_config.command_output)
+
+    ret = change_dir("build")
+    if not ret:
+        print("Error to go to build folder:", test_config.command_output)
+
+    ret = call_subprocess("cmake -G \"Unix Makefiles\" -DCMAKE_CXX_COMPILER=icpx ../")
+    if not ret:
+        print("Error to run cmake configure:", test_config.command_output)
+
+    ret = call_subprocess("make")
+    if not ret:
+        print("Error to run build process:", test_config.command_output)
+
+    return os.path.exists("foo-bar")
 def build_test():
     return True
 def run_test():
-    change_dir("build")
-    return call_subprocess(os.path.join(os.path.curdir, "foo-bar"))
+    return call_subprocess("./foo-bar")
