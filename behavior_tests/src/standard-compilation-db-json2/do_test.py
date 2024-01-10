@@ -25,7 +25,7 @@ def migrate_test():
         data = f.readlines()
         for line in data:
             if "directory_placeholder" in line:
-                ret.append("      \"arguments\": [\"nvcc hello_aaa.c\"],\n")
+                ret.append("      \"arguments\": [\"nvcc hello1.c\"],\n")
             line = line.replace("directory_placeholder", os.getcwd().replace("\\", "\\\\"))
             ret.append(line)
     with open("compile_commands.json", 'w') as f:
