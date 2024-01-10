@@ -101,15 +101,12 @@ def migrate_test():
         src.append(' --use-experimental-features=matrix ')
     if test_config.current_test in experimental_bfloat16_tests:
         src.append(' --use-experimental-features=bfloat16_math_functions ')
-<<<<<<< HEAD
     if test_config.current_test == 'const_opt' or test_config.current_test == 'asm_optimize':
         src.append(' --optimize-migration ')
     if test_config.current_test.startswith('text_experimental_'):
         src.append(' --use-experimental-features=bindless_images')
-=======
     if "codepin" in test_config.current_test:
         src.append(' --enable-codepin ')
->>>>>>> b1c1358 ([SYCLomatic] Add test for codepin)
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
