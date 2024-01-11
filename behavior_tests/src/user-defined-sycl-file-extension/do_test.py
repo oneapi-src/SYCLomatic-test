@@ -22,7 +22,7 @@ def migrate_test():
     Runs dpct with options for --sycl-file-extension and verfies the exisitance
     of migrated files with correct extension
     """
-    sub_command = f"{test_config.CT_TOOL} main.cu --out-root {{0}}"
+    sub_command = f"{test_config.CT_TOOL} main.cu --out-root {{0}} --cuda-include-path {test_config.include_path}"
 
     # commands to test three options to --sycl-file-extension and the defualt
     # behaviour
