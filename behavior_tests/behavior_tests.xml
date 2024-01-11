@@ -80,8 +80,8 @@
         <test testName="ngt-invalid-json6" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-json7" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-json8" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="ngt-invalid-json9" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="ngt-invalid-json10" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="standard-compilation-db-json1" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="standard-compilation-db-json2" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="integer-overflow" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="bt-suppress-warnings" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-report-only" configFile="config/TEMPLATE_behavior_tests.xml" />
