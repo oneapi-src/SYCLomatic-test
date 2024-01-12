@@ -31,7 +31,7 @@ void print_data(int* data, int num) {
   std::cout << std::endl;
 }
 
-void striped_to_blocked_kernel(int* data,
+rvoid striped_to_blocked_kernel(int* data,
                                sycl::nd_item<3> item_ct1){
                             
                             
@@ -52,23 +52,50 @@ void blocked_to_striped_kernel(int* data,
   dpct::group::exchange<input, VALUES_PER_THREAD> exchange(_local_memory).blocked_to_striped(item_ct1.get_group(), input);
   item_ct1.barrier(sycl::access::fence_space::local_space);
                         
+}
 
+void scatter_to_blocked_kernel(int* data, int* rank_data,
+                               sycl::nd_item<3> item_ct1){
+                            
+                            
+  int threadid = item_ct1.get_local_id(2);
+  int input = data[threadid];
+  int rank_input = rank_data[threadid];
+  uint8_t* _local_memory = sycl::ext::oneapi::group_local_memory_for_overwrite<uint8_t*>(item_ct1.get_group())
+  dpct::group::exchange<input, VALUES_PER_THREAD> exchange(_local_memory).scatter_to_blocked(item_ct1.get_group(), input, rank_input);
+  item_ct1.barrier(sycl::access::fence_space::local_space);
+                            
+}
 
+void scatter_to_striped_kernel(int* data, int* rank_data,
+                               sycl::nd_item<3> item_ct1){
+                            
+                            
+  int threadid = item_ct1.get_local_id(2);
+  int input = data[threadid];
+  int rank_input = rank_data[threadid];
+  uint8_t* _local_memory = sycl::ext::oneapi::group_local_memory_for_overwrite<uint8_t*>(item_ct1.get_group())
+  dpct::group::exchange<input, VALUES_PER_THREAD> exchange(_local_memory).scatter_to_striped(item_ct1.get_group(), input, rank_input);
+  item_ct1.barrier(sycl::access::fence_space::local_space);
+                            
 }
 
 int main () {
   
   int* data = static_cast<int*>(dpct::dpct_malloc(SIZE * sizeof(int)));
+  int* rank_data = static_cast<int*>(dpct::dpct_malloc(SIZE * sizeof(int)));
   init_data(data, SIZE);
+  init_data(rank_data, SIZE);
   sycl::buffer<int> buffer_data(data, cl::sycl::range<1>(SIZE));
+  sycl::buffer<int> buffer_rank_data(rank_data, cl::sycl::range<1>(SIZE));
   
   //striped_to_blocked
   dpct::get_default_queue().submit(
     [&](sycl::handler &cgh) {
-      auto dataAccessor = dataBuffer.get_access<sycl::access::mode::read_write>(cgh);
+      auto dataAccessor = buffer_data.get_access<sycl::access::mode::read_write>(cgh);
   
       cgh.parallel_for(
-        cl::sycl::range<3>(SIZE, 1, 1), 
+        sycl::range<3>(SIZE, 1, 1), 
         [=](sycl::nd_item<3> item_ct1) {
           striped_to_blocked_kernel(dataAccessor.get_pointer(), item_ct1);
         });
@@ -80,10 +107,10 @@ int main () {
   //blocked_to_striped
   dpct::get_default_queue().submit(
     [&](sycl::handler &cgh) {
-      auto dataAccessor = dataBuffer.get_access<sycl::access::mode::read_write>(cgh);
+      auto dataAccessor = buffer_data.get_access<sycl::access::mode::read_write>(cgh);
   
       cgh.parallel_for(
-        cl::sycl::range<3>(SIZE, 1, 1), 
+        sycl::range<3>(SIZE, 1, 1), 
         [=](sycl::nd_item<3> item_ct1) {
           blocked_to_striped_kernel(dataAccessor.get_pointer(), item_ct1);
         });
@@ -92,6 +119,36 @@ int main () {
   
   dpct::get_current_device().queues_wait_and_throw();
   
+  //scatter_to_blocked
+  dpct::get_default_queue().submit(
+    [&](sycl::handler &cgh) {
+      auto dataAccessor = buffer_data.get_access<sycl::access::mode::read_write>(cgh);
+      auto dataRankAccessor = buffer_rank_data.get_access<sycl::access::mode::read_write>(cgh);
+      cgh.parallel_for(
+        sycl::range<3>(SIZE, 1, 1), sycl::range<3>(SIZE, 1, 1)
+        [=](sycl::nd_item<3> item_ct1) {
+          scatter_to_blocked_kernel(dataAccessor.get_pointer(), dataRankAccessor.get_pointer(), item_ct1);
+        });
+    });
+  
+  
+  dpct::get_current_device().queues_wait_and_throw();
 
+  //scatter_to_striped
+  dpct::get_default_queue().submit(
+    [&](sycl::handler &cgh) {
+      auto dataAccessor = buffer_data.get_access<sycl::access::mode::read_write>(cgh);
+      auto dataRankAccessor = buffer_rank_data.get_access<sycl::access::mode::read_write>(cgh);
+      cgh.parallel_for(
+        sycl::range<3>(SIZE, 1, 1), sycl::range<3>(SIZE, 1, 1)
+        [=](sycl::nd_item<3> item_ct1) {
+          scatter_to_striped_kernel(dataAccessor.get_pointer(), dataRankAccessor.get_pointer(), item_ct1);
+        });
+    });
+  
+  
+  dpct::get_current_device().queues_wait_and_throw();
+  
+  
   return 0;
 }
