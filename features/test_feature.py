@@ -107,13 +107,14 @@ def migrate_test():
     if test_config.current_test.startswith('text_experimental_'):
         src.append(' --use-experimental-features=bindless_images')
     if test_config.current_test == 'llama':
-        original_string = '/export/users/wanghao2/project/llama.cpp'
+        original_string = '/export/users/placeholder/project/llama.cpp'
         new_string = in_root
         db_dir = os.path.join(in_root, 'gpubuild')
         with open(os.path.join(db_dir, 'compile_commands.json'), "r") as file:
             file_contents = file.read()
         file_contents = file_contents.replace(original_string, new_string)
-        file_contents = re.sub(r'"directory": ".*?"', '"directory": "' + db_dir + '"', file_contents)
+        db_dir_escaped = db_dir.replace('\\', '\\\\')
+        file_contents = re.sub(r'"directory": ".*?"', '"directory": "' + db_dir_escaped + '"', file_contents)
         with open(os.path.join(db_dir, 'compile_commands.json'), "w") as file:
             file.write(file_contents)
         src.append(' -p=' + os.path.join(in_root, 'gpubuild'))
