@@ -14,8 +14,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#define VALUES_PER_THREAD = 4
-#define SIZE = 16
+#define VALUES_PER_THREAD  4
+#define SIZE  16
 
 void init_data(int* data, int num) {
   for(int i = 0; i < num; i++)
