@@ -188,5 +188,6 @@
     <test testName="sparse_utils_2_buffer" configFile="config/TEMPLATE_help_function_sparse_buffer.xml" splitGroup="double" />
     <test testName="sparse_utils_2_usm" configFile="config/TEMPLATE_help_function_sparse_usm.xml" splitGroup="double" />
     <test testName="atomic_compare_exchange_strong" configFile="config/TEMPLATE_help_function.xml" />
+    <test testName="cub_blockexchange_tests" configFile="config/TEMPLATE_help_function.xml" />
   </tests>
 </suite>
