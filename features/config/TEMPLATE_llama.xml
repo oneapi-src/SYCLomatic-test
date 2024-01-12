@@ -6,5 +6,6 @@
         <file path="feature_case/llama" />
     </files>
     <rules>
+       <optlevelRule excludeOptlevelNameString="usmnone" />
     </rules>
 </test>
