@@ -31,9 +31,6 @@ void print_data(int* data, int num) {
   std::cout << std::endl;
 }
 
-dpct::shared_memory<float, 1> array(N);
-dpct::shared_memory<float, 1> result(M*N);
-
 void striped_to_blocked_kernel(int* data,
                                sycl::nd_item<3> item_ct1){
                             
