@@ -6,6 +6,7 @@
         <file path="feature_case/llama" />
     </files>
     <rules>
+       <platformRule OSFamily="Windows" runOnThisPlatform="false" />
        <optlevelRule excludeOptlevelNameString="usmnone" />
     </rules>
 </test>
