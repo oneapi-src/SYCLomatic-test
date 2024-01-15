@@ -31,7 +31,7 @@ void print_data(int* data, int num) {
   std::cout << std::endl;
 }
 
-rvoid striped_to_blocked_kernel(int* data,
+void striped_to_blocked_kernel(int* data,
                                sycl::nd_item<3> item_ct1){
                             
                             
