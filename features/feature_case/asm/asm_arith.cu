@@ -251,7 +251,7 @@ __device__ int min() {
   CHECK(4, asm("min.u32 %0, %1, %2;" : "=r"(u32) : "r"(u32x), "r"(u32y)) , u32 == 1);
   CHECK(5, asm("min.s64 %0, %1, %2;" : "=l"(s64) : "l"(s64x), "l"(s64y)) , s64 == 1);
   CHECK(6, asm("min.u64 %0, %1, %2;" : "=l"(u64) : "l"(u64x), "l"(u64y)) , u64 == 1);
-  // CHECK(7, asm("min.relu.s32 %0, %1, %2;" : "=r"(s32) : "r"(-2), "r"(-1)), s32 == 0);
+  CHECK(7, asm("min.relu.s32 %0, %1, %2;" : "=r"(s32) : "r"(-2), "r"(-1)), s32 == 0);
   return 0;
 }
 
@@ -268,7 +268,7 @@ __device__ int max() {
   CHECK(4, asm("max.u32 %0, %1, %2;" : "=r"(u32) : "r"(u32x), "r"(u32y)) , u32 == 2);
   CHECK(5, asm("max.s64 %0, %1, %2;" : "=l"(s64) : "l"(s64x), "l"(s64y)) , s64 == 2);
   CHECK(6, asm("max.u64 %0, %1, %2;" : "=l"(u64) : "l"(u64x), "l"(u64y)) , u64 == 2);
-  // CHECK(7, asm("max.relu.s32 %0, %1, %2;" : "=r"(s32) : "r"(-2), "r"(-1)), s32 == 0);
+  CHECK(7, asm("max.relu.s32 %0, %1, %2;" : "=r"(s32) : "r"(-2), "r"(-1)), s32 == 0);
   return 0;
 }
 
