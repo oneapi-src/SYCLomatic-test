@@ -208,3 +208,4 @@ def run_test():
     if test_config.current_test.startswith('ccl-test'):
         return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '))
     return run_binary_with_args()
+
