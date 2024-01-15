@@ -1,7 +1,0 @@
-/home/local_user/sandbox/Velocity-Bench/cudaSift/CUDA/build/CMakeFiles/cudasift.dir
-/home/local_user/sandbox/Velocity-Bench/cudaSift/CUDA/build/CMakeFiles/edit_cache.dir
-/home/local_user/sandbox/Velocity-Bench/cudaSift/CUDA/build/CMakeFiles/rebuild_cache.dir
-/home/local_user/sandbox/Velocity-Bench/cudaSift/CUDA/build/CMakeFiles/list_install_components.dir
-/home/local_user/sandbox/Velocity-Bench/cudaSift/CUDA/build/CMakeFiles/install.dir
-/home/local_user/sandbox/Velocity-Bench/cudaSift/CUDA/build/CMakeFiles/install/local.dir
-/home/local_user/sandbox/Velocity-Bench/cudaSift/CUDA/build/CMakeFiles/install/strip.dir

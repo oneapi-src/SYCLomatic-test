@@ -93,11 +93,11 @@ $ dpct --in-root=. -p=./build/compile_commands.json --out-root=out --gen-build-s
 > source file is implied. If `--out-root` is not specified, `./dpct_output`
 > is implied.
 
-You should see the migrated files in the `out` folder that was specified
+You should see the migrated files in the `migrated` folder that was specified
 by the `--out-root` option:
 
 ```
-out/
+migrated/
 ├── MainSourceFiles.yaml
 ├── cudaImage.dp.cpp
 ├── cudaImage.h
