@@ -183,7 +183,7 @@ $ dpct --in-root=. -p=./compile_commands.json --out-root=out --gen-build-script 
 > source file is implied. If `--out-root` is not specified, `./dpct_output`
 > is implied.
 
-You should see the migrated files in the `out` folder that was specified
+You should see the migrated files in the `migrated` folder that was specified
 by the `--out-root` option.
 
 3. Modify the ``-std=c++11`` to ``-std=c++17``, due to the ``icpx`` compiler needs to build with the at latest version c++17.
