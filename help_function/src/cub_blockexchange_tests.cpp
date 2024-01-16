@@ -36,9 +36,8 @@ void striped_to_blocked_kernel(int* data,
                             
                             
   int threadid = item_ct1.get_local_id(2);
-  int input = data[threadid];
   uint8_t* _local_memory = sycl::ext::oneapi::group_local_memory_for_overwrite<uint8_t*>(item_ct1.get_group());
-  dpct::group::exchange<input, VALUES_PER_THREAD> exchange(_local_memory).striped_to_blocked(item_ct1.get_group(), input);
+  dpct::group::exchange<data, VALUES_PER_THREAD> exchange(_local_memory).striped_to_blocked(item_ct1.get_group(), data);
   item_ct1.barrier(sycl::access::fence_space::local_space);
                             
 }
@@ -47,9 +46,8 @@ void blocked_to_striped_kernel(int* data,
                                sycl::nd_item<3> item_ct1){
                         
   int threadid = item_ct1.get_local_id(2);
-  int input = data[threadid];
   uint8_t* _local_memory = sycl::ext::oneapi::group_local_memory_for_overwrite<uint8_t*>(item_ct1.get_group());
-  dpct::group::exchange<input, VALUES_PER_THREAD> exchange(_local_memory).blocked_to_striped(item_ct1.get_group(), input);
+  dpct::group::exchange<data, VALUES_PER_THREAD> exchange(_local_memory).blocked_to_striped(item_ct1.get_group(), data);
   item_ct1.barrier(sycl::access::fence_space::local_space);
                         
 }
@@ -59,10 +57,8 @@ void scatter_to_blocked_kernel(int* data, int* rank_data,
                             
                             
   int threadid = item_ct1.get_local_id(2);
-  int input = data[threadid];
-  int rank_input = rank_data[threadid];
   uint8_t* _local_memory = sycl::ext::oneapi::group_local_memory_for_overwrite<uint8_t*>(item_ct1.get_group());
-  dpct::group::exchange<input, VALUES_PER_THREAD> exchange(_local_memory).scatter_to_blocked(item_ct1.get_group(), input, rank_input);
+  dpct::group::exchange<data, VALUES_PER_THREAD> exchange(_local_memory).scatter_to_blocked(item_ct1.get_group(), data, rank_data);
   item_ct1.barrier(sycl::access::fence_space::local_space);
                             
 }
@@ -72,10 +68,8 @@ void scatter_to_striped_kernel(int* data, int* rank_data,
                             
                             
   int threadid = item_ct1.get_local_id(2);
-  int input = data[threadid];
-  int rank_input = rank_data[threadid];
   uint8_t* _local_memory = sycl::ext::oneapi::group_local_memory_for_overwrite<uint8_t*>(item_ct1.get_group());
-  dpct::group::exchange<input, VALUES_PER_THREAD> exchange(_local_memory).scatter_to_striped(item_ct1.get_group(), input, rank_input);
+  dpct::group::exchange<data, VALUES_PER_THREAD> exchange(_local_memory).scatter_to_striped(item_ct1.get_group(), data, rank_data);
   item_ct1.barrier(sycl::access::fence_space::local_space);
                             
 }
