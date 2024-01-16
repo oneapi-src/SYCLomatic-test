@@ -5,5 +5,9 @@
     <files>
         <file path="feature_case/image/${testName}.cu" />
     </files>
+    <rules>
+      <optlevelRule excludeOptlevelNameString="cpu" />
+      <optlevelRule excludeOptlevelNameString="gpu" />
+    </rules>
 </test>
 
