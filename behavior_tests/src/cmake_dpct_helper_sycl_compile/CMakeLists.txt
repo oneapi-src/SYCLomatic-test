@@ -5,7 +5,7 @@
 #
 # ===----------------------------------------------------------------------===//
 
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.10)
 
 project(cuda_compile_sample NONE)
 
@@ -19,7 +19,6 @@ find_program(
 
 get_filename_component(DPCT_BIN_DIR ${DPCT_BIN_PATH} DIRECTORY)
 set(DPCT_CMAKE_PATH "${DPCT_BIN_DIR}/../cmake/dpct.cmake")
-message(STATUS "INCLUDING ${DPCT_CMAKE_PATH}")
 include(${DPCT_CMAKE_PATH})
 
 dpct_helper_sycl_compile(objSetOne a.dp.cpp b.dp.cpp)
