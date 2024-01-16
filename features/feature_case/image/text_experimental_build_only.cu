@@ -7,6 +7,8 @@
 //
 // ===---------------------------------------------------------------------===//
 
+#include <cuda.h>
+
 __global__ void
 CppLanguageExtensions_TextureFunctions(cudaTextureObject_t tex) {
   int i = 1, t = 1;
@@ -31,7 +33,7 @@ void Runtime_MemoryManagement() {
   cudaMemcpy3DParms pm;
   int i = 1;
   cudaArrayGetInfo(&d, &e, &u, a);
-  // cudaFreeArray(a); // TODO: need support.
+  cudaFreeArray(a);
   cudaMalloc3D(&p, e);
   cudaMalloc3DArray(&a, &d, e, u);
   cudaMallocArray(&a, &d, s, s, u);
