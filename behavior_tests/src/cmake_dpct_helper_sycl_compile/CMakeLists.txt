@@ -7,7 +7,7 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-project(cuda_compile_sample LANGUAGES CXX)
+project(cuda_compile_sample NONE)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl")
 
@@ -16,10 +16,6 @@ find_program(
   NAMES dpct
   PATHS)
 
-if(IS_SYMLINK ${DPCT_BIN_PATH})
-  execute_process(COMMAND realpath ${DPCT_BIN_PATH}
-                  OUTPUT_VARIABLE DPCT_BIN_PATH)
-endif()
 
 get_filename_component(DPCT_BIN_DIR ${DPCT_BIN_PATH} DIRECTORY)
 set(DPCT_CMAKE_PATH "${DPCT_BIN_DIR}/../cmake/dpct.cmake")
