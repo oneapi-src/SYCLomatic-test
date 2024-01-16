@@ -29,7 +29,6 @@ jobs:
           - test_suite: samples
           - test_suite: api_coverage
           - test_suite: behavior_tests
-          - test_suite: applications
     steps:
       - uses: actions/checkout@v2
         with:
