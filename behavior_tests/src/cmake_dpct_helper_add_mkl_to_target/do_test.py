@@ -30,8 +30,9 @@ def migrate_test():
     ret = change_dir("build")
     if not ret:
         print("Error to go to build folder:", test_config.command_output)
-
-    ret = call_subprocess("cmake -G \"Unix Makefiles\" -DCMAKE_CXX_COMPILER=icpx ../")
+    
+    CXX_COMP = "icx" if (platform.system() == 'Windows') else "icpx"
+    ret = call_subprocess("cmake -G \"Unix Makefiles\" -DCMAKE_CXX_COMPILER=" + CXX_COMP + " ../")
     if not ret:
         print("Error to run cmake configure:", test_config.command_output)
 

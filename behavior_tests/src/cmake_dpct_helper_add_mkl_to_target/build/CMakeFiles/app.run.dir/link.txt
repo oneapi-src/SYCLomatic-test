@@ -1,1 +1,0 @@
-/home/cwsun/disk/talaghar/intel/oneapi/compiler/2024.0/bin/icpx  -fsycl CMakeFiles/app.run.dir/fft.dp.cpp.o -o app.run  -qmkl=parallel -qtbb -fsycl 

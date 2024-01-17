@@ -1,3 +1,0 @@
-/home/talaghar/workspace/JIRA/5673_CMake_Mig_Lit/SYCLomatic-test/behavior_tests/src/cmake_dpct_helper_add_mkl_to_target/build/CMakeFiles/app.run.dir
-/home/talaghar/workspace/JIRA/5673_CMake_Mig_Lit/SYCLomatic-test/behavior_tests/src/cmake_dpct_helper_add_mkl_to_target/build/CMakeFiles/edit_cache.dir
-/home/talaghar/workspace/JIRA/5673_CMake_Mig_Lit/SYCLomatic-test/behavior_tests/src/cmake_dpct_helper_add_mkl_to_target/build/CMakeFiles/rebuild_cache.dir
