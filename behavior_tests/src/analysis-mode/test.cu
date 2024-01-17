@@ -6,9 +6,17 @@
 //
 //
 // ===----------------------------------------------------------------------===//
-#include <cuda_runtime.h>
 
-int main() {
-  float2 f2;
-  return 0;
+__global__ void kernel(int *a) {
+    *a = clock64();
+    __syncthreads();
+    int b = *a;
+}
+
+void foo() {
+    int *a;
+    size_t b, c;
+    cudaMemGetInfo(&b, &c);
+    cudaMalloc(&a, sizeof(int));
+    cudaFree(a);
 }
