@@ -21,9 +21,13 @@ void init_data(int* data, int num) {
   for(int i = 0; i < num; i++)
     data[i] = i;
 }
-void verify_data(int* data, int num) {
-  return;
-}
+
+template <typename T = int>
+void verify_data(T *data, T *expect, int num, int step = 1) {
+  for (int i = 0; i < num; i = i + step) {
+    assert(data[i] == expect[i]);
+  }
+
 void print_data(int* data, int num) {
   for (int i = 0; i < num; i++) {
     std::cout << data[i] << " ";
@@ -82,7 +86,7 @@ int main () {
   init_data(rank_data, SIZE);
   sycl::buffer<int> buffer_data(data, sycl::range<1>(SIZE));
   sycl::buffer<int> buffer_rank_data(rank_data, sycl::range<1>(SIZE));
-  
+  unsigned int expect[SIZE] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
   //striped_to_blocked
   dpct::get_default_queue().submit(
     [&](sycl::handler &cgh) {
@@ -97,6 +101,7 @@ int main () {
   
   
   dpct::get_current_device().queues_wait_and_throw();
+  verify_data<unsigned int>(data, expect, SIZE);
    
   //blocked_to_striped
   dpct::get_default_queue().submit(
@@ -112,6 +117,7 @@ int main () {
   
   
   dpct::get_current_device().queues_wait_and_throw();
+  verify_data<unsigned int>(data, expect, SIZE);
   
   //scatter_to_blocked
   dpct::get_default_queue().submit(
@@ -127,6 +133,7 @@ int main () {
   
   
   dpct::get_current_device().queues_wait_and_throw();
+  verify_data<unsigned int>(data, expect, SIZE);
 
   //scatter_to_striped
   dpct::get_default_queue().submit(
@@ -142,6 +149,7 @@ int main () {
   
   
   dpct::get_current_device().queues_wait_and_throw();
+  verify_data<unsigned int>(data, expect, SIZE);
   
   
   return 0;
