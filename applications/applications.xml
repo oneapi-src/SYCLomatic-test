@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite>
+    <description>applications test</description>
+    <tests>
+        <test testName="llama" configFile="config/TEMPLATE_llama.xml" />
+    </tests>
+</suite>

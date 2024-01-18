@@ -17,32 +17,32 @@ sys.path.append(parent)
 
 from test_utils import *
 
-exec_tests = ['asm', 'asm_arith', 'asm_vinst', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust-copy',
+exec_tests = ['asm', 'asm_arith', 'asm_vinst', 'asm_v2inst', 'asm_v4inst', 'asm_optimize', 'thrust-vector-2', 'thrust-binary-search', 'thrust-count', 'thrust-copy',
               'thrust-qmc', 'thrust-transform-if', 'thrust-policy', 'thrust-list', 'module-kernel',
               'kernel-launch', 'thrust-gather', 'thrust-gather_if',
               'thrust-scatter', 'thrust-unique_by_key_copy', 'thrust-for-hypre', 'thrust-merge_by_key',
               'thrust-rawptr-noneusm', 'driverStreamAndEvent', 'grid_sync', 'deviceProp', 'gridThreads', 'kernel_library', 'cub_block_p2',
               'cub_constant_iterator', 'cub_device_reduce_max', 'cub_device_reduce_min', 'cub_discard_iterator', 'ccl-test', 'ccl-test2', 'ccl-test3', 'ccl-error',
               'cub_device', 'cub_device_reduce_sum', 'cub_device_reduce', 'cub_device_reduce_by_key', 'cub_device_select_unique_by_key', 'cub_device_segmented_sort_keys',
-              'cub_device_scan_inclusive_scan', 'cub_device_scan_exclusive_scan', 'cub_device_seg_radix_sort_pairs', 'cub_device_no_trivial_runs',
+              'cub_device_scan_inclusive_scan', 'cub_device_scan_exclusive_scan', 'cub_device_seg_radix_sort_pairs', 'cub_device_no_trivial_runs', 'cub_device_merge_sort.cu',
               'cub_device_scan_inclusive_sum', 'cub_device_scan_exclusive_sum', 'cub_device_select_unique', 'cub_device_radix_sort_keys', 'cub_device_radix_sort_pairs',
               'cub_device_select_flagged', 'cub_device_run_length_encide_encode', 'cub_counting_iterator', 'cub_arg_index_input_iterator', 'cub_device_seg_radix_sort_keys',
               'cub_device_inclusive_sum_by_key', 'cub_device_exclusive_sum_by_key', 'cub_device_inclusive_scan_by_key', 'cub_device_exclusive_scan_by_key',
               'cub_device_reduce_arg', 'cub_device_seg_sort_pairs', 'cub_intrinsic', 'cub_device_seg_sort_keys', 'thrust-math1', 'thrust-math2',
               'cub_transform_iterator', 'activemask', 'complex', 'thrust-math', 'libcu_array', 'libcu_complex', 'libcu_tuple',
-              'user_defined_rules', 'math-exec', 'math-habs', 'math-emu-double', 'math-emu-float', 'math-emu-half', 'math-emu-half-after11', 'math-emu-half2', 'math-emu-half2-after11', 'math-emu-half2-after12', 'math-emu-simd',
-              'math-emu-bf16', 'math-emu-bf16-after12', 'math-emu-bf162', 'math-experimental-bf16', 'math-experimental-bf162', "math-half-raw",
-              'math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half-after11', 'math-ext-half2', 'math-ext-half2-after11', 'math-ext-simd', 'cudnn-activation',
+              'user_defined_rules', 'math-exec', 'math-intrinsics', 'math-habs', 'math-emu-double', 'math-emu-float', 'math-emu-half', 'math-emu-half-after11', 'math-emu-half2', 'math-emu-half2-after11', 'math-emu-half2-after12', 'math-emu-simd',
+              'math-emu-bf16', 'math-emu-bf162-after12', 'math-emu-bf162', 'math-experimental-bf16', 'math-experimental-bf162', "math-half-raw",
+              'math-ext-bf16-conv', 'math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half-after11', 'math-ext-half-conv', 'math-ext-half2', 'math-ext-half2-after11', 'math-ext-simd', 'cudnn-activation',
               'cudnn-fill', 'cudnn-lrn', 'cudnn-memory', 'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax',
               'cudnn-sum', 'math-funnelshift', 'thrust-sort_by_key', 'thrust-find', 'thrust-inner_product', 'thrust-reduce_by_key',
-              'math-bf16-conv', 'math-half-conv',
+              'math-bf16-conv', 'math-emu-bf16-conv-double', 'math-ext-bf16-conv-double', 'math-half-conv',
               'math-bfloat16', 'libcu_atomic', 'test_shared_memory', 'cudnn-reduction', 'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3',
-              'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5', 'cudnn-convp6',
-              'cudnn_mutilple_files', "cusparse_1", "cusparse_2", "cusparse_3", "cusparse_4", "cusparse_5",
-              'cudnn-GetErrorString', 'cub_device_histgram',
-              'cudnn-types', 'cudnn-version', 'cudnn-dropout',
+              'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3', 'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5', 'cudnn-convp6', 'cudnn-convp7', 
+              'cudnn_mutilple_files', "cusparse_1", "cusparse_2", "cusparse_3", "cusparse_4", "cusparse_5", "cusparse_6", "cusparse_7", "cusparse_8",
+              'cudnn-GetErrorString', 'cub_device_histgram', 'peer_access',
+              'cudnn-types', 'cudnn-version', 'cudnn-dropout', 'const_opt',
               'constant_attr', 'sync_warp_p2', 'occupancy_calculation',
-              'text_obj_linear', 'text_obj_pitch2d', 'match',
+              'text_obj_array', 'text_obj_linear', 'text_obj_pitch2d', 'match',
               'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
               'cusolver_test1', 'cusolver_test2', 'cusolver_test3', 'cusolver_test4', 'cusolver_test5', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
               'thrust_is_sorted', 'thrust_partition', 'thrust_remove_copy', 'thrust_unique_copy', 'thrust_transform_exclusive_scan',
@@ -50,12 +50,13 @@ exec_tests = ['asm', 'asm_arith', 'asm_vinst', 'thrust-vector-2', 'thrust-binary
               'thrust_tabulate', 'thrust_for_each_n', 'device_info', 'defaultStream', 'cudnn-rnn', 'feature_profiling',
               'thrust_raw_reference_cast', 'thrust_partition_copy', 'thrust_stable_partition_copy',
               'thrust_stable_partition', 'thrust_remove', 'cub_device_segmented_sort_pairs', 'thrust_find_if_not',
-              'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce', 'cooperative_groups_thread_group',
+              'thrust_find_if', 'thrust_mismatch', 'thrust_replace_copy', 'thrust_reverse', 'cooperative_groups_reduce', 'cooperative_groups_thread_group', 'cooperative_groups_data_manipulate',
               'remove_unnecessary_wait', 'thrust_equal_range', 'thrust_transform_inclusive_scan', 'thrust_uninitialized_copy_n', 'thrust_uninitialized_copy',
               'thrust_random_type', 'thrust_scatter_if', 'thrust_all_of', 'thrust_none_of', 'thrust_is_partitioned',
               'thrust_is_sorted_until', 'thrust_set_intersection', 'thrust_set_union_by_key', 'thrust_set_union',
               'thrust_swap_ranges', 'thrust_uninitialized_fill_n', 'thrust_equal', 'system_atomic', 'thrust_detail_types',
-              'operator_eq', 'operator_neq', 'operator_lege', 'thrust_system']
+              'operator_eq', 'operator_neq', 'operator_lege', 'thrust_system', 'thrust_reverse_copy',
+              'thrust_device_new_delete', 'thrust_temporary_buffer', 'thrust_malloc_free']
 
 occupancy_calculation_exper = ['occupancy_calculation']
 
@@ -76,10 +77,8 @@ def migrate_test():
             src.append(os.path.abspath(os.path.join(dirpath, filename)))
 
     nd_range_bar_exper = ['grid_sync']
-    logical_group_exper = ['cooperative_groups', 'cooperative_groups_thread_group']
+    logical_group_exper = ['cooperative_groups', 'cooperative_groups_thread_group', 'cooperative_groups_data_manipulate']
     experimental_bfloat16_tests = ['math-experimental-bf16', 'math-experimental-bf162']
-
-    math_extension_tests = ['math-ext-double', 'math-ext-float', 'math-ext-half', 'math-ext-half-after11', 'math-ext-half2', 'math-ext-half2-after11', 'math-ext-simd']
 
     if test_config.current_test in nd_range_bar_exper:
         src.append(' --use-experimental-features=nd_range_barrier ')
@@ -89,7 +88,7 @@ def migrate_test():
         src.append(' --use-experimental-features=logical-group ')
     if test_config.current_test == 'math_intel_specific':
         src.append(' --rule-file=./math_intel_specific/intel_specific_math.yaml')
-    if test_config.current_test in math_extension_tests:
+    if test_config.current_test.startswith('math-ext-'):
         src.append(' --use-dpcpp-extensions=intel_device_math')
     if test_config.current_test in occupancy_calculation_exper:
         src.append(' --use-experimental-features=occupancy-calculation ')
@@ -101,6 +100,10 @@ def migrate_test():
         src.append(' --use-experimental-features=matrix ')
     if test_config.current_test in experimental_bfloat16_tests:
         src.append(' --use-experimental-features=bfloat16_math_functions ')
+    if test_config.current_test == 'const_opt' or test_config.current_test == 'asm_optimize':
+        src.append(' --optimize-migration ')
+    if test_config.current_test.startswith('text_experimental_'):
+        src.append(' --use-experimental-features=bindless_images')
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
@@ -145,7 +148,7 @@ def build_test():
              'cudnn-pooling', 'cudnn-reorder', 'cudnn-scale', 'cudnn-softmax', 'cudnn-sum', 'cudnn-reduction',
              'cudnn-binary', 'cudnn-bnp1', 'cudnn-bnp2', 'cudnn-bnp3', 'cudnn-normp1', 'cudnn-normp2', 'cudnn-normp3',
              'cudnn-convp1', 'cudnn-convp2', 'cudnn-convp3', 'cudnn-convp4', 'cudnn-convp5', 'cudnn-convp6', 'cudnn-rnn',
-             'cudnn-GetErrorString',
+             'cudnn-GetErrorString', 'cudnn-convp7',
              'cudnn-types', 'cudnn-version', 'cudnn-dropout'
              ]
 
@@ -190,6 +193,8 @@ def build_test():
     elif test_config.current_test in exec_tests:
         ret = compile_and_link(srcs, cmp_options, objects, link_opts)
     elif re.match('^cufft.*', test_config.current_test) and platform.system() == 'Linux':
+        ret = compile_and_link(srcs, cmp_options, objects, link_opts)
+    elif test_config.current_test.startswith('text_experimental_obj_') and test_config.device_filter == "cuda:gpu":
         ret = compile_and_link(srcs, cmp_options, objects, link_opts)
     else:
         ret = compile_files(srcs, cmp_options)
