@@ -127,5 +127,5 @@ bool test_sort_blocked_to_striped() {
 }
 
 int main() {
-  return !(test_sort_blocked() && test_sort_blocked_to_striped);
+  return !(test_sort_blocked() && test_sort_blocked_to_striped());
 }
