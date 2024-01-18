@@ -27,7 +27,7 @@ void verify_data(T *data, T *expect, int num, int step = 1) {
   for (int i = 0; i < num; i = i + step) {
     assert(data[i] == expect[i]);
   }
-
+}
 void print_data(int* data, int num) {
   for (int i = 0; i < num; i++) {
     std::cout << data[i] << " ";
