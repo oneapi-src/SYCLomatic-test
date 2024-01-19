@@ -84,17 +84,16 @@ def migrate_test():
                 '-process-all\n'
     res = res and (reference == test_config.command_output)
 
-    call_subprocess(test_config.CT_TOOL + " --autocomplete=--usm-level=#none,restricted#--use-explicit-namespace=#cl,sycl,")
-    reference = 'cl,sycl,cl\n' + \
-                'cl,sycl,dpct\n' + \
-                'cl,sycl,none\n' + \
-                'cl,sycl,sycl\n' + \
-                'cl,sycl,sycl-math\n'
+    call_subprocess(test_config.CT_TOOL + " --autocomplete=--usm-level=#none,restricted#--use-explicit-namespace=#sycl,")
+    reference = 'sycl,dpct\n' + \
+                'sycl,none\n' + \
+                'sycl,sycl\n' + \
+                'sycl,sycl-math\n'
     res = res and (reference == test_config.command_output)
 
-    call_subprocess(test_config.CT_TOOL + " --autocomplete=--usm-level=#none,restricted#--use-explicit-namespace=#cl,sycl,s")
-    reference = 'cl,sycl,sycl\n' + \
-                'cl,sycl,sycl-math\n'
+    call_subprocess(test_config.CT_TOOL + " --autocomplete=--usm-level=#none,restricted#--use-explicit-namespace=#sycl,s")
+    reference = 'sycl,sycl\n' + \
+                'sycl,sycl-math\n'
     res = res and (reference == test_config.command_output)
 
     call_subprocess(test_config.CT_TOOL + " --autocomplete=")
@@ -131,7 +130,6 @@ def migrate_test():
             '--in-root\n',
             '--in-root-exclude\n',
             '--keep-original-code\n',
-            '--no-cl-namespace-inline\n',
             '--no-dpcpp-extensions=\n',
             '--no-dry-pattern\n',
             '--no-incremental-migration\n',

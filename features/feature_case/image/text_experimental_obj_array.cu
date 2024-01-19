@@ -106,7 +106,7 @@ getTex(cudaArray_t input,
   texDesc.filterMode = textureFilterMode;
   texDesc.normalizedCoords = normalizedCoords;
 
-  cudaTextureObject_t tex{0}; // TODO: need not "{0}".
+  cudaTextureObject_t tex;
   cudaCreateTextureObject(&tex, &resDesc, &texDesc, NULL);
 
   return tex;
