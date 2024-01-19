@@ -42,14 +42,19 @@ def migrate_test():
     
     ret_lines = test_config.command_output.splitlines()
     res = True
-    idx = 5
-    for refs in reference_lines:
-        ret = ret_lines[idx]
-        for ref in refs:
-            if ref not in ret:
-                res = False
-                print("there should be a '" + ref + "' in output.")
-        idx = idx + 1
+    idx = 0
+    check_flag = False
+    for ret in ret_lines:
+        if check_flag:
+            for ref in reference_lines[idx]:
+                if ref not in ret:
+                    res = False
+                    print("there should be a '" + ref + "' in output '" + ret + "'.")
+            idx = idx + 1
+            if idx >= len(reference_lines):
+                check_flag = False
+        elif ret.startswith("Migrating:") and ret.endswith("test.cu"):
+            check_flag = True
 
     return res
 
