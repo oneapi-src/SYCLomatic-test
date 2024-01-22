@@ -325,5 +325,6 @@
     <test testName="peer_access" configFile="config/TEMPLATE_peer_access.xml" />
     <test testName="const_opt" configFile="config/TEMPLATE_const_opt.xml" />
     <test testName="assert" configFile="config/TEMPLATE_misc.xml" />
+    <test testName="codepin_basic" configFile="config/TEMPLATE_codepin.xml" />
   </tests>
 </suite>
