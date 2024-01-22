@@ -44,7 +44,7 @@ bool test_sort_blocked() {
 
   sycl::buffer<int, 1> buffer(data, 512);
   q.submit([&](sycl::handler &h) {
-    using group_sort = dpct::group::sort<int, 4>;
+    using group_sort = dpct::group::radix_sort<int, 4>;
     size_t temp_storage_size = group_sort::get_local_memory_size(128);
     sycl::local_accessor<uint8_t, 1> tacc(
         sycl::range<1>(temp_storage_size), h);
@@ -86,7 +86,7 @@ bool test_sort_blocked_to_striped() {
   sycl::buffer<int, 1> buffer(data, 512);
 
   q.submit([&](sycl::handler &h) {
-    using group_sort = dpct::group::sort<int, 4>;
+    using group_sort = dpct::group::radix_sort<int, 4>;
     size_t temp_storage_size = group_sort::get_local_memory_size(128);
     sycl::local_accessor<uint8_t, 1> tacc(
         sycl::range<1>(temp_storage_size), h);
