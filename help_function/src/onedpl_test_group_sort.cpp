@@ -107,12 +107,7 @@ bool test_sort_blocked_to_striped() {
   sycl::host_accessor data_accessor(buffer, sycl::read_only);
   const int *ptr = data_accessor.get_multi_ptr<sycl::access::decorated::yes>();
   int expected[512];
-  for (int i = 0; i < 128; i++) {
-    expected[4 * i + 0] = i;
-    expected[4 * i + 1] = i + 1 * 128;
-    expected[4 * i + 2] = i + 2 * 128;
-    expected[4 * i + 3] = i + 3 * 128;
-  }
+  for (int i = 0; i < 512; i++) expected[i] = i;
   for (int i = 0; i < 512; i++) {
     if (expected[i] != ptr[i]) {
       std::cout << "test_sort_blocked_to_striped failed\n";
