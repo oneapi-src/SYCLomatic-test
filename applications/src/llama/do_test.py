@@ -52,7 +52,7 @@ def build_test():
     link_opts = []
     objects = []
 
-    llama_files = ['common.cpp', 'sampling.cpp.dp.cpp', 'console.cpp', 'grammar-parser.cpp', 'train.cpp.dp.cpp',
+    llama_files = ['common.cpp', 'sampling.cpp', 'console.cpp', 'grammar-parser.cpp', 'train.cpp',
                    'build-info.cpp', 'llama.cpp', 'ggml.c', 'ggml-alloc.c', 'ggml-backend.c', 'ggml-quants.c',
                    'ggml-cuda.dp.cpp', 'main.cpp']
 
