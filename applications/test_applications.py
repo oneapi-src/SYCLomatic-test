@@ -6,7 +6,7 @@
 #
 # ===----------------------------------------------------------------------=== #
 
-# Test drivers for application suite are in the folder of each case
+# Test drivers for the applications suite are in the folder of each case.
 
 def setup_test():
     return True
