@@ -56,7 +56,7 @@ exec_tests = ['asm', 'asm_arith', 'asm_vinst', 'asm_v2inst', 'asm_v4inst', 'asm_
               'thrust_is_sorted_until', 'thrust_set_intersection', 'thrust_set_union_by_key', 'thrust_set_union',
               'thrust_swap_ranges', 'thrust_uninitialized_fill_n', 'thrust_equal', 'system_atomic', 'thrust_detail_types',
               'operator_eq', 'operator_neq', 'operator_lege', 'thrust_system', 'thrust_reverse_copy',
-              'thrust_device_new_delete', 'thrust_temporary_buffer', 'thrust_malloc_free']
+              'thrust_device_new_delete', 'thrust_temporary_buffer', 'thrust_malloc_free', 'codepin']
 
 occupancy_calculation_exper = ['occupancy_calculation']
 
@@ -104,6 +104,8 @@ def migrate_test():
         src.append(' --optimize-migration ')
     if test_config.current_test.startswith('text_experimental_'):
         src.append(' --use-experimental-features=bindless_images')
+    if "codepin" in test_config.current_test:
+        src.append(' --enable-codepin ')
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
