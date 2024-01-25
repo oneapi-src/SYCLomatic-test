@@ -34,11 +34,8 @@ void store_striped(int linear_tid, OutputIteratorT block_itr,
 
 bool helper_function(const int* ptr,const char* func_name){
   int expected[512];
-  for (int i = 0; i < 128; i++) {
-    expected[4 * i + 0] = i;
-    expected[4 * i + 1] = i + 1 * 128;
-    expected[4 * i + 2] = i + 2 * 128;
-    expected[4 * i + 3] = i + 3 * 128;
+  for (int i = 0; i < 512; ++i) {
+      expected[i] = (i % 128) * 4 + (i / 128);
   }
   for (int i = 0; i < 512; ++i) {
     if (ptr[i] != expected[i]) {
