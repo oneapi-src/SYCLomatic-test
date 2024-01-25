@@ -32,6 +32,28 @@ void store_striped(int linear_tid, OutputIteratorT block_itr,
   }
 }
 
+bool helper_function(const int* ptr,const char* func_name){
+  int expected[512];
+  for (int i = 0; i < 128; i++) {
+    expected[4 * i + 0] = i;
+    expected[4 * i + 1] = i + 1 * 128;
+    expected[4 * i + 2] = i + 2 * 128;
+    expected[4 * i + 3] = i + 3 * 128;
+  }
+  for (int i = 0; i < 512; ++i) {
+    if (ptr[i] != expected[i]) {
+      std::cout << func_name <<" failed\n";
+      std::ostream_iterator<int> Iter(std::cout, ", ");
+      std::copy(ptr, ptr + 512, Iter);
+      std::cout << std::endl;
+      return false;
+    }
+  }
+
+  std::cout << func_name <<" pass\n";
+  return true;
+}
+
 bool test_sort_blocked() {
   sycl::queue q;
   int data[512];
@@ -64,18 +86,7 @@ bool test_sort_blocked() {
 
   sycl::host_accessor data_accessor(buffer, sycl::read_only);
   const int *ptr = data_accessor.get_multi_ptr<sycl::access::decorated::yes>();
-  for (int i = 0; i < 512; ++i) {
-    if (ptr[i] != i) {
-      std::cout << "test_sort_blocked failed\n";
-      std::ostream_iterator<int> Iter(std::cout, ", ");
-      std::copy(ptr, ptr + 512, Iter);
-      std::cout << std::endl;
-      return false;
-    }
-  }
-
-  std::cout << "test_sort_blocked pass\n";
-  return true;
+  return helper_function(ptr,"test_sort_blocked");
 }
 
 bool test_sort_blocked_to_striped() {
@@ -106,19 +117,7 @@ bool test_sort_blocked_to_striped() {
 
   sycl::host_accessor data_accessor(buffer, sycl::read_only);
   const int *ptr = data_accessor.get_multi_ptr<sycl::access::decorated::yes>();
-  int expected[512];
-  for (int i = 0; i < 512; i++) expected[i] = i;
-  for (int i = 0; i < 512; i++) {
-    if (expected[i] != ptr[i]) {
-      std::cout << "test_sort_blocked_to_striped failed\n";
-      std::ostream_iterator<int> Iter(std::cout, ", ");
-      std::copy(ptr, ptr + 512, Iter);
-      std::cout << std::endl;
-      return false;
-    }
-  }
-  std::cout << "test_sort_blocked_to_striped pass\n";
-  return true;
+  return helper_function(ptr,"test_sort_blocked_to_striped");
 }
 
 int main() {
