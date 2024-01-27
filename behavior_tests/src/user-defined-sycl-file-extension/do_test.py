@@ -22,41 +22,29 @@ def migrate_test():
     Runs dpct with options for --sycl-file-extension and verfies the exisitance
     of migrated files with correct extension
     """
-    sub_command = f"{test_config.CT_TOOL} main.cu --out-root {{0}} --cuda-include-path {test_config.include_path}"
+    # list of supported options mapped to input and output files
+    options_and_result = get_sycl_file_extension_options_and_results()
 
-    # commands to test three options to --sycl-file-extension and the defualt
-    # behaviour
-    cmds_n_results = {
-        f"{sub_command} --sycl-file-extension=sycl-cpp": "main.sycl.cpp",
-        f"{sub_command} --sycl-file-extension=dp-cpp": "main.dp.cpp",
-        f"{sub_command} --sycl-file-extension=cpp": "main.cpp",
-        sub_command: "main.dp.cpp",
-    }
+    # To use absolute path on --in-root requires the same path in a pre-build
+    # compile command. It is convenient to use ./ as we already change
+    # directory to the parent dir of this script.
+    cmd = f"{test_config.CT_TOOL} --in-root . --out-root {{0}} --cuda-include-path {test_config.include_path} -p ./compile_commands.json"
 
-    # run command and verify the existance of migarate file with expected
-    # extension
-    for cmd, expected_file in cmds_n_results.items():
-        with tempfile.TemporaryDirectory() as dpct_out_root:
-            cmd = cmd.format(dpct_out_root)
-            ret = call_subprocess(cmd)
+    result = True
+    # Run default and supported options and test results
+    for option, results in options_and_result.items():
+        result &= run_test_for_option(cmd, option, results)
 
-            if not ret:
-                print(f"user-defined-sycl-file-extension: cmd execution failed: {cmd}")
-                return False
-
-            if not os.path.exists(os.path.join(dpct_out_root, expected_file)):
-                print(f"user-defined-sycl-file-extension: test failed: {cmd}")
-                return False
-
-    # check for incorrect value to --sycl-file-extension
+    # Check error message in case an unsupported value is passed to
+    # --sycl-file-extension
     with tempfile.TemporaryDirectory() as dpct_out_root:
-        cmd = f"{sub_command} --sycl-file-extension=incorrect-option"
+        cmd = f"{cmd} --sycl-file-extension=unsupported-option"
         call_subprocess(cmd)
-        return is_sub_string(
-            "Cannot find option named 'incorrect-option'", test_config.command_output
+        result &= is_sub_string(
+            "Cannot find option named 'unsupported-option'", test_config.command_output
         )
 
-    return True
+    return result
 
 
 def build_test():
@@ -65,3 +53,69 @@ def build_test():
 
 def run_test():
     return True
+
+
+def run_test_for_option(cmd, option, results):
+    """
+    The option is for --sycl-file-extension and results is a dict containing input file and output files.
+    """
+    if option:
+        cmd = f"{cmd} --sycl-file-extension {option}"
+
+    with tempfile.TemporaryDirectory() as dpct_out_root:
+        # add temp dir path as dpct output file
+        cmd = cmd.format(dpct_out_root)
+        ret = call_subprocess(cmd)
+
+        if not ret:
+            print(f"user-defined-sycl-file-extension: dpct command: {cmd}")
+            print(f"dpct output:\n {test_config.command_output}")
+            return False
+
+        for _, output_filename in results.items():
+            out_filepath = os.path.join(dpct_out_root, output_filename)
+            if not os.path.exists(out_filepath):
+                print(
+                    f"user-defined-sycl-file-extension: missing expected file: {out_filepath}"
+                )
+                print(f"dpct command: {cmd}")
+                print(f"dpct output:\n {test_config.command_output}")
+                return False
+
+    return True
+
+
+def get_sycl_file_extension_options_and_results():
+    """
+    Returns a dict of supported options mapped to input and output files
+    """
+    return {
+        "dp-cpp": {
+            "main.cu": "main.dp.cpp",
+            "cuda_src.cu": "cuda_src.dp.cpp",
+            "cuda_src.cuh": "cuda_src.dp.hpp",
+            "src.cpp": "src.cpp",
+            "src.h": "src.h",
+        },
+        "sycl-cpp": {
+            "main.cu": "main.sycl.cpp",
+            "cuda_src.cu": "cuda_src.sycl.cpp",
+            "cuda_src.cuh": "cuda_src.sycl.hpp",
+            "src.cpp": "src.cpp",
+            "src.h": "src.h",
+        },
+        "cpp": {
+            "main.cu": "main.cpp",
+            "cuda_src.cu": "cuda_src.cpp",
+            "cuda_src.cuh": "cuda_src.hpp",
+            "src.cpp": "src.cpp",
+            "src.h": "src.h",
+        },
+        "": {  # default case
+            "main.cu": "main.dp.cpp",
+            "cuda_src.cu": "cuda_src.dp.cpp",
+            "cuda_src.cuh": "cuda_src.dp.hpp",
+            "src.cpp": "src.cpp",
+            "src.h": "src.h",
+        },
+    }

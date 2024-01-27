@@ -1,6 +1,5 @@
-// we only care about file extension after migration so a minimul device code
-__global__
-void do_nothing_kernel() {}
+#include "src.h"
+#include "cuda_src.cuh"
 
 int main(void) {
     do_nothing_kernel<<<1,1>>>();
