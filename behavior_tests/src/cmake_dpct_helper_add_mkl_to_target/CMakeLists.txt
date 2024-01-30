@@ -26,4 +26,6 @@ set(CUDA_SOURCES
 
 add_executable(app.run ${CUDA_SOURCES})
 
+link_directories($ENV{TBBROOT}/$ENV{TBBVER}/tbb/$ENV{TBB_MAJORVER}/lib)
+link_directories(${TBBROOT}/lib)
 dpct_helper_add_mkl_to_target(app.run)
