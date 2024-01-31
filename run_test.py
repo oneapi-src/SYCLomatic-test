@@ -485,6 +485,7 @@ def main():
     args = parse_input_args()
     do_sanity_test()
     set_default_compiler(args.option == 'option_cuda_backend')
+    set_default_c_compiler(args.option == 'option_cuda_backend')
     suite_list = get_suite_list()
     test_config.root_path = os.getcwd()
     test_config.option_map = get_option_mapping()

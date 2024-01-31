@@ -42,7 +42,6 @@ exec_tests = ['asm', 'asm_arith', 'asm_vinst', 'asm_v2inst', 'asm_v4inst', 'asm_
               'cudnn-GetErrorString', 'cub_device_histgram', 'peer_access',
               'cudnn-types', 'cudnn-version', 'cudnn-dropout', 'const_opt',
               'constant_attr', 'sync_warp_p2', 'occupancy_calculation',
-              'text_experimental_obj_array', 'text_experimental_obj_linear', 'text_experimental_obj_pitch2d',
               'text_obj_array', 'text_obj_linear', 'text_obj_pitch2d', 'match',
               'thrust-unique_by_key', 'cufft_test', 'cufft-external-workspace', "pointer_attributes", 'math_intel_specific', 'math-drcp', 'thrust-pinned-allocator', 'driverMem',
               'cusolver_test1', 'cusolver_test2', 'cusolver_test3', 'cusolver_test4', 'cusolver_test5', 'thrust_op', 'cublas-extension', 'cublas_v1_runable', 'thrust_minmax_element',
@@ -57,7 +56,7 @@ exec_tests = ['asm', 'asm_arith', 'asm_vinst', 'asm_v2inst', 'asm_v4inst', 'asm_
               'thrust_is_sorted_until', 'thrust_set_intersection', 'thrust_set_union_by_key', 'thrust_set_union',
               'thrust_swap_ranges', 'thrust_uninitialized_fill_n', 'thrust_equal', 'system_atomic', 'thrust_detail_types',
               'operator_eq', 'operator_neq', 'operator_lege', 'thrust_system', 'thrust_reverse_copy',
-              'thrust_device_new_delete', 'thrust_temporary_buffer', 'thrust_malloc_free']
+              'thrust_device_new_delete', 'thrust_temporary_buffer', 'thrust_malloc_free', 'codepin']
 
 occupancy_calculation_exper = ['occupancy_calculation']
 
@@ -105,6 +104,8 @@ def migrate_test():
         src.append(' --optimize-migration ')
     if test_config.current_test.startswith('text_experimental_'):
         src.append(' --use-experimental-features=bindless_images')
+    if "codepin" in test_config.current_test:
+        src.append(' --enable-codepin ')
     return do_migrate(src, in_root, test_config.out_root, extra_args)
 
 def manual_fix_for_cufft_external_workspace(migrated_file):
@@ -194,6 +195,8 @@ def build_test():
     elif test_config.current_test in exec_tests:
         ret = compile_and_link(srcs, cmp_options, objects, link_opts)
     elif re.match('^cufft.*', test_config.current_test) and platform.system() == 'Linux':
+        ret = compile_and_link(srcs, cmp_options, objects, link_opts)
+    elif test_config.current_test.startswith('text_experimental_obj_') and test_config.device_filter == "cuda:gpu":
         ret = compile_and_link(srcs, cmp_options, objects, link_opts)
     else:
         ret = compile_files(srcs, cmp_options)
