@@ -24,31 +24,33 @@ int main() {
 
   // eval 2.0 * 2.0
   product_wrapper(size, a, d, numOfBlocks, threadsPerBlock, q_ct1);
+  dev_ct1.queues_wait_and_throw();
 
   // eval 4.0 + 2.0
   // The executable fails with missing symbol error at run time in Windows. This
   // seems to be icx-cl's bug. The following is the work-around for it.
   add_wrapper(size, a, d, numOfBlocks, threadsPerBlock, q_ct1);
+  dev_ct1.queues_wait_and_throw();
 
   // eval 6.0 - 2.0
   subtract_wrapper(size, a, d, numOfBlocks, threadsPerBlock, q_ct1);
+  dev_ct1.queues_wait_and_throw();
 
   // eval 4.0 + 4.0
   twice_wrapper(size, d, numOfBlocks, threadsPerBlock, q_ct1);
-
   dev_ct1.queues_wait_and_throw();
 
   float error = 0.0f;
   for (int i = 0; i < size; ++i)
     error = fmax(error, fabs(d[i] - EXPECTED_VALUE));
 
-  // Expected value is "Error: 0"
-  std::cout << "Error: " << error << "\n";
-
   sycl::free(a, q_ct1);
   sycl::free(b, q_ct1);
   sycl::free(c, q_ct1);
   sycl::free(d, q_ct1);
+
+  // Expected value is "Error: 0"
+  std::cout << "Error: " << error << "\n";
 
   return error == 0.0f ? 0 : 1;
 }

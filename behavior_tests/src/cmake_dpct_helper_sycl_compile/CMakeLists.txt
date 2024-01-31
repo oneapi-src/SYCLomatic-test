@@ -7,7 +7,7 @@
 
 cmake_minimum_required(VERSION 3.25)
 
-project(cuda_compile_sample LANGUAGES CXX)
+project(cuda_compile_sample)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl")
 
@@ -43,15 +43,20 @@ set(_allObjsLibs "")
 foreach(objPath ${allObjs})
   get_filename_component(libName ${objPath} NAME)
   string(REGEX REPLACE "${CMAKE_CXX_OUTPUT_EXTENSION}$" ${SHARED_LIB_EXTN} libPath ${objPath})
+  message(STATUS "LibPath: ${libPath}")
 
-if (WIN32)
-  message(STATUS "Windows")
-elseif (UNIX AND NOT APPLE)
+if (UNIX AND NOT APPLE)
   add_custom_command(
     OUTPUT  ${libPath}
     COMMAND ${CMAKE_COMMAND} -E copy ${objPath} ${libPath}
     DEPENDS ${objPath}
     COMMENT "Generating ${libPath}")
+elseif(WIN32)
+   # This is a dummy command to make cmake do something for the target $libPath
+   add_custom_command(
+    OUTPUT  ${libPath}
+    COMMAND ${CMAKE_COMMAND} -E echo "Generating ${libPath}"
+    DEPENDS ${objPath})
 endif()
 
   list(APPEND _allObjsLibs ${libPath})
