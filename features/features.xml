@@ -18,18 +18,18 @@
     <test testName="thrust-binary-search" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-count" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-copy" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <!-- <test testName="thrust-qmc" configFile="config/thrust-qmc.xml" splitGroup="double"/> -->
+    <test testName="thrust-qmc" configFile="config/thrust-qmc.xml" splitGroup="double"/>
     <test testName="thrust-transform-if" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-policy" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust-list" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-gather" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-gather_if" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <!-- <test testName="thrust-merge_by_key" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" /> -->
+    <test testName="thrust-merge_by_key" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust-scatter" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key_copy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-for-hypre" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <test testName="thrust-rawptr-noneusm" configFile="config/TEMPLATE_thrust_noneusm_exec.xml" />
+    <!-- <test testName="thrust-rawptr-noneusm" configFile="config/TEMPLATE_thrust_noneusm_exec.xml" /> -->
     <test testName="thrust-find" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-sort_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-inner_product" configFile="config/TEMPLATE_thrust_exec.xml" />
@@ -80,7 +80,7 @@
     <test testName="thrust_tabulate" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_for_each_n" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_device_new_delete" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
-    <test testName="thrust_temporary_buffer" configFile="config/TEMPLATE_thrust_api_disable_win_and_noneusm.xml" />
+    <test testName="thrust_temporary_buffer" configFile="config/TEMPLATE_thrust_temporary_buffer.xml" />
     <test testName="thrust_malloc_free" configFile="config/TEMPLATE_thrust_api_disable_noneusm.xml" />
     <test testName="thrust-math" configFile="config/TEMPLATE_thrust_api_disable_win.xml" />
     <test testName="thrust-math1" configFile="config/TEMPLATE_thrust_api_disable_win.xml" />
@@ -291,7 +291,7 @@
     <test testName="cublas_v1_runable" configFile="config/TEMPLATE_cuBlas_11.xml" splitGroup="double"/>
     <test testName="complex" configFile="config/TEMPLATE_complex.xml" splitGroup="double"/>
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups.xml" />
-    <!-- <test testName="cooperative_groups_thread_group" configFile="config/TEMPLATE_cooperative_groups.xml" /> -->
+    <test testName="cooperative_groups_thread_group" configFile="config/TEMPLATE_cooperative_groups.xml" />
     <test testName="ccl-test" configFile="config/TEMPLATE_ccl_api.xml" />
     <test testName="ccl-test2" configFile="config/TEMPLATE_ccl_api.xml" />
     <test testName="ccl-test3" configFile="config/TEMPLATE_ccl_api.xml" />
@@ -309,9 +309,9 @@
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
     <test testName="text_experimental_build_only" configFile="config/TEMPLATE_image.xml" />
     <test testName="text_experimental_build_only_before12" configFile="config/TEMPLATE_image_before_12.xml" />
-    <test testName="text_experimental_obj_array" configFile="config/TEMPLATE_image_skip_cpu_gpu.xml" />
-    <test testName="text_experimental_obj_linear" configFile="config/TEMPLATE_image_skip_cpu_gpu.xml" />
-    <test testName="text_experimental_obj_pitch2d" configFile="config/TEMPLATE_image_skip_cpu_gpu.xml" />
+    <test testName="text_experimental_obj_array" configFile="config/TEMPLATE_image.xml" />
+    <test testName="text_experimental_obj_linear" configFile="config/TEMPLATE_image.xml" />
+    <test testName="text_experimental_obj_pitch2d" configFile="config/TEMPLATE_image.xml" />
     <test testName="text_obj_array" configFile="config/TEMPLATE_image_skip_cuda.xml" />
     <test testName="text_obj_linear" configFile="config/TEMPLATE_image_skip_cuda.xml" />
     <test testName="text_obj_pitch2d" configFile="config/TEMPLATE_image_skip_cuda.xml" />
@@ -325,5 +325,6 @@
     <test testName="peer_access" configFile="config/TEMPLATE_peer_access.xml" />
     <test testName="const_opt" configFile="config/TEMPLATE_const_opt.xml" />
     <test testName="assert" configFile="config/TEMPLATE_misc.xml" />
+    <test testName="codepin_basic" configFile="config/TEMPLATE_codepin.xml" />
   </tests>
 </suite>

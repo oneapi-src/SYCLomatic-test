@@ -56,7 +56,7 @@ void Runtime_MemoryManagement() {
 void Runtime_TextureObjectManagement() {
   int i = 1;
   cudaChannelFormatKind k = cudaChannelFormatKindSigned;
-  cudaTextureObject_t o{0}; // TODO: need not "{0}".
+  cudaTextureObject_t o;
   cudaResourceDesc r;
   cudaTextureDesc t;
   // cudaResourceViewDesc v; // TODO: need support.
@@ -101,7 +101,7 @@ void Driver_MemoryManagement() {
 }
 
 void Driver_TextureObjectManagement() {
-  CUtexObject o{0}; // TODO: need not "{0}".
+  CUtexObject o;
   CUDA_RESOURCE_DESC R;
   CUDA_TEXTURE_DESC T;
   // CUDA_RESOURCE_VIEW_DESC V; // TODO: need support.
@@ -116,7 +116,7 @@ int main() {
   Runtime_TextureObjectManagement();
   Driver_MemoryManagement();
   Driver_TextureObjectManagement();
-  cudaTextureObject_t tex{0}; // TODO: need not "{0}".
+  cudaTextureObject_t tex;
   CppLanguageExtensions_TextureFunctions<<<1, 1>>>(tex);
   return 0;
 }

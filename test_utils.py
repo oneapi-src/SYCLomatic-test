@@ -63,6 +63,15 @@ def set_default_compiler(use_cuda : bool):
     else:
         test_config.DPCXX_COM = "icpx -fsycl"
 
+def set_default_c_compiler(use_cuda : bool):
+    if (use_cuda):
+        test_config.C_COM = 'clang'
+        return
+    if (platform.system() == 'Windows'):
+        test_config.C_COM = "icx-cc"
+    else:
+        test_config.C_COM = "icx"
+
 def print_debug_log(desc, *args):
     if (test_config.VERBOSE_LEVEL != 0):
         print(desc + " : " )
@@ -72,10 +81,13 @@ def print_debug_log(desc, *args):
 
 def compile_files(srcs, cmpopts = []):
     ret = True
-    base_cmd = test_config.DPCXX_COM + " -c "
-    if (platform.system() == 'Windows'):
-        base_cmd += " /EHsc -DNOMINMAX "
     for src in srcs:
+        if os.path.splitext(src)[1] == '.c':
+            base_cmd = test_config.C_COM + " -c "
+        else:
+            base_cmd = test_config.DPCXX_COM + " -c "
+            if (platform.system() == 'Windows'):
+                base_cmd += " /EHsc -DNOMINMAX "
         cmd = base_cmd + src + ' ' + ' '.join(cmpopts)
         ret = call_subprocess(cmd) and ret
     return ret
