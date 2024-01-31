@@ -11,7 +11,7 @@ import os
 from test_utils import *
 from test_config import CT_TOOL
 
-rel_bin_path = "./build/app.run"
+rel_bin_path = "./build/run"
 
 
 def setup_test():
@@ -35,12 +35,12 @@ def migrate_test():
         print(f"Command '{config_cmd}' failed:", test_config.command_output)
         return False
 
-    build_cmd = "cmake --build build --parallel"
+    build_cmd = "cmake --build build --parallel 4"
     ret = call_subprocess(build_cmd)
     if not ret:
         print(f"Command '{build_cmd}' failed:", test_config.command_output)
         return False
-    
+
     # make sure the binary exists
     if not os.path.exists(rel_bin_path):
         print(f"Failed to find {rel_bin_path} in {os.getcwd()}")
@@ -59,5 +59,8 @@ def run_test():
     """
     ret = call_subprocess(rel_bin_path)
     if not ret:
-        print(f"Command '{rel_bin_path}' returned non-zero error code:", test_config.command_output)
+        print(
+            f"Command '{rel_bin_path}' returned non-zero error code:",
+            test_config.command_output,
+        )
     return ret
