@@ -17,7 +17,6 @@ find_program(
   NAMES dpct
   PATHS)
 
-
 get_filename_component(DPCT_BIN_DIR ${DPCT_BIN_PATH} DIRECTORY)
 set(DPCT_CMAKE_PATH "${DPCT_BIN_DIR}/../cmake/dpct.cmake")
 include(${DPCT_CMAKE_PATH})
@@ -31,29 +30,45 @@ set(allObjs)
 list(APPEND allObjs ${objSetOne})
 list(APPEND allObjs ${objSetTwo})
 
+if(WIN32)
+  set(SHARED_LIB_EXTN ".lib")
+elseif(UNIX AND NOT APPLE)
+  set(SHARED_LIB_EXTN ".so")
+else()
+  message(FATAL "Unsupported platform")
+endif()
+
 set(_cnt 1)
 set(_allObjsLibs "")
-foreach(obj ${allObjs})
-  get_filename_component(libName ${obj} NAME)
+foreach(objPath ${allObjs})
+  get_filename_component(libName ${objPath} NAME)
+  string(REGEX REPLACE "${CMAKE_CXX_OUTPUT_EXTENSION}$" ${SHARED_LIB_EXTN} libPath ${objPath})
 
+if (WIN32)
+  message(STATUS "Windows")
+elseif (UNIX AND NOT APPLE)
   add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${libName}.so
-    COMMAND ${CMAKE_COMMAND} -E copy ${obj}
-            ${CMAKE_CURRENT_BINARY_DIR}/${libName}.so
-    DEPENDS ${obj}
-    COMMENT "Generating ${CMAKE_CURRENT_BINARY_DIR}/${libName}.so")
-  
-  list(APPEND _allObjsLibs ${CMAKE_CURRENT_BINARY_DIR}/${libName}.so)
+    OUTPUT  ${libPath}
+    COMMAND ${CMAKE_COMMAND} -E copy ${objPath} ${libPath}
+    DEPENDS ${objPath}
+    COMMENT "Generating ${libPath}")
+endif()
+
+  list(APPEND _allObjsLibs ${libPath})
   
   add_library(Lib${_cnt} SHARED IMPORTED)
-  set_target_properties(Lib${_cnt} PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/${libName}.so)
+
+if (WIN32)
+  set_target_properties(Lib${_cnt} PROPERTIES IMPORTED_IMPLIB ${libPath})
+elseif (UNIX AND NOT APPLE)
+  set_target_properties(Lib${_cnt} PROPERTIES IMPORTED_LOCATION ${libPath})
+endif()
   
   MATH(EXPR _cnt "${_cnt}+1")
 endforeach()
 
-add_executable(app.run main.dp.cpp)
-target_link_libraries(app.run PRIVATE Lib1 Lib2 Lib3 Lib4)
+add_executable(run main.dp.cpp)
+target_link_libraries(run PRIVATE Lib1 Lib2 Lib3 Lib4)
 
 add_custom_target(tdc ALL DEPENDS ${_allObjsLibs})
-add_dependencies(app.run tdc)
-install(TARGETS app.run)
+add_dependencies(run tdc)
