@@ -4,7 +4,7 @@
 # LLVM-exception See https://llvm.org/LICENSE.txt for license information.
 #
 # ===----------------------------------------------------------------------===//
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.23)
 
 project(cuda_compile_sample)
 
