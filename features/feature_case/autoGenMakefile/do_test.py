@@ -15,12 +15,10 @@ from test_config import CT_TOOL
 from test_utils import *
 
 def setup_test():
-    print("Enter setup_test......")
     change_dir(test_config.current_test)
     return True
 
 def migrate_test():
-    print("Enter migrate_test......")
     # clean previous migration output
     if (os.path.exists("out1")):
         shutil.rmtree("out1")
