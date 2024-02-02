@@ -52,12 +52,13 @@ to a SYCL*-compliant project.
 
 2. Use the **intercept-build** tool to intercept the build step to generate the compilation database `compile_commands.json` file under the same fodler.
 ``` sh
-$ cd cuda/hp-2.3
+$ git clone https://github.com/oneapi-src/Velocity-Bench.git
+$ cd hplinpack/cuda/hp-2.3
 $ intercept-build make
 ```
 2. Use the tool's `--in-root` option and provide input files to specify where
    to locate the CUDA files that needs migration; use the tool’s `--out-root`
-   option to designate where to generate the resulting files(default is `dpct_output`); use the tool's `-p` option to specify compilation database to migrate the whole project:
+   option to designate where to generate the resulting files(default is `dpct_output`); use the tool's `-p` option to specify compilation database to migrate the whole project and use the `--gen-build-script` to generate the `Makefile.dpct` for the migrated code:
 
 ```sh
 # From the cuda directory as root directory:
@@ -69,7 +70,7 @@ $ dpct --in-root=. --out-root=out --cuda-include-path=/usr/local/cuda/include -p
 > is implied.
 
 You should see the migrated files in the `out` folder that was specified
-by the `--out-root` option:
+by the `--out-root` option.
 
 3. To build the migration app, the Makefile.dpct needs to be updated. Details are in the following:
 
@@ -125,7 +126,7 @@ change to
 1016         icpx -c  ${TARGET_2_SRC_1} -o ${TARGET_2_OBJ_1} $(TARGET_2_FLAG_1)
 1017
 ```
-execute the ```vimdiff Makefile.dpct Makefile.dpct.patched``` in the out folder can get the changing details.
+run the command ```vimdiff Makefile.dpct Makefile.dpct.patched``` in the out folder can get the changing details.
 
 
 4. Build the migrated code with generated Makefile.dpct
@@ -138,6 +139,94 @@ $ make -f Makefile.dpct
 
 When you run the migrated application, you can follow the [README](https://github.com/oneapi-src/Velocity-Bench/blob/main/hplinpack/README.md)
 
+The output of hplinpack
+```
+================================================================================
+HPLinpack 2.3  --  High-Performance Linpack benchmark  --   December 2, 2018
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N      :   24576    24576
+NB     :    2048
+PMAP   : Row-major process mapping
+P      :       1
+Q      :       1
+PFACT  :    Left
+NBMIN  :       2
+NDIV   :       2
+RFACT  :    Left
+BCAST  :   1ring
+DEPTH  :       1
+SWAP   : Spread-roll (long)
+L1     : no-transposed form
+U      : no-transposed form
+EQUIL  : yes
+ALIGN  : 8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               1.110223e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR10L2L2       24576  2048     1     1             228.26             4.3357e+01
+HPL_pdgesv() start time Fri Feb  2 14:50:51 2024
+
+HPL_pdgesv() end time   Fri Feb  2 14:54:39 2024
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   4.05852126e+08 ...... FAILED
+||Ax-b||_oo  . . . . . . . . . . . . . . . . . =        5455.998041
+||A||_oo . . . . . . . . . . . . . . . . . . . =        6229.846527
+||A||_1  . . . . . . . . . . . . . . . . . . . =        6230.505776
+||x||_oo . . . . . . . . . . . . . . . . . . . =         790.874477
+||x||_1  . . . . . . . . . . . . . . . . . . . =      203978.961025
+||b||_oo . . . . . . . . . . . . . . . . . . . =           0.499978
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR10L2L2       24576  2048     1     1             222.76             4.4426e+01
+HPL_pdgesv() start time Fri Feb  2 14:54:57 2024
+
+HPL_pdgesv() end time   Fri Feb  2 14:58:40 2024
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   4.05852126e+08 ...... FAILED
+||Ax-b||_oo  . . . . . . . . . . . . . . . . . =        5455.998041
+||A||_oo . . . . . . . . . . . . . . . . . . . =        6229.846527
+||A||_1  . . . . . . . . . . . . . . . . . . . =        6230.505776
+||x||_oo . . . . . . . . . . . . . . . . . . . =         790.874477
+||x||_1  . . . . . . . . . . . . . . . . . . . =      203978.961025
+||b||_oo . . . . . . . . . . . . . . . . . . . =           0.499978
+================================================================================
+
+Finished      2 tests with the following results:
+              0 tests completed and passed residual checks,
+              2 tests completed and failed residual checks,
+              0 tests skipped because of illegal input values.
+--------------------------------------------------------------------------------
+
+End of Tests.
+
+```
 If an error occurs, troubleshoot the problem using the Diagnostics Utility for Intel® oneAPI Toolkits.
 [Learn more](https://www.intel.com/content/www/us/en/develop/documentation/diagnostic-utility-user-guide/top.html).
 
