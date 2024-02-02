@@ -29,7 +29,7 @@
     <test testName="thrust-unique_by_key_copy" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-unique_by_key" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-for-hypre" configFile="config/TEMPLATE_thrust_exec.xml" />
-    <!-- <test testName="thrust-rawptr-noneusm" configFile="config/TEMPLATE_thrust_noneusm_exec.xml" /> -->
+    <test testName="thrust-rawptr-noneusm" configFile="config/TEMPLATE_thrust_noneusm_exec.xml" />
     <test testName="thrust-find" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-sort_by_key" configFile="config/TEMPLATE_thrust_exec.xml" />
     <test testName="thrust-inner_product" configFile="config/TEMPLATE_thrust_exec.xml" />
