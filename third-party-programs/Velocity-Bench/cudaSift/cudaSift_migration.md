@@ -70,7 +70,8 @@ $ sudo apt-get install libopencv-dev
 ```
 Then, make a `build` directory to use the **cmake** command line tool to generate the corresponding build tool (make) directly.
 ```sh
-$ cd CUDA && mkdir build
+$ git clone https://github.com/oneapi-src/Velocity-Bench.git
+$ cd Velocity-Bench/CUDA && mkdir build
 $ cd build && cmake ..
 ```
 3. Use the **intercept-build** tool to intercept the build step to generate the compilation database `compile_commands.json` file under the same fodler.
@@ -79,9 +80,9 @@ $ intercept-build make
 $ ls .
 CMakeCache.txt  CMakeFiles  Makefile  cudasift  cmake_install.cmake  compile_commands.json
 ```
-2. Use the tool's `--in-root` option and provide input files to specify where
+4. Use the tool's `--in-root` option and provide input files to specify where
    to locate the CUDA files that needs migration; use the tool’s `--out-root`
-   option to designate where to generate the resulting files(default is `dpct_output`); use the tool's `-p` option to specify compilation database to migrate the whole project:
+   option to designate where to generate the resulting files(default is `dpct_output`); use the tool's `-p` option to specify compilation database to migrate the whole project and and use the `--gen-build-script` to generate the `Makefile.dpct` for the migrated code:
 
 ```sh
 # From the CUDA directory as root directory:
@@ -93,11 +94,11 @@ $ dpct --in-root=. -p=./build/compile_commands.json --out-root=out --gen-build-s
 > source file is implied. If `--out-root` is not specified, `./dpct_output`
 > is implied.
 
-You should see the migrated files in the `migrated` folder that was specified
+You should see the migrated files in the `out` folder that was specified
 by the `--out-root` option:
 
 ```
-migrated/
+out/
 ├── MainSourceFiles.yaml
 ├── cudaImage.dp.cpp
 ├── cudaImage.h
@@ -115,7 +116,7 @@ migrated/
 
 ```
 
-3. Inspect the migrated source code, address any `DPCT` warnings generated
+5. Inspect the migrated source code, address any `DPCT` warnings generated
    by the Intel® DPC++ Compatibility Tool, and verify the new program correctness.
 
 Warnings are printed to the console and added as comments in the migrated
@@ -132,7 +133,7 @@ LIB :=
 See below **Addressing Warnings in the Migrated Code** to understand how to resolve the warning.
 
 
-4. Build the migrated code with generated Makefile.dpct
+6. Build the migrated code with generated Makefile.dpct
 ```
 $ cd out
 $ make -f Makefile.dpct
@@ -173,197 +174,7 @@ Number of Points after sift extraction =  3933
 
 Number of Points after sift extraction =  3681
 
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
-
-Number of Points after sift extraction =  3933
-
-Number of Points after sift extraction =  3681
+...................
 
 Number of Points after sift extraction =  3933
 
@@ -375,7 +186,7 @@ Data verification is SUCCESSFUL.
 
 Total workload time = 2206.28 ms
 ```
-**Note:** The testing result was running on Intel(R) Core(TM) i7-13700K on the CPU backend with 2023.2 oneAPI released oneAPI packaged. 
+**Note:** The testing result was running on Intel(R) Core(TM) i7-13700K on the CPU backend with 2023.2 oneAPI released oneAPI packaged. And the reference migrated code is attached in **migrated** folder.
 
 If an error occurs, troubleshoot the problem using the Diagnostics Utility for Intel® oneAPI Toolkits.
 [Learn more](https://www.intel.com/content/www/us/en/develop/documentation/diagnostic-utility-user-guide/top.html).
