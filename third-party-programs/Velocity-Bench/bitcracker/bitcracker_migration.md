@@ -74,9 +74,9 @@ $ intercept-build make
 $ ls .
 CMakeCache.txt  CMakeFiles  Makefile  bitcracker  cmake_install.cmake  compile_commands.json
 ```
-2. Use the tool's `--in-root` option and provide input files to specify where
+4. Use the tool's `--in-root` option and provide input files to specify where
    to locate the CUDA files that needs migration; use the tool’s `--out-root`
-   option to designate where to generate the resulting files(default is `dpct_output`); use the tool's `-p` option to specify compilation database to migrate the whole project:
+   option to designate where to generate the resulting files(default is `dpct_output`); use the tool's `-p` option to specify compilation database to migrate the whole project and use the `--gen-build-script` to generate the `Makefile.dpct` for the migrated code:
 
 ```sh
 # From the CUDA directory as root directory:
@@ -108,7 +108,7 @@ out/
     └── w_blocks.dp.cpp
 ```
 
-3. Inspect the migrated source code, address any `DPCT` warnings generated
+5. Inspect the migrated source code, address any `DPCT` warnings generated
    by the Intel® DPC++ Compatibility Tool, and verify the new program correctness.
 
 Warnings are printed to the console and added as comments in the migrated
@@ -133,11 +133,11 @@ See below **Addressing Warnings in the Migrated Code** to understand how to
 resolve the warning.
 
 
-4. Build the migrated code with generated Makefile.dpct
+6. Build the migrated code with generated Makefile.dpct
 ```
 $ cd out
 $ make -f Makefile.dpct
-# Please make sure the oneAPI package was installed before building the application to make sure the oneAPI DPC++ compiler was installed.
+# Please make sure the oneAPI package was installed before building the application.
 ```
 
 # Addressing Warnings in Migrated Code
@@ -149,7 +149,7 @@ decrypt_vmk_with_mac exceeds 128 bytes and may cause high register pressure.
 Consult with your hardware vendor to find the total register size available and
 adjust the code, or use smaller sub-group size to avoid high register pressure.
 ```
-This message is shown because the Compatibility Tool migrated find the user declared private memeory size of local variable in the kernel will exceed the 128 bytes which is the largest register size for the each work-item on the Intel XE core when the sub-group size is 32.
+This message is shown because the Compatibility Tool finding the user declared private memeory size of local variable in the kernel will exceed the 128 bytes which is the largest register size for the each work-item on the Intel XE core when the sub-group size is 32. It may cause high register pressure.
 
 Open **out/src/attack.dp.cpp** and find the error **DPCT1110**, the application defined 56 **uint32_t** type value, totally need 224 bytes private value which exceed the 128 bytes on the XE GPU vector engine register size. The migrated code didn't specify the sub group size, let compiler to determine the size. And user can explicitly specify the sub group size to 16 by ```[[intel::reqd_sub_group_size(16)]]``` after the submit function.
 
@@ -174,12 +174,9 @@ codes. The original code was commented out and a warning string was inserted.
 You need to rewrite this code.
 ```
 
-As you have noticed, the migration of this project resulted in one DPCT
-message that needs to be addressed, **DPCT1009**. This message is shown because 
-the Compatibility Tool migrated from returning an error code in the CUDA code to determine whether the CUDA execution was successful or not, but the SYCL used the try-exception to catch the failure of the API call. manually adjusting is needed to generate the SYCL compliant code.
+For **DPCT1009**, this message is shown because the Compatibility Tool migrated from returning an error code in the CUDA code to determine whether the CUDA execution was successful or not, but the SYCL uses the try-exception to catch failure of the API call. You can manually adjusting the code to generate the SYCL compliant code.
 
-Open out/src/bitcracker.h and locate the error **DPCT1009**. Then make the
-following changes:
+Open out/src/bitcracker.h and locate the error **DPCT1009**. Then make the following changes:
 
 Remove the macro definition:
 ```
@@ -187,7 +184,7 @@ Remove the macro definition:
    { dpct::err0 err = call; }
 ```
 
-You’ll also need to change the macro expansion for all the files in the **out** directory and sub-directory.
+You need to change the macro expansion for all the files in the **out** directory and sub-directory.
 
 Strip the CUDA_CHECK macro expansion under the **out** folder:
 ```
@@ -195,34 +192,6 @@ Strip the CUDA_CHECK macro expansion under the **out** folder:
 ./src/attack.dp.cpp:941:    CUDA_CHECK(DPCT_CHECK_ERROR(
 ./src/attack.dp.cpp:948:    CUDA_CHECK(DPCT_CHECK_ERROR(h_pswd_char = sycl::malloc_host<char>(
 ./src/attack.dp.cpp:956:    CUDA_CHECK(DPCT_CHECK_ERROR(h_pswd_uint32 = sycl::malloc_host<uint32_t>(
-./src/attack.dp.cpp:968:    CUDA_CHECK(DPCT_CHECK_ERROR(
-./src/attack.dp.cpp:975:    CUDA_CHECK(
-./src/attack.dp.cpp:978:    CUDA_CHECK(DPCT_CHECK_ERROR(d_vmkIV = sycl::malloc_device<uint8_t>(
-./src/attack.dp.cpp:980:    CUDA_CHECK(DPCT_CHECK_ERROR(d_mac = sycl::malloc_device<uint8_t>(
-./src/attack.dp.cpp:982:    CUDA_CHECK(DPCT_CHECK_ERROR(d_macIV = sycl::malloc_device<uint8_t>(
-./src/attack.dp.cpp:984:    CUDA_CHECK(DPCT_CHECK_ERROR(d_computedMacIV = sycl::malloc_device<uint8_t>(
-./src/attack.dp.cpp:986:    CUDA_CHECK(DPCT_CHECK_ERROR(
-./src/attack.dp.cpp:989:    CUDA_CHECK(DPCT_CHECK_ERROR(d_pswd_uint32 = sycl::malloc_device<uint32_t>(
-./src/attack.dp.cpp:994:    CUDA_CHECK(DPCT_CHECK_ERROR(
-./src/attack.dp.cpp:998:    CUDA_CHECK(
-./src/attack.dp.cpp:1002:    CUDA_CHECK(DPCT_CHECK_ERROR(
-./src/attack.dp.cpp:1006:    CUDA_CHECK(
-./src/attack.dp.cpp:1010:    CUDA_CHECK(DPCT_CHECK_ERROR(
-./src/attack.dp.cpp:1014:    CUDA_CHECK(DPCT_CHECK_ERROR(dpct::get_in_order_queue()
-./src/attack.dp.cpp:1020:    CUDA_CHECK(
-./src/attack.dp.cpp:1068:        CUDA_CHECK(DPCT_CHECK_ERROR(
-./src/attack.dp.cpp:1073:        CUDA_CHECK(DPCT_CHECK_ERROR(
-./src/attack.dp.cpp:1115:                CUDA_CHECK(DPCT_CHECK_ERROR(
-./src/attack.dp.cpp:1126:                CUDA_CHECK(DPCT_CHECK_ERROR(
-./src/attack.dp.cpp:1130:                CUDA_CHECK(DPCT_CHECK_ERROR(
-./src/attack.dp.cpp:1175:    CUDA_CHECK(
-./src/attack.dp.cpp:1177:    CUDA_CHECK(
-./src/attack.dp.cpp:1179:    CUDA_CHECK(DPCT_CHECK_ERROR(
-./src/attack.dp.cpp:1182:    CUDA_CHECK(DPCT_CHECK_ERROR(sycl::free(d_vmk, dpct::get_in_order_queue())));
-./src/attack.dp.cpp:1183:    CUDA_CHECK(
-./src/attack.dp.cpp:1185:    CUDA_CHECK(DPCT_CHECK_ERROR(sycl::free(d_mac, dpct::get_in_order_queue())));
-./src/attack.dp.cpp:1186:    CUDA_CHECK(
-./src/attack.dp.cpp:1188:    CUDA_CHECK(DPCT_CHECK_ERROR(
 ./src/attack.dp.cpp:1190:    CUDA_CHECK(
 ./src/attack.dp.cpp:1192:    CUDA_CHECK(DPCT_CHECK_ERROR(
 ./src/w_blocks.dp.cpp:202:        CUDA_CHECK(
@@ -235,9 +204,10 @@ Strip the CUDA_CHECK macro expansion under the **out** folder:
 ./src/main.dp.cpp:193:        CUDA_CHECK(DPCT_CHECK_ERROR(dpct::select_device(0)));
 ./src/main.dp.cpp:205:        CUDA_CHECK(
 ./src/main.dp.cpp:234:            CUDA_CHECK(DPCT_CHECK_ERROR(
+.......
 ```
 ## Rebuild the migrated code
-After manually addressing the warning error, need to rebuild the application.
+After manually addressing the warning error, you can rebuild the application:
 ```
 $ make -f Makefile.dpct clean
 $ make -f Makefile.dpct 
@@ -283,7 +253,7 @@ Password not found!
 time to subtract from total: 0.0148924 s
 bitcracker - total time for whole calculation: 452.283 s
 ```
-**Note:** The testing result was running on Intel(R) Core(TM) i7-13700K on the CPU backend with 2023.2 oneAPI released oneAPI packaged. 
+**Note:** The testing result was running on Intel(R) Core(TM) i7-13700K on the CPU backend with 2023.2 oneAPI released oneAPI package. 
 
 If an error occurs, troubleshoot the problem using the Diagnostics Utility for Intel® oneAPI Toolkits.
 [Learn more](https://www.intel.com/content/www/us/en/develop/documentation/diagnostic-utility-user-guide/top.html).
