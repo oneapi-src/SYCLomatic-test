@@ -227,9 +227,9 @@ Finished      2 tests with the following results:
 End of Tests.
 
 ```
-If an error occurs, troubleshoot the problem using the Diagnostics Utility for Intel® oneAPI Toolkits.
+If an error occurs, troubleshoot the problem using the Diagnostics Utility for Intel® oneAPI Toolkits. 
 [Learn more](https://www.intel.com/content/www/us/en/develop/documentation/diagnostic-utility-user-guide/top.html).
-
+ And the reference migrated code is attached in **migrated** folder.
 ## License
 Code samples are licensed under the GNU General Public License version 2. See
 [License.txt](https://github.com/oneapi-src/Velocity-Bench/blob/main/hplinpack/LICENSE.md) for details.
