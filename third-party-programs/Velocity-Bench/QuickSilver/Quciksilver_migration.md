@@ -380,7 +380,7 @@ cycleTracking_Test_Done              0    0.000e+00    0.000e+00    0.000e+00   
 cycleFinalize                       20    3.690e+02    3.690e+02    3.690e+02    0.000e+00       100.00
 Figure Of Merit                  12.67 [Num Mega Segments / Cycle Tracking Time]
 ```
-**Note:** The testing result was running on Intel(R) Core(TM) i7-13700K on the CPU backend with 2023.2 oneAPI released oneAPI packaged. 
+**Note:** The testing result was running on Intel(R) Core(TM) i7-13700K on the CPU backend with 2023.2 oneAPI released oneAPI packaged. And the reference migrated code is attached in **migrated** folder.
 
 If an error occurs, troubleshoot the problem using the Diagnostics Utility for Intel® oneAPI Toolkits.
 [Learn more](https://www.intel.com/content/www/us/en/develop/documentation/diagnostic-utility-user-guide/top.html).
