@@ -167,10 +167,11 @@ CUDA
 ```
 2. Use the **intercept-build** tool to intercept the ```makefile``` build steps to generate the compilation database `compile_commands.json` file under the same fodler.
 ``` sh
-$ cd CUDA/src
+$ git clone https://github.com/oneapi-src/Velocity-Bench.git
+$ cd QuickSilver/CUDA/src
 $ intercept-build make
 ```
-2. Use the tool's `--in-root` option and provide input files to specify where
+3. Use the tool's `--in-root` option and provide input files to specify where
    to locate the CUDA files that needs migration; use the tool’s `--out-root`
    option to designate where to generate the resulting files(default is `dpct_output`); use the tool's `-p` option to specify compilation database to migrate the whole project:
 
@@ -186,9 +187,9 @@ $ dpct --in-root=. -p=./compile_commands.json --out-root=out --gen-build-script 
 You should see the migrated files in the `migrated` folder that was specified
 by the `--out-root` option.
 
-3. Modify the ``-std=c++11`` to ``-std=c++17``, due to the ``icpx`` compiler needs to build with the at latest version c++17.
+4. Modify the ``-std=c++11`` to ``-std=c++17``, due to the ``icpx`` compiler needs to build with the at latest version c++17.
 
-4. Inspect the migrated source code, address any `DPCT` warnings generated
+5. Inspect the migrated source code, address any `DPCT` warnings generated
    by the Intel® DPC++ Compatibility Tool, and verify the new program correctness.
 
 Warnings are printed to the console and added as comments in the migrated
@@ -208,7 +209,7 @@ See below **Addressing Warnings in the Migrated Code** to understand how to
 resolve the warning.
 
 
-4. Build the migrated code with generated Makefile.dpct
+6. Build the migrated code with generated Makefile.dpct
 
 ```
 $ cd out
@@ -246,7 +247,7 @@ printf("coordiante:          %g\t%g\t%g\n", coordinate.x, coordinate.y,
 For this case, the ```#ifnedf DPCT_COMPATIBILITY_TEMP``` needs to be updated:
 ```
 #ifndef DPCT_COMPATIBILITY_TEMP
-changed to 
+===>>>
 #ifdef DPCT_COMPATIBILITY_TEMP
 ```
 due to the ```#ifndef __CUDA_ARCH__``` is used to seperatly executing for the host and device code, after the migration, the ```DPCT_COMPATIBILITY_TEMP``` will be always defined in the migration code. So to run the device function, the ```#ifndef``` should be changed to ```#ifdef``` and recompiled the applications.
