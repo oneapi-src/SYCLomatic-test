@@ -253,7 +253,7 @@ Password not found!
 time to subtract from total: 0.0148924 s
 bitcracker - total time for whole calculation: 452.283 s
 ```
-**Note:** The testing result was running on Intel(R) Core(TM) i7-13700K on the CPU backend with 2023.2 oneAPI released oneAPI package. 
+**Note:** The testing result was running on Intel(R) Core(TM) i7-13700K on the CPU backend with 2023.2 oneAPI released oneAPI package. And the reference migrated code is attached in **migrated** folder.
 
 If an error occurs, troubleshoot the problem using the Diagnostics Utility for Intel® oneAPI Toolkits.
 [Learn more](https://www.intel.com/content/www/us/en/develop/documentation/diagnostic-utility-user-guide/top.html).
