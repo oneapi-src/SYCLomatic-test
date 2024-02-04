@@ -25,8 +25,8 @@ def migrate_test():
     call_subprocess("mkdir test_out")
     call_subprocess("chmod 555 test_out")
     call_subprocess(test_config.CT_TOOL + " vector_add.cu --out-root=test_out --cuda-include-path=" + test_config.include_path)
-    if not is_sub_string("unable to overwrite file", test_config.command_output):
-        print('Cannot find the message "unable to overwrite file"')
+    if not is_sub_string("Unable to save the output to the specified directory", test_config.command_output):
+        print('Cannot find the message: Unable to save the output to the specified directory.')
         return False
     return True
 
