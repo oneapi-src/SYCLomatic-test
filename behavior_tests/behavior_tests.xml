@@ -95,6 +95,7 @@
         <test testName="bt-format-range" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="bt-in-root-empty-process-all" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-output-create" configFile="config/TEMPLATE_behavior_tests.xml" />
+        <test testName="ngt-file-permission" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="ngt-output-not-empty" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="path_validation_0" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
         <test testName="path_validation_1" configFile="config/TEMPLATE_behavior_tests_lin.xml" />

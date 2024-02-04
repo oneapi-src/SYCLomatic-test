@@ -18,6 +18,8 @@ def setup_test():
     return True
 
 def migrate_test():
+    call_subprocess("touch out")
+    call_subprocess("chmod 440 out")
     call_subprocess(test_config.CT_TOOL + " vector_add.cu --out-root=out --cuda-include-path=" + test_config.include_path)
     return is_sub_string("Unable to save the output to the specified directory", test_config.command_output)
 
