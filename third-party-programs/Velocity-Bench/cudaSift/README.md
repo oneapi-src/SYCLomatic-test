@@ -153,3 +153,8 @@ If an error occurs during runtime, refer to [Diagnostics Utility for Intel® one
 * Command Line Options of [SYCLomatic](https://oneapi-src.github.io/SYCLomatic/dev_guide/command-line-options-reference.html) or [Intel® DPC++ Compatibility Tool](https://software.intel.com/content/www/us/en/develop/documentation/intel-dpcpp-compatibility-tool-user-guide/top/command-line-options-reference.html)
 * [oneAPI GPU Optimization Guide](https://www.intel.com/content/www/us/en/docs/oneapi/optimization-guide-gpu/)
 * [SYCLomatic project](https://github.com/oneapi-src/SYCLomatic/)
+
+
+## Trademarks information
+Intel, the Intel logo, and other Intel marks are trademarks of Intel Corporation or its subsidiaries.<br>
+\*Other names and brands may be claimed as the property of others. SYCL is a trademark of the Khronos Group Inc.
