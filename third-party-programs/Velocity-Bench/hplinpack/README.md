@@ -137,7 +137,7 @@ $ make -f Makefile.dpct
 ### 6 Run migrated SYCL version hplinpack
 ```
    $ cd ${hplinpack_HOME}/CUDA/out
-   $ ./hplinpack 
+   $ ./xhpl 
    ================================================================================
 HPLinpack 2.3  --  High-Performance Linpack benchmark  --   December 2, 2018
 Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
