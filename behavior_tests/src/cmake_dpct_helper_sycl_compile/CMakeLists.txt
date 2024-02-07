@@ -10,7 +10,6 @@ project(cuda_compile_sample)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl")
 
-find_package(IntelSYCL REQUIRED)
 find_program(
   DPCT_BIN_PATH
   NAMES dpct
