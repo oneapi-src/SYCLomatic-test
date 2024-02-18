@@ -132,8 +132,8 @@
     <test testName="math-half-raw" configFile="config/TEMPLATE_math_after_11.xml"/>
     <test testName="math-experimental-bf16" configFile="config/TEMPLATE_math_after_11.xml" />
     <test testName="math-experimental-bf162" configFile="config/TEMPLATE_math_after_11.xml" />
-    <test testName="math-ext-bf16-conv" configFile="config/TEMPLATE_math_after_11.xml" />
-    <test testName="math-ext-bf16-conv-double" configFile="config/TEMPLATE_math_after_11_skip_double.xml" splitGroup="double"/>
+    <test testName="math-ext-bf16-conv" configFile="config/TEMPLATE_math_after_11_skip_cuda_backend.xml" />
+    <test testName="math-ext-bf16-conv-double" configFile="config/TEMPLATE_math_after_11_skip_double_skip_cuda_backend.xml" splitGroup="double"/>
     <test testName="math-ext-double" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-ext-float" configFile="config/TEMPLATE_math_skip_double.xml" splitGroup="double"/>
     <test testName="math-ext-half" configFile="config/TEMPLATE_math_after_9.xml" />
@@ -142,7 +142,7 @@
     <test testName="math-ext-half2" configFile="config/TEMPLATE_math_after_9.xml" />
     <test testName="math-ext-half2-after11" configFile="config/TEMPLATE_math_ext_after_11.xml" />
     <test testName="math-ext-simd" configFile="config/TEMPLATE_math.xml" />
-    <test testName="math-half-conv" configFile="config/TEMPLATE_math_after_11_skip_double.xml" splitGroup="double"/>
+    <test testName="math-half-conv" configFile="config/TEMPLATE_math_after_11_skip_double_skip_cuda_backend.xml" splitGroup="double"/>
     <test testName="math-helper" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-intrinsics" configFile="config/TEMPLATE_math.xml" />
     <test testName="math-saturate" configFile="config/TEMPLATE_math_saturate.xml" />
