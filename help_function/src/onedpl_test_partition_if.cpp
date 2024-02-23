@@ -9,6 +9,7 @@
 
 #include <oneapi/dpl/algorithm>
 #include <oneapi/dpl/execution>
+#include <oneapi/dpl/iterator>
 
 #include <dpct/dpct.hpp>
 #include <dpct/dpl_utils.hpp>
@@ -155,6 +156,79 @@ test_partition_if_3outputs(const std::string& test_name, ExecutionPolicy&& polic
                 std::size_t j = rev_flag ? i : host_count_output3 - i - 1;
                 num_failures += ASSERT_EQUAL(test_name + reversed_msg + " output3 at idx " + std::to_string(i),
                                              output3_acc[i], expected3[j]);
+            }
+        }
+        // Flush output buffers between iterations.
+        if (!rev_flag)
+        {
+            dpl::fill_n(policy, output1, num_elements, OutputType1{});
+            dpl::fill_n(policy, output2, num_elements, OutputType2{});
+            dpl::fill_n(policy, output3, num_elements, OutputType3{});
+            dpl::fill_n(policy, counts, 3, CountType{});
+        }
+    }
+    return num_failures;
+}
+
+template <typename ExecutionPolicy, typename InputIterator, typename OutputIterator1, typename OutputIterator2,
+          typename OutputIterator3, typename CountIterator, typename UnaryPredicate1, typename UnaryPredicate2,
+          typename ExpectedOutputIterator1, typename ExpectedOutputIterator2, typename ExpectedOutputIterator3>
+int
+test_partition_if_3outputs_rev_itr(const std::string& test_name, ExecutionPolicy&& policy, InputIterator input,
+                                   OutputIterator1 output1, OutputIterator2 output2,
+                                   std::reverse_iterator<OutputIterator3> output3, CountIterator counts,
+                                   int num_elements, UnaryPredicate1 pred1, UnaryPredicate2 pred2,
+                                   ExpectedOutputIterator1 expected1, int expected_elements1,
+                                   ExpectedOutputIterator2 expected2, int expected_elements2,
+                                   ExpectedOutputIterator3 expected3, int expected_elements3)
+{
+    using CountType = typename std::iterator_traits<CountIterator>::value_type;
+    using OutputType1 = typename std::iterator_traits<OutputIterator1>::value_type;
+    using OutputType2 = typename std::iterator_traits<OutputIterator2>::value_type;
+    using OutputType3 = typename std::iterator_traits<OutputIterator3>::value_type;
+    int num_failures = 0;
+    bool rev_flag;
+    for (int rev = 0; rev < 2; ++rev)
+    {
+        rev_flag = static_cast<bool>(rev);
+        CountType host_count_output1 = 0, host_count_output2 = 0, host_count_output3 = 0;
+        std::string reversed_msg = rev ? " w/ last partition reversal" : " w/o last partition reversal";
+        dpct::partition_if(policy, input, output1, output2, output3, counts, num_elements, pred1, pred2, rev_flag);
+        {
+            std::vector<CountType> host_counts(3);
+            policy.queue().copy(counts, host_counts.data(), 3).wait();
+            host_count_output1 = host_counts[0], host_count_output2 = host_counts[1],
+            host_count_output3 = host_counts[2];
+            num_failures += ASSERT_EQUAL(test_name + reversed_msg + " partitioned count output 1 ", host_count_output1,
+                                         expected_elements1);
+            num_failures += ASSERT_EQUAL(test_name + reversed_msg + " partitioned count output 2 ", host_count_output2,
+                                         expected_elements2);
+            num_failures += ASSERT_EQUAL(test_name + reversed_msg + " partitioned count output 3 ", host_count_output3,
+                                         expected_elements3);
+        }
+        {
+            std::vector<OutputType1> host_output1(host_count_output1);
+            std::vector<OutputType2> host_output2(host_count_output2);
+            std::vector<OutputType3> host_output3(host_count_output3);
+            // Since output3 is a reverse iterator, the values are loaded from the end.
+            auto output3_offset = output3.base() - host_count_output3;
+            policy.queue().copy(output1, host_output1.data(), host_count_output1);
+            policy.queue().copy(output2, host_output2.data(), host_count_output2);
+            policy.queue().copy(output3_offset, host_output3.data(), host_count_output3);
+            policy.queue().wait();
+
+            for (std::size_t i = 0; i < host_count_output1; ++i)
+                num_failures += ASSERT_EQUAL(test_name + reversed_msg + " output1 at idx " + std::to_string(i),
+                                             host_output1[i], expected1[i]);
+            for (std::size_t i = 0; i < host_count_output2; ++i)
+                num_failures += ASSERT_EQUAL(test_name + reversed_msg + " output2 at idx " + std::to_string(i),
+                                             host_output2[i], expected2[i]);
+            for (std::size_t i = 0; i < host_count_output3; ++i)
+            {
+                // expected is assumed to be loaded with the last partition reversed.
+                std::size_t j = rev_flag ? i : host_count_output3 - i - 1;
+                num_failures += ASSERT_EQUAL(test_name + reversed_msg + " output3 at idx " + std::to_string(i),
+                                             host_output3[i], expected3[j]);
             }
         }
         // Flush output buffers between iterations.
@@ -346,6 +420,42 @@ main()
 
         failed_tests += test_passed(num_failing, test_name);
         num_failing = 0;
+    }
+    // Test 6. 3 Output partition where second and third outputs are a combined allocation. Third output
+    // is a std::reverse_iterator.
+    {
+        test_name = "Partition numbers into three ranges - dpct::partition_if with three "
+                    "outputs - int32_t usm - combined allocation for second and third outputs";
+        int num_elements = 30;
+        auto is_greater_than_20 = [](auto e) { return e > 20; };
+        auto is_less_than_10 = [](auto e) { return e < 10; };
+
+        auto input_ptr = sycl::malloc_device<int32_t>(num_elements, q);
+        auto greater_than_20_ptr = sycl::malloc_device<int32_t>(num_elements, q);
+        auto less_than_10_and_unselected_ptr = sycl::malloc_device<int32_t>(num_elements, q);
+        auto count_ptr = sycl::malloc_device<int32_t>(3, q);
+        dpct::iota(policy, input_ptr, input_ptr + num_elements, 0);
+
+        std::vector<int32_t> expected1(num_elements / 3 - 1);
+        std::vector<int32_t> expected2(num_elements / 3);
+        std::vector<int32_t> rev_expected3(num_elements / 3 + 1);
+        std::iota(expected1.begin(), expected1.end(), 21);
+        std::iota(expected2.begin(), expected2.end(), 0);
+        std::iota(rev_expected3.begin(), rev_expected3.end(), 10);
+
+        auto rev_unselected_beg = std::make_reverse_iterator(less_than_10_and_unselected_ptr + num_elements);
+        num_failing += test_partition_if_3outputs_rev_itr(
+            test_name, policy, input_ptr, greater_than_20_ptr, less_than_10_and_unselected_ptr, rev_unselected_beg,
+            count_ptr, num_elements, is_greater_than_20, is_less_than_10, expected1.begin(), expected1.size(),
+            expected2.begin(), expected2.size(), rev_expected3.begin(), rev_expected3.size());
+
+        failed_tests += test_passed(num_failing, test_name);
+        num_failing = 0;
+
+        sycl::free(input_ptr, q);
+        sycl::free(greater_than_20_ptr, q);
+        sycl::free(less_than_10_and_unselected_ptr, q);
+        sycl::free(count_ptr, q);
     }
 
     std::cout << std::endl << failed_tests << " failing test(s) detected." << std::endl;
