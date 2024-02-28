@@ -20,7 +20,7 @@ def setup_test():
 
 def migrate_test():
     call_subprocess(test_config.CT_TOOL + " -p=./ --cuda-include-path=" + test_config.include_path)
-    return is_sub_string("Migration not necessary; no CUDA code detected", test_config.command_output)
+    return is_sub_string("No CUDA source code detected", test_config.command_output)
 def build_test():
     return True
 def run_test():
