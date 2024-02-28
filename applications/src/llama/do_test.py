@@ -82,7 +82,6 @@ def build_test():
     if test_config.current_test == 'llama':
         ret = compile_and_link(srcs, cmp_opts, objects, link_opts)
     elif test_config.current_test == 'llama_cmake_migration':
-
         ret = call_subprocess("cp common/base64.hpp ./out_root/common/base64.hpp")
         ret += call_subprocess("cp common/build-info.cpp.in  ./out_root/common/build-info.cpp.in")
         ret += call_subprocess("cp scripts/build-info.sh out_root/scripts/build-info.sh")
@@ -91,12 +90,27 @@ def build_test():
         if not ret:
             print("Error during copying files cmake script depends on:", test_config.command_output)
 
-        ret = call_subprocess("mkdir -p out_root/build && cd out_root/build && cmake -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icpx -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DLLAMA_CUBLAS=ON ../")
+        # Temporarily low the cmake minimum version required to 3.20.
+        ret = call_subprocess("sed -i s/3.24/3.20/g ./out_root/CMakeLists.txt")
         if not ret:
-            print("Error during cmake configure stage:", test_config.command_output)
-        ret = call_subprocess("cd out_root/build && make")
-        if not ret:
-            print("Error during cmake build stage:", test_config.command_output)
+            print("Error during replace cmake minimum version required:", test_config.command_output)
+
+        if (os.path.exists("/opt/intel/oneapi/setvars.sh")):
+            ret = call_subprocess("source /opt/intel/oneapi/setvars.sh && mkdir -p out_root/build && cd out_root/build && cmake -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icpx -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DLLAMA_CUBLAS=ON ../")
+            if not ret:
+                print("Error during cmake configure stage:", test_config.command_output)
+            ret = call_subprocess("source /opt/intel/oneapi/setvars.sh && cd out_root/build && make")
+            if not ret:
+                print("Error during cmake build stage:", test_config.command_output)
+        else:
+            # For local machine test, "source /path/to/intel/oneapi/setvars.sh" is set in advance
+            ret = call_subprocess("mkdir -p out_root/build && cd out_root/build && cmake -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icpx -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DLLAMA_CUBLAS=ON ../")
+            if not ret:
+                print("Error during cmake configure stage:", test_config.command_output)
+            ret = call_subprocess("cd out_root/build && make")
+            if not ret:
+                print("Error during cmake build stage:", test_config.command_output)
+
         ret =  os.path.exists("out_root/build/bin/main")
         if not ret:
             print("llama target binary not exist:", test_config.command_output)
