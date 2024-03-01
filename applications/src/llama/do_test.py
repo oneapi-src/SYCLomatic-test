@@ -96,10 +96,10 @@ def build_test():
             print("Error during replace cmake minimum version required:", test_config.command_output)
 
         if (os.path.exists("/opt/intel/oneapi/setvars.sh")):
-            ret = call_subprocess("source /opt/intel/oneapi/setvars.sh && mkdir -p out_root/build && cd out_root/build && cmake -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icpx -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DLLAMA_CUBLAS=ON ../")
+            ret = call_subprocess("mkdir -p out_root/build && cd out_root/build && cmake -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icpx -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DLLAMA_CUBLAS=ON ../")
             if not ret:
                 print("Error during cmake configure stage:", test_config.command_output)
-            ret = call_subprocess("source /opt/intel/oneapi/setvars.sh && cd out_root/build && make")
+            ret = call_subprocess("source /opt/intel/oneapi/setvars.sh --force && cd out_root/build && make")
             if not ret:
                 print("Error during cmake build stage:", test_config.command_output)
         else:
