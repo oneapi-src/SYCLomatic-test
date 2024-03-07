@@ -270,6 +270,8 @@ def is_option_supported(option_rule_list):
             return False
         elif option_rule.exclude_option in test_config.test_option and option_rule.not_double_type_feature == "NOT double":
             if test_config.backend_device not in test_config.support_double_gpu:
+                print(test_config.backend_device)
+                print(test_config.support_double_gpu)
                 return False
     return True
 
