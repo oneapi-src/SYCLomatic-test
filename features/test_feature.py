@@ -56,7 +56,7 @@ exec_tests = ['asm', 'asm_bar', 'asm_arith', 'asm_vinst', 'asm_v2inst', 'asm_v4i
               'thrust_is_sorted_until', 'thrust_set_intersection', 'thrust_set_union_by_key', 'thrust_set_union',
               'thrust_swap_ranges', 'thrust_uninitialized_fill_n', 'thrust_equal', 'system_atomic', 'thrust_detail_types',
               'operator_eq', 'operator_neq', 'operator_lege', 'thrust_system', 'thrust_reverse_copy',
-              'thrust_device_new_delete', 'thrust_temporary_buffer', 'thrust_malloc_free', 'codepin']
+              'thrust_device_new_delete', 'thrust_temporary_buffer', 'thrust_malloc_free', 'codepin', 'thrust_unique_count']
 
 occupancy_calculation_exper = ['occupancy_calculation']
 
