@@ -16,6 +16,7 @@
 #include <limits>
 #include <sstream>
 #include <string>
+#include <math.h>
 
 #define CHECK(ID, S, CMP)                                                      \
   {                                                                            \
@@ -370,6 +371,141 @@ __device__ int shr() {
   return 0;
 }
 
+template <typename T>
+__device__ T deg2rad(T val) {
+  constexpr auto PI = 3.14159265358979323846f;
+  return val * PI / 180.0f;
+}
+
+#define FLOAT_CMP(X, Y) ((X - Y) < 1e-4)
+#define POWF2(X) (pow(2.0f, X))
+
+__device__ int asm_copysign() {
+  float f32 = 0.0f;
+  double f64 = 0.0;
+  CHECK(1, asm("copysign.f32 %0, %1, %2;" : "=f"(f32) : "f"(-10.0f), "f"(100.0f)), FLOAT_CMP(f32, -100.0f));
+  CHECK(2, asm("copysign.f64 %0, %1, %2;" : "=d"(f64) : "d"(-10.0), "d"(100.0)), FLOAT_CMP(f64, -100.0));
+  return 0;
+}
+
+__device__ int asm_cos() {
+  float f32 = 0.0f;
+  CHECK(1, asm("cos.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(90.0f))), FLOAT_CMP(f32, 0.0f));
+  CHECK(2, asm("cos.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(0.0f))), FLOAT_CMP(f32, 1.0f));
+  CHECK(3, asm("cos.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(60.0f))), FLOAT_CMP(f32, 0.5f));
+  CHECK(4, asm("cos.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(180.0f))), FLOAT_CMP(f32, -1.0f));
+  CHECK(5, asm("cos.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(deg2rad(90.0f))), FLOAT_CMP(f32, 0.0f));
+  CHECK(6, asm("cos.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(deg2rad(0.0f))), FLOAT_CMP(f32, 1.0f));
+  CHECK(7, asm("cos.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(deg2rad(60.0f))), FLOAT_CMP(f32, 0.5f));
+  CHECK(8, asm("cos.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(deg2rad(180.0f))), FLOAT_CMP(f32, -1.0f));
+  return 0;
+}
+
+__device__ int asm_sin() {
+  float f32 = 0.0f;
+  CHECK(1, asm("sin.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(90.0f))), FLOAT_CMP(f32, 1.0f));
+  CHECK(2, asm("sin.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(0.0f))), FLOAT_CMP(f32, 0.0f));
+  CHECK(3, asm("sin.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(30.0f))), FLOAT_CMP(f32, 0.5f));
+  CHECK(4, asm("sin.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(180.0f))), FLOAT_CMP(f32, 0.0f));
+  CHECK(5, asm("sin.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(deg2rad(90.0f))), FLOAT_CMP(f32, 1.0f));
+  CHECK(6, asm("sin.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(deg2rad(0.0f))), FLOAT_CMP(f32, 0.0f));
+  CHECK(7, asm("sin.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(deg2rad(30.0f))), FLOAT_CMP(f32, 0.5f));
+  CHECK(8, asm("sin.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(deg2rad(180.0f))), FLOAT_CMP(f32, 0.0f));
+  return 0;
+}
+
+__device__ int asm_tanh() {
+  float f32 = 0.0f;
+  CHECK(1, asm("tanh.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(45.0f))), FLOAT_CMP(f32, tanh(deg2rad(45.0f))));
+  CHECK(2, asm("tanh.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(0.0f))), FLOAT_CMP(f32, tanh(deg2rad(0.0f))));
+  CHECK(3, asm("tanh.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(180.0f))), FLOAT_CMP(f32, tanh(deg2rad(180.0f))));
+  CHECK(4, asm("tanh.approx.f32 %0, %1;" : "=f"(f32) : "f"(deg2rad(90.0f))), FLOAT_CMP(f32, tanh(deg2rad(90.0f))));
+  return 0;
+}
+
+__device__ int asm_ex2() {
+  float f32 = 0.0f;
+  CHECK(1, asm("ex2.approx.f32 %0, %1;" : "=f"(f32) : "f"(2.1f)), FLOAT_CMP(f32, POWF2(2.1f)));
+  CHECK(2, asm("ex2.approx.f32 %0, %1;" : "=f"(f32) : "f"(3.4f)), FLOAT_CMP(f32, POWF2(3.4f)));
+  CHECK(3, asm("ex2.approx.f32 %0, %1;" : "=f"(f32) : "f"(9.7f)), FLOAT_CMP(f32, POWF2(9.7f)));
+  CHECK(4, asm("ex2.approx.f32 %0, %1;" : "=f"(f32) : "f"(6.4f)), FLOAT_CMP(f32, POWF2(6.4f)));
+  CHECK(5, asm("ex2.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(2.1f)), FLOAT_CMP(f32, POWF2(2.1f)));
+  CHECK(6, asm("ex2.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(3.4f)), FLOAT_CMP(f32, POWF2(3.4f)));
+  CHECK(7, asm("ex2.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(9.7f)), FLOAT_CMP(f32, POWF2(9.7f)));
+  CHECK(8, asm("ex2.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(6.4f)), FLOAT_CMP(f32, POWF2(6.4f)));
+  return 0;
+}
+
+__device__ int asm_lg2() {
+  float f32 = 0.0f;
+  CHECK(1, asm("lg2.approx.f32 %0, %1;" : "=f"(f32) : "f"(2.1f)), FLOAT_CMP(f32, log2(2.1f)));
+  CHECK(2, asm("lg2.approx.f32 %0, %1;" : "=f"(f32) : "f"(3.4f)), FLOAT_CMP(f32, log2(3.4f)));
+  CHECK(3, asm("lg2.approx.f32 %0, %1;" : "=f"(f32) : "f"(9.7f)), FLOAT_CMP(f32, log2(9.7f)));
+  CHECK(4, asm("lg2.approx.f32 %0, %1;" : "=f"(f32) : "f"(6.4f)), FLOAT_CMP(f32, log2(6.4f)));
+  CHECK(5, asm("lg2.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(2.1f)), FLOAT_CMP(f32, log2(2.1f)));
+  CHECK(6, asm("lg2.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(3.4f)), FLOAT_CMP(f32, log2(3.4f)));
+  CHECK(7, asm("lg2.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(9.7f)), FLOAT_CMP(f32, log2(9.7f)));
+  CHECK(8, asm("lg2.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(6.4f)), FLOAT_CMP(f32, log2(6.4f)));
+  return 0;
+}
+
+__device__ int sad() {
+  int16_t s16;
+  uint16_t u16;
+  int32_t s32;
+  uint32_t u32;
+  int64_t s64;
+  uint64_t u64;
+  CHECK(1, asm("sad.s16 %0, %1, %2, %3;" : "=h"(s16) : "h"((int16_t)-1), "h"((int16_t)3), "h"((int16_t)5)), s16 == 9);
+  CHECK(2, asm("sad.u16 %0, %1, %2, %3;" : "=h"(u16) : "h"((int16_t)1), "h"((int16_t)3), "h"((int16_t)5)), u16 == 7);
+  CHECK(3, asm("sad.s32 %0, %1, %2, %3;" : "=r"(s32) : "r"(-1), "r"(3), "r"(5)), s32 == 9);
+  CHECK(4, asm("sad.u32 %0, %1, %2, %3;" : "=r"(u32) : "r"(1), "r"(3), "r"(5)), u32 == 7);
+  CHECK(5, asm("sad.s64 %0, %1, %2, %3;" : "=l"(s64) : "l"(-1ll), "l"(3ll), "l"(5ll)), s64 == 9);
+  CHECK(6, asm("sad.u64 %0, %1, %2, %3;" : "=l"(u64) : "l"(1ll), "l"(3ll), "l"(5ll)), u64 == 7);
+  return 0;
+}
+
+__device__ int asm_rsqrt() {
+  float f32;
+  double f64;
+  CHECK(1, asm("rsqrt.approx.f32 %0, %1;" : "=f"(f32) : "f"(2.1f)), FLOAT_CMP(f32, rsqrt(2.1f)));
+  CHECK(2, asm("rsqrt.approx.f64 %0, %1;" : "=d"(f64) : "d"(2.1)), FLOAT_CMP(f64, rsqrt(2.1)));
+  return 0;
+}
+
+__device__ int asm_sqrt() {
+  float f32;
+  double f64;
+  CHECK(1, asm("sqrt.approx.f32 %0, %1;" : "=f"(f32) : "f"(2.1f)), FLOAT_CMP(f32, sqrt(2.1f)));
+  CHECK(2, asm("sqrt.approx.f32.ftz %0, %1;" : "=f"(f32) : "f"(2.1f)), FLOAT_CMP(f32, sqrt(2.1f)));
+  CHECK(3, asm("sqrt.rn.f32 %0, %1;" : "=f"(f32) : "f"(2.1f)), FLOAT_CMP(f32, sqrt(2.1f)));
+  CHECK(4, asm("sqrt.rz.f32 %0, %1;" : "=f"(f32) : "f"(2.1f)), FLOAT_CMP(f32, sqrt(2.1f)));
+  CHECK(5, asm("sqrt.rm.f32 %0, %1;" : "=f"(f32) : "f"(2.1f)), FLOAT_CMP(f32, sqrt(2.1f)));
+  CHECK(6, asm("sqrt.rp.f32 %0, %1;" : "=f"(f32) : "f"(2.1f)), FLOAT_CMP(f32, sqrt(2.1f)));
+  CHECK(7, asm("sqrt.rn.f64 %0, %1;" : "=d"(f64) : "d"(2.1)), FLOAT_CMP(f64, sqrt(2.1)));
+  CHECK(8, asm("sqrt.rz.f64 %0, %1;" : "=d"(f64) : "d"(2.1)), FLOAT_CMP(f64, sqrt(2.1)));
+  CHECK(9, asm("sqrt.rm.f64 %0, %1;" : "=d"(f64) : "d"(2.1)), FLOAT_CMP(f64, sqrt(2.1)));
+  CHECK(10, asm("sqrt.rp.f64 %0, %1;" : "=d"(f64) : "d"(2.1)), FLOAT_CMP(f64, sqrt(2.1)));
+  return 0;
+}
+
+__device__ int testp() {
+  int pred = 0;
+  { asm(".reg .pred p1; testp.finite.f32 p1, %1;  @p1 mov.s32 %0, 1;" : "=r"(pred) : "f"(0.1f)); if (!pred) { return 1; } };
+  { asm(".reg .pred p2; testp.infinite.f32 p2, %1; @p2 mov.s32 %0, 1;" : "=r"(pred) : "f"(std::numeric_limits<float>::infinity())); if (!pred) { return 2; } };
+  { asm(".reg .pred p3; testp.number.f32 p3, %1; @p3 mov.s32 %0, 1;" : "=r"(pred) : "f"(9.7f)); if (!pred) { return 3; } };
+  { asm(".reg .pred p4; testp.notanumber.f32 p4, %1; @p4 mov.s32 %0, 1;" : "=r"(pred) : "f"(NAN)); if (!pred) { return 4; } };
+  { asm(".reg .pred p5; testp.normal.f32 p5, %1; @p5 mov.s32 %0, 1;" : "=r"(pred) : "f"(9.5f)); if (!pred) { return 5; } };
+  { asm(".reg .pred p6; testp.subnormal.f32 p6, %1; @p6 mov.s32 %0, 1;" : "=r"(pred) : "f"(0.1e-300f)); if (!pred) { return 6; } };
+  { asm(".reg .pred p7; testp.finite.f64 p7, %1; @p7 mov.s32 %0, 1;" : "=r"(pred) : "d"(0.1)); if (!pred) { return 1; } };
+  { asm(".reg .pred p8; testp.infinite.f64 p8, %1; @p8 mov.s32 %0, 1;" : "=r"(pred) : "d"(std::numeric_limits<double>::infinity())); if (!pred) { return 2; } };
+  { asm(".reg .pred p9; testp.number.f64 p9, %1; @p9 mov.s32 %0, 1;" : "=r"(pred) : "d"(9.7)); if (!pred) { return 3; } };
+  { asm(".reg .pred p10; testp.notanumber.f64 p10, %1; @p10 mov.s32 %0, 1;" : "=r"(pred) : "d"(double(NAN))); if (!pred) { return 4; } };
+  { asm(".reg .pred p11; testp.normal.f64 p11, %1; @p11 mov.s32 %0, 1;" : "=r"(pred) : "d"(9.5)); if (!pred) { return 5; } };
+  { asm(".reg .pred p12; testp.subnormal.f64 p12, %1; @p12 mov.s32 %0, 1;" : "=r"(pred) : "d"(0.1e-400)); if (!pred) { return 6; } };
+  return 0;
+}
+
 __device__ int dp2a() {
   int32_t i32;
   uint32_t u32;
@@ -468,6 +604,16 @@ __global__ void test(int *ec) {
   TEST(cnot);
   TEST(shl);
   TEST(shr);
+  TEST(asm_copysign);
+  TEST(asm_cos);
+  TEST(asm_sin);
+  TEST(asm_tanh);
+  TEST(asm_ex2);
+  TEST(asm_lg2);
+  TEST(sad);
+  TEST(asm_rsqrt);
+  TEST(asm_sqrt);
+  TEST(testp);
   TEST(brev);
   TEST(dp2a);
   TEST(dp4a);
