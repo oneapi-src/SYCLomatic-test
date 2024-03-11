@@ -90,6 +90,10 @@ def build_test():
         if not ret:
             print("Error during copying files cmake script depends on:", test_config.command_output)
 
+        ret += call_subprocess("cd out_root && git init && git add ./ && git commit -m \"raw migrated code\"")
+        if not ret:
+            print("Error during run git operation:", test_config.command_output)
+
         # Temporarily low the cmake minimum version required to 3.20.
         ret = call_subprocess("sed -i s/3.24/3.20/g ./out_root/CMakeLists.txt")
         if not ret:
