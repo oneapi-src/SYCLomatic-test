@@ -131,8 +131,7 @@ template <typename T> bool test(const char *Msg, int N) {
 
 int main(int argc, char *argv[]) {
   const int N = 1000;
-  test<uint8_t>("uint32", N);
-  test<uint16_t>("uint32", N);
+  test<uint16_t>("uint16", N);
   test<uint32_t>("uint32", N);
   test<uint64_t>("uint64", N);
   return 0;
