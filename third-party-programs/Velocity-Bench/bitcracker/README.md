@@ -113,7 +113,7 @@ void decrypt_vmk_with_mac(
 ```
 This message is shown because the Compatibility Tool finding the user-declared private memeory size of local variable in the kernel will exceed 128 bytes which is the largest register size for each work-item on the Intel® XE core when the sub-group size is 32. It may cause high register pressure.
 
-In **out/src/attack.dp.cpp**, the application defined 56 **uint32_t** type value, totally need 224 bytes memory which exceed the 128 bytes on the XE GPU vector engine register size. The migrated code didn't specify the sub group size, let compiler to determine the size. And user can explicitly specify the sub group size to 16 by ```[[intel::reqd_sub_group_size(16)]]``` after the submit function. Manually changing is add the reqd_sub_group_size:
+In **out/src/attack.dp.cpp**, the application defines 56 **uint32_t** type value, totally need 224 bytes memory which exceed the 128 bytes on the XE GPU vector engine register size. The migrated code have not specified the sub group size, let compiler to determine the size. And user can explicitly specify the sub group size to 16 by ```[[intel::reqd_sub_group_size(16)]]``` after the submit function. Manually changing is add the reqd_sub_group_size:
 ```
           cgh.parallel_for(
                 sycl::nd_range<3>(sycl::range<3>(1, 1, num_blocks) *
@@ -170,7 +170,7 @@ time to subtract from total: 0.0148924 s
 bitcracker - total time for whole calculation: 452.283 s
 ```
 **Note:**
-* The testing result was running on Intel(R) Core(TM) i7-13700K CPU backend with Intel® oneAPI Base Toolkit(2023.2 version).
+* The testing result was collected run on Intel(R) Core(TM) i7-13700K CPU backend with Intel® oneAPI Base Toolkit(2023.2 version).
 * The Reference migrated code is attached in **migrated** folder.
 
 If an error occurs during runtime, refer to [Diagnostics Utility for Intel® oneAPI Toolkits](https://www.intel.com/content/www/us/en/develop/documentation/diagnostic-utility-user-guide/top.html).
