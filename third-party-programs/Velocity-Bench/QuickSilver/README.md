@@ -18,7 +18,6 @@ This file lists the detail steps to migrate CUDA version of [QuickSilver](https:
 ```sh
    $ git clone https://github.com/oneapi-src/Velocity-Bench.git
    $ export QuickSilver_HOME=/path/to/Velocity-Bench/QuickSilver
-   $ cd ${QuickSilver_HOME}/CUDA/src
 ```
 Summary of QuickSilver project source code: totally 111 files.
 
@@ -47,7 +46,7 @@ Summary of QuickSilver project source code: totally 111 files.
 ```
 #### 1.2 Prepare migration tool and SYCL run environment
 
- * Install SYCL run environment [Intel® oneAPI Base Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html). After install, Intel® DPC++ Compatibility tool is also availalbe, setup the SYCL run environment as follow:
+ * Install SYCL run environment [Intel® oneAPI Base Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html). After installation, Intel® DPC++ Compatibility tool is also availalbe, setup the SYCL run environment as follow:
 
 ```
    $ source /opt/intel/oneapi/setvars.sh
@@ -108,9 +107,9 @@ Now you can see the migrated files in the `out` folder as follow:
    ```
 ### 4 Review the migrated source code and fix all `DPCT` warnings
 
-SYCLomatic and [Intel® DPC++ Compatibility Tool](https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-compatibility-tool.html) define a list of `DPCT` warnings and embed the warning in migrated source code if need manual effort to check. All the warnings in the migrated code should be reviewed and fixed. For detail of `DPCT` warnings and corresponding fix examples, refer to [Intel® DPC++ Compatibility Tool Developer Guide and Reference](https://www.intel.com/content/www/us/en/develop/documentation/intel-dpcpp-compatibility-tool-user-guide/top/diagnostics-reference.html) or [SYCLomatic doc page](https://oneapi-src.github.io/SYCLomatic/dev_guide/diagnostics-reference.html). 
+SYCLomatic and [Intel® DPC++ Compatibility Tool](https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-compatibility-tool.html) define a list of `DPCT` warnings and embed the warning in migrated source code if need manual effort to check. All the warnings in the migrated code should be reviewed and fixed. For details of `DPCT` warnings and corresponding fix examples, refer to [Intel® DPC++ Compatibility Tool Developer Guide and Reference](https://www.intel.com/content/www/us/en/develop/documentation/intel-dpcpp-compatibility-tool-user-guide/top/diagnostics-reference.html) or [SYCLomatic doc page](https://oneapi-src.github.io/SYCLomatic/dev_guide/diagnostics-reference.html). 
 
-The icpx supports c++17, so you need to update:
+c++17 is required to build SYCL code, so you need to update -std option as follow:
 ```
 $ grep "c++11" out/Makefile.dpct 
 TARGET_0_FLAG_0 = -DHAVE_CUDA -DHAVE_UVM=1 -std=c++11 -O3 ${FLAGS}
@@ -123,7 +122,6 @@ TARGET_0_FLAG_12 = -DHAVE_CUDA -DHAVE_UVM=1 -std=c++11 -O3 ${FLAGS}
 TARGET_0_FLAG_14 = -DHAVE_CUDA -DHAVE_UVM=1 -std=c++11 -O3 ${FLAGS}
 .................
 ```
-Some sycl header files depend on the c++17 feature, need to build with c++17.
 ```
 $ sed -i "s/c++11/c++17/g" ./out/Makefile.dpct
 ```
@@ -252,7 +250,7 @@ cycleFinalize                       20    3.690e+02    3.690e+02    3.690e+02   
 Figure Of Merit                  12.67 [Num Mega Segments / Cycle Tracking Time]
 ```
 **Note:** 
-* The testing result was running on Intel(R) Core(TM) i7-13700K CPU backend with Intel® oneAPI Base Toolkit(2023.2 version).
+* The testing result was collected when run on Intel(R) Core(TM) i7-13700K CPU backend with Intel® oneAPI Base Toolkit(2023.2 version).
 * The Reference migrated code is attached in **migrated** folder.
 
 If an error occurs during runtime, refer to [Diagnostics Utility for Intel® oneAPI Toolkits](https://www.intel.com/content/www/us/en/develop/documentation/diagnostic-utility-user-guide/top.html).
