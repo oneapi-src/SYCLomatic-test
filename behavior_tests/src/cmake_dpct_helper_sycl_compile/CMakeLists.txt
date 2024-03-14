@@ -4,13 +4,12 @@
 # LLVM-exception See https://llvm.org/LICENSE.txt for license information.
 #
 # ===----------------------------------------------------------------------===//
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.10)
 
 project(cuda_compile_sample)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl")
 
-find_package(IntelSYCL REQUIRED)
 find_program(
   DPCT_BIN_PATH
   NAMES dpct
