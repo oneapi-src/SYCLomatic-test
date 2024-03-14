@@ -51,7 +51,7 @@
     <test testName="thrust_reverse_copy" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_all_of" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust_none_of" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
-    <test testName="thrust_unique_count" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
+    <test testName="thrust_unique_count" configFile="config/TEMPLATE_thrust_unique_count.xml" />
     <test testName="thrust_is_partitioned" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust_is_sorted_until" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust_set_intersection" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
