@@ -18,7 +18,6 @@ This file lists the detail steps to migrate CUDA version of [hplinpack](https://
 ```sh
    $ git clone https://github.com/oneapi-src/Velocity-Bench.git
    $ export hplinpack_HOME=/path/to/Velocity-Bench/hplinpack
-   $ cd ${hplinpack_HOME}/cuda/hpl-2.3
 ```
 #### 1.2 Prepare migration tool and SYCL run environment
 
@@ -98,7 +97,7 @@ $ cat ${hplinpack_HOME}/CUDA/out/Makefile.dpct
 1015 $(TARGET_2_OBJ_1):$(TARGET_2_SRC_1)
 1016         $(CC) -c ${TARGET_2_SRC_1} -o ${TARGET_2_OBJ_1} $(TARGET_2_FLAG_1)
 ```
- **hplinpack** need to link the **mkl** libraries, **libdgemm.so.1.0.1** and **../lib/intel64/libhpl.a** in link time, so fix LIB variable as follow:
+ **hplinpack** needs to link the **mkl** libraries, **libdgemm.so.1.0.1** and **../lib/intel64/libhpl.a** in link time. And need to update the CC compiler from **icpx** to **mpicc**. Add **-lmpi**, **-fPIC** for LIB and FLAGS so fix LIB variable as follow:
 ```
 1 CC := mpicc
 2 
@@ -113,7 +112,7 @@ $ cat ${hplinpack_HOME}/CUDA/out/Makefile.dpct
 582 TARGET :=   ${TARGET_1} ${TARGET_2} ${TARGET_0}
 ......
 589 $(TARGET_0): $(OBJS_0)
-590         $(CC) -fsycl -o $@ $^ $(LIB) -qmkl libdgemm.so.1.0.1 ../lib/intel64/libhpl.a
+590         $(CC)  -o $@ $^ $(LIB) -qmkl libdgemm.so.1.0.1 ../lib/intel64/libhpl.a
 627
 628 $(TARGET_1): $(OBJS_1)
 629         ar -r $@ $^ $(LIB)
@@ -126,7 +125,7 @@ $ cat ${hplinpack_HOME}/CUDA/out/Makefile.dpct
 1013         $(CC) -c ${TARGET_2_SRC_0} -o ${TARGET_2_OBJ_0} $(TARGET_2_FLAG_0)
 1014
 1015 $(TARGET_2_OBJ_1):$(TARGET_2_SRC_1)
-1016         icpx -c  ${TARGET_2_SRC_1} -o ${TARGET_2_OBJ_1} $(TARGET_2_FLAG_1)
+1016         icpx -c -fsycl  ${TARGET_2_SRC_1} -o ${TARGET_2_OBJ_1} $(TARGET_2_FLAG_1)
 1017
 ```
 ### 5 Build the migrated hplinpack
@@ -224,7 +223,7 @@ Finished      2 tests with the following results:
 End of Tests.
 ```
 **Note:** 
-* The testing result was running on Intel(R) Core(TM) i7-13700K CPU backend with Intel® oneAPI Base Toolkit(2023.2 version).
+* The testing result was collected when run on Intel(R) Core(TM) i7-13700K CPU backend with Intel® oneAPI Base Toolkit(2023.2 version).
 * The Reference migrated code is attached in **migrated** folder.
 
 If an error occurs during runtime, refer to [Diagnostics Utility for Intel® oneAPI Toolkits](https://www.intel.com/content/www/us/en/develop/documentation/diagnostic-utility-user-guide/top.html).
