@@ -196,6 +196,7 @@
     <test testName="cub_block_p2" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_histgram" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_partition" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_reduce_sum" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_min" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_max" configFile="config/TEMPLATE_cub_device.xml"/>
