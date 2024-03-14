@@ -111,22 +111,8 @@ adjust the code, or use smaller sub-group size to avoid high register pressure.
 void decrypt_vmk_with_mac(
 ...
 ```
-This message is shown because the Compatibility Tool finding the user-declared private memeory size of local variable in the kernel will exceed 128 bytes which is the largest register size for each work-item on the Intel® XE core when the sub-group size is 32. It may cause high register pressure.
+This message is shown because the Compatibility Tool finding the user-declared private memeory size of local variable in the kernel may exceed 128 bytes which is the largest register size for each work-item. It may cause high register pressure. For more details, you can refer [oneAPI GPU Optimization Guide](https://www.intel.com/content/www/us/en/docs/oneapi/optimization-guide-gpu/2024-0/overview.html)
 
-In **out/src/attack.dp.cpp**, the application defines 56 **uint32_t** type value, totally need 224 bytes memory which exceed the 128 bytes on the XE GPU vector engine register size. The migrated code have not specified the sub group size, let compiler to determine the size. And user can explicitly specify the sub group size to 16 by ```[[intel::reqd_sub_group_size(16)]]``` after the submit function. Manually changing is add the reqd_sub_group_size:
-```
-          cgh.parallel_for(
-                sycl::nd_range<3>(sycl::range<3>(1, 1, num_blocks) *
-                                      sycl::range<3>(1, 1, block_size),
-                                  sycl::range<3>(1, 1, block_size)),
-                [=](sycl::nd_item<3> item_ct1) [[intel::reqd_sub_group_size(16)]] {
-                    decrypt_vmk_with_mac(
-                        num_read_pswd, d_found, d_vmk, d_vmkIV, d_mac, d_macIV,
-                        d_computedMacIV, v0, v1, v2, v3, s0, s1, s2, s3,
-                        d_pswd_uint32, d_w_words_uint32, item_ct1, TS0_ptr_ct1,
-                        TS1_ptr_ct1, TS2_ptr_ct1, TS3_ptr_ct1);
-                });
-```
 ### 5 Build the migrated bitcracker
 ```
 $ cd ${bitcracker_HOME}/CUDA/out
