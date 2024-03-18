@@ -310,7 +310,7 @@
     <test testName="constant_attr" configFile="config/TEMPLATE_constant_attr.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
     <test testName="image" configFile="config/TEMPLATE_image.xml" />
-    <!-- <test testName="text_experimental_build_only" configFile="config/TEMPLATE_image.xml" /> -->
+    <test testName="text_experimental_build_only" configFile="config/TEMPLATE_image.xml" />
     <test testName="text_experimental_build_only_before12" configFile="config/TEMPLATE_image_before_12.xml" />
     <!-- <test testName="text_experimental_obj_array" configFile="config/TEMPLATE_image.xml" /> -->
     <!-- <test testName="text_experimental_obj_linear" configFile="config/TEMPLATE_image.xml" /> -->
