@@ -45,6 +45,7 @@
     <test testName="thrust_system" configFile="config/TEMPLATE_thrust_exec_disable_noneusm.xml" />
     <test testName="thrust_stable_partition" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_random_type" configFile="config/TEMPLATE_thrust_api.xml" />
+    <test testName="thrust_advance_trans_op_itr" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_uninitialized_fill_n" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_swap_ranges" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust_reverse" configFile="config/TEMPLATE_thrust_api.xml" />
