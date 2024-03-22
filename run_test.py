@@ -465,7 +465,7 @@ def parse_input_args():
     parser.add_argument("--option", "-o", action = "store", default = "",
                     help = "The option applies to test. e.g.: -o option_cpu. Please ref the option_mapping.json")
     parser.add_argument("--device", '-d', action = "store", default = "",
-                    help = "Current support Gen9 and Gen12 backend device. e.g.: -d Gen9")
+                    help = "Current support Gen9, Gen12 and PVC backend device. e.g.: -d Gen9")
     args = parser.parse_args()
     if args.option and not args.suite:
         sys.stderr.write("Must specify the suite target to run.\n")
@@ -477,7 +477,7 @@ def parse_input_args():
         sys.stderr.write("Must specify the suite target to run.\n")
         exit(1)
     if args.device and args.device not in test_config.gpu_device:
-        sys.stderr.write("Only support Gen9 and Gen12 GPU device.\n")
+        sys.stderr.write("Only support Gen9, Gen12 and PVC GPU device.\n")
         exit(1)
     return args
 
