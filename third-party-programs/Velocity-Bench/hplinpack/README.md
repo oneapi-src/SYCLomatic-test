@@ -1,7 +1,7 @@
 # Migration example: Migrate hplinpack to SYCL version
 [SYCLomatic](https://github.com/oneapi-src/SYCLomatic) is a project to assist developers in migrating their existing code written in different programming languages to the SYCL* C++ heterogeneous programming model. It is open source version of Intel® DPC++ Compatibility Tool.
 
-This file lists the detail steps to migrate CUDA version of [hplinpack](https://github.com/oneapi-src/Velocity-Bench/tree/main/hplinpack) to SYCL version with SYCLomatic. As follow table summaries the migration environment, software required and so on.
+This file lists the detail steps to migrate CUDA version of [hplinpack](https://github.com/oneapi-src/Velocity-Bench/tree/main/hplinpack) to SYCL version with SYCLomatic. As follow table summarizes the migration environment, the software required, and so on.
 
    | Optimized for         | Description
    |:---                   |:---
@@ -21,13 +21,13 @@ This file lists the detail steps to migrate CUDA version of [hplinpack](https://
 ```
 #### 1.2 Prepare migration tool and SYCL run environment
 
- * Install SYCL run environment [Intel® oneAPI Base Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html). After install, Intel® DPC++ Compatibility tool is also availalbe, setup the SYCL run environment as follow:
+ * Install SYCL run environment [Intel® oneAPI Base Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html). After installation, the Intel® DPC++ Compatibility tool is also available, setup the SYCL run environment as follows:
 
 ```
    $ source /opt/intel/oneapi/setvars.sh
    $ dpct --version  # Intel® DPC++ Compatibility tool version
 ```
- * If want to try latest version of compatibility tool, try to install SYCLomatic by download prebuild of [SYCLomatic release](https://github.com/oneapi-src/SYCLomatic/blob/SYCLomatic/README.md#Releases) or [build from source](https://github.com/oneapi-src/SYCLomatic/blob/SYCLomatic/README.md), as follow give the steps to install prebuild version: 
+ * If want to try the latest version of the compatibility tool, try to install SYCLomatic by downloading prebuild of [SYCLomatic release](https://github.com/oneapi-src/SYCLomatic/blob/SYCLomatic/README.md#Releases) or [build from source](https://github.com/oneapi-src/SYCLomatic/blob/SYCLomatic/README.md), as follow give the steps to install prebuild version: 
  ```
    $ export SYCLomatic_HOME=/path/to/install/SYCLomatic
    $ mkdir $SYCLomatic_HOME
@@ -56,7 +56,7 @@ $ cd ${hplinpack_HOME}/cuda
 $ dpct --in-root=. -p=./hpl-2.3/compile_commands.json --out-root=out --gen-build-script --cuda-include-path=/usr/local/cuda/include
 ```
 Description of the options: 
- * `--in-root`: provide input files to specify where to locate the CUDA files that needs migration.
+ * `--in-root`: provide input files to specify where to locate the CUDA files that need migration.
  * `-p`: specify compilation database to migrate the whole project.
  * `--out-root`: designate where to generate the resulting files (default is `dpct_output`).
  * `--gen-build-script`: generate the `Makefile.dpct` for the migrated code.
@@ -238,5 +238,5 @@ If an error occurs during runtime, refer to [Diagnostics Utility for Intel® one
 
 
 ## Trademarks information
-Intel, the Intel logo, and other Intel marks are trademarks of Intel Corporation or its subsidiaries.<br>
+Intel, the Intel logo, and other Intel marks are trademarks of Intel Corporation or its subsidiaries.
 \*Other names and brands may be claimed as the property of others. SYCL is a trademark of the Khronos Group Inc.
