@@ -1,7 +1,7 @@
 # Migration example: Migrate QuickSilver to SYCL version
-[SYCLomatic](https://github.com/oneapi-src/SYCLomatic) is a project to assist developers in migrating their existing code written in different programming languages to the SYCL* C++ heterogeneous programming model. It is an open source version of Intel® DPC++ Compatibility Tool.
+[SYCLomatic](https://github.com/oneapi-src/SYCLomatic) is a project to assist developers in migrating their existing code written in different programming languages to the SYCL* C++ heterogeneous programming model. It is an open-source version of the Intel® DPC++ Compatibility Tool.
 
-This file lists the detail steps to migrate CUDA version of [QuickSilver](https://github.com/oneapi-src/Velocity-Bench/tree/main/QuickSilver) to SYCL version with SYCLomatic. As follow table summaries the migration environment, software required and so on.
+This file lists the detailed steps to migrate CUDA version of [QuickSilver](https://github.com/oneapi-src/Velocity-Bench/tree/main/QuickSilver) to SYCL version with SYCLomatic. As follow table summarizes the migration environment, the software required, and so on.
 
    | Optimized for         | Description
    |:---                   |:---
@@ -81,8 +81,8 @@ $ cd ${QuickSilver_HOME}/CUDA
 $ dpct --in-root=. -p=./src/compile_commands.json --out-root=out --gen-build-script --cuda-include-path=/usr/local/cuda/include
 ```
 Description of the options: 
- * `--in-root`: provide input files to specify where to locate the CUDA files that needs migration.
- * `-p`: specify compilation database to migrate the whole project.
+ * `--in-root`: provide input files to specify where to locate the CUDA files that need migration.
+ * `-p`: specify the compilation database to migrate the whole project.
  * `--out-root`: designate where to generate the resulting files (default is `dpct_output`).
  * `--gen-build-script`: generate the `Makefile.dpct` for the migrated code.
 
@@ -210,7 +210,7 @@ CrossSection:
    E: 1
    nuBar: 2.4
 
-WARNING: The enviroment variable SYCL_DEVICE_FILTER is deprecated. Please use ONEAPI_DEVICE_SELECTOR instead.
+WARNING: The environment variable SYCL_DEVICE_FILTER is deprecated. Please use ONEAPI_DEVICE_SELECTOR instead.
 For more details, please refer to:
 https://github.com/intel/llvm/blob/sycl/sycl/doc/EnvironmentVariables.md#oneapi_device_selector
 
@@ -265,5 +265,5 @@ If an error occurs during runtime, refer to [Diagnostics Utility for Intel® one
 
 
 ## Trademarks information
-Intel, the Intel logo, and other Intel marks are trademarks of Intel Corporation or its subsidiaries.<br>
+Intel, the Intel logo, and other Intel marks are trademarks of Intel Corporation or its subsidiaries.
 \*Other names and brands may be claimed as the property of others. SYCL is a trademark of the Khronos Group Inc.
