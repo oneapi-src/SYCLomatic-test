@@ -1,7 +1,7 @@
 # Migration example: Migrate hplinpack to SYCL version
-[SYCLomatic](https://github.com/oneapi-src/SYCLomatic) is a project to assist developers in migrating their existing code written in different programming languages to the SYCL* C++ heterogeneous programming model. It is open source version of Intel® DPC++ Compatibility Tool.
+[SYCLomatic](https://github.com/oneapi-src/SYCLomatic) is a project to assist developers in migrating their existing code written in different programming languages to the SYCL* C++ heterogeneous programming model. It is an open source version of Intel® DPC++ Compatibility Tool.
 
-This file lists the detail steps to migrate CUDA version of [hplinpack](https://github.com/oneapi-src/Velocity-Bench/tree/main/hplinpack) to SYCL version with SYCLomatic. As follow table summarizes the migration environment, the software required, and so on.
+This file lists the detailed steps to migrate CUDA version of [hplinpack](https://github.com/oneapi-src/Velocity-Bench/tree/main/hplinpack) to SYCL version with SYCLomatic. As follow table summarizes the migration environment, the software required, and so on.
 
    | Optimized for         | Description
    |:---                   |:---
@@ -21,7 +21,7 @@ This file lists the detail steps to migrate CUDA version of [hplinpack](https://
 ```
 #### 1.2 Prepare migration tool and SYCL run environment
 
- * Install SYCL run environment [Intel® oneAPI Base Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html). After installation, the Intel® DPC++ Compatibility tool is also available, setup the SYCL run environment as follows:
+ * Install SYCL run environment [Intel® oneAPI Base Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html). After installation, the Intel® DPC++ Compatibility tool is also available, set up the SYCL run environment as follows:
 
 ```
    $ source /opt/intel/oneapi/setvars.sh
@@ -66,7 +66,7 @@ Now you can see the migrated files in the `out` folder.
 
 SYCLomatic and [Intel® DPC++ Compatibility Tool](https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-compatibility-tool.html) define a list of `DPCT` warnings and embed the warning in migrated source code if need manual effort to check. All the warnings in the migrated code should be reviewed and fixed. For detail of `DPCT` warnings and corresponding fix examples, refer to [Intel® DPC++ Compatibility Tool Developer Guide and Reference](https://www.intel.com/content/www/us/en/develop/documentation/intel-dpcpp-compatibility-tool-user-guide/top/diagnostics-reference.html) or [SYCLomatic doc page](https://oneapi-src.github.io/SYCLomatic/dev_guide/diagnostics-reference.html). 
 
-Fix the warning in migrated hplinpack code:
+Fix the warning in the migrated hplinpack code:
 ```
 $ cat ${hplinpack_HOME}/CUDA/out/Makefile.dpct
 ...
@@ -97,7 +97,7 @@ $ cat ${hplinpack_HOME}/CUDA/out/Makefile.dpct
 1015 $(TARGET_2_OBJ_1):$(TARGET_2_SRC_1)
 1016         $(CC) -c ${TARGET_2_SRC_1} -o ${TARGET_2_OBJ_1} $(TARGET_2_FLAG_1)
 ```
- **hplinpack** needs to link the **mkl** libraries, **libdgemm.so.1.0.1** and **../lib/intel64/libhpl.a** in link time. And need to update the CC compiler from **icpx** to **mpicc**. Add **-lmpi**, **-fPIC** for LIB and FLAGS so fix LIB variable as follow:
+ **hplinpack** needs to link the **mkl** libraries, **libdgemm.so.1.0.1** and **../lib/intel64/libhpl.a** in link time. And need to update the CC compiler from **icpx** to **mpicc**. Add **-lmpi**, **-fPIC** for LIB and FLAGS so fix the LIB variable as follows:
 ```
 1 CC := mpicc
 2 
