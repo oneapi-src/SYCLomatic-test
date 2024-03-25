@@ -1,5 +1,5 @@
 # Migration example: Migrate bitcracker to SYCL version
-[SYCLomatic](https://github.com/oneapi-src/SYCLomatic) is a project to assist developers in migrating their existing code written in different programming languages to the SYCL* C++ heterogeneous programming model. It is an open source version of Intel® DPC++ Compatibility Tool.
+[SYCLomatic](https://github.com/oneapi-src/SYCLomatic) is a project to assist developers in migrating their existing code written in different programming languages to the SYCL* C++ heterogeneous programming model. It is an open source version of the Intel® DPC++ Compatibility Tool.
 
 This file lists the detailed steps to migrate CUDA version of [bitcracker](https://github.com/oneapi-src/Velocity-Bench/tree/main/bitcracker) to SYCL version with SYCLomatic. As follow table summarizes the migration environment, the software required, and so on.
 
