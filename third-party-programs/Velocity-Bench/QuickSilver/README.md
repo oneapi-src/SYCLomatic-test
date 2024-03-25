@@ -19,7 +19,7 @@ This file lists the detailed steps to migrate CUDA version of [QuickSilver](http
    $ git clone https://github.com/oneapi-src/Velocity-Bench.git
    $ export QuickSilver_HOME=/path/to/Velocity-Bench/QuickSilver
 ```
-Summary of QuickSilver project source code: totally 111 files.
+Summary of QuickSilver project source code: total 111 files.
 
 ```
    CUDA
@@ -46,13 +46,13 @@ Summary of QuickSilver project source code: totally 111 files.
 ```
 #### 1.2 Prepare migration tool and SYCL run environment
 
- * Install SYCL run environment [Intel® oneAPI Base Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html). After installation, Intel® DPC++ Compatibility tool is also availalbe, setup the SYCL run environment as follow:
+ * Install SYCL run environment [Intel® oneAPI Base Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html). After installation, Intel® DPC++ Compatibility tool is also available, set up the SYCL run environment as follows:
 
 ```
    $ source /opt/intel/oneapi/setvars.sh
    $ dpct --version  # Intel® DPC++ Compatibility tool version
 ```
- * If want to try latest version of compatibility tool, try to install SYCLomatic by download prebuild of [SYCLomatic release](https://github.com/oneapi-src/SYCLomatic/blob/SYCLomatic/README.md#Releases) or [build from source](https://github.com/oneapi-src/SYCLomatic/blob/SYCLomatic/README.md), as follow give the steps to install prebuild version: 
+ * If want to try the latest version of the compatibility tool, try to install SYCLomatic by downloading prebuild of [SYCLomatic release](https://github.com/oneapi-src/SYCLomatic/blob/SYCLomatic/README.md#Releases) or [build from source](https://github.com/oneapi-src/SYCLomatic/blob/SYCLomatic/README.md), as follow give the steps to install prebuild version: 
  ```
    $ export SYCLomatic_HOME=/path/to/install/SYCLomatic
    $ mkdir $SYCLomatic_HOME
@@ -109,7 +109,7 @@ Now you can see the migrated files in the `out` folder as follow:
 
 SYCLomatic and [Intel® DPC++ Compatibility Tool](https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-compatibility-tool.html) define a list of `DPCT` warnings and embed the warning in migrated source code if need manual effort to check. All the warnings in the migrated code should be reviewed and fixed. For details of `DPCT` warnings and corresponding fix examples, refer to [Intel® DPC++ Compatibility Tool Developer Guide and Reference](https://www.intel.com/content/www/us/en/develop/documentation/intel-dpcpp-compatibility-tool-user-guide/top/diagnostics-reference.html) or [SYCLomatic doc page](https://oneapi-src.github.io/SYCLomatic/dev_guide/diagnostics-reference.html). 
 
-c++17 is required to build SYCL code, so you need to update -std option as follow:
+c++17 is required to build SYCL code, so you need to update -std option as follows:
 ```
 $ grep "c++11" out/Makefile.dpct 
 TARGET_0_FLAG_0 = -DHAVE_CUDA -DHAVE_UVM=1 -std=c++11 -O3 ${FLAGS}
