@@ -49,7 +49,7 @@ mkl_link_opt_win = ["mkl_sycl_dll.lib", "mkl_intel_ilp64_dll.lib", "mkl_sequenti
 
 mkl_comp_opt = ["-DMKL_ILP64"]
 
-gpu_device = ["Gen9", "Gen12"]
+gpu_device = ["Gen9", "Gen12", "PVC"]
 
 # The gpu support double kernel type.
-support_double_gpu = ["Gen9"]
+support_double_gpu = ["Gen9", "PVC"]
