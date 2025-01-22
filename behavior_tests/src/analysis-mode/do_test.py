@@ -32,18 +32,13 @@ def migrate_test():
                         ["APIs/Types - Medium manual effort for code fixing."],
                         ["lines of code", "will not be automatically migrated."],
                         ["APIs/Types - High manual effort for code fixing."],
-                        ["Total Project:"],
-                        ["lines of code", "will be automatically migrated."],
-                        ["APIs/Types - No manual effort."],
-                        ["APIs/Types - Low manual effort for checking and code fixing."],
-                        ["APIs/Types - Medium manual effort for code fixing."],
-                        ["lines of code", "will not be automatically migrated."],
-                        ["APIs/Types - High manual effort for code fixing."],
                         ["Library Dependencies of SYCL Project:"],
-                        ["oneAPI Math Kernel Library (oneMKL)"],
-                        ["oneAPI DPC++ Library (oneDPL)"],
-                        ["oneAPI Deep Neural Network Library (oneDNN)"],
-                        ["oneAPI Collective Communications Library (oneCCL)"]]
+                        ["The Intel oneAPI Math Kernel Library (oneMKL)"],
+                        ["The Intel oneAPI DPC++ Library (oneDPL)"],
+                        ["The Intel oneAPI Deep Neural Network Library (oneDNN)"],
+                        ["The Intel oneAPI Collective Communications Library (oneCCL)"],
+                        ["Unsupported APIs and Types:"],
+                        ["cudaDeviceGetPCIBusId Occurrences 1 times"]]
     
     ret_lines = test_config.command_output.splitlines()
     res = True

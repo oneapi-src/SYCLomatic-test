@@ -21,6 +21,7 @@ __global__ void kernel(int *a) {
 void foo() {
     int *a;
     size_t b, c;
+    cudaDeviceGetPCIBusId(nullptr, 0, 0);
     cudaMemGetInfo(&b, &c);
     cudaMalloc(&a, sizeof(int));
     cudaFree(a);
