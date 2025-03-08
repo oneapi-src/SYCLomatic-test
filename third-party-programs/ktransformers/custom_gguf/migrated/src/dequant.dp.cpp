@@ -7,6 +7,8 @@
  * Copyright (c) 2023-2024 The ggml authors
  * Copyright (c) 2024 by KVCache.AI, All Rights Reserved. 
  */
+
+#include "dequant.dp.hpp"
 #include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 #include <torch/library.h>

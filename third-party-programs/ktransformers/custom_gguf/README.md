@@ -76,16 +76,43 @@ pip install torch==2.7.0.dev20250305+xpu --extra-index-url https://download.pyto
 ```
 
 ### 4 Build the migrated ktransformers
-There 8 tests available in the current stage:
+There serveral tests available in the current stage:
 * 3 sycl tests to test single kernel (passed) in ./migrated/single_kernel_test
 * 4 sycl tests to test single kernel (results mismatch) in ./migrated/single_kernel_test_need_debug
 * 1 torch test to test dequantize_q8_0 in ./migrated/torch_test  
+* 9 pytorch test to test in ./migrated/python_test, passed with random generated input, compared with cpu calculation
+  * dequantize_f32
+  * dequantize_f16
+  * dequantize_q8_0
+  * dequantize_q2_k
+  * dequantize_q3_k
+  * dequantize_q4_k
+  * dequantize_q5_k
+  * dequantize_q6_k
+  * dequantize_iq4_xs
 
-You can select one - ${test_directory}/${test_name}, and compile it through
+For the c++ test, you can select one - ${test_directory}/${test_name}, and compile it through
 ```
 $ cd ${test_directory}
 $ source /opt/intel/oneapi/setvars.sh
 $ icpx -fsycl -I/opt/intel/oneapi/compiler/latest/include/sycl -I/~/workspace/xputorch/lib/python3.10/site-packages/torch/include -I/usr/include/python3.10 -I/~/workspace/xputorch/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -L/~/workspace/xputorch/lib/python3.10/site-packages/torch/lib -ltorch_xpu -ltorch_cpu -lc10_xpu -lc10 ${test_name} -o ${out_name}
+```
+
+For the python test, you need to bulid extension and run python test
+```
+$ source ~/workspace/xputorch/bin/activate
+$ source /opt/intel/oneapi/setvars.sh
+$ unset CPATH  # avoid duplicated headers in pytorch sycl
+$ cd third-party-programs/ktransformers/custom_gguf/migrated
+$ export CC=icpx
+$ export CXX=icpx
+$ source  $SYCLomatic_HOME/setvars.sh
+$ python3 setup.py build_ext --inplace
+
+# Run the pytest
+$ pip install pytest
+$ cd python_test
+$ ptest test_dequant.py 
 ```
 
 ### 5 Run migrated SYCL version ktransformers

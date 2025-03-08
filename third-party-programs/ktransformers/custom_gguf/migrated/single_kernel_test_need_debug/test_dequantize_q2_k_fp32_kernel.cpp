@@ -73,6 +73,16 @@ int main() {
         }
     }
 
+    // Print the input data
+    std::cout << "Input data:" << std::endl;
+    for (int i = 0; i < num_blocks; ++i) {
+        std::cout << "Block " << i << ":" << std::endl;
+        for (int j = 0; j < blk_size; ++j) {
+            std::cout << static_cast<int>(data[i * blk_size + j]) << " ";
+        }
+        std::cout << std::endl;
+    }
+
     // Create a SYCL queue
     queue q;
 
@@ -101,6 +111,17 @@ int main() {
     // Free device memory
     free(d_data, q);
     free(d_output, q);
+
+        // Print the output data
+    std::cout << "Output data:" << std::endl;
+    for (int i = 0; i < num_blocks; ++i) {
+        std::cout << "Block " << i << ":" << std::endl;
+        for (int j = 0; j < ele_per_blk; ++j) {
+            std::cout << output[i * ele_per_blk + j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
 
     // Check the results
     bool success = true;
