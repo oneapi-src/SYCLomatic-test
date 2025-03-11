@@ -114,6 +114,33 @@ void checkResult(const string &FuncName, const vector<__nv_bfloat162> &Inputs,
   checkResult(FuncName, FInputs, Expect, Result, precision);
 }
 
+void checkResult(const string &FuncName, const vector<float> &Inputs,
+                 const float2 &Expect, const float2 &Result,
+                 const int precision) {
+  cout << FuncName << "(" << Inputs[0] << "";
+  for (size_t i = 1; i < Inputs.size(); ++i) {
+    cout << ", " << Inputs[i];
+  }
+  cout << ") = " << fixed << setprecision(precision) << "{" << Result.x << ", "
+       << Result.y << "} (expect {" << Expect.x - pow(10, -precision) << " ~ "
+       << Expect.x + pow(10, -precision) << ", "
+       << Expect.y - pow(10, -precision) << " ~ "
+       << Expect.y + pow(10, -precision) << ")";
+  cout.unsetf(ios::fixed);
+  check(abs(Result.x - Expect.x) < pow(10, -precision) &&
+        abs(Result.y - Expect.y) < pow(10, -precision));
+}
+
+void checkResult(const string &FuncName, const vector<__nv_bfloat16> &Inputs,
+                 const __nv_bfloat162 &Expect, const float2 &Result,
+                 const int precision) {
+  vector<float> FInputs;
+  for (const auto &Iter : Inputs)
+    FInputs.emplace_back(__bfloat162float(Iter));
+  float2 FExpect{__bfloat162float(Expect.x), __bfloat162float(Expect.y)};
+  checkResult(FuncName, FInputs, FExpect, Result, precision);
+}
+
 __global__ void bfloat1622float2(float *const Result, __nv_bfloat162 Input1) {
   auto ret = __bfloat1622float2(Input1);
   Result[0] = ret.x;
@@ -1073,6 +1100,25 @@ void testUshort_as_bfloat16Cases(
   }
 }
 
+__global__ void make_bfloat162(float *const Result, __nv_bfloat16 Input1, __nv_bfloat16 Input2) {
+  auto ret = make_bfloat162(Input1, Input2);
+  Result[0] = __bfloat162float(ret.x);
+  Result[1] = __bfloat162float(ret.y);
+}
+
+void testMake_bfloat162Cases(
+    const vector<pair<pair<__nv_bfloat16, __nv_bfloat16>, pair<__nv_bfloat162, int>>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result) * 2);
+  for (const auto &TestCase : TestCases) {
+    make_bfloat162<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("make_bfloat162", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, {Result[0], Result[1]},
+                TestCase.second.second);
+  }
+}
+
 int main() {
   testBfloat1622float2Cases({
       {{-0.3, -0.5}, {{-0.30078125, -0.5}, 16}},
@@ -1541,6 +1587,12 @@ int main() {
       {3000, {0.00000000000000000000000000000007087422195345028, 47}},
       {1000, {0.0000000000000000000000000000000000013635734469538535, 52}},
       {62536, {-63382530011411470074835160268800.0, -16}},
+  });
+  testMake_bfloat162Cases({
+      {{-0.3, -0.4}, {{-0.300048828125, -0.39990234375}, 16}},
+      {{0, 0.7}, {{0, 0.7001953125}, 16}},
+      {{1, 100.6}, {{1, 100.625}, 14}},
+      {{100.6, 1}, {{100.625, 1}, 14}},
   });
   cout << "passed " << passed << "/" << passed + failed << " cases!" << endl;
   if (failed) {
