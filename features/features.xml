@@ -18,6 +18,7 @@
     <test testName="asm_membar_fence" configFile="config/TEMPLATE_asm_excluding_syclcompat.xml" />
     <test testName="asm_arith" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_optimize" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_cp" configFile="config/TEMPLATE_asm.xml" />
     <test testName="thrust-op" configFile="config/TEMPLATE_thrust_op.xml" />
     <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -336,9 +337,9 @@
     <test testName="text_experimental_build_only" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_experimental_build_only_before12" configFile="config/TEMPLATE_image_before_12.xml" />
     <test testName="text_experimental_obj_array" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
-    <test testName="text_experimental_obj_driver_api" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
+    <test testName="text_experimental_obj_driver_api" configFile="config/TEMPLATE_image_excluding_syclcompat_and_cuda.xml" />
     <test testName="text_experimental_obj_linear" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
-    <test testName="text_experimental_obj_memcpy2d_api" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
+    <test testName="text_experimental_obj_memcpy2d_api" configFile="config/TEMPLATE_image_excluding_syclcompat_and_cuda.xml" />
     <test testName="text_experimental_obj_memcpy3d_api" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_experimental_obj_mipmap" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_experimental_obj_peer_api" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
