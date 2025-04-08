@@ -16,8 +16,10 @@
 using namespace std;
 
 typedef pair<__half2, __half2> half2_pair;
+typedef pair<__nv_half2, __nv_half2> nv_half2_pair;
 typedef vector<__half2> half2_vector;
 typedef pair<__half2, int> h2i_pair;
+typedef pair<__half2, int> nv_h2i_pair;
 
 int passed = 0;
 int failed = 0;
@@ -64,6 +66,23 @@ __global__ void hadd2_rn(float *const Result, __half2 Input1, __half2 Input2) {
   auto ret = __hadd2_rn(Input1, Input2);
   Result[0] = __low2float(ret);
   Result[1] = __high2float(ret);
+}
+
+__global__ void nv_hadd2_rn(float *const Result, __nv_half2 Input1, __nv_half2 Input2) {
+  auto ret = __hadd2_rn(Input1, Input2);
+  Result[0] = __low2float(ret);
+  Result[1] = __high2float(ret);
+}
+void testHadd2_rnCases_2(const vector<pair<nv_half2_pair, nv_h2i_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, 2 * sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    nv_hadd2_rn<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("nv__hadd2_rn", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, {Result[0], Result[1]},
+                TestCase.second.second);
+  }
 }
 
 void testHadd2_rnCases(const vector<pair<half2_pair, h2i_pair>> &TestCases) {
@@ -281,6 +300,13 @@ void testHmin2_nanCases(const vector<pair<half2_pair, h2i_pair>> &TestCases) {
 
 int main() {
   testHadd2_rnCases({
+      {{{-0.3, -0.5}, {-0.4, -0.6}}, {{-0.7001953125, -1.099609375}, 15}},
+      {{{0.3, 0.5}, {-0.4, 0.6}}, {{-0.099853515625, 1.099609375}, 15}},
+      {{{0.3, 0.5}, {0.4, 0.2}}, {{0.7001953125, 0.7001953125}, 16}},
+      {{{0.3, 0.5}, {0.4, 0.6}}, {{0.7001953125, 1.099609375}, 15}},
+      {{{3, 5}, {4, 6}}, {{7, 11}, 15}},
+  });
+  testHadd2_rnCases_2({
       {{{-0.3, -0.5}, {-0.4, -0.6}}, {{-0.7001953125, -1.099609375}, 15}},
       {{{0.3, 0.5}, {-0.4, 0.6}}, {{-0.099853515625, 1.099609375}, 15}},
       {{{0.3, 0.5}, {0.4, 0.2}}, {{0.7001953125, 0.7001953125}, 16}},

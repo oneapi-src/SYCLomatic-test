@@ -25,6 +25,7 @@ void test1() {
 
   const int id = properties.pciDeviceID;
   const cudaUUID_t uuid = properties.uuid;
+  int unifiedAddr = properties.unifiedAddressing;
   auto maxTexture1D = properties.maxTexture1D;
   auto maxTexture2D = properties.maxTexture2D;
   auto maxTexture3D = properties.maxTexture3D;
