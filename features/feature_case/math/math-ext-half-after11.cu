@@ -16,6 +16,7 @@
 using namespace std;
 
 typedef pair<__half, int> hi_pair;
+typedef pair<__nv_half, int> nv_hi_pair;
 
 int passed = 0;
 int failed = 0;
@@ -60,9 +61,24 @@ void checkResult(const string &FuncName, const vector<__half> &Inputs,
 __global__ void hadd_rn(float *const Result, __half Input1, __half Input2) {
   *Result = __hadd_rn(Input1, Input2);
 }
+__global__ void hadd_rn_2(float *const Result, __nv_half Input1, __nv_half Input2) {
+  *Result = __hadd_rn(Input1, Input2);
+}
 
 void testHadd_rnCases(
     const vector<pair<pair<__half, __half>, hi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    hadd_rn<<<1, 1>>>(Result, TestCase.first.first, TestCase.first.second);
+    cudaDeviceSynchronize();
+    checkResult("__hadd_rn", {TestCase.first.first, TestCase.first.second},
+                TestCase.second.first, *Result, TestCase.second.second);
+  }
+}
+
+void testHadd_rnCases_2(
+    const vector<pair<pair<__nv_half, __nv_half>, nv_hi_pair>> &TestCases) {
   float *Result;
   cudaMallocManaged(&Result, sizeof(*Result));
   for (const auto &TestCase : TestCases) {
@@ -227,6 +243,13 @@ void testHmin_nanCases(
 
 int main() {
   testHadd_rnCases({
+      {{-0.3, -0.4}, {-0.7001953125, 16}},
+      {{0.3, -0.4}, {-0.099853515625, 17}},
+      {{0.3, 0.4}, {0.7001953125, 16}},
+      {{0.3, 0.8}, {1.099609375, 15}},
+      {{3, 4}, {7, 15}},
+  });
+  testHadd_rnCases_2({
       {{-0.3, -0.4}, {-0.7001953125, 16}},
       {{0.3, -0.4}, {-0.099853515625, 17}},
       {{0.3, 0.4}, {0.7001953125, 16}},
