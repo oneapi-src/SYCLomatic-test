@@ -21,7 +21,7 @@ __device__ uint16_t convertToU16(__nv_bfloat16 value) {
 }
 
 __device__ bool valuesAreClose(float a, float b, float epsilon = 0.05f) {
-  return (fabs(a - b) < epsilon);
+  return (fabsf(a - b) < epsilon);
 }
 
 __global__ void testMathFunctions(char *const TestResults) {

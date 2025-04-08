@@ -16,9 +16,15 @@
     <test testName="asm_shfl" configFile="config/TEMPLATE_asm_excluding_syclcompat.xml" />
     <test testName="asm_shfl_sync_with_exp" configFile="config/TEMPLATE_asm_excluding_syclcompat.xml" />
     <test testName="asm_membar_fence" configFile="config/TEMPLATE_asm_excluding_syclcompat.xml" />
+    <test testName="asm_prmt" configFile="config/TEMPLATE_asm_excluding_syclcompat.xml" />
     <test testName="asm_arith" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_optimize" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_cp" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_st" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_brkpt" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_sub" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_add" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_cvt" configFile="config/TEMPLATE_asm.xml" />
     <test testName="thrust-op" configFile="config/TEMPLATE_thrust_op.xml" />
     <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
