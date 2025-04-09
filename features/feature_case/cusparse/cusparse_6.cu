@@ -244,8 +244,229 @@ void test_cusparseTcsrsv2() {
   }
 }
 
+// 2*A*B + 3*D = C
+//
+// 2 * | 0 1 2 |   | 1 0 0 0 | + 3 * | 1 0 0 0 |   | 4 6 20 24 | + | 3  0  0 0  | = | 7  6  20 24 |
+//     | 0 0 3 | * | 2 3 0 0 |       | 5 6 0 0 | = | 0 0 30 36 |   | 15 18 0 0  |   | 15 18 30 36 |
+//     | 4 0 0 |   | 0 0 5 6 |       | 0 0 0 7 |   | 8 0 0  0  |   | 0  0  0 21 |   | 8  0  0  21 |
+void test_cusparseTcsrgemm2() {
+  std::vector<float> a_val_vec = {1, 2, 3, 4};
+  Data<float> a_s_val(a_val_vec.data(), 4);
+  Data<double> a_d_val(a_val_vec.data(), 4);
+  Data<float2> a_c_val(a_val_vec.data(), 4);
+  Data<double2> a_z_val(a_val_vec.data(), 4);
+  std::vector<float> a_row_ptr_vec = {0, 2, 3, 4};
+  Data<int> a_row_ptr(a_row_ptr_vec.data(), 4);
+  std::vector<float> a_col_ind_vec = {1, 2, 2, 0};
+  Data<int> a_col_ind(a_col_ind_vec.data(), 4);
+
+  std::vector<float> b_val_vec = {1, 2, 3, 5, 6};
+  Data<float> b_s_val(b_val_vec.data(), 5);
+  Data<double> b_d_val(b_val_vec.data(), 5);
+  Data<float2> b_c_val(b_val_vec.data(), 5);
+  Data<double2> b_z_val(b_val_vec.data(), 5);
+  std::vector<float> b_row_ptr_vec = {0, 1, 3, 5};
+  Data<int> b_row_ptr(b_row_ptr_vec.data(), 4);
+  std::vector<float> b_col_ind_vec = {0, 0, 1, 2, 3};
+  Data<int> b_col_ind(b_col_ind_vec.data(), 5);
+
+  std::vector<float> d_val_vec = {1, 5, 6, 7};
+  Data<float> d_s_val(d_val_vec.data(), 4);
+  Data<double> d_d_val(d_val_vec.data(), 4);
+  Data<float2> d_c_val(d_val_vec.data(), 4);
+  Data<double2> d_z_val(d_val_vec.data(), 4);
+  std::vector<float> d_row_ptr_vec = {0, 1, 3, 4};
+  Data<int> d_row_ptr(d_row_ptr_vec.data(), 4);
+  std::vector<float> d_col_ind_vec = {0, 0, 1, 3};
+  Data<int> d_col_ind(d_col_ind_vec.data(), 4);
+
+  float alpha = 2;
+  Data<float> alpha_s(&alpha, 1);
+  Data<double> alpha_d(&alpha, 1);
+  Data<float2> alpha_c(&alpha, 1);
+  Data<double2> alpha_z(&alpha, 1);
+
+  float beta = 3;
+  Data<float> beta_s(&beta, 1);
+  Data<double> beta_d(&beta, 1);
+  Data<float2> beta_c(&beta, 1);
+  Data<double2> beta_z(&beta, 1);
+
+  cusparseHandle_t handle;
+  cusparseCreate(&handle);
+
+  cusparseSetPointerMode(handle, CUSPARSE_POINTER_MODE_DEVICE);
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_row_ptr.H2D();
+  a_col_ind.H2D();
+  b_s_val.H2D();
+  b_d_val.H2D();
+  b_c_val.H2D();
+  b_z_val.H2D();
+  b_row_ptr.H2D();
+  b_col_ind.H2D();
+  d_s_val.H2D();
+  d_d_val.H2D();
+  d_c_val.H2D();
+  d_z_val.H2D();
+  d_row_ptr.H2D();
+  d_col_ind.H2D();
+  alpha_s.H2D();
+  alpha_d.H2D();
+  alpha_c.H2D();
+  alpha_z.H2D();
+  beta_s.H2D();
+  beta_d.H2D();
+  beta_c.H2D();
+  beta_z.H2D();
+
+  csrgemm2Info_t info_s;
+  csrgemm2Info_t info_d;
+  csrgemm2Info_t info_c;
+  csrgemm2Info_t info_z;
+  cusparseCreateCsrgemm2Info(&info_s);
+  cusparseCreateCsrgemm2Info(&info_d);
+  cusparseCreateCsrgemm2Info(&info_c);
+  cusparseCreateCsrgemm2Info(&info_z);
+
+  const int m = 3;
+  const int n = 4;
+  const int k = 3;
+  const int nnzA = 4;
+  const int nnzB = 5;
+  const int nnzD = 4;
+
+  cusparseMatDescr_t descrA;
+  cusparseCreateMatDescr(&descrA);
+  cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
+  cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
+  cusparseMatDescr_t descrB;
+  cusparseCreateMatDescr(&descrB);
+  cusparseSetMatType(descrB, CUSPARSE_MATRIX_TYPE_GENERAL);
+  cusparseSetMatIndexBase(descrB, CUSPARSE_INDEX_BASE_ZERO);
+  cusparseMatDescr_t descrC;
+  cusparseCreateMatDescr(&descrC);
+  cusparseSetMatType(descrC, CUSPARSE_MATRIX_TYPE_GENERAL);
+  cusparseSetMatIndexBase(descrC, CUSPARSE_INDEX_BASE_ZERO);
+  cusparseMatDescr_t descrD;
+  cusparseCreateMatDescr(&descrD);
+  cusparseSetMatType(descrD, CUSPARSE_MATRIX_TYPE_GENERAL);
+  cusparseSetMatIndexBase(descrD, CUSPARSE_INDEX_BASE_ZERO);
+
+  size_t ws_1_size_s = 0;
+  size_t ws_1_size_d = 0;
+  size_t ws_1_size_c = 0;
+  size_t ws_1_size_z = 0;
+  cusparseScsrgemm2_bufferSizeExt(handle, m, n, k, alpha_s.d_data, descrA, nnzA, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_row_ptr.d_data, b_col_ind.d_data, beta_s.d_data, descrD, nnzD, d_row_ptr.d_data, d_col_ind.d_data, info_s, &ws_1_size_s);
+  cusparseDcsrgemm2_bufferSizeExt(handle, m, n, k, alpha_d.d_data, descrA, nnzA, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_row_ptr.d_data, b_col_ind.d_data, beta_d.d_data, descrD, nnzD, d_row_ptr.d_data, d_col_ind.d_data, info_d, &ws_1_size_d);
+  cusparseCcsrgemm2_bufferSizeExt(handle, m, n, k, alpha_c.d_data, descrA, nnzA, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_row_ptr.d_data, b_col_ind.d_data, beta_c.d_data, descrD, nnzD, d_row_ptr.d_data, d_col_ind.d_data, info_c, &ws_1_size_c);
+  cusparseZcsrgemm2_bufferSizeExt(handle, m, n, k, alpha_z.d_data, descrA, nnzA, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_row_ptr.d_data, b_col_ind.d_data, beta_z.d_data, descrD, nnzD, d_row_ptr.d_data, d_col_ind.d_data, info_z, &ws_1_size_z);
+
+  void *ws_1_s = nullptr;
+  void *ws_1_d = nullptr;
+  void *ws_1_c = nullptr;
+  void *ws_1_z = nullptr;
+
+  cudaMalloc(&ws_1_s, ws_1_size_s);
+  cudaMalloc(&ws_1_d, ws_1_size_d);
+  cudaMalloc(&ws_1_c, ws_1_size_c);
+  cudaMalloc(&ws_1_z, ws_1_size_z);
+
+  Data<int> c_s_row_ptr(m + 1);
+  Data<int> c_d_row_ptr(m + 1);
+  Data<int> c_c_row_ptr(m + 1);
+  Data<int> c_z_row_ptr(m + 1);
+
+  Data<int> nnzC_s(1);
+  Data<int> nnzC_d(1);
+  Data<int> nnzC_c(1);
+  Data<int> nnzC_z(1);
+  cusparseXcsrgemm2Nnz(handle, m, n, k, descrA, nnzA, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_row_ptr.d_data, b_col_ind.d_data, descrD, nnzD, d_row_ptr.d_data, d_col_ind.d_data, descrC, c_s_row_ptr.d_data, nnzC_s.d_data, info_s, ws_1_s);
+  cusparseXcsrgemm2Nnz(handle, m, n, k, descrA, nnzA, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_row_ptr.d_data, b_col_ind.d_data, descrD, nnzD, d_row_ptr.d_data, d_col_ind.d_data, descrC, c_d_row_ptr.d_data, nnzC_d.d_data, info_d, ws_1_d);
+  cusparseXcsrgemm2Nnz(handle, m, n, k, descrA, nnzA, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_row_ptr.d_data, b_col_ind.d_data, descrD, nnzD, d_row_ptr.d_data, d_col_ind.d_data, descrC, c_c_row_ptr.d_data, nnzC_c.d_data, info_c, ws_1_c);
+  cusparseXcsrgemm2Nnz(handle, m, n, k, descrA, nnzA, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_row_ptr.d_data, b_col_ind.d_data, descrD, nnzD, d_row_ptr.d_data, d_col_ind.d_data, descrC, c_z_row_ptr.d_data, nnzC_z.d_data, info_z, ws_1_z);
+
+  cudaStreamSynchronize(0);
+
+  nnzC_s.D2H();
+  nnzC_d.D2H();
+  nnzC_c.D2H();
+  nnzC_z.D2H();
+
+  int nnzC_s_int = *(nnzC_s.h_data);
+  int nnzC_d_int = *(nnzC_d.h_data);
+  int nnzC_c_int = *(nnzC_c.h_data);
+  int nnzC_z_int = *(nnzC_z.h_data);
+
+  Data<float> c_s_val(nnzC_s_int);
+  Data<double> c_d_val(nnzC_d_int);
+  Data<float2> c_c_val(nnzC_c_int);
+  Data<double2> c_z_val(nnzC_z_int);
+  Data<int> c_s_col_ind(nnzC_s_int);
+  Data<int> c_d_col_ind(nnzC_d_int);
+  Data<int> c_c_col_ind(nnzC_c_int);
+  Data<int> c_z_col_ind(nnzC_z_int);
+
+  cusparseScsrgemm2(handle, m, n, k, alpha_s.d_data, descrA, nnzA, a_s_val.d_data, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_s_val.d_data, b_row_ptr.d_data, b_col_ind.d_data, beta_s.d_data, descrD, nnzD, d_s_val.d_data, d_row_ptr.d_data, d_col_ind.d_data, descrC, c_s_val.d_data, c_s_row_ptr.d_data, c_s_col_ind.d_data, info_s, ws_1_s);
+  cusparseDcsrgemm2(handle, m, n, k, alpha_d.d_data, descrA, nnzA, a_d_val.d_data, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_d_val.d_data, b_row_ptr.d_data, b_col_ind.d_data, beta_d.d_data, descrD, nnzD, d_d_val.d_data, d_row_ptr.d_data, d_col_ind.d_data, descrC, c_d_val.d_data, c_d_row_ptr.d_data, c_d_col_ind.d_data, info_d, ws_1_d);
+  cusparseCcsrgemm2(handle, m, n, k, alpha_c.d_data, descrA, nnzA, a_c_val.d_data, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_c_val.d_data, b_row_ptr.d_data, b_col_ind.d_data, beta_c.d_data, descrD, nnzD, d_c_val.d_data, d_row_ptr.d_data, d_col_ind.d_data, descrC, c_c_val.d_data, c_c_row_ptr.d_data, c_c_col_ind.d_data, info_c, ws_1_c);
+  cusparseZcsrgemm2(handle, m, n, k, alpha_z.d_data, descrA, nnzA, a_z_val.d_data, a_row_ptr.d_data, a_col_ind.d_data, descrB, nnzB, b_z_val.d_data, b_row_ptr.d_data, b_col_ind.d_data, beta_z.d_data, descrD, nnzD, d_z_val.d_data, d_row_ptr.d_data, d_col_ind.d_data, descrC, c_z_val.d_data, c_z_row_ptr.d_data, c_z_col_ind.d_data, info_z, ws_1_z);
+
+  cudaStreamSynchronize(0);
+
+  cudaFree(ws_1_s);
+  cudaFree(ws_1_d);
+  cudaFree(ws_1_c);
+  cudaFree(ws_1_z);
+  cusparseDestroyCsrgemm2Info(info_s);
+  cusparseDestroyCsrgemm2Info(info_d);
+  cusparseDestroyCsrgemm2Info(info_c);
+  cusparseDestroyCsrgemm2Info(info_z);
+  cusparseDestroy(handle);
+
+  c_s_val.D2H();
+  c_d_val.D2H();
+  c_c_val.D2H();
+  c_z_val.D2H();
+  c_s_row_ptr.D2H();
+  c_d_row_ptr.D2H();
+  c_c_row_ptr.D2H();
+  c_z_row_ptr.D2H();
+  c_s_col_ind.D2H();
+  c_d_col_ind.D2H();
+  c_c_col_ind.D2H();
+  c_z_col_ind.D2H();
+
+  float expect_c_val[10] = {7, 6, 20, 24, 15, 18, 30, 36, 8, 21};
+  float expect_c_row_ptr[4] = {0, 4, 8, 10};
+  float expect_c_col_ind[10] = {0, 1, 2, 3, 0, 1, 2, 3, 0, 3};
+  if (compare_result(expect_c_val, c_s_val.h_data, 10) &&
+      compare_result(expect_c_val, c_d_val.h_data, 10) &&
+      compare_result(expect_c_val, c_c_val.h_data, 10) &&
+      compare_result(expect_c_val, c_z_val.h_data, 10) &&
+      compare_result(expect_c_row_ptr, c_s_row_ptr.h_data, 4) &&
+      compare_result(expect_c_row_ptr, c_d_row_ptr.h_data, 4) &&
+      compare_result(expect_c_row_ptr, c_c_row_ptr.h_data, 4) &&
+      compare_result(expect_c_row_ptr, c_z_row_ptr.h_data, 4) &&
+      compare_result(expect_c_col_ind, c_s_col_ind.h_data, 10) &&
+      compare_result(expect_c_col_ind, c_d_col_ind.h_data, 10) &&
+      compare_result(expect_c_col_ind, c_c_col_ind.h_data, 10) &&
+      compare_result(expect_c_col_ind, c_z_col_ind.h_data, 10)
+    )
+    printf("Tcsrgemm2 pass\n");
+  else {
+    printf("Tcsrgemm2 fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_cusparseTcsrsv2();
+  test_cusparseTcsrgemm2();
 
   if (test_passed)
     return 0;
