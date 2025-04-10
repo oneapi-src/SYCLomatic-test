@@ -21,10 +21,12 @@
     <test testName="asm_optimize" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_cp" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_st" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_ld" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_brkpt" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_sub" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_add" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_cvt" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_mul" configFile="config/TEMPLATE_asm.xml" />
     <test testName="thrust-op" configFile="config/TEMPLATE_thrust_op.xml" />
     <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -216,6 +218,7 @@
     <test testName="cub_block_p2" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
     <test testName="cub_block_store" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
     <test testName="cub_block_exchange" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
+    <test testName="cub_block_exchange2" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
     <test testName="cub_block_radix_sort" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
     <test testName="cub_block_shuffle" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />    
     <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
