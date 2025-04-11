@@ -829,11 +829,185 @@ void test_cusparseTcsrgemm2() {
   }
 }
 
+// 3*3     3*2             3*2
+// op(A) * op(X) = alpha * op(B)
+// 1 0 0   1 4       1   * 1  4
+// 0 2 0   2 5             4  10
+// 0 4 3   3 6             17 38
+void test_cusparseTcsrsm2() {
+  dpct::device_ext &dev_ct1 = dpct::get_current_device();
+  sycl::queue &q_ct1 = dev_ct1.in_order_queue();
+  const int nrhs = 2;
+  const int m = 3;
+  const int nnz = 4;
+
+  std::vector<float> a_val_vec = {1, 2, 4, 3};
+  Data<float> a_s_val(a_val_vec.data(), 4);
+  Data<double> a_d_val(a_val_vec.data(), 4);
+  Data<sycl::float2> a_c_val(a_val_vec.data(), 4);
+  Data<sycl::double2> a_z_val(a_val_vec.data(), 4);
+  std::vector<float> a_row_ptr_vec = {0, 1, 2, 4};
+  Data<int> a_row_ptr_s(a_row_ptr_vec.data(), 4);
+  Data<int> a_row_ptr_d(a_row_ptr_vec.data(), 4);
+  Data<int> a_row_ptr_c(a_row_ptr_vec.data(), 4);
+  Data<int> a_row_ptr_z(a_row_ptr_vec.data(), 4);
+  std::vector<float> a_col_ind_vec = {0, 1, 1, 2};
+  Data<int> a_col_ind_s(a_col_ind_vec.data(), 4);
+  Data<int> a_col_ind_d(a_col_ind_vec.data(), 4);
+  Data<int> a_col_ind_c(a_col_ind_vec.data(), 4);
+  Data<int> a_col_ind_z(a_col_ind_vec.data(), 4);
+
+  std::vector<float> b_vec = {1, 4, 4, 10, 17, 38};
+  Data<float> b_s(b_vec.data(), m * nrhs);
+  Data<double> b_d(b_vec.data(), m * nrhs);
+  Data<sycl::float2> b_c(b_vec.data(), m * nrhs);
+  Data<sycl::double2> b_z(b_vec.data(), m * nrhs);
+
+  dpct::sparse::descriptor_ptr handle;
+  handle = new dpct::sparse::descriptor();
+  std::shared_ptr<dpct::sparse::optimize_info> info_s;
+  std::shared_ptr<dpct::sparse::optimize_info> info_d;
+  std::shared_ptr<dpct::sparse::optimize_info> info_c;
+  std::shared_ptr<dpct::sparse::optimize_info> info_z;
+  info_s = std::make_shared<dpct::sparse::optimize_info>();
+  info_d = std::make_shared<dpct::sparse::optimize_info>();
+  info_c = std::make_shared<dpct::sparse::optimize_info>();
+  info_z = std::make_shared<dpct::sparse::optimize_info>();
+  int policy = 1;
+  policy = 0;
+
+  std::shared_ptr<dpct::sparse::matrix_info> descrA;
+  descrA = std::make_shared<dpct::sparse::matrix_info>();
+  descrA->set_index_base(oneapi::mkl::index_base::zero);
+  descrA->set_matrix_type(dpct::sparse::matrix_info::matrix_type::tr);
+  descrA->set_diag(oneapi::mkl::diag::nonunit);
+  descrA->set_uplo(oneapi::mkl::uplo::lower);
+
+  a_s_val.H2D();
+  a_d_val.H2D();
+  a_c_val.H2D();
+  a_z_val.H2D();
+  a_row_ptr_s.H2D();
+  a_row_ptr_d.H2D();
+  a_row_ptr_c.H2D();
+  a_row_ptr_z.H2D();
+  a_col_ind_s.H2D();
+  a_col_ind_d.H2D();
+  a_col_ind_c.H2D();
+  a_col_ind_z.H2D();
+  b_s.H2D();
+  b_d.H2D();
+  b_c.H2D();
+  b_z.H2D();
+
+  float alpha_s = 1;
+  double alpha_d = 1;
+  sycl::float2 alpha_c = sycl::float2{1, 0};
+  sycl::double2 alpha_z = sycl::double2{1, 0};
+
+  size_t buffer_size_s;
+  size_t buffer_size_d;
+  size_t buffer_size_c;
+  size_t buffer_size_z;
+  buffer_size_s = 0;
+  buffer_size_d = 0;
+  buffer_size_c = 0;
+  buffer_size_z = 0;
+
+  void* buffer_s;
+  void* buffer_d;
+  void* buffer_c;
+  void* buffer_z;
+  buffer_s = (void *)sycl::malloc_device(buffer_size_s, q_ct1);
+  buffer_d = (void *)sycl::malloc_device(buffer_size_d, q_ct1);
+  buffer_c = (void *)sycl::malloc_device(buffer_size_c, q_ct1);
+  buffer_z = (void *)sycl::malloc_device(buffer_size_z, q_ct1);
+
+  dpct::sparse::optimize_csrsm(
+      handle->get_queue(), oneapi::mkl::transpose::nontrans,
+      oneapi::mkl::transpose::trans, m, nrhs, descrA, (float *)a_s_val.d_data,
+      (int *)a_row_ptr_s.d_data, (int *)a_col_ind_s.d_data, info_s);
+  dpct::sparse::optimize_csrsm(
+      handle->get_queue(), oneapi::mkl::transpose::nontrans,
+      oneapi::mkl::transpose::trans, m, nrhs, descrA, (double *)a_d_val.d_data,
+      (int *)a_row_ptr_d.d_data, (int *)a_col_ind_d.d_data, info_d);
+  dpct::sparse::optimize_csrsm(
+      handle->get_queue(), oneapi::mkl::transpose::nontrans,
+      oneapi::mkl::transpose::trans, m, nrhs, descrA,
+      (sycl::float2 *)a_c_val.d_data, (int *)a_row_ptr_c.d_data,
+      (int *)a_col_ind_c.d_data, info_c);
+  dpct::sparse::optimize_csrsm(
+      handle->get_queue(), oneapi::mkl::transpose::nontrans,
+      oneapi::mkl::transpose::trans, m, nrhs, descrA,
+      (sycl::double2 *)a_z_val.d_data, (int *)a_row_ptr_z.d_data,
+      (int *)a_col_ind_z.d_data, info_z);
+
+  dpct::sparse::csrsm(handle->get_queue(), oneapi::mkl::transpose::nontrans,
+                      oneapi::mkl::transpose::trans, m, nrhs, &alpha_s, descrA,
+                      (float *)a_s_val.d_data, (int *)a_row_ptr_s.d_data,
+                      (int *)a_col_ind_s.d_data, (float *)b_s.d_data, nrhs,
+                      info_s);
+  dpct::sparse::csrsm(handle->get_queue(), oneapi::mkl::transpose::nontrans,
+                      oneapi::mkl::transpose::trans, m, nrhs, &alpha_d, descrA,
+                      (double *)a_d_val.d_data, (int *)a_row_ptr_d.d_data,
+                      (int *)a_col_ind_d.d_data, (double *)b_d.d_data, nrhs,
+                      info_d);
+  dpct::sparse::csrsm(handle->get_queue(), oneapi::mkl::transpose::nontrans,
+                      oneapi::mkl::transpose::trans, m, nrhs, &alpha_c, descrA,
+                      (sycl::float2 *)a_c_val.d_data, (int *)a_row_ptr_c.d_data,
+                      (int *)a_col_ind_c.d_data, (sycl::float2 *)b_c.d_data,
+                      nrhs, info_c);
+  dpct::sparse::csrsm(handle->get_queue(), oneapi::mkl::transpose::nontrans,
+                      oneapi::mkl::transpose::trans, m, nrhs, &alpha_z, descrA,
+                      (sycl::double2 *)a_z_val.d_data,
+                      (int *)a_row_ptr_z.d_data, (int *)a_col_ind_z.d_data,
+                      (sycl::double2 *)b_z.d_data, nrhs, info_z);
+
+  q_ct1.wait();
+
+  b_s.D2H();
+  b_d.D2H();
+  b_c.D2H();
+  b_z.D2H();
+
+  info_s.reset();
+  info_d.reset();
+  info_c.reset();
+  info_z.reset();
+  /*
+  DPCT1026:0: The call to cusparseDestroyMatDescr was removed because this
+  functionality is redundant in SYCL.
+  */
+  delete (handle);
+  dpct::dpct_free(buffer_s, q_ct1);
+  dpct::dpct_free(buffer_d, q_ct1);
+  dpct::dpct_free(buffer_c, q_ct1);
+  dpct::dpct_free(buffer_z, q_ct1);
+
+  std::cout << "Solution x: ";
+  for (int i = 0; i < m * nrhs; ++i) {
+    std::cout << b_s.h_data[i] << " ";
+  }
+  std::cout << std::endl;
+
+  float expect_x[6] = {1, 4, 2, 5, 3, 6};
+  if (compare_result(expect_x, b_s.h_data, 6) &&
+      compare_result(expect_x, b_d.h_data, 6) &&
+      compare_result(expect_x, b_c.h_data, 6) &&
+      compare_result(expect_x, b_z.h_data, 6))
+    printf("Tcsrsm2 pass\n");
+  else {
+    printf("Tcsrsm2 fail\n");
+    test_passed = false;
+  }
+}
+
 int main() {
   test_cusparseTcsrsv();
   test_cusparseTcsrsv2();
   test_cusparseTcsrmm2();
   test_cusparseTcsrgemm2();
+  test_cusparseTcsrsm2();
 
   if (test_passed)
     return 0;

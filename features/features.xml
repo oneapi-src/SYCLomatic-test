@@ -27,6 +27,7 @@
     <test testName="asm_add" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_cvt" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_mul" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_neg" configFile="config/TEMPLATE_asm.xml" />
     <test testName="thrust-op" configFile="config/TEMPLATE_thrust_op.xml" />
     <test testName="thrust-for-h2o4gpu" configFile="config/TEMPLATE_thrust_api.xml" />
     <test testName="thrust-vector" configFile="config/TEMPLATE_thrust_api.xml" />
@@ -219,6 +220,7 @@
     <test testName="cub_block_store" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
     <test testName="cub_block_load_store" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
     <test testName="cub_block_exchange" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
+    <test testName="cub_block_exchange2" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
     <test testName="cub_block_radix_sort" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
     <test testName="cub_block_shuffle" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />    
     <test testName="cub_device" configFile="config/TEMPLATE_cub_device.xml" />
@@ -308,6 +310,7 @@
     <test testName="cusparse_8" configFile="config/TEMPLATE_cusparse_after_101_skip_double.xml" splitGroup="double"/>
     <test testName="cusparse_9" configFile="config/TEMPLATE_cusparse_after_113_skip_double.xml" splitGroup="double"/>
     <test testName="cusparse_10" configFile="config/TEMPLATE_cusparse_after_112_cpu.xml"/>
+    <test testName="cusparse_11" configFile="config/TEMPLATE_cusparse_9_to_11_skip_double.xml" splitGroup="double"/>
     <test testName="cusolver_test1" configFile="config/TEMPLATE_solver.xml"  splitGroup="double"/>
     <test testName="cusolver_test2" configFile="config/TEMPLATE_solver_skip80.xml"  splitGroup="double"/>
     <test testName="cusolver_test3" configFile="config/TEMPLATE_solver_11.xml"  splitGroup="double"/>
