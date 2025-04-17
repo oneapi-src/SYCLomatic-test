@@ -4,6 +4,7 @@
     <description>test</description>
     <files>
         <file path="feature_case/codepin/${testName}.cu" />
+         <platformRule OSFamily="Windows" runOnThisPlatform="false" />
     </files>
     <rules />
 </test>
