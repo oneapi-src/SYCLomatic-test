@@ -245,6 +245,12 @@ int main() {
   oneapi::mkl::rng::sobol rng6(q, vec);
   test_sobol_with_set_direction_numbers(rng0, rng6);
 
+  rng0 = create_host_rng(random_engine_type::mcg59);
+  rng0->set_seed(seed);
+  rng0->set_queue(&q);
+  oneapi::mkl::rng::mcg59 rng7(q, seed);
+  test_engine(rng0, rng7);
+
   std::cout << "ret = " << ret << std::endl;
   return 0;
 }
