@@ -151,7 +151,7 @@ def migrate_test():
         src.append(' --use-experimental-features=bfloat16_math_functions ')
     if test_config.current_test == 'const_opt' or test_config.current_test == 'asm_optimize':
         src.append(' --optimize-migration ')
-    if test_config.current_test.startswith(('text_experimental_', 'graphics_interop_')):
+    if test_config.current_test.startswith(('text_experimental_', 'graphics_interop_')) or test_config.current_test == 'driverTex':
         src.append(' --use-experimental-features=bindless_images')
     if "codepin" in test_config.current_test:
         src.append(' --enable-codepin ')
