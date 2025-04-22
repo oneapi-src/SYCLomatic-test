@@ -11,7 +11,7 @@
 #include <dpct/blas_gemm_utils.hpp>
 #include <dpct/lib_common_utils.hpp>
 
-void foo1 () {
+void foo1() {
   dpct::blas_gemm::experimental::descriptor_ptr ltHandle;
   ltHandle = new dpct::blas_gemm::experimental::descriptor();
   delete (ltHandle);
@@ -24,12 +24,13 @@ void foo1 () {
   matLayout =
       new dpct::blas_gemm::experimental::matrix_layout_t(type, rows, cols, ld);
 
-  dpct::blas_gemm::experimental::matrix_layout_t::attribute attr1;
-  void *buf1;
+  dpct::blas_gemm::experimental::matrix_layout_t::attribute attr1 =
+      dpct::blas_gemm::experimental::matrix_layout_t::attribute::type;
+  dpct::library_data_t buf1;
   size_t sizeInBytes1;
   size_t *sizeWritten1;
-  matLayout->get_attribute(attr1, buf1);
-  matLayout->set_attribute(attr1, buf1);
+  matLayout->get_attribute(attr1, &buf1);
+  matLayout->set_attribute(attr1, &buf1);
   delete (matLayout);
 
   dpct::blas_gemm::experimental::matmul_desc_ptr matmulDesc;
@@ -38,12 +39,13 @@ void foo1 () {
   matmulDesc =
       new dpct::blas_gemm::experimental::matmul_desc_t(computeType, scaleType);
 
-  dpct::blas_gemm::experimental::matmul_desc_t::attribute attr2;
-  void *buf2;
+  dpct::blas_gemm::experimental::matmul_desc_t::attribute attr2 =
+      dpct::blas_gemm::experimental::matmul_desc_t::attribute::compute_type;
+  dpct::library_data_t buf2;
   size_t sizeInBytes2;
   size_t *sizeWritten2;
-  matmulDesc->get_attribute(attr2, buf2);
-  matmulDesc->set_attribute(attr2, buf2);
+  matmulDesc->get_attribute(attr2, &buf2);
+  matmulDesc->set_attribute(attr2, &buf2);
   delete (matmulDesc);
 
   int matmulPreference;
@@ -79,9 +81,11 @@ void foo2() {
   void *workspace;
   size_t workspaceSizeInBytes;
   dpct::queue_ptr stream;
-  dpct::blas_gemm::experimental::matmul(lightHandle, computeDesc, alpha, A,
-                                        Adesc, B, Bdesc, beta, C, Cdesc, D,
-                                        Ddesc, stream);
+  // Only test compilation
+  if (false)
+    dpct::blas_gemm::experimental::matmul(lightHandle, computeDesc, alpha, A,
+                                          Adesc, B, Bdesc, beta, C, Cdesc, D,
+                                          Ddesc, stream);
 }
 
 void foo3() {
@@ -143,8 +147,10 @@ void foo4() {
   void *C;
   dpct::blas_gemm::experimental::matrix_layout_ptr Cdesc;
   dpct::queue_ptr stream;
-  dpct::blas_gemm::experimental::matrix_transform(
-      transformDesc, alpha, A, Adesc, beta, B, Bdesc, C, Cdesc, stream);
+  // Only test compilation
+  if (false)
+    dpct::blas_gemm::experimental::matrix_transform(
+        transformDesc, alpha, A, Adesc, beta, B, Bdesc, C, Cdesc, stream);
 }
 
 int main() {
