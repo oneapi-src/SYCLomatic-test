@@ -1,0 +1,405 @@
+---
+MainSourceFile:  '/export/users/dahmed/dpct/SYCLomatic-test/MainSrcFiles_placehold'
+Replacements:
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          369
+    Length:          0
+    ReplacementText: "#include <sycl/sycl.hpp>\n#include <dpct/dpct.hpp>\n"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          491
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          526
+    Length:          0
+    ReplacementText: "auto item_ct1 = sycl::ext::oneapi::this_work_item::get_nd_item<3>();\n  "
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          535
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          549
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          562
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          616
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          657
+    Length:          0
+    ReplacementText: "auto item_ct1 = sycl::ext::oneapi::this_work_item::get_nd_item<3>();\n  "
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          666
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          680
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          693
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          760
+    Length:          0
+    ReplacementText: "\n  dpct::device_ext &dev_ct1 = dpct::get_current_device();\n  sycl::queue &q_ct1 = dev_ct1.in_order_queue();"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          764
+    Length:          11
+    ReplacementText: 'dpct::experimental::command_graph_ptr'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          786
+    Length:          12
+    ReplacementText: 'dpct::queue_ptr'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          810
+    Length:          25
+    ReplacementText: 'stream = dev_ct1.create_queue()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          864
+    Length:          36
+    ReplacementText: 'd_a = sycl::malloc_device<float>(10, q_ct1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          905
+    Length:          59
+    ReplacementText: 'dpct::experimental::begin_recording(stream)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          969
+    Length:          46
+    ReplacementText: "stream->parallel_for(\n    sycl::nd_range<3>(sycl::range<3>(1, 1, numBlocks) * sycl::range<3>(1, 1, blockSize), sycl::range<3>(1, 1, blockSize)), \n    [=](sycl::nd_item<3> item_ct1) {\n      init(d_a);\n    });"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1015
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1020
+    Length:          52
+    ReplacementText: "stream->parallel_for(\n    sycl::nd_range<3>(sycl::range<3>(1, 1, numBlocks) * sycl::range<3>(1, 1, blockSize), sycl::range<3>(1, 1, blockSize)), \n    [=](sycl::nd_item<3> item_ct1) {\n      incrementA(d_a);\n    });"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1072
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1077
+    Length:          36
+    ReplacementText: 'dpct::experimental::end_recording(stream, &graph)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1117
+    Length:          15
+    ReplacementText: 'dpct::experimental::command_graph_exec_ptr'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1146
+    Length:          54
+    ReplacementText: 'dpct::experimental::instantiate(&execGraph, graph)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1205
+    Length:          34
+    ReplacementText: 'dpct::experimental::launch(execGraph, stream)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1244
+    Length:          29
+    ReplacementText: 'stream->wait()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1322
+    Length:          64
+    ReplacementText: 'q_ct1.memcpy(h_a, d_a, 10 * sizeof(float)).wait()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1537
+    Length:          44
+    ReplacementText: 'dpct::experimental::get_nodes(graph, nullptr, &numNodes)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1597
+    Length:          15
+    ReplacementText: 'dpct::experimental::node_ptr'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1633
+    Length:          49
+    ReplacementText: 'dpct::experimental::get_nodes(graph, nodes.data(), &numNodes)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1743
+    Length:          52
+    ReplacementText: 'dpct::experimental::get_root_nodes(graph, nullptr, &numRootNodes)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1811
+    Length:          15
+    ReplacementText: 'dpct::experimental::node_ptr'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          1855
+    Length:          61
+    ReplacementText: 'dpct::experimental::get_root_nodes(graph, rootNodes.data(), &numRootNodes)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          2068
+    Length:          25
+    ReplacementText: 'dev_ct1.destroy_queue(stream)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          2097
+    Length:          13
+    ReplacementText: 'dpct::dpct_free(d_a, q_ct1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Offset:          2114
+    Length:          31
+    ReplacementText: 'delete (execGraph)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+MainSourceFilesDigest:
+  - MainSourceFile:  '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph/graph.cu'
+    Digest:          42dd7d6c6b02638f8c6af312ef9aaf1b
+    HasCUDASyntax:   true
+DpctVersion:     21.0.0
+SDKVersionMajor: '12'
+SDKVersionMinor: '3'
+MainHelperFileName: ''
+USMLevel:        ''
+FeatureMap:      {}
+CompileTargets:  {}
+OptionMap:
+  AnalysisScopePath:
+    Value:           ''
+    ValueVec:
+      - '/export/users/dahmed/dpct/SYCLomatic-test/features/feature_case/graph'
+    Specified:       false
+  AsyncHandler:
+    Value:           'false'
+    Specified:       false
+  BuildScript:
+    Value:           '0'
+    Specified:       false
+  CodePinEnabled:
+    Value:           'false'
+    Specified:       false
+  CommentsEnabled:
+    Value:           'false'
+    Specified:       false
+  CompilationsDir:
+    Value:           ''
+    Specified:       false
+  CtadEnabled:
+    Value:           'false'
+    Specified:       false
+  EnablepProfiling:
+    Value:           'false'
+    Specified:       false
+  ExperimentalFlag:
+    Value:           '4096'
+    Specified:       true
+  ExplicitNamespace:
+    Value:           '20'
+    Specified:       false
+  ExtensionDDFlag:
+    Value:           '0'
+    Specified:       false
+  ExtensionDEFlag:
+    Value:           '4294967295'
+    Specified:       false
+  HelperFuncPreferenceFlag:
+    Value:           '0'
+    Specified:       false
+  NDRangeDim:
+    Value:           '3'
+    Specified:       false
+  NoDRYPattern:
+    Value:           'false'
+    Specified:       false
+  OptimizeMigration:
+    Value:           'false'
+    Specified:       false
+  ProcessAll:
+    Value:           'false'
+    Specified:       false
+  RuleFile:
+    Value:           ''
+    Specified:       false
+  SyclNamedLambda:
+    Value:           'false'
+    Specified:       false
+  UseSYCLCompat:
+    Value:           'false'
+    Specified:       false
+  UsmLevel:
+    Value:           '1'
+    Specified:       false
+...

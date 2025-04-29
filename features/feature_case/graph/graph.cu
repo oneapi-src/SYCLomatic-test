@@ -61,7 +61,6 @@ int main() {
     }
   }
 
-  // Get all nodes in the graph
   size_t numNodes;
   cudaGraphGetNodes(graph, nullptr, &numNodes);
   std::vector<cudaGraphNode_t> nodes(numNodes);
@@ -83,6 +82,7 @@ int main() {
   cudaStreamDestroy(stream);
   cudaFree(d_a);
   cudaGraphExecDestroy(execGraph);
+  cudaGraphDestroy(graph);
 
   return 0;
 }
