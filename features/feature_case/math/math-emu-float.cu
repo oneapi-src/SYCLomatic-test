@@ -422,6 +422,78 @@ void testFmaf_rzCases(const vector<pair<vector<float>, fi_pair>> &TestCases) {
   }
 }
 
+__global__ void fmaf_ieee_rd(float *const Result, float Input1, float Input2,
+                             float Input3) {
+  *Result = __fmaf_ieee_rd(Input1, Input2, Input3);
+}
+
+void testFmaf_ieee_rdCases(
+    const vector<pair<vector<float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fmaf_ieee_rd<<<1, 1>>>(Result, TestCase.first[0], TestCase.first[1],
+                           TestCase.first[2]);
+    cudaDeviceSynchronize();
+    checkResult("__fmaf_ieee_rd", TestCase.first, TestCase.second.first,
+                *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fmaf_ieee_rn(float *const Result, float Input1, float Input2,
+                             float Input3) {
+  *Result = __fmaf_ieee_rn(Input1, Input2, Input3);
+}
+
+void testFmaf_ieee_rnCases(
+    const vector<pair<vector<float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fmaf_ieee_rn<<<1, 1>>>(Result, TestCase.first[0], TestCase.first[1],
+                           TestCase.first[2]);
+    cudaDeviceSynchronize();
+    checkResult("__fmaf_ieee_rn", TestCase.first, TestCase.second.first,
+                *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fmaf_ieee_ru(float *const Result, float Input1, float Input2,
+                             float Input3) {
+  *Result = __fmaf_ieee_ru(Input1, Input2, Input3);
+}
+
+void testFmaf_ieee_ruCases(
+    const vector<pair<vector<float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fmaf_ieee_ru<<<1, 1>>>(Result, TestCase.first[0], TestCase.first[1],
+                           TestCase.first[2]);
+    cudaDeviceSynchronize();
+    checkResult("__fmaf_ieee_ru", TestCase.first, TestCase.second.first,
+                *Result, TestCase.second.second);
+  }
+}
+
+__global__ void fmaf_ieee_rz(float *const Result, float Input1, float Input2,
+                             float Input3) {
+  *Result = __fmaf_ieee_rz(Input1, Input2, Input3);
+}
+
+void testFmaf_ieee_rzCases(
+    const vector<pair<vector<float>, fi_pair>> &TestCases) {
+  float *Result;
+  cudaMallocManaged(&Result, sizeof(*Result));
+  for (const auto &TestCase : TestCases) {
+    fmaf_ieee_rz<<<1, 1>>>(Result, TestCase.first[0], TestCase.first[1],
+                           TestCase.first[2]);
+    cudaDeviceSynchronize();
+    checkResult("__fmaf_ieee_rz", TestCase.first, TestCase.second.first,
+                *Result, TestCase.second.second);
+  }
+}
+
 __global__ void fmul_rd(float *const Result, float Input1, float Input2) {
   *Result = __fmul_rd(Input1, Input2);
 }
@@ -668,6 +740,36 @@ int main() {
       {{0.3, 0.4, 0}, {0.12000000476837158, 17}},
       {{3, 4, 5}, {17, 14}},
   });
+
+  testFmaf_ieee_rdCases({
+      {{-0.3, -0.4, -0.2}, {-0.07999999821186066, 17}},
+      {{0.3, -0.4, -0.1}, {-0.2200000137090683, 16}},
+      {{0.3, 0.4, 0.1}, {0.22, 7}},
+      {{0.3, 0.4, 0}, {0.12000000476837158, 17}},
+      {{3, 4, 5}, {17, 14}},
+  });
+  testFmaf_ieee_rnCases({
+      {{-0.3, -0.4, -0.2}, {-0.07999999821186066, 17}},
+      {{0.3, -0.4, -0.1}, {-0.2200000137090683, 16}},
+      {{0.3, 0.4, 0.1}, {0.2200000137090683, 16}},
+      {{0.3, 0.4, 0}, {0.12000000476837158, 17}},
+      {{3, 4, 5}, {17, 14}},
+  });
+  testFmaf_ieee_ruCases({
+      {{-0.3, -0.4, -0.2}, {-0.07999999, 8}},
+      {{0.3, -0.4, -0.1}, {-0.22, 7}},
+      {{0.3, 0.4, 0.1}, {0.2200000137090683, 16}},
+      {{0.3, 0.4, 0}, {0.12000001, 8}},
+      {{3, 4, 5}, {17, 14}},
+  });
+  testFmaf_ieee_rzCases({
+      {{-0.3, -0.4, -0.2}, {-0.07999999, 8}},
+      {{0.3, -0.4, -0.1}, {-0.22, 7}},
+      {{0.3, 0.4, 0.1}, {0.22, 7}},
+      {{0.3, 0.4, 0}, {0.12000000476837158, 17}},
+      {{3, 4, 5}, {17, 14}},
+  });
+
   testFmul_rdCases({
       {{-0.3, -0.4}, {0.12000000476837158, 17}},
       {{0.3, -0.4}, {-0.12000001, 8}},
