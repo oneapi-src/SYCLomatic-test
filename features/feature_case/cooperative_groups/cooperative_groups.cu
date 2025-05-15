@@ -28,7 +28,7 @@ bool verify_array(unsigned int *expected, unsigned int *res, unsigned int size) 
 __global__ void kernel(unsigned int *data, unsigned int *result) {
   cg::thread_block ttb = cg::this_thread_block();
   cg::thread_block_tile<8> tbt8 = cg::tiled_partition<8>(ttb);
-
+  auto thread_this = cg::this_thread();
   unsigned int temp = data[threadIdx.x];
   temp = tbt8.shfl_down(temp, 1);
   data[threadIdx.x] = temp;
