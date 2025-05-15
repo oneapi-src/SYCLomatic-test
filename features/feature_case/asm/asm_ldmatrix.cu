@@ -22,7 +22,7 @@
     }                                                                          \
   }
 
-__device__ void ldmatrix_x1(void *addr, int *r) {
+__device__ void ldmatrix_x1(void *addr, volatile int *r) {
     unsigned int addr_int = __cvta_generic_to_shared(addr);
 
     asm volatile("ldmatrix.sync.aligned.m8n8.x1.shared.b16 {%0}, [%1];\n"
@@ -30,7 +30,7 @@ __device__ void ldmatrix_x1(void *addr, int *r) {
                 : "r"(addr_int));
 }
 
-__device__ void ldmatrix_x2(void *addr, int *r) {
+__device__ void ldmatrix_x2(void *addr, volatile int *r) {
     unsigned int addr_int = __cvta_generic_to_shared(addr);
 
     asm volatile("ldmatrix.sync.aligned.m8n8.x2.shared.b16 {%0, %1}, [%2];\n"
@@ -38,7 +38,7 @@ __device__ void ldmatrix_x2(void *addr, int *r) {
                   : "r"(addr_int));
 }
 
-__device__ void ldmatrix_x4(void *addr, int *r) {
+__device__ void ldmatrix_x4(void *addr, volatile int *r) {
     unsigned int addr_int = __cvta_generic_to_shared(addr);
 
     asm volatile("ldmatrix.sync.aligned.m8n8.x4.shared.b16 {%0, %1, %2, %3}, [%4];\n"
@@ -46,7 +46,7 @@ __device__ void ldmatrix_x4(void *addr, int *r) {
                   : "r"(addr_int));
 }
 
-__device__ void ldmatrix_x1_trans(void *addr, int *r) {
+__device__ void ldmatrix_x1_trans(void *addr, volatile int *r) {
     unsigned int addr_int = __cvta_generic_to_shared(addr);
 
     asm volatile("ldmatrix.sync.aligned.m8n8.x1.trans.shared.b16 {%0}, [%1];\n"
@@ -54,7 +54,7 @@ __device__ void ldmatrix_x1_trans(void *addr, int *r) {
                   : "r"(addr_int));
 }
 
-__device__ void ldmatrix_x2_trans(void *addr, int *r) {
+__device__ void ldmatrix_x2_trans(void *addr, volatile int *r) {
     unsigned int addr_int = __cvta_generic_to_shared(addr);
 
     asm volatile("ldmatrix.sync.aligned.m8n8.x2.trans.shared.b16 {%0, %1}, [%2];\n"
@@ -62,7 +62,7 @@ __device__ void ldmatrix_x2_trans(void *addr, int *r) {
                   : "r"(addr_int));
 }
 
-__device__ void ldmatrix_x4_trans(void *addr, int *r) {
+__device__ void ldmatrix_x4_trans(void *addr, volatile int *r) {
     unsigned int addr_int = __cvta_generic_to_shared(addr);
 
     asm volatile("ldmatrix.sync.aligned.m8n8.x4.trans.shared.b16 {%0, %1, %2, %3}, [%4];\n"
@@ -90,7 +90,7 @@ __global__ void ldmatrix_kernel(half *input, half *output, const int ELEMENTS_PE
     row_offset += (8 * lane_id);
 
   void *addr = shared_data + row_offset;
-  int r[X];
+  volatile int r[X];
 
   if (TRANS) {
     if (X == 1)
