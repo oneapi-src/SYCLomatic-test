@@ -64,7 +64,7 @@ exec_tests = ['asm', 'asm_bar', 'asm_mem', 'asm_atom', 'asm_arith', 'asm_vinst',
               'thrust_advance_trans_op_itr', 'cuda_stream_query', "matmul", "matmul_2", "matmul_3", "transform",  "context_push_n_pop",
               "graphics_interop_d3d11", 'graph', 'asm_shfl', 'asm_shfl_sync', 'asm_shfl_sync_with_exp', 'asm_membar_fence',
               'cub_block_store', 'asm_red', 'asm_cp', 'asm_prmt', 'asm_brkpt', 'asm_add', 'asm_sub', 'asm_cvt', 'asm_st', 'asm_ld',
-              'asm_mul', 'asm_neg', 'asm_cvta']
+              'asm_mul', 'asm_neg', 'asm_cvta', 'pointer_attributes_usmnone']
 
 occupancy_calculation_exper = ['occupancy_calculation']
 
