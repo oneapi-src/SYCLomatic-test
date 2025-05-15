@@ -22,6 +22,7 @@
     <test testName="asm_cp" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_st" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_ld" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_ldmatrix" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_brkpt" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_sub" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_add" configFile="config/TEMPLATE_asm.xml" />
