@@ -22,6 +22,21 @@
     }                                                                          \
   }
 
+#define LAUNCH_TEST(TEST)                                                      \
+  if (!launch_test_##TEST) {                                                   \
+    return false;                                                              \
+  }
+
+
+template <int Shape_M, int Shape_N>
+void calculate_num_matrices(int M, int N, int &NUM_MATRICES) {
+  NUM_MATRICES = 0;
+
+  if (M % Shape_M == 0 && N % Shape_N == 0) {
+    NUM_MATRICES = (M * N) / (Shape_M * Shape_N);
+  }
+}
+
 __device__ void ldmatrix_x1(void *addr, volatile int *r) {
     unsigned int addr_int = __cvta_generic_to_shared(addr);
 
@@ -118,10 +133,10 @@ __global__ void ldmatrix_kernel(half *input, half *output, const int ELEMENTS_PE
   }
 }
 
-template <bool TRANS = false, int X = 1>
-bool run_test(const int ROWS, const int COLS, const int NUM_MATRICES) {
-  const int MATRIX_SIZE = ROWS * COLS;
-  const int TOTAL_ELEMENTS = NUM_MATRICES * MATRIX_SIZE;
+template <int Shape_M, int Shape_N, bool TRANS = false, int X = 1>
+bool run_test_ldmatrix_b16(const int ROWS, const int COLS, const int NUM_MATRICES) {
+  const int MATRIX_SIZE = Shape_M * Shape_N;
+  const int TOTAL_ELEMENTS = ROWS * COLS;
 
   // Allocate host memory for matrices
   half *h_input = new half[TOTAL_ELEMENTS];
@@ -145,9 +160,9 @@ bool run_test(const int ROWS, const int COLS, const int NUM_MATRICES) {
     int val = 0;
 
     for (int k = 0; k < NUM_MATRICES; k++) {
-      for (int c = 0; c < COLS; c++) {
-        for (int r = 0; r < ROWS; r++) {
-          exp_output[k * MATRIX_SIZE + r * COLS + c] = static_cast<half>(val++);
+      for (int c = 0; c < Shape_N; c++) {
+        for (int r = 0; r < Shape_M; r++) {
+          exp_output[k * MATRIX_SIZE + r * Shape_N + c] = static_cast<half>(val++);
         }
       }
     }
@@ -155,9 +170,9 @@ bool run_test(const int ROWS, const int COLS, const int NUM_MATRICES) {
     int val = 0;
 
     for (int k = 0; k < NUM_MATRICES; k++) {
-      for (int r = 0; r < ROWS; r++) {
-        for (int c = 0; c < COLS; c++) {
-          exp_output[k * MATRIX_SIZE + r * COLS + c] = static_cast<half>(val++);
+      for (int r = 0; r < Shape_M; r++) {
+        for (int c = 0; c < Shape_N; c++) {
+          exp_output[k * MATRIX_SIZE + r * Shape_N + c] = static_cast<half>(val++);
         }
       }
     }
@@ -166,7 +181,7 @@ bool run_test(const int ROWS, const int COLS, const int NUM_MATRICES) {
   // Copy input matrix to device
   cudaMemcpy(d_input, h_input, TOTAL_ELEMENTS * sizeof(half), cudaMemcpyHostToDevice);
 
-  int no_mat_block = NO_HALVES_PER_BLOCK / (8 * 8);
+  int no_mat_block = NO_HALVES_PER_BLOCK / (Shape_M * Shape_N);
   int no_blocks = NUM_MATRICES / no_mat_block;
   int no_threads;
   if (no_blocks) {
@@ -187,16 +202,16 @@ bool run_test(const int ROWS, const int COLS, const int NUM_MATRICES) {
 
   // Compare input & expected matrices data
   bool pass = true;
-  for (int k = 0; k < NUM_MATRICES; k++) {
-    for (int r = 0; r < ROWS; r++) {
-      for (int c = 0; c < COLS; c++) {
-        int index = k * MATRIX_SIZE + r * COLS + c;
+  for (int r = 0; r < ROWS; r++) {
+    for (int c = 0; c < COLS; c++) {
+      int index = r * COLS + c;
 
-        float out = __half2float(h_output[index]);
-        float exp_out = __half2float(exp_output[index]);
+      float out = __half2float(h_output[index]);
+      float exp_out = __half2float(exp_output[index]);
 
-        if (out != exp_out)
-          pass = false;
+      if (out != exp_out) {
+        std::cout << "Mismatch at index " << index << ": expected " << exp_out << ", got " << out << std::endl;
+        pass = false;
       }
     }
   }
@@ -210,68 +225,115 @@ bool run_test(const int ROWS, const int COLS, const int NUM_MATRICES) {
   return pass;
 }
 
-bool ldmatrix_m8n8_b16_x1() {
-  // Matrix dimensions
-  const int ROWS = 8;
-  const int COLS = 8;
-  const int NUM_MATRICES = 1;
+bool launch_test_ldmatrix_m8n8_b16_x1(const int M, const int N) {
+  int NUM_MATRICES;
+  calculate_num_matrices<8, 8>(M, N, NUM_MATRICES);
 
-  return run_test<false, 1>(ROWS, COLS, NUM_MATRICES);
+  if (NUM_MATRICES == 0) {
+    std::cerr << "Matrix dimensions are not compatible with m8n8.x1 (b16): " << M << ", " << N << std::endl;
+    return false;
+  }
+
+  bool correct;
+  correct = run_test_ldmatrix_b16<8, 8, false, 1>(M, N, NUM_MATRICES);
+  if (!correct) {
+    std::cerr << "m8n8.x1 (b16) failed for dims: " << M << ", " << N << std::endl;
+    return false;
+  }
+
+  correct = run_test_ldmatrix_b16<8, 8, true, 1>(M, N, NUM_MATRICES);
+  if (!correct) {
+    std::cerr << "m8n8.x1.trans (b16) failed for dims: " << M << ", " << N << std::endl;
+    return false;
+  }
+
+  return true;
+}
+
+bool launch_test_ldmatrix_m8n8_b16_x2(const int M, const int N) {
+  int NUM_MATRICES;
+  calculate_num_matrices<8, 8>(M, N, NUM_MATRICES);
+
+  if (NUM_MATRICES == 0) {
+    std::cerr << "Matrix dimensions are not compatible with m8n8.x2 (b16): " << M << ", " << N << std::endl;
+    return false;
+  }
+
+  bool correct;
+  correct = run_test_ldmatrix_b16<8, 8, false, 2>(M, N, NUM_MATRICES);
+  if (!correct) {
+    std::cerr << "m8n8.x2 (b16) failed for dims: " << M << ", " << N << std::endl;
+    return false;
+  }
+
+  correct = run_test_ldmatrix_b16<8, 8, true, 2>(M, N, NUM_MATRICES);
+  if (!correct) {
+    std::cerr << "m8n8.x2.trans (b16) failed for dims: " << M << ", " << N << std::endl;
+    return false;
+  }
+
+  return true;
+}
+
+bool launch_test_ldmatrix_m8n8_b16_x4(const int M, const int N) {
+  int NUM_MATRICES;
+  calculate_num_matrices<8, 8>(M, N, NUM_MATRICES);
+
+  if (NUM_MATRICES == 0) {
+    std::cerr << "Matrix dimensions are not compatible with m8n8.x4 (b16): " << M << ", " << N << std::endl;
+    return false;
+  }
+
+  bool correct;
+  correct = run_test_ldmatrix_b16<8, 8, false, 4>(M, N, NUM_MATRICES);
+  if (!correct) {
+    std::cerr << "m8n8.x4 (b16) failed for dims: " << M << ", " << N << std::endl;
+    return false;
+  }
+
+  correct = run_test_ldmatrix_b16<8, 8, true, 4>(M, N, NUM_MATRICES);
+  if (!correct) {
+    std::cerr << "m8n8.x4.trans (b16) failed for dims: " << M << ", " << N << std::endl;
+    return false;
+  }
+
+  return true;
+}
+
+bool ldmatrix_m8n8_b16_x1() {
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x1(8, 8));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x1(16, 16));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x1(8, 16));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x1(16, 8));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x1(32, 32));
+
+  return true;
 }
 
 bool ldmatrix_m8n8_b16_x2() {
-  // Matrix dimensions
-  const int ROWS = 8;
-  const int COLS = 8;
-  const int NUM_MATRICES = 2;
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x2(8, 16));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x2(16, 32));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x2(8, 32));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x2(16, 8));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x2(32, 32));
 
-  return run_test<false, 2>(ROWS, COLS, NUM_MATRICES);
+  return true;
 }
 
 bool ldmatrix_m8n8_b16_x4() {
-  // Matrix dimensions
-  const int ROWS = 8;
-  const int COLS = 8;
-  const int NUM_MATRICES = 4;
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x4(8, 32));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x4(16, 64));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x4(8, 64));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x4(16, 32));
+  LAUNCH_TEST(ldmatrix_m8n8_b16_x4(32, 32));
 
-  return run_test<false, 4>(ROWS, COLS, NUM_MATRICES);
-}
-
-bool ldmatrix_m8n8_b16_x1_trans() {
-  // Matrix dimensions
-  const int ROWS = 8;
-  const int COLS = 8;
-  const int NUM_MATRICES = 1;
-
-  return run_test<true, 1>(ROWS, COLS, NUM_MATRICES);
-}
-
-bool ldmatrix_m8n8_b16_x2_trans() {
-  // Matrix dimensions
-  const int ROWS = 8;
-  const int COLS = 8;
-  const int NUM_MATRICES = 2;
-
-  return run_test<true, 2>(ROWS, COLS, NUM_MATRICES);
-}
-
-bool ldmatrix_m8n8_b16_x4_trans() {
-  // Matrix dimensions
-  const int ROWS = 8;
-  const int COLS = 8;
-  const int NUM_MATRICES = 4;
-
-  return run_test<true, 4>(ROWS, COLS, NUM_MATRICES);
+  return true;
 }
 
 int main() {
   TEST(ldmatrix_m8n8_b16_x1);
   TEST(ldmatrix_m8n8_b16_x2);
   TEST(ldmatrix_m8n8_b16_x4);
-
-  TEST(ldmatrix_m8n8_b16_x1_trans);
-  TEST(ldmatrix_m8n8_b16_x2_trans);
-  TEST(ldmatrix_m8n8_b16_x4_trans);
 
   return 0;
 }
