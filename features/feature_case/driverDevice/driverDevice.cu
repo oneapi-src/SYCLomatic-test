@@ -60,9 +60,7 @@ int main(){
 #else
   cuDeviceGetP2PAttribute(&result1, CU_DEVICE_P2P_ATTRIBUTE_ACCESS_ACCESS_SUPPORTED, device, peerDevice);
 #endif
-#if (CUDA_VERSION == 9020)
-  cuDeviceGetP2PAttribute(&result1, CU_DEVICE_P2P_ATTRIBUTE_ARRAY_ACCESS_ACCESS_SUPPORTED, device, peerDevice);
-#else
+#if (CUDA_VERSION != 9020)
   cuDeviceGetP2PAttribute(&result1, CU_DEVICE_P2P_ATTRIBUTE_CUDA_ARRAY_ACCESS_SUPPORTED, device, peerDevice);
 #endif
 
