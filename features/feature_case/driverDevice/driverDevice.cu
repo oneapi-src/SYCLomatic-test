@@ -16,7 +16,7 @@
 int main(){
   int result1, result2;
   int *presult1 = &result1, *presult2 = &result2;
-  CUdevice device;
+  CUdevice device, peerDevice;
   CUdevice *pdevice = &device;
   cuDeviceGet(&device, 0);
   cuDeviceGet(&device, NUM);
@@ -49,6 +49,21 @@ int main(){
 
   cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X, device);
   cuDeviceGetAttribute(&result1, CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK, device);
+
+  CUdevice_P2PAttribute p2p_attr = CU_DEVICE_P2P_ATTRIBUTE_ACCESS_SUPPORTED;
+  cuDeviceGetP2PAttribute(&result1, p2p_attr, device, peerDevice);
+
+  cuDeviceGetP2PAttribute(&result1, CU_DEVICE_P2P_ATTRIBUTE_ACCESS_SUPPORTED, device, peerDevice);
+  cuDeviceGetP2PAttribute(&result1, CU_DEVICE_P2P_ATTRIBUTE_NATIVE_ATOMIC_SUPPORTED, device, peerDevice);
+#if (CUDA_VERSION <= 10000)
+  cuDeviceGetP2PAttribute(&result1, CU_DEVICE_P2P_ATTRIBUTE_ARRAY_ACCESS_ACCESS_SUPPORTED, device, peerDevice);
+#else
+  cuDeviceGetP2PAttribute(&result1, CU_DEVICE_P2P_ATTRIBUTE_ACCESS_ACCESS_SUPPORTED, device, peerDevice);
+#endif
+#if (CUDA_VERSION != 9020)
+  cuDeviceGetP2PAttribute(&result1, CU_DEVICE_P2P_ATTRIBUTE_CUDA_ARRAY_ACCESS_SUPPORTED, device, peerDevice);
+#endif
+
   CUcontext context;
   unsigned int flags = CU_CTX_MAP_HOST;
   flags += CU_CTX_SCHED_BLOCKING_SYNC;
@@ -57,6 +72,11 @@ int main(){
   if (cuCtxCreate(&context, flags, device) == CUDA_SUCCESS) {
     return 0;
   }
+
+  cuDevicePrimaryCtxSetFlags(device, flags);
+
+  int active;
+  cuDevicePrimaryCtxGetState(device, &flags, &active);
 
   cuCtxSetCacheConfig(CU_FUNC_CACHE_PREFER_SHARED);
 
