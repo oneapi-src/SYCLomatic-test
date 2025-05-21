@@ -392,5 +392,6 @@
     <test testName="graph" configFile="config/TEMPLATE_graph.xml" />
     <test testName="peer_access_using_driver_api" configFile="config/TEMPLATE_peer_access_using_driver_api.xml" />
     <test testName="context_push_n_pop" configFile="config/TEMPLATE_context_push_n_pop.xml" />
+    <test testName="nvshmem" configFile="config/TEMPLATE_nvSHMEM.xml" />
   </tests>
 </suite>
