@@ -22,7 +22,7 @@ __global__ void set_data(int *shared_data, int mype) {
 }
 
 __global__ void kernel_putmem_signal_nbi(int *shared_data, uint64_t *signal, int val, int target_pe) {
-  // nvshmem_putmem_signal_nbi(shared_data, shared_data, N * sizeof(int), signal, val, NVSHMEM_SIGNAL_SET, target_pe);
+  nvshmem_putmem_signal_nbi(shared_data, shared_data, N * sizeof(int), signal, val, NVSHMEM_SIGNAL_SET, target_pe);
 }
 
 __global__ void kernel_signal_wait_until(uint64_t *signal, uint64_t val) {
