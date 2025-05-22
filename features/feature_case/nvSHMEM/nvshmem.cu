@@ -55,15 +55,12 @@ int main(int argc, char **argv) {
 
   set_data<<<N, N>>>(shared_data, mype);
 
-  // int source_pe = (mype + npes - 1) % npes;
-  const int target_pe = 1; // (mype + 1) % npes;
+  const int target_pe = 1;
 
   // copy data from PE 0 to PE 1
   if (mype == 0) {
     nvshmem_putmem_nbi(shared_data, shared_data, N * sizeof(int), target_pe);
-    // nvshmem_quiet();
   }
-  // nvshmem_barrier_all();
 
   int recv_shared_data[N] = {1};
 
@@ -106,10 +103,8 @@ int main(int argc, char **argv) {
   // Copy data from PE 0 to PE 1 and signal completion
   // nvshmem_barrier_all();
   kernel_putmem_signal_nbi<<<1, 1>>>(shared_data, signal, 1, 1);
-  // nvshmem_quiet();
 
   // Check whether signal value & data updated in PE 1
-  // nvshmem_barrier_all();
   if (mype == 1) {
     kernel_signal_wait_until<<<1, 1>>>(signal, 1);
 
@@ -129,7 +124,6 @@ int main(int argc, char **argv) {
   nvshmemx_signal_op(signal, 1, NVSHMEM_SIGNAL_ADD, 1);
 
   // Check whether signal value updated in PE 1
-  // nvshmem_barrier_all();
   if (mype == 1) {
     kernel_signal_wait_until<<<1, 1>>>(signal, 2);
 
