@@ -116,6 +116,16 @@ int test_device_ptr_iteration(void)
 }
 
 int main() {
+
+#ifndef DPCT_USM_LEVEL_NONE
+    // If USM is used, then device_pointer must be device copyable to be passed directly into oneDPL
+    static_assert(sycl::is_device_copyable_v<dpct::device_pointer<int>>);
+    static_assert(sycl::is_device_copyable_v<dpct::device_pointer<void>>);
+
+    static_assert(sycl::is_device_copyable_v<dpct::device_iterator<int>>);
+    static_assert(sycl::is_device_copyable_v<dpct::device_iterator<void>>);
+#endif
+
     int failed_tests = test_device_ptr_manipulation();
     failed_tests += test_device_ptr_iteration();
 

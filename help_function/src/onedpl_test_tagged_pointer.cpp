@@ -133,7 +133,13 @@ int test_tagged_pointer_iteration(Policy policy, std::string test_name) {
 }
 
 int main() {
-  int failed_tests = test_tagged_pointer_manipulation<dpct::host_sys_tag>();
+#ifndef DPCT_USM_LEVEL_NONE
+  // If USM is used, then tagged_pointer must be device copyable to be passed directly into oneDPL
+  static_assert(sycl::is_device_copyable_v<dpct::tagged_pointer<int, dpct::device_sys_tag>>);
+  static_assert(sycl::is_device_copyable_v<dpct::tagged_pointer<void, dpct::device_sys_tag>>);
+#endif
+
+int failed_tests = test_tagged_pointer_manipulation<dpct::host_sys_tag>();
   failed_tests += test_tagged_pointer_manipulation<dpct::device_sys_tag>();
 
   failed_tests += test_tagged_pointer_iteration(
