@@ -1,25 +1,51 @@
+const int height = 2;
+const int width  = 4;
+const int depth  = 2;
+
 void set_3D_descriptor(CUDA_ARRAY3D_DESCRIPTOR &desc) {
-  desc.Width = 1;
-  desc.Depth = 2;
-  desc.Height = 1;
+  desc.Width = width;
+  desc.Depth = depth;
+  desc.Height = height;
   desc.Format = CU_AD_FORMAT_SIGNED_INT16;
   desc.NumChannels = 2;
 }
 
 int main() {
   CUDA_ARRAY3D_DESCRIPTOR desc;
-  unsigned int numMipmapLevels = 2;
+
   set_3D_descriptor(desc);
 
   CUmipmappedArray mmArray;
-
+  unsigned int numMipmapLevels = 2;
   cuMipmappedArrayCreate(&mmArray, &desc, numMipmapLevels);
-
-  CUmipmappedArray *pArray;
-  cuMipmappedArrayCreate(pArray, &desc, numMipmapLevels);
 
   CUarray level_arr;
   cuMipmappedArrayGetLevel(&level_arr, mmArray, 1);
+  
+  short4 mm1[height * width * depth] = {
+    {1,  2},   {3, 4},   {5, 6},   {7, 8},
+    {9, 10},  {11, 12}, {13, 14}, {15, 16},
+
+    {17, 18}, {19, 20}, {21, 22}, {23, 24},
+    {25, 26}, {27, 28}, {29, 30}, {31, 32}
+  };
+
+  CUDA_MEMCPY3D copyAssist{0};
+  // specify source details
+  copyAssist.srcHost = mm1;
+  copyAssist.srcMemoryType = CU_MEMORYTYPE_HOST;
+  copyAssist.Height = height;
+  copyAssist.Depth = depth;
+  copyAssist.WidthInBytes = sizeof(short4) * width;
+  copyAssist.srcPitch = sizeof(short4) * width;
+  
+  // specify destination details
+  copyAssist.dstArray = level_arr;
+  copyAssist.dstMemoryType = CU_MEMORYTYPE_ARRAY;
+  copyAssist.dstXInBytes = 0;
+  copyAssist.dstY = 0;
+
+  cuMemcpy2D(&copyAssist);
 
   CUtexref texRef;
   cuTexRefSetMipmappedArray(texRef, mmArray, 0);
@@ -37,8 +63,6 @@ int main() {
   cuTexRefGetMipmappedArray(&anotherArray, texRef);
 
   cuMipmappedArrayDestroy(mmArray);
-
-  cuMipmappedArrayDestroy(*pArray);
 
   return 0;
 }
