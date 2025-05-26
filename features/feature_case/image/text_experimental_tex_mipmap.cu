@@ -1,3 +1,6 @@
+#include <cuda.h>
+#include <iostream>
+
 const int height = 2;
 const int width  = 4;
 const int depth  = 2;
@@ -11,6 +14,8 @@ void set_3D_descriptor(CUDA_ARRAY3D_DESCRIPTOR &desc) {
 }
 
 int main() {
+  cuInit(0);
+
   CUDA_ARRAY3D_DESCRIPTOR desc;
 
   set_3D_descriptor(desc);
@@ -45,16 +50,25 @@ int main() {
   copyAssist.dstXInBytes = 0;
   copyAssist.dstY = 0;
 
-  cuMemcpy2D(&copyAssist);
+  int testStatus = 0;
 
-  CUtexref texRef;
+  CUresult result = cuMemcpy3D(&copyAssist);
+  if (result != CUDA_SUCCESS) {
+    testStatus = -1;
+    std::cout << "Copy from host to device failed for mipmaped array\n";
+  }
+
+  CUtexref texRef{0};
   cuTexRefSetMipmappedArray(texRef, mmArray, 0);
 
-  CUfilter_mode fm = CU_TR_FILTER_MODE_POINT;
+  cuTexRefSetMipmapFilterMode(texRef, CU_TR_FILTER_MODE_POINT);
 
-  cuTexRefSetMipmapFilterMode(texRef, fm);
-
+  CUfilter_mode fm;
   cuTexRefGetMipmapFilterMode(&fm, texRef);
+  if (fm != CU_TR_FILTER_MODE_POINT) {
+    testStatus = -1;
+    std::cout << "Filter mode test failed";
+  }
 
   float min_clamp, max_clamp;
   cuTexRefGetMipmapLevelClamp(&min_clamp, &max_clamp, texRef);
@@ -64,5 +78,5 @@ int main() {
 
   cuMipmappedArrayDestroy(mmArray);
 
-  return 0;
+  return testStatus;
 }
