@@ -64,7 +64,7 @@ exec_tests = ['asm', 'asm_bar', 'asm_mem', 'asm_atom', 'asm_arith', 'asm_vinst',
               'thrust_advance_trans_op_itr', 'cuda_stream_query', "matmul", "matmul_2", "matmul_3", "transform",  "context_push_n_pop",
               "graphics_interop_d3d11", 'graph', 'asm_shfl', 'asm_shfl_sync', 'asm_shfl_sync_with_exp', 'asm_membar_fence',
               'cub_block_store', 'asm_red', 'asm_cp', 'asm_prmt', 'asm_brkpt', 'asm_add', 'asm_sub', 'asm_cvt', 'asm_st', 'asm_ld', 'asm_ldmatrix',
-              'asm_mma', 'asm_mul', 'asm_neg', 'asm_cvta', 'pointer_attributes_usmnone']
+              'asm_mma', 'asm_mul', 'asm_neg', 'asm_cvta', 'pointer_attributes_usmnone', 'cuda_event_record_with_flags']
 
 occupancy_calculation_exper = ['occupancy_calculation']
 
@@ -249,6 +249,15 @@ def build_test():
             link_opts.append(' dnnl.lib')
     ret = False
 
+    if test_config.current_test == 'nvshmem':
+        ISHMEMROOT = os.environ['ISHMEMROOT']
+        ISHMEMVER = os.environ['ISHMEMVER']
+
+        if (ISHMEMROOT and ISHMEMVER):
+            link_opts.append(os.path.join(ISHMEMROOT, ISHMEMVER, 'lib', 'libishmem.a'))
+
+        link_opts.append('-lze_loader -lmpi')
+
     if (test_config.current_test == 'cufft-external-workspace'):
         manual_fix_for_cufft_external_workspace(srcs[0])
     if (test_config.current_test in occupancy_calculation_exper):
@@ -275,4 +284,3 @@ def run_test():
     if test_config.current_test.startswith('ccl-test'):
         return call_subprocess('mpirun -n 2 ' + os.path.join(os.path.curdir, test_config.current_test + '.run '))
     return run_binary_with_args()
-
