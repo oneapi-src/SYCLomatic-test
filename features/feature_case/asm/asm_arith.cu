@@ -690,6 +690,7 @@ __device__ int cvt() {
   { asm("cvt.rn.f64.u64 %0, %1;" : "=d"(f64) : "l"(3ll)); if (!(f64 == 3.0)) { return 66; } };
 
   { asm("cvt.rn.bf16.f32 %0, %1;" : "=h"(bf16) : "f"(3.14f)); if (!(bf16 == 0x4049)) { return 67; } };
+  { asm("cvt.rn.f16.f32 %0, %1;" : "=h"(f16) : "f"(3.14f)); if (!(f16 == 0x4248)) { return 68; } };
 
   return 0;
 }

@@ -22,6 +22,8 @@
     <test testName="asm_cp" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_st" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_ld" configFile="config/TEMPLATE_asm.xml" />
+    <test testName="asm_ldmatrix" configFile="config/TEMPLATE_asm_excluding_syclcompat.xml" />
+    <test testName="asm_mma" configFile="config/TEMPLATE_asm_excluding_syclcompat.xml" />
     <test testName="asm_brkpt" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_sub" configFile="config/TEMPLATE_asm.xml" />
     <test testName="asm_add" configFile="config/TEMPLATE_asm.xml" />
@@ -181,6 +183,7 @@
     <test testName="grid_sync_root_group" configFile="config/TEMPLATE_grid_sync_after_11_excluding_syclcompat.xml" />
     <test testName="kernel-launch" configFile="config/TEMPLATE_runtimeAPI_excluding_syclcompat.xml" />
     <test testName="cuda_stream_query" configFile="config/TEMPLATE_runtimeAPI_skip_cuda.xml" />
+    <test testName="cuda_event_record_with_flags" configFile="config/TEMPLATE_runtimeAPI_skip_cuda.xml" />
     <test testName="cusolver_range" configFile="config/TEMPLATE_cusolver_range.xml" />
     <test testName="cusolverDnEi" configFile="config/TEMPLATE_cusolver.xml" />
     <test testName="cusolverDnEi-part2" configFile="config/TEMPLATE_cusolver.xml" />
@@ -214,7 +217,7 @@
     <test testName="driverStreamAndEvent" configFile="config/TEMPLATE_driverStreamAndEvent.xml" />
     <test testName="sync_warp_p1" configFile="config/TEMPLATE_sync_warp_p1.xml" />
     <test testName="sync_warp_p2" configFile="config/TEMPLATE_sync_warp_p2.xml" />
-    <test testName="cub_warp" configFile="config/TEMPLATE_cub.xml" />
+    <test testName="cub_warp" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
     <test testName="cub_block" configFile="config/TEMPLATE_cub.xml" />
     <test testName="cub_shuffle" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
     <test testName="cub_block_p2" configFile="config/TEMPLATE_cub_excluding_syclcompat.xml" />
@@ -346,6 +349,7 @@
     <test testName="libcu_tuple" configFile="config/TEMPLATE_libcu.xml" />
     <!-- <test testName="constant_attr" configFile="config/TEMPLATE_constant_attr.xml" /> -->
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
+    <test testName="pointer_attributes_usmnone" configFile="config/TEMPLATE_pointer_attributes_usmnone.xml" />
     <test testName="image" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_experimental_build_only" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_experimental_build_only_before12" configFile="config/TEMPLATE_image_before_12.xml" />
@@ -355,13 +359,14 @@
     <test testName="text_experimental_obj_memcpy2d_api" configFile="config/TEMPLATE_image_excluding_syclcompat_and_cuda.xml" />
     <test testName="text_experimental_obj_memcpy3d_api" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_experimental_obj_mipmap" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
+    <test testName="text_experimental_tex_mipmap" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_experimental_obj_peer_api" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_experimental_obj_pitch2d" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_experimental_obj_sample_api" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_experimental_obj_surf" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_obj_array" configFile="config/TEMPLATE_image_skip_cuda_excluding_syclcompat.xml" />
     <!-- <test testName="text_obj_linear" configFile="config/TEMPLATE_image_skip_cuda.xml" /> -->
-    <test testName="text_obj_pitch2d" configFile="config/TEMPLATE_image_skip_cuda.xml" />
+    <test testName="text_obj_pitch2d" configFile="config/TEMPLATE_image_skip_cuda_excluding_syclcompat.xml" />
     <test testName="defaultStream" configFile="config/TEMPLATE_defaultStream.xml" />
     <test testName="volatile-vec" configFile="config/TEMPLATE_misc.xml" />
     <test testName="occupancy_calculation" configFile="config/TEMPLATE_misc.xml" />
@@ -389,5 +394,6 @@
     <test testName="graph" configFile="config/TEMPLATE_graph.xml" />
     <test testName="peer_access_using_driver_api" configFile="config/TEMPLATE_peer_access_using_driver_api.xml" />
     <test testName="context_push_n_pop" configFile="config/TEMPLATE_context_push_n_pop.xml" />
+    <test testName="nvshmem" configFile="config/TEMPLATE_nvSHMEM.xml" />
   </tests>
 </suite>

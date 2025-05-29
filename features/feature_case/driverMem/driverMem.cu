@@ -99,6 +99,8 @@ void test1(){
 
     cuMemcpy2D(&cpy);
 
+    cuMemcpy2DUnaligned(&cpy);
+
     cuMemcpy2DAsync(&cpy, stream);
 
     CUDA_MEMCPY3D cpy2;
