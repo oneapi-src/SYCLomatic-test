@@ -111,8 +111,7 @@ int main() {
   cuTexRefGetMipmapLevelClamp(&min_clamp, &max_clamp, texRef);
 
   CUmipmappedArray anotherArray;
-  // Not testing this unless we fix the DPCT helper API 'attach' from bindless_image
-  // cuTexRefGetMipmappedArray(&anotherArray, texRef);
+  cuTexRefGetMipmappedArray(&anotherArray, texRef);
   cuMipmappedArrayDestroy(mmArray);
 
   return 0;
