@@ -111,7 +111,7 @@ int main() {
   cuTexRefGetMipmapLevelClamp(&min_clamp, &max_clamp, texRef);
 
   CUmipmappedArray anotherArray;
-  // cuTexRefGetMipmappedArray(&anotherArray, texRef);
+  cuTexRefGetMipmappedArray(&anotherArray, texRef);
   cuMipmappedArrayDestroy(mmArray);
 
   return 0;
