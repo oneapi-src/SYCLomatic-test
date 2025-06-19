@@ -235,7 +235,7 @@
     <test testName="cub_device_reduce_max" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce_arg" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_reduce" configFile="config/TEMPLATE_cub_device.xml"/>
-    <!-- <test testName="cub_device_reduce_by_key" configFile="config/TEMPLATE_cub_device.xml"/> -->
+    <test testName="cub_device_reduce_by_key" configFile="config/TEMPLATE_cub_device.xml"/>
     <test testName="cub_device_scan_inclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_scan_exclusive_sum" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_scan_inclusive_scan" configFile="config/TEMPLATE_cub_device.xml" />
@@ -244,9 +244,9 @@
     <test testName="cub_device_exclusive_sum_by_key" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_inclusive_scan_by_key" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_exclusive_scan_by_key" configFile="config/TEMPLATE_cub_device.xml" />
-    <!-- <test testName="cub_device_select_unique" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_device_select_unique" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_select_unique_by_key" configFile="config/TEMPLATE_cub_unique_by_key.xml" />
-    <test testName="cub_device_select_flagged" configFile="config/TEMPLATE_cub_device.xml" />  -->
+    <test testName="cub_device_select_flagged" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_run_length_encode_encode" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_no_trivial_runs" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_discard_iterator" configFile="config/TEMPLATE_cub_device.xml" />
@@ -265,7 +265,7 @@
     <test testName="cub_transform_iterator" configFile="config/TEMPLATE_cub_transform_iterator.xml" />
     <test testName="cub_constant_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_spmv" configFile="config/TEMPLATE_cub_device.xml" />
-     <test testName="cub_arg_index_input_iterator" configFile="config/TEMPLATE_cub_device.xml" />
+    <test testName="cub_arg_index_input_iterator" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cudnn_multiple_files" configFile="config/TEMPLATE_cudnn_multiple_files.xml" />
     <test testName="cudnn-GetErrorString" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-activation" configFile="config/TEMPLATE_cuDNN.xml" />
@@ -284,7 +284,7 @@
     <test testName="cudnn-bnp3" configFile="config/TEMPLATE_cuDNN_skip_double.xml" splitGroup="double" />
     <test testName="cudnn-normp1" configFile="config/TEMPLATE_cuDNN_skip_double_v8.xml" splitGroup="double" />
     <test testName="cudnn-normp2" configFile="config/TEMPLATE_cuDNN_skip_double_v8.xml" splitGroup="double" />
-    <!-- <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN_skip_double_v8.xml" splitGroup="double" /> -->
+    <test testName="cudnn-normp3" configFile="config/TEMPLATE_cuDNN_skip_double_v8.xml" splitGroup="double" />
     <test testName="cudnn-convp1" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp2" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-convp3" configFile="config/TEMPLATE_cuDNN.xml" />
@@ -293,7 +293,7 @@
     <test testName="cudnn-convp6" configFile="config/TEMPLATE_cuDNN_v8.xml" />
     <test testName="cudnn-convp7" configFile="config/TEMPLATE_cuDNN_v8.xml" />
     <test testName="cudnn-conv_v7" configFile="config/TEMPLATE_cuDNN_v7.xml" />
-    <!-- <test testName="cudnn-rnn" configFile="config/TEMPLATE_cuDNN_v8.xml" /> -->
+    <test testName="cudnn-rnn" configFile="config/TEMPLATE_cuDNN_v8.xml" />
     <test testName="cudnn-types" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-dropout" configFile="config/TEMPLATE_cuDNN.xml" />
     <test testName="cudnn-version" configFile="config/TEMPLATE_cuDNN.xml" />
@@ -335,10 +335,10 @@
     <test testName="cooperative_groups" configFile="config/TEMPLATE_cooperative_groups_excluding_syclcompat.xml" />
     <test testName="cooperative_group_coalesced_group" configFile="config/TEMPLATE_cooperative_groups_excluding_syclcompat.xml" />
     <test testName="cooperative_groups_thread_group" configFile="config/TEMPLATE_cooperative_groups_excluding_syclcompat.xml" />
-    <!-- <test testName="ccl-test" configFile="config/TEMPLATE_ccl_api.xml" /> -->
-    <!-- <test testName="ccl-test2" configFile="config/TEMPLATE_ccl_api.xml" /> -->
-    <!-- <test testName="ccl-test3" configFile="config/TEMPLATE_ccl_api.xml" /> -->
-	    <!-- <test testName="ccl-error" configFile="config/TEMPLATE_ccl_api.xml" /> -->
+    <test testName="ccl-test" configFile="config/TEMPLATE_ccl_api.xml" />
+    <test testName="ccl-test2" configFile="config/TEMPLATE_ccl_api.xml" />
+    <test testName="ccl-test3" configFile="config/TEMPLATE_ccl_api.xml" />
+	  <test testName="ccl-error" configFile="config/TEMPLATE_ccl_api.xml" />
     <test testName="cooperative_groups_reduce" configFile="config/TEMPLATE_cooperative_groups_reduce.xml" />
     <test testName="cooperative_groups_data_manipulate" configFile="config/TEMPLATE_cooperative_groups_data_manipulate.xml" />
     <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
@@ -347,7 +347,7 @@
     <test testName="libcu_complex" configFile="config/TEMPLATE_libcu.xml" />
     <test testName="match" configFile="config/TEMPLATE_match.xml" />
     <test testName="libcu_tuple" configFile="config/TEMPLATE_libcu.xml" />
-    <!-- <test testName="constant_attr" configFile="config/TEMPLATE_constant_attr.xml" /> -->
+    <test testName="constant_attr" configFile="config/TEMPLATE_constant_attr.xml" />
     <test testName="pointer_attributes" configFile="config/TEMPLATE_pointer_attributes.xml" />
     <test testName="pointer_attributes_usmnone" configFile="config/TEMPLATE_pointer_attributes_usmnone.xml" />
     <test testName="image" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
@@ -365,12 +365,12 @@
     <test testName="text_experimental_obj_sample_api" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_experimental_obj_surf" configFile="config/TEMPLATE_image_excluding_syclcompat.xml" />
     <test testName="text_obj_array" configFile="config/TEMPLATE_image_skip_cuda_excluding_syclcompat.xml" />
-    <!-- <test testName="text_obj_linear" configFile="config/TEMPLATE_image_skip_cuda.xml" /> -->
+    <test testName="text_obj_linear" configFile="config/TEMPLATE_image_skip_cuda.xml" />
     <test testName="text_obj_pitch2d" configFile="config/TEMPLATE_image_skip_cuda_excluding_syclcompat.xml" />
     <test testName="defaultStream" configFile="config/TEMPLATE_defaultStream.xml" />
     <test testName="volatile-vec" configFile="config/TEMPLATE_misc.xml" />
     <test testName="occupancy_calculation" configFile="config/TEMPLATE_misc.xml" />
-    <!-- <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" splitGroup="double" /> -->
+    <test testName="math_intel_specific" configFile="config/TEMPLATE_math_intel_specific.xml" splitGroup="double" />
     <test testName="remove_unnecessary_wait" configFile="config/TEMPLATE_remove_unnecessary_wait.xml" />
     <test testName="warp_reduce_functions" configFile="config/TEMPLATE_cpp_language_extensions.xml" />
     <test testName="wmma" configFile="config/TEMPLATE_wmma_excluding_syclcompat.xml" />
