@@ -23,7 +23,7 @@ cmpl_only_tests =['thrust-for-h2o4gpu', 'cublas-create-Sgemm-destroy', 'cublasLe
 cmpllink_only_as_wa_tests = ['thrust-op', 'curand', 'curand-usm', 'curand-cross-function', 'cublasBatch', 'cublasGetSetMatrix', 'cublasGetSetVector', 'cublasIsamax_etc', 'cublas-lambda',
                         'cublas_curandInMacro', 'cublasLegacyCZ', 'cublasLegacyHelper', 'cublasRegularCZ', 'cublasTsyrkx', 'cublasTtrmmLegacy', 'cublas-usm-legacy', 'math-emu', 'cublas-usm',
                         'cusolverDnEi', 'cusolverDnEi-part2', 'cusolverDnLn', 'cusolverDnLn_cuda10-1', 'cusolverDnLn_cuda10-1-part2', 'cusolverDnLn-part2', 'cublas-only-usm', 'cufft-deduce',
-                         'cufft-different-locations-usm', 'cufft-reuse-handle', 'cufft-different-locations', 'cufft-usm', 'cufft', 'driverCtx', 'driverDevice', 'driverArray', 'driverTex',
+                         'cufft-different-locations-usm', 'cufft-reuse-handle', 'cufft-different-locations', 'cufft-usm', 'cufft', 'cooperative_groups', 'driverCtx', 'driverDevice', 'driverArray', 'driverTex',
                          'driverMemset', 'cub_warp', 'cub_device_run_length_encode_encode', 'cooperative_group_coalesced_group', 'text_experimental_build_only',
                          'wmma', 'assert', 'peer_access_using_driver_api', 'curand-device-usm', 'curand-device', 'cufft-func-ptr', 'cufft-others', 'cub_block', 'codepin_basic', 'math-direct', 'math-helper', 'grid_sync_root_group', 'device_cpu', 'image']
 
