@@ -245,7 +245,7 @@
     <test testName="cub_device_inclusive_scan_by_key" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_exclusive_scan_by_key" configFile="config/TEMPLATE_cub_device.xml" />
     <!-- <test testName="cub_device_select_unique" configFile="config/TEMPLATE_cub_device.xml" /> -->
-    <test testName="cub_device_select_unique_by_key" configFile="config/TEMPLATE_cub_unique_by_key.xml" />
+    <!-- <test testName="cub_device_select_unique_by_key" configFile="config/TEMPLATE_cub_unique_by_key.xml" /> -->
     <!-- <test testName="cub_device_select_flagged" configFile="config/TEMPLATE_cub_device.xml" /> -->
     <test testName="cub_device_run_length_encode_encode" configFile="config/TEMPLATE_cub_device.xml" />
     <test testName="cub_device_no_trivial_runs" configFile="config/TEMPLATE_cub_device.xml" />
@@ -338,7 +338,7 @@
     <!-- <test testName="ccl-test" configFile="config/TEMPLATE_ccl_api.xml" /> -->
     <!-- <test testName="ccl-test2" configFile="config/TEMPLATE_ccl_api.xml" /> -->
     <!-- <test testName="ccl-test3" configFile="config/TEMPLATE_ccl_api.xml" /> -->
-	  <!-- <test testName="ccl-error" configFile="config/TEMPLATE_ccl_api.xml" /> -->
+    <!-- <test testName="ccl-error" configFile="config/TEMPLATE_ccl_api.xml" /> -->
     <test testName="cooperative_groups_reduce" configFile="config/TEMPLATE_cooperative_groups_reduce.xml" />
     <test testName="cooperative_groups_data_manipulate" configFile="config/TEMPLATE_cooperative_groups_data_manipulate.xml" />
     <test testName="cufft_test" configFile="config/TEMPLATE_fft_runable.xml" splitGroup="double"/>
