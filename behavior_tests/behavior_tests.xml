@@ -70,8 +70,6 @@
         <test testName="ngt-invalid-yaml-for-header1" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-yaml-for-header2" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-yaml-for-header3" configFile="config/TEMPLATE_behavior_tests.xml" />
-        <test testName="ngt-invalid-yaml-for-header4" configFile="config/TEMPLATE_behavior_tests_lin.xml" />
-        <test testName="ngt-win-invalid-yaml-for-header4" configFile="config/TEMPLATE_behavior_tests_win.xml" />
         <test testName="ngt-invalid-json1" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-json2" configFile="config/TEMPLATE_behavior_tests.xml" />
         <test testName="ngt-invalid-json3" configFile="config/TEMPLATE_behavior_tests.xml" />

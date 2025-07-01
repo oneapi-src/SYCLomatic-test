@@ -36,12 +36,10 @@ main_file = os.path.join("result", "main.dp.cpp")
 main_yml_file = os.path.join("result", "MainSourceFiles.yaml")
 util_cpp_file = os.path.join("result", "bar", "util.dp.cpp")
 util_h_file = os.path.join("result", "bar", "util.h")
-util_yml_file = os.path.join("result", "bar", "util.h.yaml")
 ret = path.exists(main_file) and \
       path.exists(main_yml_file) and \
       path.exists(util_cpp_file) and \
-      path.exists(util_h_file) and \
-      path.exists(util_yml_file)
+      path.exists(util_h_file)
 
 # check run result
 if ret:

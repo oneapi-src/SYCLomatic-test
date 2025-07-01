@@ -18,7 +18,7 @@ def setup_test():
     return True
 
 def migrate_test():
-    yml_file = os.path.join("out", "test.h.yaml")
+    yml_file = os.path.join("out", "MainSourceFiles.yaml")
     test_file = os.path.join("out", "test.h")
     ret_str = ""
     ret = []

@@ -21,11 +21,11 @@ def migrate_test():
     call_subprocess(test_config.CT_TOOL + ' hello.h --out-root=out --cuda-include-path=' + \
                    os.environ['CUDA_INCLUDE_PATH'])
 
-    with open('out/hello.h.yaml', 'r') as f:
+    with open('out/MainSourceFiles.yaml', 'r') as f:
         file_data = f.read()
 
     file_data=file_data.replace('ConstantFlag', 'ConstantFla',1)
-    with open('out/hello.h.yaml', 'w') as f:
+    with open('out/MainSourceFiles.yaml', 'w') as f:
         f.write(file_data)
 
     call_subprocess(test_config.CT_TOOL + ' hello.h --out-root=./out --cuda-include-path=' + \
