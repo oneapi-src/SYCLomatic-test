@@ -26,7 +26,7 @@ cmpllink_only_as_wa_tests = ['thrust-op', 'curand', 'curand-usm', 'curand-cross-
                          'cufft-different-locations-usm', 'cufft-reuse-handle', 'cufft-different-locations', 'cufft-usm', 'cufft', 'cooperative_groups', 'driverCtx', 'driverDevice', 'driverArray', 'driverTex',
                          'driverMemset', 'cub_warp', 'cub_device_run_length_encode_encode', 'cooperative_group_coalesced_group', 'text_experimental_build_only',
                          'wmma', 'assert', 'peer_access_using_driver_api', 'curand-device-usm', 'curand-device', 'cufft-func-ptr', 'cufft-others', 'cub_block', 'codepin_basic', 'math-direct', 'math-helper', 'grid_sync_root_group', 'device_cpu', 'image',
-                        'nvshmem']
+                        'nvshmem', 'cudnn-rnn']
 
 occupancy_calculation_exper = ['occupancy_calculation']
 
