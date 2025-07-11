@@ -44,7 +44,8 @@ __global__ void test_group_thread_index(unsigned int *data) {
   cg::thread_block ttb = cg::this_thread_block();
   auto group_x = ttb.group_index().x;
   auto thread_x = ttb.thread_index().x;
-  data[threadIdx.x] = group_x + thread_x;
+  if (group_x ==1)
+    data[threadIdx.x] = group_x + thread_x;
 }
 
 int main() {
