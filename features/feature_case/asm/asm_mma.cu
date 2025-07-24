@@ -10,6 +10,7 @@
 #include <cuda_fp16.h>
 #include <cuda_bf16.h>
 #include <iostream>
+#include <stdint.h>
 
 #define TEST(FN)                                                               \
   {                                                                            \
@@ -478,6 +479,120 @@ __global__ void mma_kernel_m16n8k16_ptx_f16_f32(half *A, half *B, float *C, floa
   }
 }
 
+
+template <int Shape_M, int Shape_N, int Shape_K>
+__global__ void mma_kernel_m16n8k16_ptx_bf16_f32(__nv_bfloat16 *A, __nv_bfloat16 *B, float *C, float *D, int M, int N, int K, int A_NUM_MAT, int B_NUM_MAT, int CD_NUM_MAT) {
+  const int THREAD_IDX = threadIdx.x + blockIdx.x * blockDim.x;
+  const int WARP_ID = THREAD_IDX / WARP_SIZE;
+  const int LANE_ID = THREAD_IDX % WARP_SIZE;
+
+  const int THREAD_ROW = LANE_ID / 4;
+  const int THREAD_COL = LANE_ID % 4;
+
+  int A_OFFSET = (WARP_ID % A_NUM_MAT) * Shape_M * Shape_K;
+  int B_OFFSET = (WARP_ID % B_NUM_MAT) * Shape_K * Shape_N;
+  int CD_OFFSET = (WARP_ID % CD_NUM_MAT) * Shape_M * Shape_N;
+
+  uint32_t a[4];
+  uint32_t b[2];
+  float c[4];
+  float d[4];
+
+  unsigned char indx = 0;
+  for (unsigned char i = 0; i < 8; i++) {
+    int r_off = 8;
+    if (i < 2 || (i >= 4 && i < 6)) {
+      r_off = 0;
+    }
+
+    int c_off = 0;
+    if (i >= 4) {
+      c_off = 8;
+    }
+
+    int load_offset =
+        A_OFFSET + OFFSET(THREAD_ROW + r_off,
+                          (THREAD_COL * 2) + (i & 0x1) + c_off, Shape_K);
+    if (IN_BOUND_A(load_offset)) {
+      __nv_bfloat16 val = A[load_offset];
+      if ((i & 0x01) == 0) {
+        // First value of pair, put to high
+        a[indx] = uint32_t(*reinterpret_cast<uint16_t *>(&val) << 16);
+      } else {
+        // Second value of pair, put to low
+        a[indx] = a[indx] | *reinterpret_cast<uint16_t *>(&val);
+        indx++;
+      }
+    }
+  }
+
+  indx = 0;
+  for (int i = 0; i < 4; i++) {
+    int r_off = 0;
+    if (i >= 2) {
+      r_off = 8;
+    }
+
+    int load_offset = B_OFFSET + OFFSET((THREAD_COL * 2) + (i & 0x1) + r_off,
+                                        THREAD_ROW, Shape_N);
+    if (IN_BOUND_B(load_offset)) {
+      //rb[i] = B[load_offset];
+      __nv_bfloat16 val = B[load_offset];
+      if ((i & 0x01) == 0) {
+        // First value of pair, put to high
+        b[indx] = uint32_t(*reinterpret_cast<uint16_t *>(&val) << 16);
+      } else {
+        // Second value of pair, put to low
+        b[indx] = b[indx] | *reinterpret_cast<uint16_t *>(&val);
+        indx++;
+      }
+    }
+  }
+
+  for (int i = 0; i < 4; i++) {
+    int load_offset;
+
+    if (i < 2) {
+      load_offset =
+          CD_OFFSET + OFFSET(THREAD_ROW, (THREAD_COL * 2) + (i & 0x1), Shape_N);
+    } else {
+      load_offset = CD_OFFSET + OFFSET(THREAD_ROW + 8,
+                                       (THREAD_COL * 2) + (i & 0x1), Shape_N);
+    }
+
+    if (IN_BOUND_CD(load_offset)) {
+      c[i] = C[load_offset];
+    }
+  }
+
+  asm("mma.sync.aligned.m16n8k16.row.col.f32.bf16.bf16.f32 "
+      " { %0, %1, %2, %3 }, "
+      " { %4, %5, %6, %7 }, "
+      " { %8, %9 }, "
+      " { %10, %11, %12, %13 };"
+      : "+f"(d[0]), "+f"(d[1]), "+f"(d[2]), "+f"(d[3])
+      : "r"(a[0]), "r"(a[1]), "r"(a[2]), "r"(a[3]),
+        "r"(b[0]), "r"(b[1]), 
+        "f"(c[0]), "f"(c[1]), "f"(c[2]), "f"(c[3]));
+
+
+  for (int i = 0; i < 4; i++) {
+    int load_offset;
+
+    if (i < 2) {
+      load_offset =
+          CD_OFFSET + OFFSET(THREAD_ROW, (THREAD_COL * 2) + (i & 0x1), Shape_N);
+    } else {
+      load_offset = CD_OFFSET + OFFSET(THREAD_ROW + 8,
+                                       (THREAD_COL * 2) + (i & 0x1), Shape_N);
+    }
+
+    if (IN_BOUND_CD(load_offset)) {
+      D[load_offset] = d[i];
+    }
+  }
+}
+
 template<int Shape_M, int Shape_N, int Shape_K>
 __global__ void mma_kernel_m16n8k16_s8_s32(int8_t *A, int8_t *B, int *C, int *D, int M, int N, int K, int A_NUM_MAT, int B_NUM_MAT, int CD_NUM_MAT) {
   const int THREAD_IDX = threadIdx.x + blockIdx.x * blockDim.x;
@@ -865,6 +980,65 @@ bool run_test_mma_m16n8k16_f16_f32(const int M, const int N, const int K) {
   return correct;
 }
 
+
+bool run_test_mma_m16n8k16_bf16_f32(const int M, const int N, const int K) {
+  int A_NUM_MAT, B_NUM_MAT, CD_NUM_MAT;
+  calculate_num_matrices<16, 8, 16>(M, N, K, A_NUM_MAT, B_NUM_MAT, CD_NUM_MAT);
+
+  if (A_NUM_MAT == 0 || B_NUM_MAT == 0 || CD_NUM_MAT == 0) {
+    std::cerr << "Matrix dimensions are not compatible with m16n8k16"
+              << std::endl;
+    return false;
+  }
+
+  __nv_bfloat16 *d_A, *d_B;
+  float *d_C, *d_D;
+  __nv_bfloat16 h_A[M * K], h_B[K * N];
+  float h_C[M * N], h_D[M * N];
+  float h_D_ref[M * N];
+
+  initialize_matrices(h_A, h_B, h_C, h_D, 16, 8, 16, A_NUM_MAT, B_NUM_MAT, CD_NUM_MAT);
+
+  matrix_multiplication_cpu(h_A, h_B, h_C, h_D_ref, 16, 8, 16, A_NUM_MAT, B_NUM_MAT, CD_NUM_MAT);
+
+  cudaMalloc(&d_A, M * K * sizeof(__nv_bfloat16));
+  cudaMalloc(&d_B, K * N * sizeof(__nv_bfloat16));
+  cudaMalloc(&d_C, M * N * sizeof(float));
+  cudaMalloc(&d_D, M * N * sizeof(float));
+
+  cudaMemcpy(d_A, h_A, M * K * sizeof(__nv_bfloat16), cudaMemcpyHostToDevice);
+  cudaMemcpy(d_B, h_B, K * N * sizeof(__nv_bfloat16), cudaMemcpyHostToDevice);
+  cudaMemcpy(d_C, h_C, M * N * sizeof(float), cudaMemcpyHostToDevice);
+  cudaMemcpy(d_D, h_D, M * N * sizeof(float), cudaMemcpyHostToDevice);
+
+  int no_mat_blocks = 4;
+  int no_blocks = CD_NUM_MAT / no_mat_blocks;
+  int no_threads;
+  if (no_blocks) {
+    no_threads = WARP_SIZE * no_mat_blocks;
+  } else {
+    no_blocks = 1;
+    no_threads = WARP_SIZE * CD_NUM_MAT;
+  }
+
+  mma_kernel_m16n8k16_ptx_bf16_f32<16, 8, 16><<<no_blocks, no_threads>>>(
+      d_A, d_B, d_C, d_D, M, N, K, A_NUM_MAT, B_NUM_MAT, CD_NUM_MAT);
+  cudaDeviceSynchronize();
+  cudaMemcpy(h_D, d_D, M * N * sizeof(float), cudaMemcpyDeviceToHost);
+
+  bool correct = check_result(M, N, h_D, h_D_ref);
+
+  std::cout << "m16n8k16 (f32.bf16.bf16.f32): " << (correct ? "PASSED" : "FAILED")
+            << std::endl;
+
+  cudaFree(d_A);
+  cudaFree(d_B);
+  cudaFree(d_C);
+  cudaFree(d_D);
+
+  return correct;
+}
+
 bool run_test_mma_m16n8k16_s8_s32(const int M, const int N, const int K) {
   int A_NUM_MAT, B_NUM_MAT, CD_NUM_MAT;
   calculate_num_matrices<16, 8, 16>(M, N, K, A_NUM_MAT, B_NUM_MAT, CD_NUM_MAT);
@@ -1019,6 +1193,18 @@ bool launch_test_mma_m16n8k16_f16_f32(const int M, const int N, const int K) {
   return true;
 }
 
+bool launch_test_mma_m16n8k16_bf16_f32(const int M, const int N, const int K) {
+  bool correct = run_test_mma_m16n8k16_bf16_f32(M, N, K);
+
+  if (!correct) {
+    std::cerr << "m16n8k16 (f32.bf16.bf16.f32) failed for dims: " << M << ", "
+              << N << ", " << K << std::endl;
+    return false;
+  }
+
+  return true;
+}
+
 bool launch_test_mma_m16n8k16_s8_s32(const int M, const int N, const int K) {
   bool correct = run_test_mma_m16n8k16_s8_s32(M, N, K);
 
@@ -1081,6 +1267,16 @@ bool mma_m16n8k16_f16_f32() {
   return true;
 }
 
+bool mma_m16n8k16_bf16_f32() {
+  LAUNCH_TEST(mma_m16n8k16_bf16_f32(16, 8, 16));
+  LAUNCH_TEST(mma_m16n8k16_bf16_f32(32, 16, 32));
+  LAUNCH_TEST(mma_m16n8k16_bf16_f32(16, 16, 16));
+  LAUNCH_TEST(mma_m16n8k16_bf16_f32(16, 16, 32));
+  LAUNCH_TEST(mma_m16n8k16_bf16_f32(32, 32, 32));
+
+  return true;
+}
+
 bool mma_m16n8k16_s8_s32() {
   LAUNCH_TEST(mma_m16n8k16_s8_s32(16, 8, 16));
   LAUNCH_TEST(mma_m16n8k16_s8_s32(32, 16, 32));
@@ -1106,6 +1302,7 @@ int main() {
   TEST(mma_m8n8k16_s8_s32);
   TEST(mma_m16n8k8_f16_f32);
   TEST(mma_m16n8k16_f16_f32);
+  TEST(mma_m16n8k16_bf16_f32);
   TEST(mma_m16n8k16_s8_s32);
   TEST(mma_m16n8k32_s8_s32);
 
