@@ -536,7 +536,6 @@ __global__ void mma_kernel_m16n8k16_ptx_bf16_f32(__nv_bfloat16 *A, __nv_bfloat16
     int load_offset = B_OFFSET + OFFSET((THREAD_COL * 2) + (i & 0x1) + r_off,
                                         THREAD_ROW, Shape_N);
     if (IN_BOUND_B(load_offset)) {
-      //rb[i] = B[load_offset];
       __nv_bfloat16 val = B[load_offset];
       if ((i & 0x01) == 0) {
         // First value of pair, put to high
