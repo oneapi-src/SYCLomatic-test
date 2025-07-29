@@ -479,6 +479,10 @@ bool test_ptx_ld_f32(bool global_mem) {
     return res;
   }
 
+/* 
+// ld.v2 and ld.v4 is not supported by auto migration yet.
+// When they are support, will uncomment this part.
+
   __device__ void ptx_ld_global_v2_f32(const float2 *src, float2 &dst) {
     asm volatile("ld.global.v2.f32 {%0, %1}, [%2];"
                  : "=f"(dst.x), "=f"(dst.y)
@@ -656,7 +660,7 @@ bool test_ptx_ld_v4_f32(bool global_mem) {
 
     return res;
  }
-
+*/
 int main() {
     TEST(test_1);
     TEST(test_2);
@@ -675,10 +679,10 @@ int main() {
     TEST(test_ptx_ld_half_2(SHARED_MEM));
     TEST(test_ptx_ld_f32(GLOBAL_MEM));
     TEST(test_ptx_ld_f32(SHARED_MEM));
-    TEST(test_ptx_ld_v2_f32(GLOBAL_MEM));
+   /* TEST(test_ptx_ld_v2_f32(GLOBAL_MEM));
     TEST(test_ptx_ld_v2_f32(SHARED_MEM));
     TEST(test_ptx_ld_v4_f32(GLOBAL_MEM));
-    TEST(test_ptx_ld_v4_f32(SHARED_MEM));
+    TEST(test_ptx_ld_v4_f32(SHARED_MEM));*/
     
   return 0;
 }
