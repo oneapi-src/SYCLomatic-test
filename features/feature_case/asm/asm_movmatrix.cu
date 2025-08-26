@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <iostream>
 #include <cuda_bf16.h>
+#include <cuda_fp16.h>
 
 #define NO_HALVES_PER_BLOCK 1024
 using bf16_2 = __nv_bfloat162;
