@@ -1,0 +1,3006 @@
+---
+MainSourceFile:  '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/MainSrcFiles_placehold'
+Replacements:
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          352
+    Length:          26
+    ReplacementText: "#include <sycl/sycl.hpp>\n#include <dpct/dpct.hpp>\n"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          378
+    Length:          23
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          401
+    Length:          23
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          524
+    Length:          31
+    ReplacementText: "#include <c10/core/DeviceGuard.h>\n"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          557
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          699
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          730
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          743
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          756
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          846
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          859
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1039
+    Length:          33
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*((sycl::half*)cur_block)).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1214
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1278
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1357
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1388
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1401
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1414
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1504
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1517
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1538
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1573
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1700
+    Length:          33
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*((sycl::half*)cur_block)).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1835
+    Length:          34
+    ReplacementText: 'sycl::vec<float, 1>(scale * cur_block[i]).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1890
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          1954
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          2038
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          2069
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          2082
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          2095
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          2185
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          2198
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          2219
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          2259
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          2391
+    Length:          33
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*((sycl::half*)cur_block)).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          2526
+    Length:          38
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(scale * cur_block[i])'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          2714
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          3014
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          3156
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          3187
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          3200
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          3213
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          3298
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          3311
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          3434
+    Length:          79
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 80))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          3541
+    Length:          79
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 82))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          4506
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          4570
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          4649
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          4680
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          4693
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          4706
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          4791
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          4804
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          4824
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          4859
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          4929
+    Length:          79
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 80))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          5036
+    Length:          79
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 82))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          5603
+    Length:          55
+    ReplacementText: 'sycl::vec<float, 1>(dl * ((int8_t)((q[l] >> shift) & 3)) - ml).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          5886
+    Length:          58
+    ReplacementText: 'sycl::vec<float, 1>(dl * ((int8_t)((q[l+16] >> shift) & 3)) - ml).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6029
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6093
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6177
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6208
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6221
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6234
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6319
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6332
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6352
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6392
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6467
+    Length:          79
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 80))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          6574
+    Length:          79
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 82))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          7141
+    Length:          59
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(dl * ((int8_t)((q[l] >> shift) & 3)) - ml)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          7428
+    Length:          62
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(dl * ((int8_t)((q[l+16] >> shift) & 3)) - ml)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          7575
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          7717
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          7753
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          7766
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          7779
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          7948
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          7961
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          8163
+    Length:          80
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 108))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          9745
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          9809
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          9888
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          9924
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          9937
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          9950
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          10119
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          10132
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          10152
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          10187
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          10336
+    Length:          80
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 108))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          11504
+    Length:          80
+    ReplacementText: 'sycl::vec<float, 1>(dl * ((int8_t)((q[l+ 0] >> shift) & 3) - ((hm[l+ 0] & m) ? 0 : 4))).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          11738
+    Length:          80
+    ReplacementText: 'sycl::vec<float, 1>(dl * ((int8_t)((q[l+16] >> shift) & 3) - ((hm[l+16] & m) ? 0 : 4))).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          11946
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          12010
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          12094
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          12130
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          12143
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          12156
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          12325
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          12338
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          12358
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          12398
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          12552
+    Length:          80
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 108))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          13720
+    Length:          84
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(dl * ((int8_t)((q[l+ 0] >> shift) & 3) - ((hm[l+ 0] & m) ? 0 : 4)))'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          13958
+    Length:          84
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(dl * ((int8_t)((q[l+16] >> shift) & 3) - ((hm[l+16] & m) ? 0 : 4)))'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          14171
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          14313
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          14344
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          14357
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          14370
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          14454
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          14467
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          14701
+    Length:          73
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * 144 + 0))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          14802
+    Length:          73
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * 144 + 2))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          15488
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          15552
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          15631
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          15662
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          15675
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          15688
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          15772
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          15785
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          15805
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          15840
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          16021
+    Length:          73
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * 144 + 0))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          16122
+    Length:          73
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * 144 + 2))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          16654
+    Length:          36
+    ReplacementText: 'sycl::vec<float, 1>(d1 * (q[l] & 0xF) - m1).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          16749
+    Length:          36
+    ReplacementText: 'sycl::vec<float, 1>(d2 * (q[l]  >> 4) - m2).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          16836
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          16900
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          16984
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          17015
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          17028
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          17041
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          17125
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          17138
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          17158
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          17198
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          17384
+    Length:          73
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * 144 + 0))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          17485
+    Length:          73
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * 144 + 2))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          18017
+    Length:          40
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(d1 * (q[l] & 0xF) - m1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          18116
+    Length:          40
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(d2 * (q[l]  >> 4) - m2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          18207
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          18349
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          18380
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          18393
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          18406
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          18496
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          18509
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          18632
+    Length:          78
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 0))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          18738
+    Length:          78
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 2))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          19718
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          19782
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          19861
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          19892
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          19905
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          19918
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          20008
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          20021
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          20041
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          20076
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          20146
+    Length:          78
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 0))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          20252
+    Length:          78
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 2))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          20991
+    Length:          63
+    ReplacementText: 'sycl::vec<float, 1>(d1 * ((ql[l] & 0xF) + (qh[l] & u1 ? 16 : 0)) - m1).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21113
+    Length:          63
+    ReplacementText: 'sycl::vec<float, 1>(d2 * ((ql[l]  >> 4) + (qh[l] & u2 ? 16 : 0)) - m2).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21260
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21324
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21408
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21439
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21452
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21465
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21555
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21568
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21588
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21628
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21703
+    Length:          78
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 0))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          21809
+    Length:          78
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 2))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          22548
+    Length:          67
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(d1 * ((ql[l] & 0xF) + (qh[l] & u1 ? 16 : 0)) - m1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          22674
+    Length:          67
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(d2 * ((ql[l]  >> 4) + (qh[l] & u2 ? 16 : 0)) - m2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          22825
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          22967
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          22998
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          23011
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          23024
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          23108
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          23121
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          23241
+    Length:          80
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 208))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          24459
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          24523
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          24602
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          24633
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          24646
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          24659
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          24743
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          24756
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          24776
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          24811
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          24878
+    Length:          80
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 208))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          25772
+    Length:          33
+    ReplacementText: 'sycl::vec<float, 1>(d * sc[is + 0] * q1).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          25844
+    Length:          33
+    ReplacementText: 'sycl::vec<float, 1>(d * sc[is + 2] * q2).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          25916
+    Length:          33
+    ReplacementText: 'sycl::vec<float, 1>(d * sc[is + 4] * q3).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          25988
+    Length:          33
+    ReplacementText: 'sycl::vec<float, 1>(d * sc[is + 6] * q4).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          26152
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          26216
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          26300
+    Length:          0
+    ReplacementText: ",\n                                 const sycl::nd_item<3> &item_ct1"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          26331
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          26344
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          26357
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          26441
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          26454
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          26474
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          26514
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          26586
+    Length:          80
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size + 208))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          27480
+    Length:          37
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(d * sc[is + 0] * q1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          27556
+    Length:          37
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(d * sc[is + 2] * q2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          27632
+    Length:          37
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(d * sc[is + 4] * q3)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          27708
+    Length:          37
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(d * sc[is + 6] * q4)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          27876
+    Length:          130
+    ReplacementText: 'static dpct::global_memory<const int8_t, 1> kvalues_iq4nl(sycl::range<1>(16), {-127, -104, -83, -65, -49, -35, -22, -10, 1, 13, 25, 38, 53, 69, 89, 113});'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          28008
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          28152
+    Length:          0
+    ReplacementText: ",\n                                   const sycl::nd_item<3> &item_ct1,\n                                   const int8_t *kvalues_iq4nl"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          28183
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          28196
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          28209
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          28293
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          28306
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          28427
+    Length:          74
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          29228
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          29294
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          29373
+    Length:          0
+    ReplacementText: ",\n                                   const sycl::nd_item<3> &item_ct1,\n                                   const int8_t *kvalues_iq4nl"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          29404
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          29417
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          29430
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          29514
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          29527
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          29548
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          29583
+    Length:          6
+    ReplacementText: 'sycl::half'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          29650
+    Length:          74
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30264
+    Length:          45
+    ReplacementText: 'sycl::vec<float, 1>(dl * kvalues_iq4nl[qs[j] & 0xf]).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30348
+    Length:          44
+    ReplacementText: 'sycl::vec<float, 1>(dl * kvalues_iq4nl[qs[j] >> 4]).convert<sycl::half, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30479
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30545
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30629
+    Length:          0
+    ReplacementText: ",\n                                   const sycl::nd_item<3> &item_ct1,\n                                   const int8_t *kvalues_iq4nl"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30660
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30673
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30686
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30770
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30783
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30804
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30844
+    Length:          11
+    ReplacementText: 'sycl::ext::oneapi::bfloat16'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          30916
+    Length:          74
+    ReplacementText: 'sycl::vec<sycl::half, 1>(*(reinterpret_cast<const sycl::half*>(data + block_id * blk_size))).convert<float, sycl::rounding_mode::automatic>()[0]'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          31530
+    Length:          49
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(dl * kvalues_iq4nl[qs[j] & 0xf])'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          31618
+    Length:          48
+    ReplacementText: 'sycl::ext::oneapi::bfloat16(dl * kvalues_iq4nl[qs[j] >> 4])'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          31929
+    Length:          0
+    ReplacementText: "\n    dpct::device_ext &dev_ct1 = dpct::get_current_device();\n    sycl::queue &q_ct1 = dev_ct1.in_order_queue();"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          31983
+    Length:          27
+    ReplacementText: 'c10::OptionalDeviceGuard'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          32222
+    Length:          80
+    ReplacementText: 'q_ct1.memcpy(data_gpu.data_ptr<int8_t>(), data, num_bytes).wait()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          32534
+    Length:          133
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::half*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q8_0_fp16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          32667
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          32731
+    Length:          138
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::ext::oneapi::bfloat16*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q8_0_bf16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          32869
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          32932
+    Length:          131
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_float_ct1 = output.data_ptr<float>();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q8_0_fp32_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_float_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          33063
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          33182
+    Length:          23
+    ReplacementText: 'dev_ct1.queues_wait_and_throw()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          33406
+    Length:          0
+    ReplacementText: "\n    dpct::device_ext &dev_ct1 = dpct::get_current_device();\n    sycl::queue &q_ct1 = dev_ct1.in_order_queue();"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          33516
+    Length:          27
+    ReplacementText: 'c10::OptionalDeviceGuard'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          33752
+    Length:          80
+    ReplacementText: 'q_ct1.memcpy(data_gpu.data_ptr<int8_t>(), data, num_bytes).wait()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          34063
+    Length:          133
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::half*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q6_k_fp16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          34196
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          34260
+    Length:          138
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::ext::oneapi::bfloat16*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q6_k_bf16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          34398
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          34461
+    Length:          131
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_float_ct1 = output.data_ptr<float>();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q6_k_fp32_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_float_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          34592
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          34710
+    Length:          23
+    ReplacementText: 'dev_ct1.queues_wait_and_throw()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          34933
+    Length:          0
+    ReplacementText: "\n    dpct::device_ext &dev_ct1 = dpct::get_current_device();\n    sycl::queue &q_ct1 = dev_ct1.in_order_queue();"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          34987
+    Length:          27
+    ReplacementText: 'c10::OptionalDeviceGuard'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          35224
+    Length:          80
+    ReplacementText: 'q_ct1.memcpy(data_gpu.data_ptr<int8_t>(), data, num_bytes).wait()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          35535
+    Length:          133
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::half*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q5_k_fp16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          35668
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          35732
+    Length:          138
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::ext::oneapi::bfloat16*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q5_k_bf16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          35870
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          35933
+    Length:          131
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_float_ct1 = output.data_ptr<float>();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q5_k_fp32_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_float_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          36064
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          36182
+    Length:          23
+    ReplacementText: 'dev_ct1.queues_wait_and_throw()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          36405
+    Length:          0
+    ReplacementText: "\n    dpct::device_ext &dev_ct1 = dpct::get_current_device();\n    sycl::queue &q_ct1 = dev_ct1.in_order_queue();"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          36514
+    Length:          27
+    ReplacementText: 'c10::OptionalDeviceGuard'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          36751
+    Length:          80
+    ReplacementText: 'q_ct1.memcpy(data_gpu.data_ptr<int8_t>(), data, num_bytes).wait()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          37062
+    Length:          133
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::half*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q4_k_fp16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          37195
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          37259
+    Length:          138
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::ext::oneapi::bfloat16*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q4_k_bf16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          37397
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          37460
+    Length:          131
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_float_ct1 = output.data_ptr<float>();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q4_k_fp32_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_float_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          37591
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          37709
+    Length:          23
+    ReplacementText: 'dev_ct1.queues_wait_and_throw()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          37932
+    Length:          0
+    ReplacementText: "\n    dpct::device_ext &dev_ct1 = dpct::get_current_device();\n    sycl::queue &q_ct1 = dev_ct1.in_order_queue();"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          37986
+    Length:          27
+    ReplacementText: 'c10::OptionalDeviceGuard'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          38223
+    Length:          80
+    ReplacementText: 'q_ct1.memcpy(data_gpu.data_ptr<int8_t>(), data, num_bytes).wait()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          38534
+    Length:          133
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::half*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q3_k_fp16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          38667
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          38731
+    Length:          138
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::ext::oneapi::bfloat16*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q3_k_bf16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          38869
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          38932
+    Length:          131
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_float_ct1 = output.data_ptr<float>();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q3_k_fp32_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_float_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          39063
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          39181
+    Length:          23
+    ReplacementText: 'dev_ct1.queues_wait_and_throw()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          39404
+    Length:          0
+    ReplacementText: "\n    dpct::device_ext &dev_ct1 = dpct::get_current_device();\n    sycl::queue &q_ct1 = dev_ct1.in_order_queue();"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          39458
+    Length:          27
+    ReplacementText: 'c10::OptionalDeviceGuard'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          39695
+    Length:          80
+    ReplacementText: 'q_ct1.memcpy(data_gpu.data_ptr<int8_t>(), data, num_bytes).wait()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          40006
+    Length:          133
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::half*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q2_k_fp16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          40139
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          40203
+    Length:          138
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::ext::oneapi::bfloat16*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q2_k_bf16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          40341
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          40404
+    Length:          131
+    ReplacementText: "{\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_float_ct1 = output.data_ptr<float>();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_q2_k_fp32_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_float_ct1, blk_size, ele_per_blk, num_blocks, item_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          40535
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          40653
+    Length:          23
+    ReplacementText: 'dev_ct1.queues_wait_and_throw()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          40878
+    Length:          0
+    ReplacementText: "\n    dpct::device_ext &dev_ct1 = dpct::get_current_device();\n    sycl::queue &q_ct1 = dev_ct1.in_order_queue();"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          40932
+    Length:          27
+    ReplacementText: 'c10::OptionalDeviceGuard'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          41169
+    Length:          80
+    ReplacementText: 'q_ct1.memcpy(data_gpu.data_ptr<int8_t>(), data, num_bytes).wait()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          41480
+    Length:          135
+    ReplacementText: "{\n              kvalues_iq4nl.init();\n\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  auto kvalues_iq4nl_ptr_ct1 = kvalues_iq4nl.get_ptr();\n\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::half*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_iq4_xs_fp16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1, kvalues_iq4nl_ptr_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          41615
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          41679
+    Length:          140
+    ReplacementText: "{\n              kvalues_iq4nl.init();\n\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  auto kvalues_iq4nl_ptr_ct1 = kvalues_iq4nl.get_ptr();\n\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_ct1 = (sycl::ext::oneapi::bfloat16*)output.data_ptr();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_iq4_xs_bf16_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_ct1, blk_size, ele_per_blk, num_blocks, item_ct1, kvalues_iq4nl_ptr_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          41819
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          41882
+    Length:          133
+    ReplacementText: "{\n              kvalues_iq4nl.init();\n\n              dpct::has_capability_or_fail(q_ct1.get_device(), {sycl::aspect::fp16});\n\n              q_ct1.submit(\n                [&](sycl::handler &cgh) {\n                  auto kvalues_iq4nl_ptr_ct1 = kvalues_iq4nl.get_ptr();\n\n                  const int8_t * data_gpu_data_ptr_int8_t_ct0 = data_gpu.data_ptr<int8_t>();\n                  auto output_data_ptr_float_ct1 = output.data_ptr<float>();\n\n                  cgh.parallel_for(\n                    sycl::nd_range<3>(sycl::range<3>(1, 1, 512) * sycl::range<3>(1, 1, 256), sycl::range<3>(1, 1, 256)), \n                    [=](sycl::nd_item<3> item_ct1) {\n                      dequantize_iq4_xs_fp32_kernel(data_gpu_data_ptr_int8_t_ct0, output_data_ptr_float_ct1, blk_size, ele_per_blk, num_blocks, item_ct1, kvalues_iq4nl_ptr_ct1);\n                    });\n                });\n            }"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: true
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          42015
+    Length:          1
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Offset:          42133
+    Length:          23
+    ReplacementText: 'dev_ct1.queues_wait_and_throw()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+MainSourceFilesDigest:
+  - MainSourceFile:  '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf/dequant.cu'
+    Digest:          406e64c0c53ab47f1bdf9d7fa9d99727
+    HasCUDASyntax:   true
+DpctVersion:     20.0.0
+MainHelperFileName: ''
+USMLevel:        ''
+FeatureMap:      {}
+CompileTargets:  {}
+OptionMap:
+  AnalysisScopePath:
+    Value:           ''
+    ValueVec:
+      - '/home/sijialou/workspace/workloads/ktransformers/ktransformers/ktransformers_ext/cuda/custom_gguf'
+    Specified:       false
+  AsyncHandler:
+    Value:           'false'
+    Specified:       false
+  BuildScript:
+    Value:           '0'
+    Specified:       false
+  CodePinEnabled:
+    Value:           'false'
+    Specified:       false
+  CommentsEnabled:
+    Value:           'false'
+    Specified:       false
+  CompilationsDir:
+    Value:           ''
+    Specified:       false
+  CtadEnabled:
+    Value:           'false'
+    Specified:       false
+  EnablepProfiling:
+    Value:           'false'
+    Specified:       false
+  ExperimentalFlag:
+    Value:           '0'
+    Specified:       false
+  ExplicitNamespace:
+    Value:           '20'
+    Specified:       false
+  ExtensionDDFlag:
+    Value:           '0'
+    Specified:       false
+  ExtensionDEFlag:
+    Value:           '4294967295'
+    Specified:       false
+  HelperFuncPreferenceFlag:
+    Value:           '0'
+    Specified:       false
+  NDRangeDim:
+    Value:           '3'
+    Specified:       false
+  NoDRYPattern:
+    Value:           'false'
+    Specified:       false
+  OptimizeMigration:
+    Value:           'false'
+    Specified:       false
+  ProcessAll:
+    Value:           'false'
+    Specified:       false
+  RuleFile:
+    Value:           ''
+    ValueVec:
+      - '/home/sijialou/workspace/c2s_install/extensions/pytorch_api_rules/pytorch_api.yaml'
+    Specified:       true
+  SyclNamedLambda:
+    Value:           'false'
+    Specified:       false
+  UseSYCLCompat:
+    Value:           'false'
+    Specified:       false
+  UsmLevel:
+    Value:           '1'
+    Specified:       false
+...
